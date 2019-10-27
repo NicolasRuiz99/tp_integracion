@@ -174,5 +174,5 @@ create table review (
 );
 
 insert into roles (name) values ('admin');
-insert into users (e_mail,psw) values ('jaja@gmail.com','jaja')
+insert into users (e_mail,psw) values ('jaja@gmail.com','jaja','1')
 

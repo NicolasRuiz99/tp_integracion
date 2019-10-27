@@ -9,8 +9,9 @@ def connect_ddbb ():
     return con,cur
 
 def disconnect_ddbb (con,cur):
-    con.close()
+    con.commit()
     cur.close()
+    con.close()
 
 def registerUser (new):
     try:
@@ -20,7 +21,7 @@ def registerUser (new):
         cur.execute (query,new_record)
     except (Exception,Error) as error:
         if (con):
-            ('OperationFailed', error)
+            print ('OperationFailed', error)
     finally:
         disconnect_ddbb (con,cur)
 
@@ -33,44 +34,44 @@ def listUsers ():
             print (row)
     except (Exception,Error) as error:
         if (con):
-            ('OperationFailed', error)
+            print ('OperationFailed', error)
     finally:
         disconnect_ddbb (con,cur)
 
 def modUser (new):
-
     try:
         con, cur = connect_ddbb ()
-        query = 'select * from users'
-        cur.execute (query)
+        query = 'update users set e_mail = %s, psw = %s where id = %s'
+        cur.execute (query,(new.e_mail,new.psw,new.id))
         for row in cur.fetchall():
             print (row)
     except (Exception,Error) as error:
         if (con):
-            ('OperationFailed', error)
+            print ('OperationFailed', error)
+    finally:
+        disconnect_ddbb (con,cur)
+
+def getUserByID (_id):
+    try:
+        con, cur = connect_ddbb ()
+        query = 'select * from users where id = %s'
+        cur.execute (query,str(_id))
+        print (cur.fetchone())
+    except (Exception,Error) as error:
+        if (con):
+            print ('OperationFailed', error)
+    finally:
+        disconnect_ddbb (con,cur)
+
+def deleteUser (_id):
+    try:
+        con, cur = connect_ddbb ()
+        query = 'delete from users where id = %s'
+        cur.execute (query,str(_id))
+    except (Exception,Error) as error:
+        if (con):
+            print ('OperationFailed', error)
     finally:
         disconnect_ddbb (con,cur)
 
 
-listUsers ()
-#new = User ('jaja@jaja.com','jaja')
-#new.json
-
-#registerUser (new)
-
-#def register_user ()
-
-#sql = "select * from users"
-#cur.execute(sql)
-
-#for fila in cur.fetchall():
-#    print(fila)
-#   print(fila[1])
-
-#sql = "insert into dioses (nombre, poder) values ('hefesto', 'forja')"
-#cur = con.cursor()
-#cur.execute(sql)
-
-#cur.close()
-#con.commit()
-#con.close()

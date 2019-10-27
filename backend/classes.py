@@ -1,7 +1,9 @@
 class User:
-    def __init__ (self, e_mail,psw):
+    def __init__ (self,e_mail,psw,ident = None,id_role = None):
+        self._id = ident 
         self._e_mail = e_mail
         self._psw = psw
+        self._id_role = id_role 
 
     #getter
     @property
@@ -11,7 +13,6 @@ class User:
     #setter
     @e_mail.setter
     def e_mail (self, new):
-        print ('estoy en el setter')
         self._e_mail = new
 
     @property
@@ -22,10 +23,21 @@ class User:
     def psw (self, new):
         self._psw = new
 
-user = User('jaja@jaja.com','jaja')
+    @property
+    def id (self):
+        return self._id
 
-print (user.e_mail)
+    @id.setter
+    def id (self, new):
+        self._id = new
 
-user.e_mail = 'jeje@jeje.com'
+    @property
+    def id_role (self):
+        return self._id_role
 
-print (user.e_mail)
+    @id_role.setter
+    def id_role (self, new):
+        self._id_role = new
+
+
+
