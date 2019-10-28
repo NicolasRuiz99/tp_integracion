@@ -1,77 +1,35 @@
-import psycopg2 as dbapi
-from psycopg2 import Error
-from classes import User
+from classes import User,Customer
+from ddbb_connect import addToTable,listTable,updateTable,deleteFromTable
 import json
 
-def connect_ddbb ():
-    con = dbapi.connect("dbname='ddbb_sist' user='admin' host='127.0.0.1' password='admin123'")
-    cur = con.cursor()
-    return con,cur
-
-def disconnect_ddbb (con,cur):
-    con.commit()
-    cur.close()
-    con.close()
-
 def registerUser (new):
-    try:
-        con, cur = connect_ddbb ()
-        query = 'insert into users (e_mail,psw) values (%s,%s)'
-        new_record = (new.e_mail,new.psw)
-        cur.execute (query,new_record)
-    except (Exception,Error) as error:
-        if (con):
-            print ('OperationFailed', error)
-    finally:
-        disconnect_ddbb (con,cur)
+    new_record = (new.e_mail,new.psw)
+    addToTable ('users (e_mail,psw)',new_record,'(%s,%s)')
 
 def listUsers ():
-    try:
-        con, cur = connect_ddbb ()
-        query = 'select * from users'
-        cur.execute (query)
-        for row in cur.fetchall():
-            print (row)
-    except (Exception,Error) as error:
-        if (con):
-            print ('OperationFailed', error)
-    finally:
-        disconnect_ddbb (con,cur)
+    listTable ('users')
 
 def modUser (new):
-    try:
-        con, cur = connect_ddbb ()
-        query = 'update users set e_mail = %s, psw = %s where id = %s'
-        cur.execute (query,(new.e_mail,new.psw,new.id))
-        for row in cur.fetchall():
-            print (row)
-    except (Exception,Error) as error:
-        if (con):
-            print ('OperationFailed', error)
-    finally:
-        disconnect_ddbb (con,cur)
+    new_record = (new.e_mail,new.psw,new.id)
+    updateTable ('users',new_record,'e_mail = %s, psw = %s')
 
 def getUserByID (_id):
-    try:
-        con, cur = connect_ddbb ()
-        query = 'select * from users where id = %s'
-        cur.execute (query,str(_id))
-        print (cur.fetchone())
-    except (Exception,Error) as error:
-        if (con):
-            print ('OperationFailed', error)
-    finally:
-        disconnect_ddbb (con,cur)
+    listTable ('users',str(_id),'id = %s')
 
 def deleteUser (_id):
-    try:
-        con, cur = connect_ddbb ()
-        query = 'delete from users where id = %s'
-        cur.execute (query,str(_id))
-    except (Exception,Error) as error:
-        if (con):
-            print ('OperationFailed', error)
-    finally:
-        disconnect_ddbb (con,cur)
+    deleteFromTable ('users',_id)
 
+def addCustomer (new):
+    new_record = (new.dni,new.name,new.surname,new.genre,new.c_size,new.shoe_size,new.phone_no,new.id_user)
+    addToTable ('customers (dni,name,surname,genre,c_size,shoe_size,phone_no,id_user)',new_record,'(%s,%s,%s,%s,%s,%s,%s,%s)')
+
+def listCustomers ():
+    listTable ('customers')
+
+def modCustomer (new):
+    new_record = (new.dni,new.name,new.surname,new.genre,new.c_size,new.shoe_size,new.phone_no,new.id_user)
+    updateTable ('customers',new_record,'dni = %s, name = %s, surname = %s, genre = %s, c_size = %s, shoe_size = %s, phone_no = %s, id_user = %s')
+
+def deleteCustomer (_id):
+    deleteFromTable ('customers',_id)
 
