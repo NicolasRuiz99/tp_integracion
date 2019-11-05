@@ -30,7 +30,7 @@ check (length (value) < 600);
 
 create table roles (
     id serial,
-    name varchar (10),
+    name varchar (10) unique,
     primary key (id)
 );
 
@@ -43,25 +43,16 @@ create table users (
     foreign key (id_role) references roles (id)
 );
 
-create table message (
-    id serial,
-    msg t_comment not null,
-    date date,
-	id_user int,
-	primary key (id),
-	foreign key (id_user) references users (id)
-);
-
 create table customers (
     id serial,
     dni numeric (8),
-    name varchar (15) not null,
-    surname varchar (15) not null,
+    name varchar (15),
+    surname varchar (15),
     genre gen,
     c_size t_size,
     shoe_size sh_size,
     phone_no numeric (15),
-	id_user int not null,
+	id_user int not null unique,
     primary key (id),
 	foreign key (id_user) references users (id)
 );
@@ -73,6 +64,17 @@ create table chat (
     primary key (id),
     foreign key (id_user) references customers (id),
     foreign key (id_admin) references users (id)
+);
+
+create table message (
+    id serial,
+    msg t_comment not null,
+    date date,
+	id_user int,
+    id_chat int,
+	primary key (id),
+	foreign key (id_user) references users (id),
+    foreign key (id_chat) references chat (id)
 );
 
 create table type (
@@ -174,5 +176,5 @@ create table review (
 );
 
 insert into roles (name) values ('admin');
-insert into users (e_mail,psw) values ('jaja@gmail.com','jaja','1')
+insert into users (e_mail,psw) values ('jaja@gmail.com','jaja')
 

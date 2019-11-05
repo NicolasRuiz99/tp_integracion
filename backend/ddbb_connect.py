@@ -22,17 +22,29 @@ def addToTable (table,values,qValues):
     finally:
         disconnect_ddbb (con,cur)
 
-def listTable (table,values = None,cond = None):
+def listTable (table):
     try:
         con, cur = connect_ddbb ()
         query = 'select * from ' + table
-        if cond != None:
-            query = query + ' where ' + cond
-            cur.execute (query,values)
-        else:
-            cur.execute (query)  
+        cur.execute (query)  
         for row in cur.fetchall():
             print (row)
+    except (Exception,Error) as error:
+        if (con):
+            print ('OperationFailed', error)
+    finally:
+        disconnect_ddbb (con,cur)
+
+def searchID (table,_id):
+    try:
+        con, cur = connect_ddbb ()
+        query = 'select * from ' + table + ' where id = %s'
+        cur.execute (query,(_id, ))  
+        res = cur.fetchone()
+        if (res == None):
+            raise Exception ('no results to fetch')
+        else:
+            return res 
     except (Exception,Error) as error:
         if (con):
             print ('OperationFailed', error)
@@ -44,8 +56,6 @@ def updateTable (table,values,setValues):
         con, cur = connect_ddbb ()
         query = 'update ' + table + ' set ' + setValues + ' where id = %s' 
         cur.execute (query,values)
-        for row in cur.fetchall():
-            print (row)
         con.commit ()
     except (Exception,Error) as error:
         if (con):
@@ -57,7 +67,7 @@ def deleteFromTable (table,_id):
     try:
         con, cur = connect_ddbb ()
         query = 'delete from ' + table + ' where id = %s'
-        cur.execute (query,_id)
+        cur.execute (query,(_id, ))
         con.commit ()
     except (Exception,Error) as error:
         if (con):

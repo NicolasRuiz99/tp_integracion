@@ -1,35 +1,44 @@
-from classes import User,Customer
+from classes import User,Customer,Type,Role,Chat,Message
 from ddbb_connect import addToTable,listTable,updateTable,deleteFromTable
-import json
+#import json
 
-def registerUser (new):
-    new_record = (new.e_mail,new.psw)
-    addToTable ('users (e_mail,psw)',new_record,'(%s,%s)')
+def addRole (new):
+    new_record = (new.name, )
+    addToTable ('roles (name)',new_record,'(%s)')
 
-def listUsers ():
-    listTable ('users')
+def listRoles ():
+    listTable ('roles')
 
-def modUser (new):
-    new_record = (new.e_mail,new.psw,new.id)
-    updateTable ('users',new_record,'e_mail = %s, psw = %s')
+def modRole (new):
+    updateTable ('roles',(new.name,new.id),'name = %s')
 
-def getUserByID (_id):
-    listTable ('users',str(_id),'id = %s')
+def deleteRole (_id):
+    deleteFromTable ('roles',_id)
 
-def deleteUser (_id):
-    deleteFromTable ('users',_id)
 
-def addCustomer (new):
-    new_record = (new.dni,new.name,new.surname,new.genre,new.c_size,new.shoe_size,new.phone_no,new.id_user)
-    addToTable ('customers (dni,name,surname,genre,c_size,shoe_size,phone_no,id_user)',new_record,'(%s,%s,%s,%s,%s,%s,%s,%s)')
 
-def listCustomers ():
-    listTable ('customers')
+def addChat (new):
+    new_record = (new.id_user,new.id_admin)
+    addToTable ('chat (id_user,id_admin)',new_record,'(%s,%s)')
 
-def modCustomer (new):
-    new_record = (new.dni,new.name,new.surname,new.genre,new.c_size,new.shoe_size,new.phone_no,new.id_user)
-    updateTable ('customers',new_record,'dni = %s, name = %s, surname = %s, genre = %s, c_size = %s, shoe_size = %s, phone_no = %s, id_user = %s')
+def deleteChat (_id):
+    deleteFromTable ('chat',_id)
 
-def deleteCustomer (_id):
-    deleteFromTable ('customers',_id)
+#customer = Customer (41485948,'asd','infeiensfie','M','M','40',159859485,3,1)
+
+#user = User ('afiwnaf','jaj',2,3)
+
+#user.id = 25
+#registerUser (user)
+#modUser (user)
+#deleteUser (26)
+#addCustomer (customer)
+#modCustomer (customer)
+#listUsers()
+#listCustomers()
+#newType = Type ('Ropa Interior',2)
+#modType (newType)
+#deleteType (1)
+#listTypes ()
+#listRoles ()
 
