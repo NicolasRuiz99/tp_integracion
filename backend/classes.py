@@ -1,24 +1,24 @@
 from ddbb_connect import addToTable,listTable,updateTable,deleteFromTable,searchID
 
 class User:
-    def __init__ (self,ident = None,e_mail = None,psw = None,id_role = None):
-        self.id = ident 
+    def __init__ (self,e_mail = None,psw = None,id_role = None,_id = None):
+        self.id = _id
         self.e_mail = e_mail
         self.psw = psw
         self.id_role = id_role 
 
-    def registerUser (self):
+    def register (self):
         new_record = (self.e_mail,self.psw)
         addToTable ('users (e_mail,psw)',new_record,'(%s,%s)')
 
-    def modUser (self):
+    def mod (self):
         new_record = (self.e_mail,self.psw,self.id_role,self.id)
         updateTable ('users',new_record,'e_mail = %s, psw = %s, id_role = %s')
 
-    def deleteUser (self):
+    def delete (self):
         deleteFromTable ('users',self.id)
 
-    def getUser (self,_id):
+    def get (self,_id):
         res = searchID ('users',_id)  
         self.id = res[0]
         self.e_mail = res[1]
@@ -29,8 +29,8 @@ def listUsers ():
     listTable ('users')
 
 class Customer:
-    def __init__ (self,ident = None,dni = None,name = None,surname = None,genre = None,c_size = None,shoe_size = None,phone_no = None,id_user = None):
-        self.id = ident 
+    def __init__ (self,dni = None,name = None,surname = None,genre = None,c_size = None,shoe_size = None,phone_no = None,id_user = None,_id = None):
+        self.id = _id
         self.dni = dni
         self.name = name
         self.surname = surname
@@ -40,18 +40,18 @@ class Customer:
         self.phone_no = phone_no
         self.id_user = id_user 
 
-    def addCustomer (self):
+    def add (self):
         new_record = (self.dni,self.name,self.surname,self.genre,self.c_size,self.shoe_size,self.phone_no,self.id_user)
         addToTable ('customers (dni,name,surname,genre,c_size,shoe_size,phone_no,id_user)',new_record,'(%s,%s,%s,%s,%s,%s,%s,%s)')
 
-    def modCustomer (self):
+    def mod (self):
         new_record = (self.dni,self.name,self.surname,self.genre,self.c_size,self.shoe_size,self.phone_no,self.id_user,self.id)
         updateTable ('customers',new_record,'dni = %s, name = %s, surname = %s, genre = %s, c_size = %s, shoe_size = %s, phone_no = %s, id_user = %s')
 
-    def deleteCustomer (self):
+    def delete (self):
         deleteFromTable ('customers',self.id)
 
-    def getCustomer (self,_id):
+    def get (self,_id):
         res = searchID ('customers',_id)  
         self.id = res[0]
         self.dni = res[1]
@@ -67,52 +67,45 @@ def listCustomers ():
     listTable ('customers')
 
 class Type:
-    def __init__ (self,_id=None,name = None):
+    def __init__ (self,name = None,_id=None):
         self.id = _id
         self.name = name
 
-    def addType (self):
+    def add (self):
         new_record = (self.name,)
         addToTable ('type (name)',new_record,'(%s)')
 
-    def modType (self):
+    def mod (self):
         new_record = (self.name,self.id)
         updateTable ('type',new_record,'name = %s')
 
-    def deleteType (self):
+    def delete (self):
         deleteFromTable ('type',self.id)
 
-    def getCustomer (self,_id):
-        res = searchID ('customers',_id)  
+    def get (self,_id):
+        res = searchID ('type',_id)  
         self.id = res[0]
-        self.dni = res[1]
-        self.name = res[2]
-        self.surname = res[3]
-        self.genre = res[4]
-        self.c_size = res[5]
-        self.shoe_size = res[6]
-        self.phone_no = res[7]
-        self.id_user = res[8] 
+        self.name = res[1]
 
 def listTypes ():
         listTable ('type')
 
 class Role:
-    def __init__ (self,id=None,name=None):
-        self.id = id
+    def __init__ (self,name=None,_id=None):
+        self.id = _id
         self.name = name
 
-    def addRole (self):
+    def add (self):
         new_record = (self.name, )
         addToTable ('roles (name)',new_record,'(%s)')
 
-    def modRole (self):
+    def mod (self):
         updateTable ('roles',(self.name,self.id),'name = %s')
 
-    def deleteRole (self):
+    def delete (self):
         deleteFromTable ('roles',self.id)
 
-    def getRole (self,_id):
+    def get (self,_id):
         res = searchID ('roles',_id)  
         self.id = res[0]
         self.name = res[1]
@@ -121,82 +114,52 @@ def listRoles ():
     listTable ('roles')
 
 class Chat:
-    def __init__ (self,id_user,id_admin,id=None):
-        self._id = id
-        self._id_user = id_user
-        self._id_admin = id_admin
+    def __init__ (self,id_user=None,id_admin=None,_id=None):
+        self.id = _id
+        self.id_user = id_user
+        self.id_admin = id_admin
 
-    @property
-    def id_user (self):
-        return self._id_user
+    def add (self):
+        new_record = (self.id_user,self.id_admin)
+        addToTable ('chat (id_user,id_admin)',new_record,'(%s,%s)')
 
-    @id_user.setter
-    def id_user (self, new):
-        self._id_user = new
+    def mod (self):
+        updateTable ('chat',(self.id_user,self.id_admin,self.id),'id_user = %s, id_admin = %s')
 
-    @property
-    def id_admin (self):
-        return self._id_admin
-
-    @id_admin.setter
-    def id_admin (self, new):
-        self._id_admin = new
+    def delete (self):
+        deleteFromTable ('chat',self.id)
     
-    @property
-    def id (self):
-        return self._id
-
-    @id.setter
-    def id (self, new):
-        self._id = new
+    def get (self,_id):
+        res = searchID ('chat',_id)  
+        self.id = res[0]
+        self.id_user = res[1]
+        self.id_admin = res[2]
 
 class Message:
-    def __init__ (self,msg,id_user,id_chat,id=None,date=None):
-        self._id = id
-        self._id_user = id_user
-        self._id_chat = id_chat
-        self._msg = msg
-        self._date = date
+    def __init__ (self,msg=None,date=None,id_user=None,id_chat=None,_id=None):
+        self.id = _id
+        self.msg = msg
+        self.date = date
+        self.id_user = id_user
+        self.id_chat = id_chat     
 
-    @property
-    def id_user (self):
-        return self._id_user
+    def add (self):
+        new_record = (self.msg, self.date,self.id_user, self.id_chat )
+        addToTable ('message (msg, date, id_user, id_chat)',new_record,'(%s,%s,%s,%s)')
 
-    @id_user.setter
-    def id_user (self, new):
-        self._id_user = new
+    def mod (self):
+        updateTable ('message',(self.msg,self.date,self.id_user,self.id_chat,self.id),'msg = %s, date = %s, id_user = %s, id_chat = %s')
 
-    @property
-    def id_chat (self):
-        return self._id_chat
+    def delete (self):
+        deleteFromTable ('message',self.id)
 
-    @id_chat.setter
-    def id_chat (self, new):
-        self._id_chat = new
-    
-    @property
-    def msg (self):
-        return self._msg
-
-    @msg.setter
-    def msg (self, new):
-        self._msg = new
-
-    @property
-    def date (self):
-        return self._date
-
-    @date.setter
-    def date (self, new):
-        self._date = new
-
-    @property
-    def id (self):
-        return self._id
-
-    @id.setter
-    def id (self, new):
-        self._id = new
+    def get (self,_id):
+        res = searchID ('message',_id)  
+        self.id = res[0]
+        self.msg = res[1]
+        self.date = res[2]
+        self.id_user = res[3]
+        self.id_chat = res[4]
 
 #cust = Customer ()
 #cust.getCustomer (6)
