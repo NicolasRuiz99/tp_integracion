@@ -170,7 +170,7 @@ class Message:
 
 user = User ()
 user.get (6)
-user.e_mail = 'bueno ahora si'
+user.e_mail = 'funciona@estoyfeliz.com'
 #user.psw = 'igeubgusg'
 user.mod ()
 #print (user.id,user.e_mail,user.psw,user.id_role)

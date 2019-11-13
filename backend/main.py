@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route ('/',methods=['GET'])
 def listall():
-    results = listRoles()
+    results = listUsers()
     return jsonify({'results' : results})
 
 if __name__ == '__main__':
