@@ -1,5 +1,12 @@
 import psycopg2 as dbapi
 from psycopg2 import Error
+import json
+
+DEC2FLOAT = dbapi.extensions.new_type(
+    dbapi.extensions.DECIMAL.values,
+    'DEC2FLOAT',
+    lambda value, curs: float(value) if value is not None else None)
+dbapi.extensions.register_type(DEC2FLOAT)
 
 def connect_ddbb ():
     con = dbapi.connect("dbname='ddbb_sist' user='admin' host='127.0.0.1' password='admin123'")
@@ -23,17 +30,20 @@ def addToTable (table,values,qValues):
         disconnect_ddbb (con,cur)
 
 def listTable (table):
+    results = []
     try:
         con, cur = connect_ddbb ()
         query = 'select * from ' + table
         cur.execute (query)  
+        columns = list(map(lambda x: x[0], cur.description))
         for row in cur.fetchall():
-            print (row)
+            results.append(dict(zip(columns, row)))
     except (Exception,Error) as error:
         if (con):
             print ('OperationFailed', error)
     finally:
         disconnect_ddbb (con,cur)
+        return results
 
 def searchID (table,_id):
     try:

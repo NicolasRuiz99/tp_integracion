@@ -26,7 +26,7 @@ class User:
         self.id_role = res[3]
 
 def listUsers ():
-    listTable ('users')
+    return listTable ('users')
 
 class Customer:
     def __init__ (self,dni = None,name = None,surname = None,genre = None,c_size = None,shoe_size = None,phone_no = None,id_user = None,_id = None):
@@ -64,7 +64,7 @@ class Customer:
         self.id_user = res[8] 
 
 def listCustomers ():
-    listTable ('customers')
+    return listTable ('customers')
 
 class Type:
     def __init__ (self,name = None,_id=None):
@@ -88,7 +88,7 @@ class Type:
         self.name = res[1]
 
 def listTypes ():
-        listTable ('type')
+    return listTable ('type')
 
 class Role:
     def __init__ (self,name=None,_id=None):
@@ -111,7 +111,7 @@ class Role:
         self.name = res[1]
 
 def listRoles ():
-    listTable ('roles')
+    return listTable ('roles')
 
 class Chat:
     def __init__ (self,id_user=None,id_admin=None,_id=None):
@@ -168,12 +168,14 @@ class Message:
 #print (cust.id,cust.dni,cust.name)
 #listCustomers ()
 
-#user = User ()
-#user.getUser (1231)
+user = User ()
+user.get (6)
+user.e_mail = 'bueno ahora si'
 #user.psw = 'igeubgusg'
-#user.modUser ()
+user.mod ()
 #print (user.id,user.e_mail,user.psw,user.id_role)
-#listUsers ()
+#res = listUsers ()
+#print (res)
 #user.e_mail = 'jeje'
 #user.modUser ()
 #print (user.id,user.e_mail,user.psw,user.id_role)
