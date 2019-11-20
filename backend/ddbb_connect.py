@@ -84,3 +84,31 @@ def deleteFromTable (table,_id):
             print ('OperationFailed', error)
     finally:
         disconnect_ddbb (con,cur)
+
+def deleteFromTable2 (table,values,qValues):
+    try:
+        con, cur = connect_ddbb ()
+        query = 'delete from ' + table + ' where ' + qValues
+        cur.execute (query,values)
+        con.commit ()
+    except (Exception,Error) as error:
+        if (con):
+            print ('OperationFailed', error)
+    finally:
+        disconnect_ddbb (con,cur)
+
+def searchID2 (table,values,qValues):
+    try:
+        con, cur = connect_ddbb ()
+        query = 'select * from ' + table + ' where ' + qValues
+        cur.execute (query,values)  
+        res = cur.fetchone()
+        if (res == None):
+            raise Exception ('no results to fetch')
+        else:
+            return res 
+    except (Exception,Error) as error:
+        if (con):
+            print ('OperationFailed', error)
+    finally:
+        disconnect_ddbb (con,cur)
