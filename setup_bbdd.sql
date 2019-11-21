@@ -120,8 +120,8 @@ create table shipping (
     zip numeric (7),
     name varchar (15),
     surname varchar (15),
-    dni int,
-    track_code int,
+    dni numeric (8),
+    track_code int unique,
     province varchar (15),
     primary key (id)
 );
@@ -175,6 +175,6 @@ create table review (
     commentary text default 'Sin comentario' 
 );
 
-insert into roles (name) values ('admin');
-insert into users (e_mail,psw) values ('jaja@gmail.com','jaja')
+--insert into roles (name) values ('admin');
+--insert into users (e_mail,psw) values ('jaja@gmail.com','jaja')
 

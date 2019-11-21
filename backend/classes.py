@@ -396,14 +396,21 @@ class Review:
         self.commentary = res[4]
 
 #cust = Customer ()
-#cust.getCustomer (6)
+#cust.get (7)
+#cust.genre = 'T'
+#cust.mod()
 #cust.id_user = '4'
 #cust.modCustomer ()
 #print (cust.id,cust.dni,cust.name)
 #listCustomers ()
 
-#user = User ()
-#user.get (6)
+#user = User ('nuevo@mail.com','ubwgubwugbg',None)
+#user.register()
+user = User ()
+user.get(11)
+user.delete()
+#user.e_mail = 'prueba2'
+#user.mod()
 #user.e_mail = 'odndbhibhi'
 #user.psw = 'igeubgusg'
 #user.mod ()
