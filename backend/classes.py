@@ -406,9 +406,9 @@ class Review:
 
 #user = User ('nuevo@mail.com','ubwgubwugbg',None)
 #user.register()
-user = User ()
-user.get(11)
-user.delete()
+#user = User ()
+#user.get(11)
+#user.delete()
 #user.e_mail = 'prueba2'
 #user.mod()
 #user.e_mail = 'odndbhibhi'
