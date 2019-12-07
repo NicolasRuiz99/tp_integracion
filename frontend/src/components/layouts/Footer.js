@@ -1,84 +1,51 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import {Link} from 'react-router-dom';
+import './../../css/default.css';
+
+//Importación de imágenes
+import img1 from "./../../assets/detailsquare.jpg";
+import img2 from "./../../assets/detailsquare2.jpg";
+import img3 from "./../../assets/detailsquare3.jpg";
 
 const Footer = () => {
- 
     return (
-       <FooterContainer  className="main-footer">
-         <div className="footer-middle">
-         <div className="container">
-           <div className="row">
-             {/* Columna 1 */}
-             <div className="col-md-3 col-sm-6">
-               <h4>lorem ipsum</h4>
-               <ul className="list-unstyled">
-                 <li><Link to="/">lorem ipsum</Link></li>
-                 <li><Link to="/">lorem ipsum</Link></li>
-                 <li><Link to="/">lorem ipsum</Link></li>
-                 <li><Link to="/">lorem ipsum</Link></li>
-               </ul>
-             </div>
-              {/* Columna 2 */}
-              <div className="col-md-3 col-sm-6">
-               <h4>lorem ipsum</h4>
-               <ul className="list-unstyled">
-                <li><Link to="/">lorem ipsum</Link></li>
-                 <li><Link to="/">lorem ipsum</Link></li>
-                 <li><Link to="/">lorem ipsum</Link></li>
-                 <li><Link to="/">lorem ipsum</Link></li>
-               </ul>
-             </div>
-              {/* Columna 3 */}
-              <div className="col-md-3 col-sm-6">
-               <h4>lorem ipsum</h4>
-               <ul className="list-unstyled">
-                 <li><Link to="/">lorem ipsum</Link></li>
-                 <li><Link to="/">lorem ipsum</Link></li>
-                 <li><Link to="/">lorem ipsum</Link></li>
-                 <li><Link to="/">lorem ipsum</Link></li>
-               </ul>
-             </div>
-              {/* Columna 4 */}
-              <div className="col-md-3 col-sm-6">
-               <h4>lorem ipsum</h4>
-               <ul className="list-unstyled">
-                 <li><Link to="/">lorem ipsum</Link></li>
-                 <li><Link to="/">lorem ipsum</Link></li>
-                 <li><Link to="/">lorem ipsum</Link></li>
-                 <li><Link to="/">lorem ipsum</Link></li>
-               </ul>
-             </div>
-           </div>
-           {/* Abajo del footer */}
-           <div className="footer-bottom">
-             <p className="text-xs-center">
-               &copy;{new Date().getFullYear()} Indumentaria Online - Todos los derechos reservados
-             </p>
-           </div>
-         </div>
-         </div>
-       </FooterContainer>
-      
-    )
-  }
+      <footer className="main-footer">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-3">
+              <h4 className="h6">Sobre nosotros</h4>
+              <p>Somos una empresa que se dedica a la venta de todo tipo de indumentaria con los mejores precios en el mercado.</p>
+              <hr className="d-block d-lg-none" />
+            </div>
+            <div className="col-lg-3">
+              <h4 className="h6">Contacto</h4>
+              <p className="text-uppercase"><strong>Indumentaria Online</strong><br/>En frente de la Plaza Ramirez <br/>San Martín  <br/>455 <br/>Argentina <br/><strong>Concepción del Uruguay, Entre Ríos</strong>
+              </p><Link to="/contact" className="btn btn-main">Ir a la página de contacto</Link>
+              <hr className="d-block d-lg-none" />
+            </div>
+            <div className="col-lg-3">
+              <ul className="list-inline photo-stream">
+                <li className="list-inline-item"><Link to="/product:id"><img src={img1} alt="..." className="img-fluid"/></Link></li>
+                <li className="list-inline-item"><Link to="/product:id"><img src={img2} alt="..." className="img-fluid"/></Link></li>
+                <li className="list-inline-item"><Link to="/product:id"><img src={img3} alt="..." className="img-fluid"/></Link></li>
+                <li className="list-inline-item"><Link to="/product:id"><img src={img3} alt="..." className="img-fluid"/></Link></li>
+                <li className="list-inline-item"><Link to="/product:id"><img src={img3} alt="..." className="img-fluid"/></Link></li>
+                <li className="list-inline-item"><Link to="/product:id"><img src={img1} alt="..." className="img-fluid"/></Link></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div className="copyrights">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-4 text-center-md">
+                <p>&copy; {new Date().getFullYear()}. Indumentaria Online / Todos los derechos reservados</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    );
+}
 
 export default Footer;
-
-const FooterContainer = styled.footer`
-  .footer-middle {
-    background: var(--mainDark);
-    padding-top: 3rem;
-    color: var(--mainWhite);
-  }
-  .footer-bottom {
-    padding-top: 3rem;
-    padding-bottom: 2rem;
-  }
-  ul li a {
-    color: var(--mainGrey);
-  }
-  ul li a:hover {
-    color: var(--mainLightGrey);
-  }
-`;
