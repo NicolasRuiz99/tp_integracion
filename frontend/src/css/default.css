@@ -1288,3 +1288,55 @@ header.nav-holder.sticky {
   color: #fff;
   background-color: #38a7bb;
 }
+
+/* Estilos para box */
+.box {
+  margin: 80px 0;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  padding: 20px;
+}
+
+.box a.btn {
+  margin-top: 25px;
+}
+
+.box .box-header {
+  background: #f7f7f7;
+  margin: 20px 0 20px;
+  padding: 20px;
+  border-top: 1px solid #eee;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.box .box-footer {
+  background: #f7f7f7;
+  margin-top: 30px;
+  padding: 20px;
+  border-top: 1px solid #eee;
+}
+
+
+.box-footer a {
+  margin: 0 !important;
+}
+
+.box-footer .right-col i {
+  margin-left: 5px;
+}
+
+.box-footer .left-col i {
+  margin-right: 5px;
+}
+
+@media (max-width: 767px) {
+  .box-footer {
+    -webkit-box-pack: center !important;
+    -ms-flex-pack: center !important;
+    justify-content: center !important;
+  }
+  .box-footer a {
+    margin-bottom: 10px !important;
+  }
+}

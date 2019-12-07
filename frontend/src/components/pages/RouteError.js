@@ -1,44 +1,24 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import styled from 'styled-components';
+import './../../css/default.css';
 
 const RouteError = () => {
     return (
-        <ComponentNotFound className="container">
-            <div className="row">
-                <div className="col-md-12">
-                   <div className="error-template">
-                        <h1>Oops!</h1>
-                        <h2>Error 404 Not Found</h2>
-                        <div className="error-details">
-                            Perdón, un error ocurrió. La página requerida no fue encontrada!
-                        </div>
-                        <div className="error-actios">
-                            <Link className="btn btn-outline-primary btn-lg" to="/">
-                                <i className="fas fa-home" />&nbsp; Volver a la página principal
-                            </Link>
-                        </div>
-                    </div> 
-                </div>
+        <div id="content">
+        <div class="container">
+          <div id="error-page" class="col-md-8 mx-auto text-center">
+            <div class="box">
+                {/* Logo pendiente */}
+              <p class="text-center"><Link to="/">Indumentaria-Online</Link></p>
+              <h3>Oops! - La página solicitada no se encuentra disponible</h3>
+              <h4 class="text-muted">Error 404 - Página no encontrada</h4>
+              <p class="buttons"><Link to="/" class="btn btn-outlined"><i class="fa fa-home"></i> Ir al Home</Link></p>
             </div>
-        </ComponentNotFound>  
+          </div>
+        </div>
+      </div> 
     );
 }
 
 export default RouteError;
 
-const ComponentNotFound = styled.div`
-  .error-template {
-      padding: 40px 15px;
-      text-align: center;
-  }
-
-  .error-actions {
-      margin-top: 15px;
-      margin-bottom: 15px;
-  }
-
-  .btn {
-      margin-right: 10px;
-  }
-`;
