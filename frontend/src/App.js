@@ -18,7 +18,7 @@ import Registro from './components/pages/CustomerRegister';
 const App = () => {
   
     return (
-      <Fragment>      
+      <Fragment >      
           <Header />
           <Switch>
             <Route exact path="/" component={HomePage} />

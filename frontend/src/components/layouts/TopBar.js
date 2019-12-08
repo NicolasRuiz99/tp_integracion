@@ -9,7 +9,7 @@ const TopBar = () => {
             <div className="container">
                 <div className="row d-flex align-items-center">
                     <div className="col-md-6 d-md-block d-none">
-                        <p>Contactános en +54 3442 425688 o indumentaria-online@hotmail.com.</p>
+                        <p>Contactános en +54 3442 425688 o soporte-indumentariaonline@hotmail.com.</p>
                     </div>
                     <div className="col-md-6">
                         <div className="d-flex justify-content-md-end justify-content-between">
