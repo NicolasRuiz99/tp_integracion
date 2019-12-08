@@ -12,7 +12,9 @@ import Historial from './components/pages/Historial';
 import Ofertas from './components/pages/Ofertas';
 import RouteError from './components/pages/RouteError';
 import HomePage from './components/pages/HomePage';
-import Registro from './components/pages/CustomerRegister';
+//Pages customer
+import CustomerAccount from './components/pages/customer/CustomerAccount';
+import Registro from './components/pages/customer/CustomerRegister';
 
 
 const App = () => {
@@ -27,6 +29,7 @@ const App = () => {
             <Route  path="/categorias" component={Categorias} />
             <Route  path="/registro" component={Registro} />
             <Route  path="/ofertas" component={Ofertas} />
+            <Route  path="/customer-account" component={CustomerAccount} />
             <Route component={RouteError}/>
           </Switch>
           <Footer />

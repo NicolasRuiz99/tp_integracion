@@ -23,6 +23,9 @@
   letter-spacing: 0.1em;
 }
 
+.alert {
+  border-radius: 0;
+}
 
 a {
   -webkit-transition: all 0.3s !important;
@@ -1289,6 +1292,27 @@ header.nav-holder.sticky {
   background-color: #38a7bb;
 }
 
+@media (max-width: 767px) {
+  .nav-pills {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+}
+
+.nav-pills .nav-link {
+  border-radius: 0;
+}
+
+.nav-pills .nav-link:hover {
+  background: #eee;
+}
+
+.nav-pills .nav-link.active {
+  background: #38a7bb;
+}
+
 /* Estilos para box */
 .box {
   margin: 80px 0;
@@ -1339,4 +1363,151 @@ header.nav-holder.sticky {
   .box-footer a {
     margin-bottom: 10px !important;
   }
+}
+/* 
+Estilo para customer */
+#customer-orders a.btn {
+  margin-top: 0;
+}
+
+#customer-orders table {
+  font-size: 0.9rem;
+}
+
+#customer-orders th {
+  border-top: 0;
+}
+
+#customer-order img {
+  width: 50px;
+}
+
+#customer-order tfoot th {
+  font-size: 1.2rem;
+  font-weight: 300;
+}
+
+#customer-order p {
+  font-size: 1.2rem;
+  font-weight: 300;
+}
+
+/* Panels */
+.sidebar-menu .badge {
+  font-weight: 700;
+  margin: 0;
+}
+
+.sidebar-menu.with-icons a.nav-link {
+  position: relative;
+}
+
+.sidebar-menu.with-icons a.nav-link::before {
+  content: '\f105';
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  font-family: 'FontAwesome';
+}
+
+.panel-heading {
+  margin-bottom: 10px;
+}
+
+.panel-heading h3 {
+  margin-top: 5px;
+}
+
+.panel-heading .btn {
+  color: #fff;
+  text-decoration: none !important;
+}
+
+.panel-heading .btn i {
+  margin-right: 7px;
+}
+
+.panel-body p {
+  font-size: .9rem;
+  color: #555;
+}
+
+.panel-body label {
+  font-size: 0.8rem;
+  font-weight: 400 !important;
+  color: #777;
+  opacity: 0.9;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.panel-body label input {
+  margin-right: 5px;
+}
+
+.panel-body label:hover {
+  opacity: 1;
+}
+
+.panel-body span.colour {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-top: 10px;
+  margin-left: 5px;
+  border: 1px solid #555;
+}
+
+.panel-body span.colour.white {
+  background: #fff;
+}
+
+.panel-body span.colour.blue {
+  background: #007bff;
+}
+
+.panel-body span.colour.green {
+  background: #28a745;
+}
+
+.panel-body span.colour.red {
+  background: #dc3545;
+}
+
+.panel-body span.colour.yellow {
+  background: #ffc107;
+}
+
+.heading, .panel-heading {
+  margin-bottom: 1rem;
+}
+
+.heading h1, .panel-heading h1, .heading h2, .panel-heading h2, .heading h3, .panel-heading h3, .heading h4, .panel-heading h4, .heading h5, .panel-heading h5, .heading h6, .panel-heading h6 {
+  line-height: 1.1;
+  display: inline-block;
+  margin-bottom: 0;
+  padding-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.heading h1:after, .panel-heading h1:after, .heading h2:after, .panel-heading h2:after, .heading h3:after, .panel-heading h3:after, .heading h4:after, .panel-heading h4:after, .heading h5:after, .panel-heading h5:after, .heading h6:after, .panel-heading h6:after {
+  content: " ";
+  display: block;
+  width: 100px;
+  height: 2px;
+  margin-top: .6rem;
+  background: #38a7bb;
+}
+
+.heading.text-center h1:after, .text-center.panel-heading h1:after, .heading.text-center h2:after, .text-center.panel-heading h2:after, .heading.text-center h3:after, .text-center.panel-heading h3:after, .heading.text-center h4:after, .text-center.panel-heading h4:after, .heading.text-center h5:after, .text-center.panel-heading h5:after, .heading.text-center h6:after, .text-center.panel-heading h6:after {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.panel {
+  margin-bottom: 20px;
 }

@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 import {Link} from 'react-router-dom';
-import './../../css/default.css';
+import './../../../css/default.css';
 
 const CustomerRegister = () => {
     return (
@@ -30,7 +30,7 @@ const CustomerRegister = () => {
                 <p>Al registrarte accedes a un mundo lleno de productos de la última moda, descuentos fantásticos y mucho más para vos! El proceso entero no te llevará más de un minuto!</p>
                 <p className="text-muted">Si tenés alguna duda, por favor <Link to="/contact">contáctanos</Link>, nuestro servicio de atención al cliente trabaja 24/7.</p>
                 <hr />
-                <form action="/customer-orders" method="get">
+                <form action="/customer-account" method="get">
                   <div className="form-group">
                     <label for="name-login">Nombre</label>
                     <input id="name-login" type="text" className="form-control" />
