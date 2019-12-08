@@ -2,8 +2,45 @@
     height: 400px;
  }
 
- img {
+img {
     margin: auto;
+    max-width: 1300px;
+    max-height: 360px;
+} 
+
+.dark-mask {
+    background: rgba(0, 0, 0, 0.3);
     width: 100%;
-    height: 300px;
-}
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+  
+  .dark-mask.mask-primary {
+    background: rgba(56, 167, 187, 0.9);
+  }
+  
+  .home-carousel {
+    color: #fff;
+  }
+  
+  .home-carousel .owl-carousel {
+    padding-top: 60px;
+    padding-bottom: 20px;
+  }
+
+  @media (max-width: 767px) {
+    .home-carousel {
+      text-align: center !important;
+    }
+    .home-carousel p, .home-carousel h1, .home-carousel ul {
+      text-align: center !important;
+    }
+    .home-carousel img {
+      margin: 10px auto;
+    }
+  }
+
+  
