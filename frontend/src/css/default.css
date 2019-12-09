@@ -191,6 +191,31 @@ h6,
 .h6 {
   font-size: 0.8rem;
 }
+
+hr {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+small,
+.small {
+  font-size: 80%;
+  font-weight: 400;
+}
+
+mark,
+.mark {
+  padding: 0.2em;
+  background-color: #fcf8e3;
+}
+
+.text-primary {
+  color: #38a7bb !important;
+}
+
+a.text-primary:focus, a.text-primary:hover {
+  color: #2c8494 !important;
+}
+
 /* Estilos para formularios */
 .form-control {
   border-radius: 0;
@@ -973,6 +998,15 @@ h6,
     }
   }
 
+  .text-small {
+    font-size: 0.9rem;
+  }
+  
+  .text-uppercase {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
   /* Estilos para lead */
   .lead {
     font-size: 1.25rem;
@@ -1352,6 +1386,13 @@ header.nav-holder.sticky {
   color: rgba(0, 0, 0, 0.5);
 }
 
+.bar {
+  padding: 60px 0;
+}
+
+.bar.padding-big {
+  padding: 50px 0;
+}
 
 
 /* Estilos de navs */
@@ -1365,6 +1406,11 @@ header.nav-holder.sticky {
 
 .nav-tabs .nav-item {
   margin-bottom: -1px;
+}
+
+.nav-tabs a.nav-link {
+  border-radius: 0 !important;
+  font-size: 0.9rem;
 }
 
 .nav-tabs .nav-link {
@@ -1620,6 +1666,14 @@ Estilo para customer */
 .panel {
   margin-bottom: 20px;
 }
+
+ul ul a.nav-link {
+  padding-left: 30px !important;
+  font-size: 0.85rem;
+  text-transform: none !important;
+  font-weight: 400 !important;
+  color: #777;
+}
 /* 
 Estilos del producto */
 .product {
@@ -1648,16 +1702,6 @@ Estilos del producto */
 
 .product .price {
   font-size: 1.1rem;
-}
-
-.package .price-container {
-  margin-bottom: 20px;
-}
-
-.package .price-container span.period {
-  color: #777;
-  font-size: 0.9rem;
-  margin-left: 10px;
 }
 
 .product .price del {
@@ -1754,4 +1798,81 @@ Estilos del producto */
   bottom: -15px;
   left: 0;
   display: block;
+}
+/* Paginacion */
+.page-item:first-child .page-link {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.page-item:last-child .page-link {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.page-item.active .page-link {
+  color: #fff;
+  background-color: #38a7bb;
+  border-color: #38a7bb;
+}
+
+.page-item.disabled .page-link {
+  color: #868e96;
+  background-color: #fff;
+  border-color: #dee2e6;
+}
+
+.page-link {
+  padding: 0.5rem 0.75rem;
+  line-height: 1.25;
+  color: #38a7bb;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+}
+
+.page-link:focus, .page-link:hover {
+  color: #267280;
+  text-decoration: none;
+  background-color: #e9ecef;
+  border-color: #dee2e6;
+  outline: 0;
+}
+
+.pagination-lg .page-link {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
+.pagination-lg .page-item:first-child .page-link {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.pagination-lg .page-item:last-child .page-link {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.pagination-sm .page-link {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+
+.pagination-sm .page-item:first-child .page-link {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.pagination-sm .page-item:last-child .page-link {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Categorias */
+.category-menu a.nav-link {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
 }

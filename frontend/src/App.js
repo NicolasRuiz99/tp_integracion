@@ -7,7 +7,6 @@ import Header from './components/layouts/Header';
 import Footer from './components/layouts/Footer';
 //Import pages
 import Contact from './components/pages/Contact';
-import Categorias from './components/pages/Categorias';
 import Historial from './components/pages/Historial';
 import Ofertas from './components/pages/Ofertas';
 import RouteError from './components/pages/RouteError';
@@ -17,7 +16,8 @@ import CustomerAccount from './components/pages/customer/CustomerAccount';
 import CustomerOrders from './components/pages/customer/CustomerOrders';
 import WishList from './components/pages/customer/CustomerWishList';
 import Registro from './components/pages/customer/CustomerRegister';
-
+//Pages shop
+import Categorias from './components/pages/shop/ShopCategorias';
 
 const App = () => {
   
@@ -28,7 +28,7 @@ const App = () => {
             <Route exact path="/" component={HomePage} />
             <Route  path="/contact" component={Contact} />
             <Route  path="/historial" component={Historial} />
-            <Route  path="/categorias" component={Categorias} />
+            <Route  path="/shop-category" component={Categorias} />
             <Route  path="/registro" component={Registro} />
             <Route  path="/ofertas" component={Ofertas} />
             <Route  path="/customer-account" component={CustomerAccount} />

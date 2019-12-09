@@ -13,7 +13,7 @@ const NavBar = () => {
             <div id="navbarSupportedContent" class="collapse navbar-collapse">
               <ul className="nav navbar-nav m-auto">
                 <li className="nav-item">
-                  <Link to="/categorias" className="nav-link ">Categorias</Link>
+                  <Link to="/shop-category" className="nav-link ">Categorias</Link>
                 </li>
                 <li className="nav-item">
                   <Link to="/historial" className="nav-link ">Historial</Link>
