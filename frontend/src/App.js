@@ -14,6 +14,8 @@ import RouteError from './components/pages/RouteError';
 import HomePage from './components/pages/HomePage';
 //Pages customer
 import CustomerAccount from './components/pages/customer/CustomerAccount';
+import CustomerOrders from './components/pages/customer/CustomerOrders';
+import WishList from './components/pages/customer/CustomerWishList';
 import Registro from './components/pages/customer/CustomerRegister';
 
 
@@ -30,6 +32,8 @@ const App = () => {
             <Route  path="/registro" component={Registro} />
             <Route  path="/ofertas" component={Ofertas} />
             <Route  path="/customer-account" component={CustomerAccount} />
+            <Route  path="/customer-orders" component={CustomerOrders} />
+            <Route  path="/customer-wishlist" component={WishList} />
             <Route component={RouteError}/>
           </Switch>
           <Footer />

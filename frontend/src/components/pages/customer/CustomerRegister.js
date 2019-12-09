@@ -47,7 +47,6 @@ const CustomerRegister = () => {
                   <div className="text-center">
                     <button type="submit" className="btn btn-outlined"><i className="fa fa-user-md"></i> Registrarse</button>
                   </div>
-                  <hr />
                 </form>
               </div>
             </div>

@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import CustomerSection from './CustomerSection';
 import './../../../css/default.css';
-import {Link} from 'react-router-dom';
+import BreadCrumbs from '../../BreadCrumbs';
 
 const CustomerAccount = () => {
     return (
+      <Fragment >
+      <BreadCrumbs 
+        name={"Mi cuenta"}
+      />
         <div id="content">
         <div className="container">
           <div className="row bar">
             <div id="customer-account" className="col-lg-9 clearfix">
+              <hr />
               <p className="lead">Cambiá tus datos personales o tu contraseña acá.</p>
               <div className="box mt-5">
                 <div className="heading">
@@ -126,31 +132,16 @@ const CustomerAccount = () => {
                     <div className="col-md-12 text-center">
                       <button type="submit" className="btn btn-outlined"><i className="fa fa-save"></i> Guardar cambios</button>
                       <hr />
-                    </div>
-                   
+                    </div> 
                   </div>
                 </form>
               </div>
             </div>
-            <div className="col-lg-3 mt-4 mt-lg-0">
-              {/* Menu del cliente */}
-              <div className="panel panel-default sidebar-menu">
-                <div className="panel-heading">
-                  <h3 className="h4 panel-title">Sección del cliente</h3>
-                </div>
-                <div className="panel-body">
-                  <ul className="nav nav-pills flex-column text-sm">
-                    <li className="nav-item"><Link to="/customer-orders" className="nav-link"><i className="fa fa-list"></i> Mis compras</Link></li>
-                    <li className="nav-item"><Link to="/customer-wishlist" className="nav-link"><i className="fa fa-heart"></i> Mis deseos</Link></li>
-                    <li className="nav-item"><Link to="/customer-account" className="nav-link active"><i className="fa fa-user"></i> Mi cuenta</Link></li>
-                    <li className="nav-item"><Link to="/" className="nav-link"><i className="fa fa-sign-out"></i> Salir</Link></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+            <CustomerSection />
           </div>
         </div>
       </div>
+      </Fragment>
     );
 }
 
