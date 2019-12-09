@@ -23,6 +23,12 @@
   letter-spacing: 0.1em;
 }
 
+.background-pentagon, #heading-breadcrumbs {
+  background: url("./../assets/texture-turquoise.png") center center repeat;
+  border-top: 1px solid #999;
+  border-bottom: 1px solid #999;
+}
+
 .alert {
   border-radius: 0;
 }
@@ -1392,7 +1398,7 @@ Estilo para customer */
   font-weight: 300;
 }
 
-/* Panels */
+/* Panels y headings */
 .sidebar-menu .badge {
   font-weight: 700;
   margin: 0;

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import './../../css/default.css';
 //import axios from 'axios';
+import BreadCrumbs from './../BreadCrumbs';
 
 const STATE_INICIAL = {
   nombre: '',
@@ -52,21 +53,9 @@ const Contact = () => {
 
   return (
     <div id="content">
-        <div id="heading-breadcrumbs" className="brder-top-0 border-bottom-0">
-        <div className="container">
-          <div className="row d-flex align-items-center flex-wrap">
-            <div className="col-md-7">
-              <h1 className="h2">Contacto</h1>
-            </div>
-            <div className="col-md-5">
-              <ul className="breadcrumb d-flex justify-content-end">
-                <li className="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li className="breadcrumb-item active">Contacto</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+      <BreadCrumbs 
+        name={"Contacto"}
+      />
       <div id="map">
       <iframe title="c del u" src="https://www.google.com/maps/d/embed?mid=1ICmf9529s60estVnwhWYPa5BRyn51Des" style={{
         border: '0',

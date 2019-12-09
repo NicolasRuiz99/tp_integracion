@@ -1,25 +1,14 @@
 import React, {Fragment} from 'react';
 import {Link} from 'react-router-dom';
 import './../../../css/default.css';
+import BreadCrumbs from './../../BreadCrumbs';
 
 const CustomerRegister = () => {
     return (
         <Fragment>
-        <div id="heading-breadcrumbs">
-        <div className="container">
-          <div className="row d-flex align-items-center flex-wrap">
-            <div className="col-md-7">
-              <h1 className="h2">Nueva Cuenta / Ingresar</h1>
-            </div>
-            <div className="col-md-5">
-              <ul className="breadcrumb d-flex justify-content-end">
-                <li className="breadcrumb-item"><Link to="/">Home</Link></li>
-                <li className="breadcrumb-item active">Nueva Cuenta / Ingresá</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+        <BreadCrumbs 
+          name={"Nueva Cuenta/Acceder"}
+        />
       <div id="content">
         <div className="container">
           <div className="row">
@@ -68,7 +57,7 @@ const CustomerRegister = () => {
                 <p className="lead">Ya estás registrado?</p>
                 <p className="text-muted">Si es así, por favor, ingresá tu email y contraseña.</p>
                 <hr />
-                <form action="/customer-order" method="get">
+                <form action="/customer-orders" method="get">
                   <div className="form-group">
                     <label for="email">Email</label>
                     <input id="email" type="text" className="form-control" />

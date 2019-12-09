@@ -1,0 +1,20 @@
+.modal .modal-header h4 {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  
+  .modal input::-moz-placeholder {
+    font-size: 0.85rem;
+  }
+  
+  .modal input::-webkit-input-placeholder {
+    font-size: 0.85rem;
+  }
+  
+  .modal input:-ms-input-placeholder {
+    font-size: 0.85rem;
+  }
+  
+  .modal p {
+    font-size: 0.85rem;
+  }
