@@ -14,6 +14,7 @@ import HomePage from './components/pages/HomePage';
 //Pages customer
 import CustomerAccount from './components/pages/customer/CustomerAccount';
 import CustomerOrders from './components/pages/customer/CustomerOrders';
+import CustomerOrder from './components/pages/customer/CustomerOrder'
 import WishList from './components/pages/customer/CustomerWishList';
 import Registro from './components/pages/customer/CustomerRegister';
 //Pages shop
@@ -33,6 +34,7 @@ const App = () => {
             <Route  path="/ofertas" component={Ofertas} />
             <Route  path="/customer-account" component={CustomerAccount} />
             <Route  path="/customer-orders" component={CustomerOrders} />
+            <Route  path="/customer-order" component={CustomerOrder} />
             <Route  path="/customer-wishlist" component={WishList} />
             <Route component={RouteError}/>
           </Switch>

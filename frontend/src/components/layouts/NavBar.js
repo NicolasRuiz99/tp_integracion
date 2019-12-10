@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './../../css/default.css';
+import logo from './../../assets/logo.png';
 
 const NavBar = () => {
     return (
       <header className="nav-holder make-sticky">
         <div id="navbar" role="navigation" className="navbar navbar-expand-lg navbar-light">
-          <Link to="/" className="navbar-brand home"><span>Indumentaria - Online</span></Link>
+        <Link to="/" class="navbar-brand home"><img src={logo} alt="Indumentaria Online logo" class="d-none d-md-inline-block" /><span class="sr-only">Indumentaria Online- Ir al Home</span></Link>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>

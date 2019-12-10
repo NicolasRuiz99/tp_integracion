@@ -16,15 +16,12 @@ const TopBar = () => {
         <div className="top-bar">
             <div className="container">
                 <div className="row d-flex align-items-center">
-                    <div className="col-md-6 d-md-block d-none">
-                        <p>Contactános en +54 3442 425688 o soporte-indumentariaonline@hotmail.com.</p>
+                    <div className="col-md-6 d-md-block d-none mr-0">
+                        <p>Contactános en <i className="fas fa-phone"></i>   +54 3442 425688 </p>
+                        <p> o <i className="fas fa-envelope"></i> soporte-indumentariaonline@hotmail.com </p>
                     </div>
                     <div className="col-md-6">
                         <div className="d-flex justify-content-md-end justify-content-end">
-                            <ul className="list-inline contact-info d-block d-md-none">
-                            <li className="list-inline-item"><i className="fab fa-phone"></i></li>
-                            <li className="list-inline-item"><i className="fab fa-envelope"></i></li>
-                            </ul>
                             <div className="login">
                                 <Link to="/registro" className="signup-btn">
                                     <i className="fa fa-user"></i>
@@ -33,6 +30,10 @@ const TopBar = () => {
                                 <Link onClick={handleModalOpen} className="login-btn">
                                     <i className="fa fa-sign-in"></i>
                                     <span class="d-none d-md-inline-block">Acceder</span>
+                                </Link>
+                                <Link to="/shop-cart" className="signup-btn">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    <span className="d-none d-md-inline-block">Carrito</span>
                                 </Link>
                             </div>
                             <ul className="social-custom list-inline">

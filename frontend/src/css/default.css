@@ -1341,8 +1341,10 @@ header.nav-holder.sticky {
 
 .navbar-brand {
   display: inline-block;
-  padding-top: 0.3125rem;
-  padding-bottom: 0.3125rem;
+  padding-top: 0rem;
+  padding-bottom: 0rem;
+  margin-top: -20px;
+  margin-bottom: -20px;
   margin-right: 1rem;
   font-size: 1.25rem;
 }
