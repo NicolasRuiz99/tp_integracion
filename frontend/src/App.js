@@ -19,6 +19,7 @@ import WishList from './components/pages/customer/CustomerWishList';
 import Registro from './components/pages/customer/CustomerRegister';
 //Pages shop
 import Categorias from './components/pages/shop/ShopCategorias';
+import ShopDetail from './components/pages/shop/ShopDetail'
 
 const App = () => {
   
@@ -30,6 +31,7 @@ const App = () => {
             <Route  path="/contact" component={Contact} />
             <Route  path="/historial" component={Historial} />
             <Route  path="/shop-category" component={Categorias} />
+            <Route  path="/shop-detail" component={ShopDetail} />
             <Route  path="/registro" component={Registro} />
             <Route  path="/ofertas" component={Ofertas} />
             <Route  path="/customer-account" component={CustomerAccount} />
