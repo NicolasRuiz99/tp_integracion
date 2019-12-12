@@ -92,7 +92,7 @@ CREATE TABLE message (
 
 CREATE TABLE type (
     id serial,
-    name varchar (15),
+    name varchar (15) unique,
     PRIMARY KEY (id)
 );
 

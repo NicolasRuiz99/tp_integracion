@@ -8,8 +8,8 @@ class User:
         self.id_role = id_role 
 
     def register (self):
-        new_record = (self.e_mail,self.psw)
-        addToTable ('users (e_mail,psw)',new_record,'(%s,%s)')
+        new_record = (self.e_mail,self.psw,self.id_role)
+        addToTable ('users (e_mail,psw,id_role)',new_record,'(%s,%s,%s)')
 
     def mod (self):
         new_record = (self.e_mail,self.psw,self.id_role,self.id)
