@@ -25,9 +25,6 @@ class User:
         self.psw = res[2]
         self.id_role = res[3]
 
-def listUsers ():
-    return listTable ('users')
-
 class Customer:
     def __init__ (self,dni = None,name = None,surname = None,genre = None,c_size = None,shoe_size = None,phone_no = None,id_user = None,_id = None):
         self.id = _id
@@ -63,9 +60,6 @@ class Customer:
         self.phone_no = res[7]
         self.id_user = res[8] 
 
-def listCustomers ():
-    return listTable ('customers')
-
 class Type:
     def __init__ (self,name = None,_id=None):
         self.id = _id
@@ -87,9 +81,6 @@ class Type:
         self.id = res[0]
         self.name = res[1]
 
-def listTypes ():
-    return listTable ('type')
-
 class Role:
     def __init__ (self,name=None,_id=None):
         self.id = _id
@@ -110,21 +101,18 @@ class Role:
         self.id = res[0]
         self.name = res[1]
 
-def listRoles ():
-    return listTable ('roles')
-
 class Chat:
-    def __init__ (self,id_user=None,id_admin=None,_id=None):
+    def __init__ (self,id_customer=None,id_admin=None,_id=None):
         self.id = _id
-        self.id_user = id_user
+        self.id_customer = id_customer
         self.id_admin = id_admin
 
     def add (self):
-        new_record = (self.id_user,self.id_admin)
-        addToTable ('chat (id_user,id_admin)',new_record,'(%s,%s)')
+        new_record = (self.id_customer,self.id_admin)
+        addToTable ('chat (id_customer,id_admin)',new_record,'(%s,%s)')
 
     def mod (self):
-        updateTable ('chat',(self.id_user,self.id_admin,self.id),'id_user = %s, id_admin = %s')
+        updateTable ('chat',(self.id_customer,self.id_admin,self.id),'id_customer = %s, id_admin = %s')
 
     def delete (self):
         deleteFromTable ('chat',self.id)
@@ -132,7 +120,7 @@ class Chat:
     def get (self,_id):
         res = searchID ('chat',_id)  
         self.id = res[0]
-        self.id_user = res[1]
+        self.id_customer = res[1]
         self.id_admin = res[2]
 
 class Message:
@@ -306,21 +294,23 @@ class Purchase:
         self.id_shipping = res[6]
 
 class Purchxitem:
-    def __init__ (self,id_purchase=None,id_color_size=None):
+    def __init__ (self,id_purchase=None,id_color_size=None,stock=None):
         self.id_purchase = id_purchase
         self.id_color_size = id_color_size
+        self.stock = stock
 
     def add (self):
-        new_record = (self.id_purchase, self.id_color_size )
-        addToTable ('purchxitem (id_purchase, id_color_size)',new_record,'(%s,%s)')
+        new_record = (self.id_purchase, self.id_color_size,self.stock )
+        addToTable ('purchxitem (id_purchase, id_color_size, stock)',new_record,'(%s,%s,%s)')
 
     def delete (self):
-        deleteFromTable2 ('purchxitem',(self.id_purchase,self.id_color_size),'id_purchase = %s and id_color_size = %s')
+        deleteFromTable2 ('purchxitem',(self.id_purchase,self.id_color_size,self.stock),'id_purchase = %s and id_color_size = %s')
 
     def get (self,_id):
         res = searchID2 ('purchxitem',(self.id_purchase,self.id_color_size),'id_purchase = %s and id_color_size = %s')  
         self.id_purchase = res[0]
         self.id_color_size = res[1]
+        self.stock = res[2]
 
 class Reservation:
     def __init__ (self,date=None,stock=None,id_user=None,id_color_size=None,state=None,_id=None):
@@ -370,19 +360,20 @@ class Wishlist:
         self.date = res[2]
 
 class Review:
-    def __init__ (self,date=None,stars=None,title=None,commentary=None,_id=None):
+    def __init__ (self,date=None,stars=None,title=None,commentary=None,id_product=None,_id=None):
         self.id = _id
         self.date = date
         self.stars = stars
         self.title = title
         self.commentary = commentary
+        self.id_product = id_product
 
     def add (self):
-        new_record = (self.date, self.stars, self.title, self.commentary )
-        addToTable ('review (date, stars, title, commentary)',new_record,'(%s,%s,%s,%s)')
+        new_record = (self.date, self.stars, self.title, self.commentary, self.id_product)
+        addToTable ('review (date, stars, title, commentary, id_product)',new_record,'(%s,%s,%s,%s,%s)')
 
     def mod (self):
-        updateTable ('review',(self.date, self.stars, self.title, self.commentary, self.id),'date = %s, stars = %s, title = %s, commentary = %s')
+        updateTable ('review',(self.date, self.stars, self.title, self.commentary, self.id_product, self.id),'date = %s, stars = %s, title = %s, commentary = %s, id_product = %s')
 
     def delete (self):
         deleteFromTable ('review',self.id)
@@ -394,6 +385,7 @@ class Review:
         self.stars = res[2]
         self.title = res[3]
         self.commentary = res[4]
+        self.id_product = res[5]
 
 #cust = Customer ()
 #cust.get (7)
