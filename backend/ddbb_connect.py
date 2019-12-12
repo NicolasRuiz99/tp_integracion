@@ -9,7 +9,7 @@ DEC2FLOAT = dbapi.extensions.new_type(
 dbapi.extensions.register_type(DEC2FLOAT)
 
 def connect_ddbb ():
-    con = dbapi.connect("dbname='ddbb_sist' user='admin' host='127.0.0.1' password='admin123'")
+    con = dbapi.connect("dbname='prueba2' user='admin' host='127.0.0.1' password='admin123'")
     cur = con.cursor()
     return con,cur
 
@@ -25,7 +25,7 @@ def addToTable (table,values,qValues):
         con.commit()
     except (Exception,Error) as error:
         if (con):
-            print ('OperationFailed', error)
+            raise Exception ('OperationFailed', error)
     finally:
         disconnect_ddbb (con,cur)
 
@@ -40,7 +40,7 @@ def listTable (table):
             results.append(dict(zip(columns, row)))
     except (Exception,Error) as error:
         if (con):
-            print ('OperationFailed', error)
+            raise Exception ('OperationFailed', error)
     finally:
         disconnect_ddbb (con,cur)
         return results
@@ -57,7 +57,7 @@ def searchID (table,_id):
             return res 
     except (Exception,Error) as error:
         if (con):
-            print ('OperationFailed', error)
+            raise Exception ('OperationFailed', error)
     finally:
         disconnect_ddbb (con,cur)
 
@@ -69,7 +69,7 @@ def updateTable (table,values,setValues):
         con.commit ()
     except (Exception,Error) as error:
         if (con):
-            print ('OperationFailed', error)
+            raise Exception ('OperationFailed', error)
     finally:
         disconnect_ddbb (con,cur)
 
@@ -81,7 +81,7 @@ def deleteFromTable (table,_id):
         con.commit ()
     except (Exception,Error) as error:
         if (con):
-            print ('OperationFailed', error)
+            raise Exception ('OperationFailed', error)
     finally:
         disconnect_ddbb (con,cur)
 
@@ -93,7 +93,7 @@ def deleteFromTable2 (table,values,qValues):
         con.commit ()
     except (Exception,Error) as error:
         if (con):
-            print ('OperationFailed', error)
+            raise Exception ('OperationFailed', error)
     finally:
         disconnect_ddbb (con,cur)
 
@@ -109,6 +109,6 @@ def searchID2 (table,values,qValues):
             return res 
     except (Exception,Error) as error:
         if (con):
-            print ('OperationFailed', error)
+            raise Exception ('OperationFailed', error)
     finally:
         disconnect_ddbb (con,cur)
