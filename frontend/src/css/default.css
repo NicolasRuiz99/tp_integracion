@@ -2404,3 +2404,68 @@ Boxes */
   font-size: 0.7rem;
   color: #868e96;
 }
+
+/* Tablas */
+table {
+  font-size: 0.9rem;
+}
+
+table img {
+  min-width: 50px !important;
+  max-width: 50px !important;
+  height: 50px;
+}
+
+table input[type="number"] {
+  max-width: 50px;
+}
+
+table tr td {
+  vertical-align: middle !important;
+}
+
+/* Carrito */
+#basket thead th {
+  border-top: none;
+}
+
+#basket tfoot th {
+  font-size: 1.25rem;
+  color: #555;
+}
+
+#order-summary tr td {
+  color: #999;
+}
+
+#order-summary tr.total {
+  font-size: 1.25rem;
+  color: #555;
+  font-weight: 700;
+}
+
+#order-summary tr.total td {
+  color: #555;
+}
+
+#checkout .nav-pills {
+  margin-bottom: 30px;
+  border-bottom: 1px solid #38a7bb;
+}
+
+#checkout .nav-pills a {
+  font-size: 0.9rem;
+  border-bottom: none !important;
+}
+
+#checkout .nav-pills a.disabled {
+  cursor: not-allowed;
+}
+
+#checkout form label {
+  margin-bottom: 5px;
+}
+
+#checkout .payment-method:hover, #checkout .shipping-method:hover {
+  cursor: pointer;
+}

@@ -19,7 +19,12 @@ import WishList from './components/pages/customer/CustomerWishList';
 import Registro from './components/pages/customer/CustomerRegister';
 //Pages shop
 import Categorias from './components/pages/shop/ShopCategorias';
-import ShopDetail from './components/pages/shop/ShopDetail'
+import ShopDetail from './components/pages/shop/ShopDetail';
+import Cart from './components/pages/shop/ShopCart';
+import Checkout1 from './components/pages/shop/ShopCheckout';
+import Checkout2 from './components/pages/shop/ShopCheckout2';
+import Checkout3 from './components/pages/shop/ShopCheckout3';
+import Checkout4 from './components/pages/shop/ShopCheckout4';
 
 const App = () => {
   
@@ -32,6 +37,11 @@ const App = () => {
             <Route  path="/historial" component={Historial} />
             <Route  path="/shop-category" component={Categorias} />
             <Route  path="/shop-detail" component={ShopDetail} />
+            <Route  path="/shop-cart" component={Cart} />
+            <Route  path="/shop-checkout1" component={Checkout1} />
+            <Route  path="/shop-checkout2" component={Checkout2} />
+            <Route  path="/shop-checkout3" component={Checkout3} />
+            <Route  path="/shop-checkout4" component={Checkout4} />
             <Route  path="/registro" component={Registro} />
             <Route  path="/ofertas" component={Ofertas} />
             <Route  path="/customer-account" component={CustomerAccount} />
