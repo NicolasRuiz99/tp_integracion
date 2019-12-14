@@ -7,12 +7,18 @@ import {register, login,getEMails} from './utils/CustomerFunctions';
 
 const CustomerRegister = ({history}) => {
 
+  //states del Registro
   const [email, setEMail] = useState ('');
   const [email2, setEMail2] = useState ('');
   const [contraseña, setContraseña] = useState ('');
   const [contraseña2, setContraseña2] = useState ('');
+  //states del login
+  const [mail, setMail] = useState('');
+  const [pass, setPass] = useState('');
+
   const [mailList, setMailList] = useState([]);
   const [error, setError] = useState(false);
+  const [error2, setError2] = useState(false);
 
   const handleSubmitRegister = async (e) => {
     e.preventDefault();    
@@ -41,6 +47,27 @@ const CustomerRegister = ({history}) => {
     setError(false);
 
     history.push ('/customer-account')
+  }
+
+  const handleSubmitLogin = async (e) => {
+    e.preventDefault();    
+
+    // Validar que todos los campos esten llenos
+    if( mail === '' || pass === '' ){
+      setError2(true);
+      // detener la ejecución
+      return;
+    }
+
+    //Creacion del objeto
+    const customer = {mail, pass};
+    
+    //Conectar con el backend
+    register(customer);
+
+    setError2(false);
+
+    history.push('/customer-orders')
   }
 
     return (
@@ -88,14 +115,15 @@ const CustomerRegister = ({history}) => {
                 <p className="lead">Ya estás registrado?</p>
                 <p className="text-muted">Si es así, por favor, ingresá tu email y contraseña.</p>
                 <hr />
-                <form action="/customer-orders" method="get">
+                { (error2) ? <div className="alert alert-danger mt-2 mb-5 text-center">Todos los campos son obligatorios</div> : null}
+                <form onSubmit={handleSubmitLogin}>
                   <div className="form-group">
                     <label for="email">Email</label>
-                    <input id="email" type="text" className="form-control" />
+                    <input id="email" type="text" className="form-control"  onChange={e => setMail(e.target.value)}/>
                   </div>
                   <div className="form-group">
                     <label for="password">Contraseña</label>
-                    <input id="password" type="password" className="form-control" />
+                    <input id="password" type="password" className="form-control" onChange={e => setPass(e.target.value)} />
                   </div>
                   <div className="text-center">
                     <button type="submit" className="btn btn-outlined"><i className="fa fa-sign-in"></i> Ingresar</button>
