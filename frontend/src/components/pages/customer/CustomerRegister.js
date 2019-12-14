@@ -3,7 +3,7 @@ import {Link,withRouter} from 'react-router-dom';
 import './../../../css/default.css';
 import BreadCrumbs from './../../BreadCrumbs';
 import axios from 'axios';
-import {register, login} from './utils/CustomerFunctions';
+import {register, login,getEMails} from './utils/CustomerFunctions';
 
 const CustomerRegister = ({history}) => {
 
@@ -14,8 +14,12 @@ const CustomerRegister = ({history}) => {
   const [mailList, setMailList] = useState([]);
   const [error, setError] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmitRegister = async (e) => {
     e.preventDefault();    
+
+    console.log(getEMails());
+    
+    setMailList (getEMails());
 
     // Validar que todos los campos esten llenos
     if( email === '' || email2 === '' ||  contraseña === '' || contraseña2 === '' ){
@@ -55,7 +59,7 @@ const CustomerRegister = ({history}) => {
                 <p className="text-muted">Si tenés alguna duda, por favor <Link to="/contact">contáctanos</Link>, nuestro servicio de atención al cliente trabaja 24/7.</p>
                 <hr />
                 { (error) ? <div className="alert alert-danger mt-2 mb-5 text-center">Todos los campos son obligatorios</div> : null}
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmitRegister}>
                   <div className="form-group">
                     <label for="email-login">Email</label>
                     <input id="email-login" type="text" className="form-control" onChange={e => setEMail(e.target.value)} />
