@@ -129,3 +129,18 @@ def logInUser (e_mail,psw):
             raise Exception ('OperationFailed', error.args[0])
     finally:
         disconnect_ddbb (con,cur)
+
+def query (query):
+    results = []
+    try:
+        con, cur = connect_ddbb ()
+        cur.execute (query)  
+        columns = list(map(lambda x: x[0], cur.description))
+        for row in cur.fetchall():
+            results.append(dict(zip(columns, row)))
+    except (Exception,Error) as error:
+        if (con):
+            raise Exception ('OperationFailed', error.args[0])
+    finally:
+        disconnect_ddbb (con,cur)
+        return results

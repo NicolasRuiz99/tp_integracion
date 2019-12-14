@@ -1,7 +1,10 @@
-from ddbb_connect import listTable
+from ddbb_connect import listTable,query
 
 def listUsers ():
     return listTable ('users')
+
+def listUsersE_Mails ():
+    return query ('select e_mail from users')
 
 def listCustomers ():
     return listTable ('customers')
