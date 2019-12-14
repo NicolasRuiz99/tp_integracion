@@ -14,7 +14,7 @@ const register = user => {
     return axios
     .post("user/register", {
         e_mail: user.email,
-        psw: user.password,
+        psw: user.contraseña,
         id_role: 2
     })
     .then(res => {console.log(res.user_id)})
