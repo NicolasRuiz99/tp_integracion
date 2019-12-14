@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@pusher/chatkit-client-react": "^0.1.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -15,7 +16,8 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
     "react-star-ratings": "^2.3.0",
-    "styled-components": "^4.4.1"
+    "styled-components": "^4.4.1",
+    "proxy": "http://localhost:5000"
   },
   "scripts": {
     "start": "react-scripts start",

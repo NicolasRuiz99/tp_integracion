@@ -1,9 +1,54 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useState} from 'react';
 import {Link} from 'react-router-dom';
 import './../../../css/default.css';
 import BreadCrumbs from './../../BreadCrumbs';
+import axios from 'axios';
+import {register, login} from './utils/CustomerFunctions';
+
+
+const STATE_INICIAL = {
+  email: '',
+  email2: '',
+  contraseña: '',
+  contraseña2: ''
+};
 
 const CustomerRegister = () => {
+  const [valores, setValores] = useState(STATE_INICIAL);
+  const [mailList, setMailList] = useState([]);
+  const [error, setError] = useState(false);
+
+  const handleChange = e => {
+    setValores({ 
+      [e.target.name] : e.target.value});
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const {email, email2, contraseña, contraseña2} = valores;
+
+    // Validar que todos los campos esten llenos
+    if( email === '' || email2 === '' ||  contraseña === '' || contraseña2 === '' ){
+      setError(true);
+      // detener la ejecución
+      return;
+    }
+    if (email !== email2 && contraseña !== contraseña2) {
+      setError(true);
+      return;
+    }
+
+    //Creacion del objeto
+    const newCustomer = {email, contraseña};
+
+    //Conectar con el backend
+    register(newCustomer);
+
+    setValores(STATE_INICIAL);
+    setError(false);
+  }
+
     return (
         <Fragment>
         <BreadCrumbs 
@@ -19,30 +64,23 @@ const CustomerRegister = () => {
                 <p>Al registrarte accedes a un mundo lleno de productos de la última moda, descuentos fantásticos y mucho más para vos! El proceso entero no te llevará más de un minuto!</p>
                 <p className="text-muted">Si tenés alguna duda, por favor <Link to="/contact">contáctanos</Link>, nuestro servicio de atención al cliente trabaja 24/7.</p>
                 <hr />
-                <form action="/customer-account" method="get">
-                  <div className="form-group">
-                    <label for="name-login">Nombre</label>
-                    <input id="name-login" type="text" className="form-control" />
-                  </div>
-                  <div className="form-group">
-                    <label for="name-login">Apellido</label>
-                    <input id="name-login" type="text" className="form-control" />
-                  </div>
+                { (error) ? <div className="alert alert-danger mt-2 mb-5 text-center">Todos los campos son obligatorios</div> : null}
+                <form onSubmit={handleSubmit}>
                   <div className="form-group">
                     <label for="email-login">Email</label>
-                    <input id="email-login" type="text" className="form-control" />
+                    <input id="email-login" type="text" className="form-control" onChange={handleChange} />
                   </div>
                   <div className="form-group">
                     <label for="email-login">Confirmar Email</label>
-                    <input id="email-login" type="text" className="form-control" />
+                    <input id="email-login" type="text" className="form-control" onChange={handleChange}/>
                   </div>
                   <div className="form-group">
                     <label for="password-login">Contraseña</label>
-                    <input id="password-login" type="password" className="form-control" />
+                    <input id="password-login" type="password" className="form-control" onChange={handleChange}/>
                   </div>
                   <div className="form-group">
                     <label for="password-login">Confirmar Contraseña</label>
-                    <input id="password-login" type="password" className="form-control" />
+                    <input id="password-login" type="password" className="form-control" onChange={handleChange} />
                   </div>
                   <div className="text-center">
                     <button type="submit" className="btn btn-outlined"><i className="fa fa-user-md"></i> Registrarse</button>

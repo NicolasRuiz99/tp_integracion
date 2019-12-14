@@ -5,7 +5,7 @@ import React, {useState} from 'react'
 
 const Rating = ({stars}) => {
     
-    const [rating, setRating] = useState(2); //Por default
+    const [rating, setRating] = useState(0); //Por default
     
     const handleRating = ( newRating, name ) => {
       setRating(newRating);

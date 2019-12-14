@@ -34,18 +34,9 @@ const Contact = () => {
       // detener la ejecución
       return;
     }
+    
 
-    //Creacion del objeto
-    // const nuevoMensaje = {...valores};
-  
-    //Conectar con el backend
-    // const form = await axios.post('/api/form', {
-    //   nombre,
-    //   apellido,
-    //   email,
-    //   asunto,
-    //   mensaje
-    // })
+    
 
     setValores(STATE_INICIAL);
     setError(false);

@@ -17,6 +17,7 @@ import CustomerOrders from './components/pages/customer/CustomerOrders';
 import CustomerOrder from './components/pages/customer/CustomerOrder'
 import WishList from './components/pages/customer/CustomerWishList';
 import Registro from './components/pages/customer/CustomerRegister';
+// import Chat from './components/pages/customer/chat/Customerchat';
 //Pages shop
 import Categorias from './components/pages/shop/ShopCategorias';
 import ShopDetail from './components/pages/shop/ShopDetail';
@@ -48,6 +49,7 @@ const App = () => {
             <Route  path="/customer-orders" component={CustomerOrders} />
             <Route  path="/customer-order" component={CustomerOrder} />
             <Route  path="/customer-wishlist" component={WishList} />
+            {/* <Route  path="/customer-chat" component={Chat} /> */}
             <Route component={RouteError}/>
           </Switch>
           <Footer />

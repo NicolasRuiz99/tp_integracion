@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import BreadCrumbs from '../../BreadCrumbs';
 import Filtros from './Filtros';
 import {Link} from 'react-router-dom';
+import Review from './../Review';
 import './../../../css/default.css';
 import Rating from './Rating';
 //React image gallery
@@ -86,6 +87,7 @@ const ShopDetail = () => {
                 </ul>
               </div>
               {/* Reseñas */}
+              <Review />
               <div className="box mb-4 mt-4">
                 <h3 className="m_3">Reseñas del producto</h3>
                 <p className="m_text">Customer1: Muy bueno! quedé encantado  <Rating stars={5}/></p>
