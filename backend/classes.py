@@ -306,7 +306,7 @@ class Purchxitem:
     def delete (self):
         deleteFromTable2 ('purchxitem',(self.id_purchase,self.id_color_size,self.stock),'id_purchase = %s and id_color_size = %s')
 
-    def get (self,_id):
+    def get (self):
         res = searchID2 ('purchxitem',(self.id_purchase,self.id_color_size),'id_purchase = %s and id_color_size = %s')  
         self.id_purchase = res[0]
         self.id_color_size = res[1]
