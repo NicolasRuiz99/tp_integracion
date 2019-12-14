@@ -4,20 +4,20 @@ const login = user => {
     return axios
     .post("user/login", {
         e_mail: user.email,
-        psw: user.password
+        psw: user.contraseña
     })
-    .then(res => {console.log(res.user_id)})
+    .then(res => {console.log(res.data)})
     .catch(err => console.log(err))
 }
 
 const register = user => {
     return axios
     .post("user/register", {
-        e_mail: user.email,
-        psw: user.password,
+        e_mail : user.email,
+        psw: user.contraseña,
         id_role: 2
     })
-    .then(res => {console.log(res.user_id)})
+    .then(res => {console.log(res.data)})
     .catch(err => console.log(err))
 }
 
