@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, json
 from queries import listUsers,listCustomers,listRoles
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
+from ddbb_connect import logInUser
 
 def handleError (error):
     detail = ''
@@ -14,6 +15,20 @@ app = Flask(__name__)
 def listall():
     results = listUsers()
     return jsonify({'results' : results})
+
+@app.route ('/user/login',methods=['POST'])
+def loginUser ():
+    error = False
+    e_mail = request.json['e_mail']
+    psw = request.json['psw']
+    try:
+        user_id = logInUser (e_mail,psw)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','user_id': user_id})
 
 @app.route ('/user/register',methods=['POST'])
 def registerUser():

@@ -112,3 +112,20 @@ def searchID2 (table,values,qValues):
             raise Exception ('OperationFailed', error.args[0])
     finally:
         disconnect_ddbb (con,cur)
+
+def logInUser (e_mail,psw):
+    try:
+        con, cur = connect_ddbb ()
+        query = 'select id from users where e_mail = %s and psw = %s' 
+        cur.execute (query,(e_mail,psw))  
+        res = cur.fetchone()
+        if (res == None):
+            raise Exception ('Invalid e_mail and password')
+        else:
+            user_id = res [0]
+            return user_id
+    except (Exception,Error) as error:
+        if (con):
+            raise Exception ('OperationFailed', error.args[0])
+    finally:
+        disconnect_ddbb (con,cur)
