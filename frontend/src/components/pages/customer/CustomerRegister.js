@@ -1,32 +1,27 @@
 import React, {Fragment, useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link,withRouter} from 'react-router-dom';
 import './../../../css/default.css';
 import BreadCrumbs from './../../BreadCrumbs';
 import axios from 'axios';
 import {register, login} from './utils/CustomerFunctions';
 
+const CustomerRegister = ({history}) => {
 
-const STATE_INICIAL = {
-  email: '',
-  email2: '',
-  contraseña: '',
-  contraseña2: ''
-};
+  //states del Registro
+  const [email, setEMail] = useState ('');
+  const [email2, setEMail2] = useState ('');
+  const [contraseña, setContraseña] = useState ('');
+  const [contraseña2, setContraseña2] = useState ('');
+  //states del login
+  const [mail, setMail] = useState('');
+  const [pass, setPass] = useState('');
 
-const CustomerRegister = () => {
-  const [valores, setValores] = useState(STATE_INICIAL);
   const [mailList, setMailList] = useState([]);
   const [error, setError] = useState(false);
+  const [error2, setError2] = useState(false);
 
-  const handleChange = e => {
-    setValores({ 
-      [e.target.name] : e.target.value});
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const {email, email2, contraseña, contraseña2} = valores;
+  const handleSubmitRegister = async (e) => {
+    e.preventDefault();    
 
     // Validar que todos los campos esten llenos
     if( email === '' || email2 === '' ||  contraseña === '' || contraseña2 === '' ){
@@ -41,12 +36,34 @@ const CustomerRegister = () => {
 
     //Creacion del objeto
     const newCustomer = {email, contraseña};
-
+    
     //Conectar con el backend
     register(newCustomer);
 
-    setValores(STATE_INICIAL);
     setError(false);
+
+    history.push ('/customer-account')
+  }
+
+  const handleSubmitLogin = async (e) => {
+    e.preventDefault();    
+
+    // Validar que todos los campos esten llenos
+    if( mail === '' || pass === '' ){
+      setError2(true);
+      // detener la ejecución
+      return;
+    }
+
+    //Creacion del objeto
+    const customer = {mail, pass};
+    
+    //Conectar con el backend
+    register(customer);
+
+    setError2(false);
+
+    history.push('/customer-orders')
   }
 
     return (
@@ -65,22 +82,22 @@ const CustomerRegister = () => {
                 <p className="text-muted">Si tenés alguna duda, por favor <Link to="/contact">contáctanos</Link>, nuestro servicio de atención al cliente trabaja 24/7.</p>
                 <hr />
                 { (error) ? <div className="alert alert-danger mt-2 mb-5 text-center">Todos los campos son obligatorios</div> : null}
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmitRegister}>
                   <div className="form-group">
                     <label for="email-login">Email</label>
-                    <input id="email-login" type="text" className="form-control" onChange={handleChange} />
+                    <input id="email-login" type="text" className="form-control" onChange={e => setEMail(e.target.value)} />
                   </div>
                   <div className="form-group">
                     <label for="email-login">Confirmar Email</label>
-                    <input id="email-login" type="text" className="form-control" onChange={handleChange}/>
+                    <input id="email-login" type="text" className="form-control" onChange={e => setEMail2(e.target.value)}/>
                   </div>
                   <div className="form-group">
                     <label for="password-login">Contraseña</label>
-                    <input id="password-login" type="password" className="form-control" onChange={handleChange}/>
+                    <input id="password-login" type="password" className="form-control" onChange={e => setContraseña(e.target.value)}/>
                   </div>
                   <div className="form-group">
                     <label for="password-login">Confirmar Contraseña</label>
-                    <input id="password-login" type="password" className="form-control" onChange={handleChange} />
+                    <input id="password-login" type="password" className="form-control" onChange={e => setContraseña2(e.target.value)} />
                   </div>
                   <div className="text-center">
                     <button type="submit" className="btn btn-outlined"><i className="fa fa-user-md"></i> Registrarse</button>
@@ -94,14 +111,15 @@ const CustomerRegister = () => {
                 <p className="lead">Ya estás registrado?</p>
                 <p className="text-muted">Si es así, por favor, ingresá tu email y contraseña.</p>
                 <hr />
-                <form action="/customer-orders" method="get">
+                { (error2) ? <div className="alert alert-danger mt-2 mb-5 text-center">Todos los campos son obligatorios</div> : null}
+                <form onSubmit={handleSubmitLogin}>
                   <div className="form-group">
                     <label for="email">Email</label>
-                    <input id="email" type="text" className="form-control" />
+                    <input id="email" type="text" className="form-control"  onChange={e => setMail(e.target.value)}/>
                   </div>
                   <div className="form-group">
                     <label for="password">Contraseña</label>
-                    <input id="password" type="password" className="form-control" />
+                    <input id="password" type="password" className="form-control" onChange={e => setPass(e.target.value)} />
                   </div>
                   <div className="text-center">
                     <button type="submit" className="btn btn-outlined"><i className="fa fa-sign-in"></i> Ingresar</button>
@@ -116,4 +134,4 @@ const CustomerRegister = () => {
     );
 }
 
-export default CustomerRegister;
+export default withRouter (CustomerRegister);
