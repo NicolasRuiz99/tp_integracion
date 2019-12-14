@@ -1177,6 +1177,7 @@ a.text-primary:focus, a.text-primary:hover {
 
 /* Estilos para la top-bar */
 .top-bar {
+  position: relative;
   background: #555;
   color: #fff;
   font-size: 0.9rem;
@@ -1193,7 +1194,7 @@ a.text-primary:focus, a.text-primary:hover {
   color: #555 !important;
 }
 
-.top-bar.top-bar-light a.login-btn span, .top-bar.top-bar-light a.signup-btn span {
+.top-bar.top-bar-light a.login-btn span, .top-bar.top-bar-light a.signup-btn, .top-bar.top-bar-light ul.social-custom span {
   display: inline-block;
 }
 
@@ -1202,11 +1203,11 @@ a.text-primary:focus, a.text-primary:hover {
   font-size: 0.75rem;
 }
 
-.top-bar ul {
+.top-bar ul, li {
   margin-bottom: 0;
 }
 
-.top-bar a.login-btn, .top-bar a.signup-btn {
+.top-bar a.login-btn, .top-bar a.signup-btn, .top-bar ul.social-custom {
   color: #eee;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -1216,12 +1217,14 @@ a.text-primary:focus, a.text-primary:hover {
   margin-right: 10px;
 }
 
-.top-bar a.login-btn i, .top-bar a.signup-btn i {
+.top-bar a.login-btn i, .top-bar a.signup-btn i, .top-bar ul.social-custom {
   margin-right: 10px;
 }
 
 .top-bar ul.social-custom {
   margin-left: 20px;
+  margin-bottom: -100px ;
+  margin-top: 0;
 }
 
 .top-bar ul.social-custom li {
@@ -1229,13 +1232,15 @@ a.text-primary:focus, a.text-primary:hover {
   margin: 0;
 }
 
+
+
 .top-bar ul.social-custom a {
   text-decoration: none !important;
+  color: #eee;
   font-size: 0.7rem;
   width: 26px;
   height: 26px;
   line-height: 26px;
-  color: #999;
   text-align: center;
   border-radius: 50%;
   margin: 0;
@@ -1243,7 +1248,8 @@ a.text-primary:focus, a.text-primary:hover {
 
 .top-bar ul.social-custom a:hover {
   background: #38a7bb;
-  color: #fff;
+  color: black;
+ 
 }
 
 .top-bar .contact-info {
@@ -2030,9 +2036,9 @@ Select */
   outline: none;
 }
 
-.dropdown-item.active, .dropdown-item:active {
+/* .dropdown-item.active, .dropdown-item:active {
   background: #80cbd9;
-}
+} */
 /* 
 carousel general */
 .owl-carousel.equal-height .owl-stage {
@@ -2367,9 +2373,41 @@ Boxes */
   margin: 0.125rem 0 0;
   font-size: 1rem;
   color: #212529;
-  background-color: #fff;
+  background-color:  #555;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 0;
+}
+
+#navbar .dropdown-menu {
+  border-radius: 0;
+  -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+#navbar .dropdown-menu h5 {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding-bottom: 5px;
+  border-bottom: 1px dotted #ccc;
+  margin-top: .7rem;
+  margin-bottom: .5rem;
+}
+
+#navbar .dropdown-menu a.nav-link {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase !important;
+  border-bottom: 1px solid #eee;
+  padding: 15px 20px !important;
+}
+
+#navbar .dropdown-menu a.nav-link:hover {
+  -webkit-transform: translateX(5px);
+  transform: translateX(5px);
+  color: #38a7bb;
 }
 
 .buttons a {
