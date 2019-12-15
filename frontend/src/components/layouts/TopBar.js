@@ -75,7 +75,6 @@ const TopBar = ({user_id,setUser}) => {
                                     <i class="fas fa-shopping-cart"></i>
                                     <span className="d-none d-md-inline-block">Carrito</span>
                                 </Link>
-                                
                                 </div>
                                 
                                 <ul className="social-custom list-inline">
@@ -91,8 +90,6 @@ const TopBar = ({user_id,setUser}) => {
                                 </Fragment>
                                 
                                  )}
-                                
-                            
                         </div>
                     </div>
                 </div>

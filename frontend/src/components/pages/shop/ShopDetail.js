@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import BreadCrumbs from '../../BreadCrumbs';
-import Filtros from './Filtros';
 import {Link} from 'react-router-dom';
 import Review from './../Review';
 import './../../../css/default.css';
@@ -36,29 +35,59 @@ const ShopDetail = () => {
       <div id="content">
         <div className="container">
           <div className="row bar">
-            <Filtros />
             <div className="col-lg-9">
               <div id="productMain" className="row">
                 <div className="col-sm-6">
                 <ImageGallery items={images} />
                 </div>
                 <div className="col-sm-6">
-                  <div className="box">
+                  <div className="box mb-4 mt-4">
                     <form>
+                     
                       <div className="sizes">
+                      <div className="col-sm-10">
                         <h3>Tamaños disponibles</h3>
-                        <select className="bs-select" >
+                        
+                          <select className="bs-select" >
                           <option value="38">38</option>
                           <option value="39">39</option>
                           <option value="40">40</option>
                           <option value="42">42</option>
                         </select>
+                        </div>
+                        <br/>
+                        
                       </div>
+                      <div className="sizes">
+                      <div className="col-sm-10">
+                      <h3>Colores disponibles</h3>
+                        <select className="bs-select" >
+                          <option value="38">Marrón</option>
+                          <option value="39">Negro</option>
+                          <option value="40">Blanco</option>
+                          <option value="42">Amarillo</option>
+                        </select>
+                        </div>
+                        <br />
+                      </div>
+                      <div className="sizes">
+                      <div className="col-sm-11">
+                      <h3>Unidades <span className="span-detail">(566 disponibles)</span></h3>
+                        <select className="bs-select" >
+                          <option value="38">1</option>
+                          <option value="39">2</option>
+                          <option value="40">3</option>
+                          <option value="42">4</option>
+                        </select>
+                      </div>
+                      </div>
+                      <div className="col-sm-10">
                       <p className="price">$824.00</p>
                       <p className="text-center">
                         <button type="submit" className="btn btn-outlined"><i className="fa fa-shopping-cart"></i> Añadir al carrito</button>
                         <button type="submit" data-toggle="tooltip" data-placement="top" title="Añadir a mis deseos" className="btn btn-default"><i className="fa fa-heart-o"></i></button>
                       </p>
+                      </div>
                     </form>
                   </div>
                 </div>
@@ -90,8 +119,11 @@ const ShopDetail = () => {
               <Review />
               <div className="box mb-4 mt-4">
                 <h3 className="m_3">Reseñas del producto</h3>
+                <span className="m_text">Titulo1</span>
                 <p className="m_text">Customer1: Muy bueno! quedé encantado  <Rating stars={5}/></p>
+                <span className="m_text">Titulo2</span>
                 <p className="m_text">Customer2: Pésimo material <Rating stars={1}/></p>
+                <span className="m_text">Titulo3</span>
                 <p className="m_text">Customer3: Todo OK! <Rating stars={4}/></p>
               </div>
               <div className="row">

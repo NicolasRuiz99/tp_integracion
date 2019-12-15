@@ -1559,6 +1559,19 @@ header.nav-holder.sticky {
     margin-bottom: 10px !important;
   }
 }
+
+/* Jumbotron */
+.jumbotron h1, .jumbotron h2 {
+  letter-spacing: 0.1em;
+}
+
+.jumbotron p {
+  letter-spacing: 0.1em;
+  font-size: 1.3rem;
+}
+.jumbotron {
+  margin: 0;
+}
 /* 
 Estilo para customer */
 #customer-orders a.btn {
@@ -1654,6 +1667,11 @@ Estilo para customer */
   margin-top: 10px;
   margin-left: 5px;
   border: 1px solid #555;
+}
+
+.span-detail {
+  
+  color: #555;
 }
 
 .panel-body span.colour.white {
