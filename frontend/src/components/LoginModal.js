@@ -1,20 +1,47 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React,{useState} from 'react';
+import {Link,withRouter} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import './../css/default.css';
 import './../css/modal.css';
+import {login} from './pages/customer/utils/CustomerFunctions'
 
-const LoginModal = (props) => { 
+const LoginModal = ({modalOpen,handleModalOpen,setUser,history}) => { 
+
+  const [mail, setMail] = useState('');
+  const [pass, setPass] = useState('');
+  const [error, setError] = useState(false);
 
   const handleAction = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    props.setIsLogged(false);
+    // Validar que todos los campos esten llenos
+    if( mail === '' || pass === '' ){
+      setError(true);
+      // detener la ejecución
+      return;
+    }
+
+    //Creacion del objeto
+    const customer = {mail, pass};
+    
+    //Conectar con el backend
+    login(customer).then(resp => {
+      console.log(resp);
+      
+      setUser(resp.user_id);
+    });
+    
+
+    setError(false);
+
+    history.push('/customer-orders')
+
+    
   }
     return (
         <>
-          <Modal show={props.modalOpen} onHide={props.handleModalOpen}>
+          <Modal show={modalOpen} onHide={handleModalOpen}>
               <Modal.Header className="modal-header" closeButton>
                  <Modal.Title >
                     <h4 className="modal-title">Acceder</h4>
@@ -22,22 +49,23 @@ const LoginModal = (props) => {
               </Modal.Header>
               <Modal.Body>
                   {/* Esto te lleva a la seccion compras del cliente */}
+              { (error) ? <div className="alert alert-danger mt-2 mb-5 text-center">Todos los campos son obligatorios</div> : null}
               <form onSubmit={handleAction}>
                 <div className="form-group">
-                  <input id="email_modal" type="text" placeholder="Email" className="form-control"/>
+                  <input id="email_modal" type="text" placeholder="Email" className="form-control" onChange={e => setMail(e.target.value)}/>
                 </div>
                 <div class="form-group">
-                  <input id="password_modal" type="password" placeholder="Contraseña" className="form-control"/>
+                  <input id="password_modal" type="password" placeholder="Contraseña" className="form-control" onChange={e => setPass(e.target.value)}/>
                 </div>
                 <p className="text-center">
-                  <button className="btn btn-outlined" onClick={props.handleModalOpen}><i className="fa fa-sign-in"></i> Acceder</button>
+                  <button className="btn btn-outlined" onClick={handleModalOpen}><i className="fa fa-sign-in"></i> Acceder</button>
                 </p>
               </form>
               <p className="text-center text-muted">Aún no estás registrado?</p>
-              <p className="text-center text-muted"><Link to="/registro" onClick={props.handleModalOpen}><strong>Registráte ahora</strong></Link>! Es fácil y en menos de un minuto tendrás acceso a descuentos fantásticos y mucho más!</p>
+              <p className="text-center text-muted"><Link to="/registro" onClick={handleModalOpen}><strong>Registráte ahora</strong></Link>! Es fácil y en menos de un minuto tendrás acceso a descuentos fantásticos y mucho más!</p>
               </Modal.Body>
               <Modal.Footer>
-                 <Button variant="danger" onClick={props.handleModalOpen} className="btn btn-danger">
+                 <Button variant="danger" onClick={handleModalOpen} className="btn btn-danger">
                     Cancelar
                  </Button>
               </Modal.Footer>
@@ -46,4 +74,4 @@ const LoginModal = (props) => {
      );
 }
 
-export default LoginModal;
+export default withRouter (LoginModal);

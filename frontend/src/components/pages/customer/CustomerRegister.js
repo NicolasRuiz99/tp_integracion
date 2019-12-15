@@ -3,9 +3,9 @@ import {Link,withRouter} from 'react-router-dom';
 import './../../../css/default.css';
 import BreadCrumbs from './../../BreadCrumbs';
 import axios from 'axios';
-import {register, login} from './utils/CustomerFunctions';
+import {register, login,getEMails} from './utils/CustomerFunctions';
 
-const CustomerRegister = ({history}) => {
+const CustomerRegister = ({history,setUser}) => {
 
   //states del Registro
   const [email, setEMail] = useState ('');
@@ -22,6 +22,10 @@ const CustomerRegister = ({history}) => {
 
   const handleSubmitRegister = async (e) => {
     e.preventDefault();    
+
+    console.log(getEMails());
+    
+    setMailList (getEMails());
 
     // Validar que todos los campos esten llenos
     if( email === '' || email2 === '' ||  contraseña === '' || contraseña2 === '' ){
@@ -59,7 +63,12 @@ const CustomerRegister = ({history}) => {
     const customer = {mail, pass};
     
     //Conectar con el backend
-    register(customer);
+    login(customer).then(resp => {
+      console.log(resp);
+      
+      setUser(resp.user_id);
+    });
+    
 
     setError2(false);
 
