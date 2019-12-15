@@ -4,9 +4,17 @@ import './../../css/default.css';
 import LoginModal from './../LoginModal';
 
 
-const TopBar = () => {
+const TopBar = ({user_id,setUser}) => {
     const [modalOpen, setModalOpen] = useState(false);
-    const [isLogged, setIsLogged] = useState(true);
+    const [isLogged, setIsLogged] = useState(false);
+
+    useEffect (()=>{
+        if (user_id !== null){
+            setIsLogged (true)
+        }else{
+            setIsLogged (false)
+        }
+    },[user_id])
 
     const handleModalOpen = () => {
         setModalOpen(!modalOpen);
@@ -14,6 +22,8 @@ const TopBar = () => {
     
      const handleDrop = () => {
          setIsLogged(!isLogged);
+         setUser (null);
+         localStorage.setItem ('user_id', null)
      }
 
 
@@ -29,7 +39,7 @@ const TopBar = () => {
                     <div className="col-md-6">
                         <div className="d-flex justify-content-md-end justify-content-end">
                             
-                                {(isLogged) ? (
+                                {(!isLogged) ? (
                                     <Fragment>
                                     <div className="login">
                                     <Link to="/shop-cart" className="signup-btn">
@@ -92,7 +102,7 @@ const TopBar = () => {
         <LoginModal
            modalOpen={modalOpen}
            handleModalOpen={handleModalOpen}
-           setIsLogged={setIsLogged}
+           setUser = {setUser}
         />
 
         </Fragment>

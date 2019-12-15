@@ -5,7 +5,7 @@ import BreadCrumbs from './../../BreadCrumbs';
 import axios from 'axios';
 import {register, login,getEMails} from './utils/CustomerFunctions';
 
-const CustomerRegister = ({history}) => {
+const CustomerRegister = ({history,setUser}) => {
 
   //states del Registro
   const [email, setEMail] = useState ('');
@@ -63,7 +63,12 @@ const CustomerRegister = ({history}) => {
     const customer = {mail, pass};
     
     //Conectar con el backend
-    register(customer);
+    login(customer).then(resp => {
+      console.log(resp);
+      
+      setUser(resp.user_id);
+    });
+    
 
     setError2(false);
 

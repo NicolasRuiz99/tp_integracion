@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment,useState,useEffect} from 'react';
 import { Route, Switch} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
@@ -28,10 +28,23 @@ import Checkout3 from './components/pages/shop/ShopCheckout3';
 import Checkout4 from './components/pages/shop/ShopCheckout4';
 
 const App = () => {
+
+    const [user_id,setUser] = useState(null);
+
+    useEffect (()=>{
+      if (user_id !== null){
+        localStorage.setItem ('user_id', user_id)
+      }else{
+        let id = localStorage.getItem ('user_id')
+        if (id !== "null"){
+          setUser (id);
+        }
+      }
+    },[user_id])
   
     return (
       <Fragment >      
-          <Header />
+          <Header user_id = {user_id} setUser = {setUser}/>
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route  path="/contact" component={Contact} />
@@ -43,7 +56,12 @@ const App = () => {
             <Route  path="/shop-checkout2" component={Checkout2} />
             <Route  path="/shop-checkout3" component={Checkout3} />
             <Route  path="/shop-checkout4" component={Checkout4} />
-            <Route  path="/registro" component={Registro} />
+            <Route  path="/registro"
+              render={()=>(
+                <Registro
+                  setUser = {setUser}
+                />
+              )}/>
             <Route  path="/ofertas" component={Ofertas} />
             <Route  path="/customer-account" component={CustomerAccount} />
             <Route  path="/customer-orders" component={CustomerOrders} />
