@@ -78,7 +78,7 @@ const TopBar = ({user_id,setUser}) => {
                                 </div>
                                 
                                 <ul className="social-custom list-inline">
-                                <li className="nav-item dropdown active"><a href="javascript: void(0)" data-toggle="dropdown" className="dropdown-toggle"><span className="d-none d-md-inline-block">UsernameXXX</span></a>
+                                <li className="nav-item dropdown active"><a href="javascript: void(0)" data-toggle="dropdown" className="dropdown-toggle"><span className="d-none d-md-inline-block">Mi perfil</span></a>
                                     <ul class="dropdown-menu">
                                         <li className="dropdown-item"><Link to="/customer-account" class="nav-link">Mi cuenta</Link></li>
                                         <li className="dropdown-item"><Link to="/customer-orders" class="nav-link">Mis compras</Link></li>

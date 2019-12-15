@@ -1,4 +1,4 @@
-from ddbb_connect import addToTable,listTable,updateTable,deleteFromTable,searchID,deleteFromTable2,searchID2
+from ddbb_connect import addToTable,listTable,updateTable,deleteFromTable,searchID,deleteFromTable2,searchID2,query
 
 class User:
     def __init__ (self,e_mail = None,psw = None,id_role = None,_id = None):
@@ -12,8 +12,8 @@ class User:
         addToTable ('users (e_mail,psw,id_role)',new_record,'(%s,%s,%s)')
 
     def mod (self):
-        new_record = (self.e_mail,self.psw,self.id_role,self.id)
-        updateTable ('users',new_record,'e_mail = %s, psw = %s, id_role = %s')
+        new_record = (self.e_mail,self.psw,self.id)
+        updateTable ('users',new_record,'e_mail = %s, psw = %s')
 
     def delete (self):
         deleteFromTable ('users',self.id)
@@ -42,8 +42,8 @@ class Customer:
         addToTable ('customers (dni,name,surname,genre,c_size,shoe_size,phone_no,id_user)',new_record,'(%s,%s,%s,%s,%s,%s,%s,%s)')
 
     def mod (self):
-        new_record = (self.dni,self.name,self.surname,self.genre,self.c_size,self.shoe_size,self.phone_no,self.id_user,self.id)
-        updateTable ('customers',new_record,'dni = %s, name = %s, surname = %s, genre = %s, c_size = %s, shoe_size = %s, phone_no = %s, id_user = %s')
+        new_record = (self.dni,self.name,self.surname,self.genre,self.c_size,self.shoe_size,self.phone_no,self.id)
+        updateTable ('customers',new_record,'dni = %s, name = %s, surname = %s, genre = %s, c_size = %s, shoe_size = %s, phone_no = %s')
 
     def delete (self):
         deleteFromTable ('customers',self.id)

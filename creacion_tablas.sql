@@ -192,15 +192,15 @@ CREATE TABLE review (
 	FOREIGN KEY (id_product) REFERENCES products (id)
 );
 
-creación de roles
+--creación de roles
 
-CREATE ROLE "admin";
+--CREATE ROLE "admin";
 
-GRANT ALL ON users,customers,chat,message,type,products,color_size,coupon,shipping,purchase,purchxitem,reservations,wishlist,review TO "admin";
+--GRANT ALL ON users,customers,chat,message,type,products,color_size,coupon,shipping,purchase,purchxitem,reservations,wishlist,review TO "admin";
 
-CREATE ROLE "customer";
+--CREATE ROLE "customer";
 
-GRANT ALL ON users,customers,purchase,purchxitem,reservations,wishlist,review TO "customer";
+--GRANT ALL ON users,customers,purchase,purchxitem,reservations,wishlist,review TO "customer";
 
-GRANT INSERT ON message,shipping TO "customer";
+--GRANT INSERT ON message,shipping TO "customer";
 

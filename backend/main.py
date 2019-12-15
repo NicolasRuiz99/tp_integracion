@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, json
-from queries import listUsers,listCustomers,listRoles,listUsersE_Mails
+from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser
 
@@ -7,7 +7,7 @@ def handleError (error):
     detail = ''
     for item in error.args:
         detail = detail + item
-    return jsonify ({'result': 'error', 'type': detail})
+    return jsonify ({'result': 'error', 'type': detail}), 500
 
 app = Flask(__name__)
 
@@ -20,6 +20,24 @@ def list_emails():
 def listall():
     results = listUsers()
     return jsonify({'results' : results})
+
+@app.route ('/customer/listall',methods=['GET'])
+def listcustomerall():
+    results = listCustomers()
+    return jsonify({'results' : results})
+
+@app.route ('/user/getCustomer',methods=['POST'])
+def getuserCustomer():
+    error = False
+    id = request.json ['id']
+    try:
+        info = getUserCustomer (id)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data': info})
 
 @app.route ('/user/login',methods=['POST'])
 def loginUser ():
@@ -57,8 +75,7 @@ def modUser():
     id = request.json['id']
     e_mail = request.json['e_mail']
     psw = request.json['psw']
-    id_role = request.json['id_role']
-    new = User (e_mail,psw,id_role,id)
+    new = User (e_mail,psw,None,id)
     try:
         new.mod()
     except (Exception) as err:
@@ -130,8 +147,7 @@ def modCustomer():
     c_size = request.json['c_size']
     shoe_size = request.json['shoe_size']
     phone_no = request.json['phone_no']
-    id_user = request.json['id_user']
-    new = Customer (dni,name,surname,genre,c_size,shoe_size,phone_no,id_user,id)
+    new = Customer (dni,name,surname,genre,c_size,shoe_size,phone_no,None,id)
     try:
         new.mod()
     except (Exception) as err:

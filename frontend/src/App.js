@@ -63,7 +63,12 @@ const App = () => {
                 />
               )}/>
             <Route  path="/ofertas" component={Ofertas} />
-            <Route  path="/customer-account" component={CustomerAccount} />
+            <Route  path="/customer-account" 
+            render={()=>(
+                <CustomerAccount
+                  user_id = {user_id}
+                />
+            )}/>
             <Route  path="/customer-orders" component={CustomerOrders} />
             <Route  path="/customer-order" component={CustomerOrder} />
             <Route  path="/customer-wishlist" component={WishList} />
