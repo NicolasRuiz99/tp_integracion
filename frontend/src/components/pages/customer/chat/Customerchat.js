@@ -37,6 +37,7 @@ const CustomerChat = (props) => {
       }, [ENDPOINT, props.match.params]);
 
       useEffect(() => {
+        //Escuchando mensajes
         socket.on('message', (message) => {
           setMessages([...messages, message ]);
         });
@@ -54,7 +55,8 @@ const CustomerChat = (props) => {
 
       const sendMessage = (event) => {
         event.preventDefault();
-    
+        
+        //Si existe el mensaje lo mandamos
         if(message) {
           socket.emit('sendMessage', message, () => setMessage(''));
         }
