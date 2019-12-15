@@ -12,20 +12,39 @@ const CustomerRegister = ({history,setUser}) => {
   const [email2, setEMail2] = useState ('');
   const [contraseña, setContraseña] = useState ('');
   const [contraseña2, setContraseña2] = useState ('');
+  const [error, setError] = useState(false);
+  const [errorMail, setErrorMail] = useState(false);
+  const [errorServer, setErrorServer] = useState(false);
+
   //states del login
   const [mail, setMail] = useState('');
   const [pass, setPass] = useState('');
 
   const [mailList, setMailList] = useState([]);
-  const [error, setError] = useState(false);
   const [error2, setError2] = useState(false);
 
-  const handleSubmitRegister = async (e) => {
+  const handleSubmitRegister = (e) => {
     e.preventDefault();    
 
-    console.log(getEMails());
-    
-    setMailList (getEMails());
+    getEMails ()
+    .then (resp => setMailList (resp))
+    .catch (err => {
+      setErrorServer (true);
+      return;
+    })
+
+    setErrorServer (false);
+
+    //validar que el mail no este en uso
+
+    if (mailList.find(item => {
+      return item.e_mail == email
+    })){
+      setErrorMail (true);
+      return;
+    }
+
+    setErrorMail (false);    
 
     // Validar que todos los campos esten llenos
     if( email === '' || email2 === '' ||  contraseña === '' || contraseña2 === '' ){
@@ -33,7 +52,8 @@ const CustomerRegister = ({history,setUser}) => {
       // detener la ejecución
       return;
     }
-    if (email !== email2 && contraseña !== contraseña2) {
+
+    if (email !== email2 || contraseña !== contraseña2) {
       setError(true);
       return;
     }
@@ -42,14 +62,30 @@ const CustomerRegister = ({history,setUser}) => {
     const newCustomer = {email, contraseña};
     
     //Conectar con el backend
-    register(newCustomer);
+
+    register(newCustomer)
+    .catch (err => {
+      setError (true);
+      return;
+    })
+    ;
+
+    login({mail: newCustomer.email, pass: newCustomer.contraseña})
+    .then(resp => {
+      setUser(resp.user_id);
+    })
+    .catch (err => {
+      setError (true);
+      return;
+    })
+    ;
 
     setError(false);
 
     history.push ('/customer-account')
   }
 
-  const handleSubmitLogin = async (e) => {
+  const handleSubmitLogin = (e) => {
     e.preventDefault();    
 
     // Validar que todos los campos esten llenos
@@ -63,11 +99,17 @@ const CustomerRegister = ({history,setUser}) => {
     const customer = {mail, pass};
     
     //Conectar con el backend
-    login(customer).then(resp => {
+    login(customer)
+    .then(resp => {
       console.log(resp);
       
       setUser(resp.user_id);
-    });
+    })
+    .catch (err => {
+      setError2 (true);
+      return;
+    })
+    ;
     
 
     setError2(false);
@@ -91,6 +133,8 @@ const CustomerRegister = ({history,setUser}) => {
                 <p className="text-muted">Si tenés alguna duda, por favor <Link to="/contact">contáctanos</Link>, nuestro servicio de atención al cliente trabaja 24/7.</p>
                 <hr />
                 { (error) ? <div className="alert alert-danger mt-2 mb-5 text-center">Todos los campos son obligatorios</div> : null}
+                { (errorMail) ? <div className="alert alert-danger mt-2 mb-5 text-center">Mail en uso</div> : null}
+                { (errorServer) ? <div className="alert alert-danger mt-2 mb-5 text-center">Error interno del servidor</div> : null}
                 <form onSubmit={handleSubmitRegister}>
                   <div className="form-group">
                     <label for="email-login">Email</label>

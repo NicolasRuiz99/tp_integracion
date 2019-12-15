@@ -7,7 +7,7 @@ const login = user => {
         psw: user.pass
     })
     .then(res => {return res.data})
-    .catch(err => console.log(err))
+    .catch(err => {throw err})
 }
 
 const register = user => {
@@ -18,14 +18,57 @@ const register = user => {
         id_role: 2
     })
     .then(res => {return res.data})
-    .catch(err => console.log(err))
+    .catch(err => {throw err})
 }
 
 const getEMails = () => {
     return axios
     .get("user/list_emails")
     .then(res => {return res.data.results})
-    .catch(err => console.log(err))
+    .catch(err => {throw err})
 }
 
-export {login, register,getEMails};
+const getCustomerInfo = id => {
+    return axios
+    .post("user/getCustomer",{
+        id
+    })
+    .then(res => {return res.data.data})
+    .catch(err => {throw err})
+}
+
+const addCustomerInfo = ({dni,name,surname,genre,c_size,shoe_size,phone_no,id_user}) => {
+    return axios
+    .post("customer/add",{
+        dni,
+        name,
+        surname,
+        genre,
+        c_size,
+        shoe_size,
+        phone_no,
+        id_user
+    })
+    .then(res => {return res.data.results})
+    .catch(err => {throw err})
+}
+
+const modCustomerInfo = ({id,dni,name,surname,genre,c_size,shoe_size,phone_no}) => {
+    console.log({id,dni,name,surname,genre,c_size,shoe_size,phone_no});
+    
+    return axios
+    .post("customer/mod",{
+        id,
+        dni,
+        name,
+        surname,
+        genre,
+        c_size,
+        shoe_size,
+        phone_no
+    })
+    .then(res => {return res.data})
+    .catch(err => {throw err})
+}
+
+export {login, register,getEMails,getCustomerInfo,addCustomerInfo,modCustomerInfo};

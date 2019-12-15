@@ -12,7 +12,7 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history}) => {
   const [pass, setPass] = useState('');
   const [error, setError] = useState(false);
 
-  const handleAction = (e) => {
+  const handleAction = async (e) => {
     e.preventDefault()
 
     // Validar que todos los campos esten llenos
@@ -26,14 +26,31 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history}) => {
     const customer = {mail, pass};
     
     //Conectar con el backend
+
+    try{
+    const resp = await login (customer)
+    setUser (resp.user_id)
+    }catch{
+      setError (true);
+      return;
+    }
+
+    /*
     login(customer).then(resp => {
       console.log(resp);
       
       setUser(resp.user_id);
-    });
-    
+    })
+    .catch (err => {
+      setError (true);
+      return;
+    })
+    ;
+    */
 
     setError(false);
+
+    handleModalOpen ();
 
     history.push('/customer-orders')
 
@@ -58,11 +75,11 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history}) => {
                   <input id="password_modal" type="password" placeholder="Contraseña" className="form-control" onChange={e => setPass(e.target.value)}/>
                 </div>
                 <p className="text-center">
-                  <button className="btn btn-outlined" onClick={handleModalOpen}><i className="fa fa-sign-in"></i> Acceder</button>
+                  <button className="btn btn-outlined"><i className="fa fa-sign-in"></i> Acceder</button>
                 </p>
               </form>
               <p className="text-center text-muted">Aún no estás registrado?</p>
-              <p className="text-center text-muted"><Link to="/registro" onClick={handleModalOpen}><strong>Registráte ahora</strong></Link>! Es fácil y en menos de un minuto tendrás acceso a descuentos fantásticos y mucho más!</p>
+              <p className="text-center text-muted"><Link to="/registro"><strong>Registráte ahora</strong></Link>! Es fácil y en menos de un minuto tendrás acceso a descuentos fantásticos y mucho más!</p>
               </Modal.Body>
               <Modal.Footer>
                  <Button variant="danger" onClick={handleModalOpen} className="btn btn-danger">
