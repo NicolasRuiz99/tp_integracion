@@ -54,8 +54,6 @@ const addCustomerInfo = ({dni,name,surname,genre,c_size,shoe_size,phone_no,id_us
 }
 
 const modCustomerInfo = ({id,dni,name,surname,genre,c_size,shoe_size,phone_no}) => {
-    console.log({id,dni,name,surname,genre,c_size,shoe_size,phone_no});
-    
     return axios
     .post("customer/mod",{
         id,
@@ -71,4 +69,15 @@ const modCustomerInfo = ({id,dni,name,surname,genre,c_size,shoe_size,phone_no}) 
     .catch(err => {throw err})
 }
 
-export {login, register,getEMails,getCustomerInfo,addCustomerInfo,modCustomerInfo};
+const modUserInfo = ({id,e_mail,psw}) => {
+    return axios
+    .post("user/mod",{
+        id,
+        e_mail,
+        psw
+    })
+    .then(res => {return res.data})
+    .catch(err => {throw err})
+}
+
+export {login, register,getEMails,getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo};

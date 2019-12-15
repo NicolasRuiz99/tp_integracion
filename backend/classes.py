@@ -12,8 +12,8 @@ class User:
         addToTable ('users (e_mail,psw,id_role)',new_record,'(%s,%s,%s)')
 
     def mod (self):
-        new_record = (self.e_mail,self.psw,self.id_role,self.id)
-        updateTable ('users',new_record,'e_mail = %s, psw = %s, id_role = %s')
+        new_record = (self.e_mail,self.psw,self.id)
+        updateTable ('users',new_record,'e_mail = %s, psw = %s')
 
     def delete (self):
         deleteFromTable ('users',self.id)

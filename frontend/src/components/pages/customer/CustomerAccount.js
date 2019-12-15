@@ -2,13 +2,24 @@ import React, { Fragment,useEffect,useState } from 'react';
 import CustomerSection from './CustomerSection';
 import './../../../css/default.css';
 import BreadCrumbs from '../../BreadCrumbs';
-import {getCustomerInfo,addCustomerInfo,modCustomerInfo} from './utils/CustomerFunctions'
+import {getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo} from './utils/CustomerFunctions'
 
 const CustomerAccount = ({user_id}) => {
 
-    const [customer_id,setCustomer_id] = useState (null);
-    const [email,setEmail] = useState ('');
+    //confirmacion email y contraseña
     const [psw,setPsw] = useState ('');
+    const [psw2,setPsw2] = useState ('');
+    const [errorMail,setErrorMail] = useState (false);
+    const [errorMail2,setErrorMail2] = useState (false);
+    const [successMail,setSuccessMail] = useState (false);
+    const [email,setEmail] = useState ('');
+    const [email2,setEmail2] = useState ('');
+    const [errorPSW,setErrorPSW] = useState (false);
+    const [errorPSW2,setErrorPSW2] = useState (false);
+    const [successPSW,setSuccessPSW] = useState (false);
+
+    //datos customer
+    const [customer_id,setCustomer_id] = useState (null);    
     const [dni,setDni] = useState ('');
     const [name,setName] = useState ('');
     const [surname,setSurnname] = useState ('');
@@ -91,6 +102,72 @@ const CustomerAccount = ({user_id}) => {
       setServerError (false);
     }
 
+    const handleSubmitEmail = async(e) => {
+      e.preventDefault();    
+  
+      if (email === '' || email2 === ''){
+          setErrorMail (true);
+          setSuccessMail (false);
+          return;
+      }else{
+        if (email !== email2){
+          setErrorMail2 (true);
+          setSuccessMail (false);
+          return;
+        }
+      }   
+
+      const userInfo = {
+        id: user_id,
+        e_mail: email,
+        psw
+      }
+      modUserInfo (userInfo)
+      .then (res => {
+          setSuccessMail (true);
+      })
+      .catch (err => {
+          setSuccessMail (false);
+      })
+
+      setErrorMail (false);
+      setErrorMail2 (false);
+
+    }
+
+    const handleSubmitPSW = async(e) => {
+      e.preventDefault();    
+  
+      if (psw === '' || psw2 === ''){
+          setErrorPSW (true);
+          setSuccessPSW (false);
+          return;
+      }else{
+        if (psw !== psw2){
+          setErrorPSW2 (true);
+          setSuccessPSW (false);
+          return;
+        }
+      }   
+
+      const userInfo = {
+        id: user_id,
+        e_mail: email,
+        psw
+      }
+      modUserInfo (userInfo)
+      .then (res => {
+          setSuccessPSW (true);
+      })
+      .catch (err => {
+          setSuccessPSW (false);
+      })
+
+      setErrorPSW (false);
+      setErrorPSW2 (false);
+
+    }
+
     return (
       <Fragment >
       <BreadCrumbs 
@@ -102,37 +179,51 @@ const CustomerAccount = ({user_id}) => {
           <div className="row bar">
             <div id="customer-account" className="col-lg-9 clearfix">
               <hr />
-              <p className="lead">Cambiá tus datos personales o tu contraseña acá.</p>
+              <p className="lead">Cambiá tus datos personales,contraseña o e-mail acá.</p>
               <div className="box mt-5">
                 <div className="heading">
-                  <h3 className="text-uppercase">Cambiar contraseña</h3>
+                  <h4 className="text-uppercase">Cambiar e-mail</h4>
                 </div>
-                <form>
+                { (errorMail) ? <div className="alert alert-danger mt-2 mb-5 text-center">Todos los campos son obligatorios</div> : null}
+                { (errorMail2) ? <div className="alert alert-danger mt-2 mb-5 text-center">Ambos Email deben coincidir</div> : null}
+                { (successMail) ? <div className="alert alert-success mt-2 mb-5 text-center">Cambios realizados con éxito</div> : null}
+                <form onSubmit = {handleSubmitEmail}>
                   <div className="row">
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label for="password_old">Contraseña antigua</label>
-                        <input id="password_old" type="password" className="form-control"/>
+                        <label for="email1">Nuevo Email</label>
+                        <input id="email1" type="text" className="form-control" defaultValue = {email} onChange = {e => setEmail(e.target.value)}/>
                       </div>
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label for="email_account">Email</label>
-                        <input id="email_account" type="text" className="form-control" defaultValue = {email} onChange = {e => setEmail(e.target.value)}/>
+                        <label for="email2">Confirmar Email</label>
+                        <input id="email2" type="text" className="form-control" onChange = {e => setEmail2(e.target.value)}/>
                       </div>
                     </div>
                   </div>
+                  <div className="text-center">
+                    <button type="submit" className="btn btn-outlined"><i className="fa fa-save"></i> Guardar nuevo Email</button>
+                  </div>
+                </form>
+                <div className="heading">
+                  <h4 className="text-uppercase">Cambiar contraseña</h4>
+                </div>
+                { (errorPSW) ? <div className="alert alert-danger mt-2 mb-5 text-center">Todos los campos son obligatorios</div> : null}
+                { (errorPSW2) ? <div className="alert alert-danger mt-2 mb-5 text-center">Ambas contraseñas deben coincidir</div> : null}
+                { (successPSW) ? <div className="alert alert-success mt-2 mb-5 text-center">Cambios realizados con éxito</div> : null}
+                <form onSubmit = {handleSubmitPSW}>
                   <div className="row">
                     <div className="col-md-6">
                       <div className="form-group">
                         <label for="password_1">Nueva contraseña</label>
-                        <input id="password_1" type="password" className="form-control"/>
+                        <input id="password_1" type="password" className="form-control" onChange = {e => setPsw(e.target.value)}/>
                       </div>
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label for="password_2">Reescribe la nueva contraseña</label>
-                        <input id="password_2" type="password" className="form-control"/>
+                        <label for="password_2">Confirmar contraseña</label>
+                        <input id="password_2" type="password" className="form-control" onChange = {e => setPsw2(e.target.value)}/>
                       </div>
                     </div>
                   </div>

@@ -85,7 +85,7 @@ const CustomerRegister = ({history,setUser}) => {
     history.push ('/customer-account')
   }
 
-  const handleSubmitLogin = (e) => {
+  const handleSubmitLogin = async (e) => {
     e.preventDefault();    
 
     // Validar que todos los campos esten llenos
@@ -99,22 +99,29 @@ const CustomerRegister = ({history,setUser}) => {
     const customer = {mail, pass};
     
     //Conectar con el backend
+
+    /*
     login(customer)
     .then(resp => {
-      console.log(resp);
-      
       setUser(resp.user_id);
     })
     .catch (err => {
       setError2 (true);
       return;
-    })
-    ;
-    
+    });
+    */
+
+    try{
+      const resp = await login (customer)
+      setUser (resp.user_id)
+      }catch{
+        setError2 (true);
+        return;
+    }
 
     setError2(false);
 
-    history.push('/customer-orders')
+    history.push('/');
   }
 
     return (

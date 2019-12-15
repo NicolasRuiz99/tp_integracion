@@ -75,8 +75,7 @@ def modUser():
     id = request.json['id']
     e_mail = request.json['e_mail']
     psw = request.json['psw']
-    id_role = request.json['id_role']
-    new = User (e_mail,psw,id_role,id)
+    new = User (e_mail,psw,None,id)
     try:
         new.mod()
     except (Exception) as err:
