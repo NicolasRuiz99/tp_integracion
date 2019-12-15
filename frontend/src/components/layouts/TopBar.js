@@ -65,7 +65,6 @@ const TopBar = () => {
                                     <i class="fas fa-shopping-cart"></i>
                                     <span className="d-none d-md-inline-block">Carrito</span>
                                 </Link>
-                                
                                 </div>
                                 
                                 <ul className="social-custom list-inline">
@@ -81,8 +80,6 @@ const TopBar = () => {
                                 </Fragment>
                                 
                                  )}
-                                
-                            
                         </div>
                     </div>
                 </div>

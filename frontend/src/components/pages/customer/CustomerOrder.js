@@ -71,10 +71,6 @@ const CustomerOrder = () => {
                 </div>
                 <div className="row addresses">
                   <div className="col-md-6 text-right">
-                    <h3 className="text-uppercase">Dirección de facturacion</h3>
-                    <p>Nicolás Rondán<br />		Entre Ríos<br />	Concepción del Uruguay<br />	 Belgrano 679<br />		 Argentina<br />	</p>
-                  </div>
-                  <div className="col-md-6 text-right">
                     <h3 className="text-uppercase">Dirección de envío</h3>
                     <p>Nicolás Rondán<br />		Entre Ríos<br />	Concepción del Uruguay<br />	 Belgrano 679<br />		 Argentina<br /> </p>
                   </div>
