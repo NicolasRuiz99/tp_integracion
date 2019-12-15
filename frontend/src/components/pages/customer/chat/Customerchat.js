@@ -1,71 +1,84 @@
-import React, {useState, Fragment} from 'react';
-import {TokenProvider, ChatManager} from "@pusher/chatkit-client-react"
-import './style.css';
-import CustomerAccount from '../CustomerAccount';
-import MessageList from './MessageList';
-import SendMessageForm from './SendMessageForm';
-import Title from './Title';
-import { ChatkitProvider } from '@pusher/chatkit-client-react/dist/provider';
+import React, {useState, Fragment, useEffect} from 'react';
+import './chat.css';
+import './../../../../css/default.css';
 
-// const testToken = "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/dfaf1e22-2d33-45c9-b4f8-31f634621d24/token"
-// const instanceLocator = "v1:us1:dfaf1e22-2d33-45c9-b4f8-31f634621d24"
-// const roomId = 9806194
-// const username = 'perborgen'
+import io from 'socket.io-client';
+//Componentes del chat
+import InfoBar from './InfoBar/InfoBar';
+import Input from './Input/Input';
+import Messages from './Messages/Messages';
+import BreadCrumbs from '../../../BreadCrumbs';
+import CustomerSection from '../CustomerSection';
 
-class CustomerChat extends React.Component {
-    constructor() {
-        super()
-        this.state = {
-            messages: []
-        }
-        this.sendMessage = this.sendMessage.bind(this)
-    } 
+let socket;
+
+const CustomerChat = (props) => {
+    const [chatID, setChatID] = useState('');
+    const [room, setRoom] = useState('');
+    const [users, setUsers] = useState('');
+    const ENDPOINT = 'http://localhost:3001';
+    const [message, setMessage] = useState('');
+    const [messages, setMessages] = useState([]);
+
+    useEffect(() => {
+        const { chatID, room } = props.match.params;
+        console.log(`ID: ${chatID}, Sala: ${room}`);
+        socket = io(ENDPOINT);
     
-    componentDidMount() {
-        const chatManager = new ChatkitProvider({
-            instanceLocator: instanceLocator,
-            userId: 'janedoe',
-            tokenProvider: new TokenProvider({
-                url: testToken
-            })
-        })
+        setRoom(room);
+        setChatID(chatID)
         
-        ChatkitProvider.connect()
-        .then(currentUser => {
-            this.currentUser = currentUser
-            this.currentUser.subscribeToRoom({
-            roomId: roomId,
-            hooks: {
-                onNewMessage: message => {
+        //En caso de que algo salga mal
+        socket.emit('join', { chatID, room }, (error) => {
+          if(error) {
+            alert(error);
+          }
+        });
+      }, [ENDPOINT, props.match.params]);
 
-                    this.setState({
-                        messages: [...this.state.messages, message]
-                    })
-                }
-            }
-        })
-      })
-    }
+      useEffect(() => {
+        socket.on('message', (message) => {
+          setMessages([...messages, message ]);
+        });
     
-    sendMessage(text) {
-        this.currentUser.sendMessage({
-            text,
-            roomId: roomId
+        socket.on('roomData', ({ users }) => {
+          setUsers(users);
         })
-    }
     
-    render() {
-        return (
-            <Fragment>
-              <Title />
-              <MessageList 
-                  roomId={this.state.roomId}
-                  messages={this.state.messages} />
-              <SendMessageForm
-                  sendMessage={this.sendMessage} />
-            </Fragment>
-        );
-    }
-}
+        return () => {
+          socket.emit('disconnect');
+    
+          socket.off();
+        }
+      }, [messages])
+
+      const sendMessage = (event) => {
+        event.preventDefault();
+    
+        if(message) {
+          socket.emit('sendMessage', message, () => setMessage(''));
+        }
+      }
+    
+    console.log(message, messages);
+
+    return (
+        <Fragment>
+        <BreadCrumbs name={"Chat general"} />
+        <div id="content">
+            <div className="container">
+            <div className="row bar">
+            <div id="customer-account" className="col-lg-8 clearfix">         
+                <InfoBar room={room}/>
+                <Messages messages={messages} id={chatID} />
+                <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
+                </div>
+                <CustomerSection />
+            </div>    
+            </div>
+        </div>
+        </Fragment>
+    );
+};
 
 export default CustomerChat;

@@ -70,7 +70,7 @@ const CustomerOrder = () => {
                   </table>
                 </div>
                 <div className="row addresses">
-                  <div className="col-md-6 text-right">
+                  <div className="col-md-10 text-center">
                     <h3 className="text-uppercase">Dirección de envío</h3>
                     <p>Nicolás Rondán<br />		Entre Ríos<br />	Concepción del Uruguay<br />	 Belgrano 679<br />		 Argentina<br /> </p>
                   </div>
