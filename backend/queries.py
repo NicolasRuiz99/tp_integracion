@@ -17,3 +17,6 @@ def listRoles ():
 
 def getUserCustomer (id):
     return query ('select * from UserCustomer where id_user = ' + str(id))
+
+def listProducts ():
+    return listTable ('products')
