@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const login = user => {
     return axios
-    .post("user/login", {
+    .post("/user/login", {
         e_mail: user.mail,
         psw: user.pass
     })
@@ -12,7 +12,7 @@ const login = user => {
 
 const register = user => {
     return axios
-    .post("user/register", {
+    .post("/user/register", {
         e_mail: user.email,
         psw: user.contraseña,
         id_role: 2
@@ -23,14 +23,14 @@ const register = user => {
 
 const getEMails = () => {
     return axios
-    .get("user/list_emails")
+    .get("/user/list_emails")
     .then(res => {return res.data.results})
     .catch(err => {throw err})
 }
 
 const getCustomerInfo = id => {
     return axios
-    .post("user/getCustomer",{
+    .post("/user/getCustomer",{
         id
     })
     .then(res => {return res.data.data})
@@ -39,7 +39,7 @@ const getCustomerInfo = id => {
 
 const addCustomerInfo = ({dni,name,surname,genre,c_size,shoe_size,phone_no,id_user}) => {
     return axios
-    .post("customer/add",{
+    .post("/customer/add",{
         dni,
         name,
         surname,
@@ -55,7 +55,7 @@ const addCustomerInfo = ({dni,name,surname,genre,c_size,shoe_size,phone_no,id_us
 
 const modCustomerInfo = ({id,dni,name,surname,genre,c_size,shoe_size,phone_no}) => {
     return axios
-    .post("customer/mod",{
+    .post("/customer/mod",{
         id,
         dni,
         name,
@@ -71,7 +71,7 @@ const modCustomerInfo = ({id,dni,name,surname,genre,c_size,shoe_size,phone_no}) 
 
 const modUserInfo = ({id,e_mail,psw}) => {
     return axios
-    .post("user/mod",{
+    .post("/user/mod",{
         id,
         e_mail,
         psw

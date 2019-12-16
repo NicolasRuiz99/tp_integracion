@@ -50,7 +50,12 @@ const App = () => {
             <Route  path="/contact" component={Contact} />
             <Route  path="/historial" component={Historial} />
             <Route  path="/shop-category" component={Categorias} />
-            <Route  path="/shop-detail" component={ShopDetail} />
+            <Route  path="/shop-detail/:id" 
+              render={(props)=>(
+                <ShopDetail
+                  props = {props}
+                />
+              )}/>
             <Route  path="/shop-cart" component={Cart} />
             <Route  path="/shop-checkout1" component={Checkout1} />
             <Route  path="/shop-checkout2" component={Checkout2} />

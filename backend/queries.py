@@ -20,3 +20,9 @@ def getUserCustomer (id):
 
 def listProducts ():
     return listTable ('products')
+
+def getColor_size (prod_id):
+    return query ('select c.id,c.color,c.size,c.stock from color_size c where prod_id = ' + str(prod_id))
+
+def getReview (prod_id):
+    return query ('select r.id,r.date,r.stars,r.title,r.commentary from review r where id_product = ' + str(prod_id))
