@@ -6,6 +6,8 @@
     display: inline-block;
     max-width: 80%;
   }
+
+  
   
   .messageText {
     width: 100%;
@@ -59,7 +61,7 @@
   }
   
   .backgroundBlue {
-    background: #555;
+    background: #868e96;
   }
   
   .backgroundLight {
