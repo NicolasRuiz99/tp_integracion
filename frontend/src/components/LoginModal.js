@@ -4,9 +4,9 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import './../css/default.css';
 import './../css/modal.css';
-import {login} from './pages/customer/utils/CustomerFunctions'
+import {login, getCustomerInfo} from './pages/customer/utils/CustomerFunctions'
 
-const LoginModal = ({modalOpen,handleModalOpen,setUser,history}) => { 
+const LoginModal = ({modalOpen,handleModalOpen,setUser,history, setUserName}) => { 
 
   const [mail, setMail] = useState('');
   const [pass, setPass] = useState('');
@@ -28,8 +28,13 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history}) => {
     //Conectar con el backend
 
     try{
-    const resp = await login (customer)
-    setUser (resp.user_id)
+    const resp = await login (customer);
+    const res = await getCustomerInfo(resp.user_id);
+    console.log(res[0].name);
+    setUser (resp.user_id);
+    setUserName(res[0].name);
+
+
     }catch{
       setError (true);
       return;

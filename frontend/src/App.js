@@ -30,6 +30,7 @@ import Checkout4 from './components/pages/shop/ShopCheckout4';
 const App = () => {
 
     const [user_id,setUser] = useState(null);
+    const [user_name, setUserName] = useState('');
 
     useEffect (()=>{
       if (user_id !== null){
@@ -41,10 +42,21 @@ const App = () => {
         }
       }
     },[user_id])
+
+    useEffect (()=>{
+      if (user_name !== ''){
+        localStorage.setItem ('user_name', user_name)
+      }else{
+        let name = localStorage.getItem ('user_name')
+        if (name !== "null"){
+          setUserName (name);
+        }
+      }
+    },[user_name])
   
     return (
       <Fragment >      
-          <Header user_id = {user_id} setUser = {setUser}/>
+          <Header user_id = {user_id} setUser = {setUser} setUserName={setUserName}/>
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route  path="/contact" component={Contact} />
@@ -67,13 +79,13 @@ const App = () => {
             render={()=>(
                 <CustomerAccount
                   user_id = {user_id}
+                  user_name = {user_name}
                 />
             )}/>
-            <Route  path="/customer-orders" component={CustomerOrders} />
+            <Route  path="/customer-orders" render={() =>(<CustomerOrders user_name={user_name} />)} />
             <Route  path="/customer-order" component={CustomerOrder} />
-            <Route  path="/customer-wishlist" component={WishList} />
-            //Ruta de prueba para el chat
-            <Route  path='/customer-chat/:chatID/:room' component={Chat} />
+            <Route  path="/customer-wishlist" render={() =>(<WishList user_name={user_name} />)} />
+            <Route  path='/customer-chat' render={() =>(<Chat user_name={user_name} />)} />
             <Route component={RouteError}/>
           </Switch>
           <Footer />

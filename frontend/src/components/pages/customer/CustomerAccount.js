@@ -4,7 +4,7 @@ import './../../../css/default.css';
 import BreadCrumbs from '../../BreadCrumbs';
 import {getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo} from './utils/CustomerFunctions'
 
-const CustomerAccount = ({user_id}) => {
+const CustomerAccount = ({user_id, user_name}) => {
 
     //confirmacion email y contraseña
     const [psw,setPsw] = useState ('');
@@ -324,7 +324,7 @@ const CustomerAccount = ({user_id}) => {
                 </form>
               </div>
             </div>
-            <CustomerSection />
+            <CustomerSection user_name={user_name} />
           </div>
         </div>
       </div>

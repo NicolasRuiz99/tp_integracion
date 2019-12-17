@@ -4,7 +4,7 @@ import BreadCrumbs from './../../BreadCrumbs';
 import CustomerSection from './CustomerSection';
 import {Link} from 'react-router-dom';
 
-const CustomerOrders = () => {
+const CustomerOrders = ({user_name}) => {
     return (
         <Fragment>
         <BreadCrumbs 
@@ -72,7 +72,7 @@ const CustomerOrders = () => {
                 </div>
               </div>
             </div>
-            <CustomerSection />
+            <CustomerSection user_name={user_name} />
           </div>
         </div>
       </div>

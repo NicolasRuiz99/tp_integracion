@@ -4,7 +4,7 @@ import './../../css/default.css';
 import LoginModal from './../LoginModal';
 
 
-const TopBar = ({user_id,setUser}) => {
+const TopBar = ({user_id,setUser, setUserName}) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [isLogged, setIsLogged] = useState(false);
 
@@ -100,6 +100,7 @@ const TopBar = ({user_id,setUser}) => {
            modalOpen={modalOpen}
            handleModalOpen={handleModalOpen}
            setUser = {setUser}
+           setUserName = {setUserName}
         />
 
         </Fragment>
