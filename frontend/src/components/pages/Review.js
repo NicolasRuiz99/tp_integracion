@@ -16,7 +16,7 @@ const Review = () => {
                     <div className="form-group">
                         <label for="reseña">Reseña</label>
                         <textarea id="reseña" className="form-control" cols="30" rows="9" style={{width: '185%'}}></textarea>
-                        <span>Valoración: <Rating stars={6}/></span>
+                        <span>Valoración: <Rating stars={6} change = {true}/></span>
                     </div>
                 </div>
             </div>

@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react';
+import React, { Fragment,useEffect,useState } from 'react';
 import BreadCrumbs from '../../BreadCrumbs';
-import {Link} from 'react-router-dom';
+import {Link,withRouter} from 'react-router-dom';
 import Review from './../Review';
 import './../../../css/default.css';
-import Rating from './Rating';
+import {getProductInfo,getProductColor_size,getProductReview} from './utils/shopFunctions';
 //React image gallery
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from 'react-image-gallery';
@@ -15,9 +15,10 @@ import product4 from "./../../../assets/product4.jpg";
 import product5 from "./../../../assets/product5.jpg" ;
 import img from "./../../../assets/detailsquareBig.jpg";
 import img2 from "./../../../assets/detailsquare.jpg";
+import ReviewList from '../../lists/ReviewList';
 
-const ShopDetail = () => {
-  const images = [
+const ShopDetail = ({props}) => {
+    const images = [
     {
       original: img,
       thumbnail: img2,
@@ -28,9 +29,49 @@ const ShopDetail = () => {
       original: img,
       thumbnail: img2,
     }]
+
+    const [prodInfo,setProdInfo] = useState ({});
+    const [color_size,setColor_size] = useState ([]);
+    const [reviews,setReviews] = useState ([]);
+    const [error,setError] = useState (false);
+
+    useEffect (()=>{
+      const product_id = props.match.params.id;
+      
+      getProductInfo (product_id)
+      .then(res =>{
+          setProdInfo (res);
+      })
+      .catch (err =>{
+          setError (true);
+          return;
+      })
+
+      getProductColor_size (product_id)
+      .then(res =>{
+        setColor_size (res);
+      })
+      .catch (err =>{
+        setError (true);
+        return;
+      })
+
+      getProductReview (product_id)
+      .then(res =>{
+        setReviews (res);
+      })
+      .catch (err =>{
+        setError (true);
+        return;
+      })
+
+      setError (false);
+
+    },[])
+
     return (
         <Fragment>
-      <BreadCrumbs name={"Nombre del producto"} />
+      <BreadCrumbs name={prodInfo.name} />
 
       <div id="content">
         <div className="container">
@@ -82,7 +123,9 @@ const ShopDetail = () => {
                       </div>
                       </div>
                       <div className="col-sm-10">
-                      <p className="price">$824.00</p>
+                      <div className="product">
+                        <p className="price"> {(prodInfo.discount != 0)?<del> ${prodInfo.price} </del> : null} ${prodInfo.price-((prodInfo.discount*prodInfo.price)/100)}</p> 
+                      </div>
                       <p className="text-center">
                         <button type="submit" className="btn btn-outlined"><i className="fa fa-shopping-cart"></i> Añadir al carrito</button>
                         <button type="submit" data-toggle="tooltip" data-placement="top" title="Añadir a mis deseos" className="btn btn-default"><i className="fa fa-heart-o"></i></button>
@@ -95,18 +138,17 @@ const ShopDetail = () => {
               <div id="details" className="box mb-4 mt-4">
                 <p></p>
                 <h4>Detalles del producto</h4>
-                <p>Zapatos de vestir Pizzoni hombre</p>
+                <blockquote className="blockquote">
+                  <p className="mb-0"><em>{prodInfo.dsc}</em></p>
+                </blockquote>
                 <h4>Material</h4>
                 <ul>
-                  <li>Cuero</li>
+                  <li>{prodInfo.material}</li>
                 </ul>
-                <h4>Tamaño</h4>
+                <h4>Marca</h4>
                 <ul>
-                  <li>Regular</li>
+                  <li>{prodInfo.brand}</li>
                 </ul>
-                <blockquote className="blockquote">
-                  <p className="mb-0"><em>Zapato de vestir de Hombre Pizzoni con costura en capellada. Fabricado en Ecocuero, con plantilla confortable y base en PVC de larga duración</em></p>
-                </blockquote>
               </div>
               <div id="product-social" className="box social text-center mb-5 mt-5">
                 <h4 className="heading-light">Compártelo con tus amigos</h4>
@@ -117,15 +159,7 @@ const ShopDetail = () => {
               </div>
               {/* Reseñas */}
               <Review />
-              <div className="box mb-4 mt-4">
-                <h3 className="m_3">Reseñas del producto</h3>
-                <span className="m_text">Titulo1</span>
-                <p className="m_text">Customer1: Muy bueno! quedé encantado  <Rating stars={5}/></p>
-                <span className="m_text">Titulo2</span>
-                <p className="m_text">Customer2: Pésimo material <Rating stars={1}/></p>
-                <span className="m_text">Titulo3</span>
-                <p className="m_text">Customer3: Todo OK! <Rating stars={4}/></p>
-              </div>
+              <ReviewList list = {reviews} />
               <div className="row">
                 <div className="col-lg-3 col-md-6">
                   <div className="box text-uppercase mt-0 mb-small">
@@ -202,4 +236,4 @@ const ShopDetail = () => {
     );
 }
 
-export default ShopDetail;
+export default withRouter (ShopDetail);

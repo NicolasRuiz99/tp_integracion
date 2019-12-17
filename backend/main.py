@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, json
-from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts
+from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser
 
@@ -402,6 +402,32 @@ def getProduct():
             result = dict (id = new.id, name = new.name, dsc = new.dsc, material = new.material, genre = new.genre, brand = new.brand,type = new.type, discount = new.discount, price = new.price)
             return jsonify({'result': 'success','data' : result})
 
+@app.route ('/product/getColor_size',methods=['POST'])
+def getProductColor_size():
+    error = False
+    id = request.json['id']
+    try:
+        result = getColor_size (id)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result': 'success','data' : result})
+
+@app.route ('/product/getReview',methods=['POST'])
+def getProductReview():
+    error = False
+    id = request.json['id']
+    try:
+        result = getReview (id)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result': 'success','data' : result})
+
 @app.route ('/color_size/add',methods=['POST'])
 def addColor_size():
     error = False
@@ -452,6 +478,7 @@ def deleteColor_size():
         if not (error):
             return jsonify({'result' : 'success'})
 
+"""
 @app.route ('/color_size/get',methods=['POST'])
 def getColor_size():
     error = False
@@ -466,6 +493,7 @@ def getColor_size():
         if not (error):
             result = dict (id = new.id, color = new.color, size = new.size,stock = new.stock,prod_id = new.prod_id)
             return jsonify({'result': 'success','data' : result})
+"""
 
 @app.route ('/coupon/add',methods=['POST'])
 def addCoupon():
@@ -865,6 +893,7 @@ def deleteReview():
         if not (error):
             return jsonify({'result' : 'success'})
 
+"""
 @app.route ('/review/get',methods=['POST'])
 def getReview():
     error = False
@@ -879,6 +908,7 @@ def getReview():
         if not (error):
             result = dict (id = new.id, date = new.date, stars = new.stars, title = new.title, commentary = new.commentary, id_product = new.id_product)
             return jsonify({'result': 'success','data' : result})
+"""
 
 if __name__ == '__main__':
     app.run(debug=True)
