@@ -1,10 +1,10 @@
 import React, {useState, Fragment, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import './../../css/default.css';
 import LoginModal from './../LoginModal';
 
 
-const TopBar = ({user_id,setUser, setUserName}) => {
+const TopBar = ({user_id,setUser, setUserData}) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [isLogged, setIsLogged] = useState(false);
 
@@ -23,6 +23,7 @@ const TopBar = ({user_id,setUser, setUserName}) => {
      const handleDrop = () => {
          setIsLogged(!isLogged);
          setUser (null);
+         setUserData(null);
          localStorage.setItem ('user_id', null)
      }
 
@@ -34,7 +35,6 @@ const TopBar = ({user_id,setUser, setUserName}) => {
                 <div className="row d-flex align-items-center">
                     <div className="col-md-6 d-md-block d-none mr-0">
                         <p>Contactános en <i className="fas fa-phone"></i>   +54 3442 425688 </p>
-                        <p> o <i className="fas fa-envelope"></i> soporte-indumentariaonline@hotmail.com </p>
                     </div>
                     <div className="col-md-6">
                         <div className="d-flex justify-content-md-end justify-content-end">
@@ -75,17 +75,23 @@ const TopBar = ({user_id,setUser, setUserName}) => {
                                     <i class="fas fa-shopping-cart"></i>
                                     <span className="d-none d-md-inline-block">Carrito</span>
                                 </Link>
+                                <Link to="/customer-notifications" className="signup-btn" title="No tenés notificaciones">
+                                    <i class="fas fa-bell"></i>
+                                </Link>
+                                <Link className="nav-item dropdown active"><Link onClick={e => {
+                                e.preventDefault()
+                                }} data-toggle="dropdown" className="dropdown-toggle signup-btn" style={{color: "#fff"}}><span className="d-none d-md-inline-block">{`Mi Cuenta`}</span></Link>
+                                    <ul class="dropdown-menu">
+                                        <li className="dropdown-item"><Link to="/customer-account" class="nav-link" style={{color: "#fff"}}>Mi cuenta</Link></li>
+                                        <li className="dropdown-item"><Link to="/customer-orders" class="nav-link" style={{color: "#fff"}}>Mis compras</Link></li>
+                                        <li className="dropdown-item"><Link to="/customer-wishlist" class="nav-link" style={{color: "#fff"}}>Mis deseos</Link></li>
+                                        <li className="dropdown-item"><Link to="/" class="nav-link" onClick={handleDrop} style={{color: "#fff"}}>Salir</Link></li>
+                                    </ul>
+                                </Link>
                                 </div>
                                 
                                 <ul className="social-custom list-inline">
-                                <li className="nav-item dropdown active"><a href="javascript: void(0)" data-toggle="dropdown" className="dropdown-toggle"><span className="d-none d-md-inline-block">Mi perfil</span></a>
-                                    <ul class="dropdown-menu">
-                                        <li className="dropdown-item"><Link to="/customer-account" class="nav-link">Mi cuenta</Link></li>
-                                        <li className="dropdown-item"><Link to="/customer-orders" class="nav-link">Mis compras</Link></li>
-                                        <li className="dropdown-item"><Link to="/customer-wishlist" class="nav-link">Mis deseos</Link></li>
-                                        <li className="dropdown-item"><Link to="/" class="nav-link" onClick={handleDrop}>Salir</Link></li>
-                                    </ul>
-                                </li>
+                                
                                 </ul>
                                 </Fragment>
                                 
@@ -100,11 +106,11 @@ const TopBar = ({user_id,setUser, setUserName}) => {
            modalOpen={modalOpen}
            handleModalOpen={handleModalOpen}
            setUser = {setUser}
-           setUserName = {setUserName}
+           setUserData = {setUserData}
         />
 
         </Fragment>
     );
 }
 
-export default TopBar;
+export default withRouter(TopBar);

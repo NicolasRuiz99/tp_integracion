@@ -1,6 +1,5 @@
 import React, { Fragment, useState,useEffect } from 'react';
 import BreadCrumbs from '../../BreadCrumbs';
-import {Link} from 'react-router-dom';
 import Paginacion from './Paginacion';
 import './../../../css/default.css';
 import Filtros from './Filtros';
@@ -30,12 +29,12 @@ const ShopCategorias = () => {
             return;
         });
 
-        if (list.length = 0){
+        if (list.length === 0){
             setError (true);
         }
 
         setError (false);
-    },[]);
+    },[list.length]);
 
     return (
         <Fragment>

@@ -15,7 +15,7 @@ const Rating = ({stars,change}) => {
       if (!change){
         setRating (stars);
       }
-    },[])
+    },[change, stars])
 
     if (change){
       return (

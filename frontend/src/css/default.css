@@ -24,7 +24,7 @@
 }
 
 .background-pentagon, #heading-breadcrumbs {
-  background: url("./../assets/texture-turquoise.png") center center repeat;
+  background: url("./../assets/patron.png") center center repeat;
   border-top: 1px solid #999;
   border-bottom: 1px solid #999;
 }
@@ -1072,7 +1072,7 @@ a.text-primary:focus, a.text-primary:hover {
   footer.main-footer {
     padding: 60px 0;
     padding-bottom: 0;
-    background: #555;
+    background: #24292e;
     color: #fff;
   }
   
@@ -1120,21 +1120,12 @@ a.text-primary:focus, a.text-primary:hover {
     font-size: 0.8rem;
   }
   
-  footer.main-footer .photo-stream li {
-    margin: 0;
-  }
-  
-  footer.main-footer .photo-stream a {
-    width: 80px;
-    height: 80px;
-    padding: 5px;
-    display: block;
-  }
+
   
   footer.main-footer .copyrights {
     padding: 50px 0;
-    background: #333;
-    color: #ccc;
+    background: #fff;
+    color: #24292e;
     margin-top: 50px;
   }
   
@@ -1178,7 +1169,7 @@ a.text-primary:focus, a.text-primary:hover {
 /* Estilos para la top-bar */
 .top-bar {
   position: relative;
-  background: #555;
+  background:  #24292e;
   color: #fff;
   font-size: 0.9rem;
   padding: 10px 0;
@@ -1326,7 +1317,7 @@ header.nav-holder.sticky {
 #navbar.nav-light .navbar-nav > li.active a.dropdown-toggle,
 #navbar.nav-light .navbar-nav > li.active a.dropdown-toggle:hover {
   background: none !important;
-  color: #555 !important;
+  color: #24292e !important;
   text-decoration: underline !important;
   border-color: #38a7bb !important;
 }
@@ -1338,7 +1329,7 @@ header.nav-holder.sticky {
 
 #navbar.nav-light .navbar-nav > li > a:focus {
   background: none !important;
-  color: #555 !important;
+  color: #24292e !important;
   text-decoration: underline !important;
   border-color: #38a7bb !important;
 }
@@ -2391,7 +2382,7 @@ Boxes */
   margin: 0.125rem 0 0;
   font-size: 1rem;
   color: #212529;
-  background-color:  #555;
+  background-color:  #24292e;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 0;
 }
@@ -2443,7 +2434,7 @@ Boxes */
 
 .dropdown-item:focus, .dropdown-item:hover {
   color: #16181b;
-  background-color: #f8f9fa;
+  background-color: #38a7bb;
 }
 
 .dropdown-item.active, .dropdown-item:active {

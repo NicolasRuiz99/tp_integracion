@@ -2,10 +2,6 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import './../../css/default.css';
 
-//Importación de imágenes
-import img1 from "./../../assets/detailsquare.jpg";
-import img2 from "./../../assets/detailsquare2.jpg";
-import img3 from "./../../assets/detailsquare3.jpg";
 
 const Footer = () => {
     return (
@@ -24,13 +20,15 @@ const Footer = () => {
               <hr className="d-block d-lg-none" />
             </div>
             <div className="col-lg-3">
-              <ul className="list-inline photo-stream">
-                <li className="list-inline-item"><Link to="/product:id"><img src={img1} alt="..." className="img-fluid"/></Link></li>
-                <li className="list-inline-item"><Link to="/product:id"><img src={img2} alt="..." className="img-fluid"/></Link></li>
-                <li className="list-inline-item"><Link to="/product:id"><img src={img3} alt="..." className="img-fluid"/></Link></li>
-                <li className="list-inline-item"><Link to="/product:id"><img src={img3} alt="..." className="img-fluid"/></Link></li>
-                <li className="list-inline-item"><Link to="/product:id"><img src={img3} alt="..." className="img-fluid"/></Link></li>
-                <li className="list-inline-item"><Link to="/product:id"><img src={img1} alt="..." className="img-fluid"/></Link></li>
+            <h4 className="h6">Mi Cuenta</h4>
+              <ul className="list-inline">
+                <li className="list-inline-item"><Link to="/customer-orders"><p>Mis compras</p></Link></li>
+                <br/>
+                <li className="list-inline-item"><Link to="/customer-wishlist"><p>Mis deseos</p></Link></li>
+                <br/>
+                <li className="list-inline-item"><Link to="/customer-reservations"><p>Mis reservas</p></Link></li>
+                <br/>
+                <li className="list-inline-item"><Link to="/customer-account"><p>Mi perfil</p></Link></li>
               </ul>
             </div>
           </div>
@@ -38,7 +36,7 @@ const Footer = () => {
         <div className="copyrights">
           <div className="container">
             <div className="row">
-              <div className="col-lg-4 text-center-md">
+              <div className="col-lg-5 text-center-md">
                 <p>&copy; {new Date().getFullYear()}. Indumentaria Online / Todos los derechos reservados</p>
               </div>
             </div>

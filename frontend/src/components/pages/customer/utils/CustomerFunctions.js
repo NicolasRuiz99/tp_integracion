@@ -17,7 +17,7 @@ const register = user => {
         psw: user.contraseña,
         id_role: 2
     })
-    .then(res => {return res.data})
+    .then(res => {console.log(res.data); return res.data})
     .catch(err => {throw err})
 }
 

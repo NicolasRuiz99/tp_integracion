@@ -1,5 +1,4 @@
-import React, { Fragment,useEffect,useState } from "react";
-import {Link} from 'react-router-dom';
+import React, { Fragment } from "react";
 import './../../css/default.css';
 import Rating from "../pages/shop/Rating";
 

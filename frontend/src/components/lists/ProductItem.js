@@ -16,11 +16,11 @@ const ProductItem = ({item}) => {
             <div className="image"><Link to={link}><img src={product1} alt="" className="img-fluid image1"/></Link></div>
                 <div className="text">
                     <h3 className="h5"><Link to={link}>{item.name}</Link></h3>
-                    <p className="price"> {(item.discount != 0)?<del> ${item.price} </del> : null} ${item.price-((item.discount*item.price)/100)}</p> 
+                    <p className="price"> {(item.discount !== 0)?<del> ${item.price} </del> : null} ${item.price-((item.discount*item.price)/100)}</p> 
                 </div>
             </div>
             <div className="ribbon-holder">            
-            {(item.discount != 0)? <div className="ribbon sale">-{item.discount}% OFF</div>: null}
+            {(item.discount !== 0)? <div className="ribbon sale">-{item.discount}% OFF</div>: null}
             </div>  
         </div>
         </Fragment>    

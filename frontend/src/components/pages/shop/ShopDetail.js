@@ -67,7 +67,7 @@ const ShopDetail = ({props}) => {
 
       setError (false);
 
-    },[])
+    },[props.match.params.id])
 
     return (
         <Fragment>
@@ -122,13 +122,14 @@ const ShopDetail = ({props}) => {
                         </select>
                       </div>
                       </div>
-                      <div className="col-sm-10">
+                      <div className="col-sm-11">
                       <div className="product">
-                        <p className="price"> {(prodInfo.discount != 0)?<del> ${prodInfo.price} </del> : null} ${prodInfo.price-((prodInfo.discount*prodInfo.price)/100)}</p> 
+                        <p className="price"> {(prodInfo.discount !== 0)?<del> ${prodInfo.price} </del> : null} ${prodInfo.price-((prodInfo.discount*prodInfo.price)/100)}</p> 
                       </div>
                       <p className="text-center">
                         <button type="submit" className="btn btn-outlined"><i className="fa fa-shopping-cart"></i> Añadir al carrito</button>
                         <button type="submit" data-toggle="tooltip" data-placement="top" title="Añadir a mis deseos" className="btn btn-default"><i className="fa fa-heart-o"></i></button>
+                        <button type="submit" data-toggle="tooltip" data-placement="top" title="Reservar" className="btn btn-default"><i class="far fa-calendar-alt"></i></button>   
                       </p>
                       </div>
                     </form>
@@ -194,40 +195,7 @@ const ShopDetail = ({props}) => {
                   </div>
                 </div>
               </div>
-              <div className="row">
-                <div className="col-lg-3 col-md-6">
-                  <div className="box text-uppercase mt-0 mb-small">
-                    <h3>Productos visitados</h3>
-                  </div>
-                </div>
-                <div className="col-lg-3 col-md-6">
-                  <div className="product">
-                    <div className="image"><Link to="#"><img src={product5} alt="" className="img-fluid image1"/></Link></div>
-                    <div className="text">
-                      <h3 className="h5"><Link to="/shop-detail">Sudadera negra con capucha</Link></h3>
-                      <p className="price">$1250</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-lg-3 col-md-6">
-                  <div className="product">
-                    <div className="image"><Link to="#"><img src={product4} alt="" className="img-fluid image1"/></Link></div>
-                    <div className="text">
-                      <h3 className="h5"><Link to="/shop-detail">Sudadera blanca con capucha</Link></h3>
-                      <p className="price">$1500</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-lg-3 col-md-6">
-                  <div className="product">
-                    <div className="image"><Link to="#"><img src={product2} alt="" className="img-fluid image1"/></Link></div>
-                    <div className="text">
-                      <h3 className="h5"><Link to="/shop-detail">Camiseta deportiva</Link></h3>
-                      <p className="price">$980</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+             
             </div>
           </div>
         </div>
