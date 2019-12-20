@@ -1,16 +1,17 @@
 import React, {useState, Fragment, useEffect} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import './../../css/default.css';
-import LoginModal from './../LoginModal';
+import LoginModal from './../modals/LoginModal';
+import LogoutModal from './../modals/LogoutModal';
 
 
-const TopBar = ({user_id,setUser, setUserData}) => {
+const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop}) => {
     const [modalOpen, setModalOpen] = useState(false);
-    const [isLogged, setIsLogged] = useState(false);
+    const [modalOpen2, setModalOpen2] = useState(false);
 
     useEffect (()=>{
         if (user_id !== null){
-            setIsLogged (true)
+            setIsLogged (true);
         }else{
             setIsLogged (false)
         }
@@ -20,11 +21,8 @@ const TopBar = ({user_id,setUser, setUserData}) => {
         setModalOpen(!modalOpen);
      }
     
-     const handleDrop = () => {
-         setIsLogged(!isLogged);
-         setUser (null);
-         setUserData(null);
-         localStorage.setItem ('user_id', null)
+    const handleModalOpen2 = () => {
+        setModalOpen2(!modalOpen2);
      }
 
 
@@ -85,17 +83,12 @@ const TopBar = ({user_id,setUser, setUserData}) => {
                                         <li className="dropdown-item"><Link to="/customer-account" class="nav-link" style={{color: "#fff"}}>Mi cuenta</Link></li>
                                         <li className="dropdown-item"><Link to="/customer-orders" class="nav-link" style={{color: "#fff"}}>Mis compras</Link></li>
                                         <li className="dropdown-item"><Link to="/customer-wishlist" class="nav-link" style={{color: "#fff"}}>Mis deseos</Link></li>
-                                        <li className="dropdown-item"><Link to="/" class="nav-link" onClick={handleDrop} style={{color: "#fff"}}>Salir</Link></li>
+                                        <li className="dropdown-item"><Link class="nav-link" onClick={handleModalOpen2} style={{color: "#fff"}}>Salir</Link></li>
                                     </ul>
                                 </Link>
                                 </div>
-                                
-                                <ul className="social-custom list-inline">
-                                
-                                </ul>
                                 </Fragment>
-                                
-                                 )}
+                                )}
                         </div>
                     </div>
                 </div>
@@ -106,7 +99,12 @@ const TopBar = ({user_id,setUser, setUserData}) => {
            modalOpen={modalOpen}
            handleModalOpen={handleModalOpen}
            setUser = {setUser}
-           setUserData = {setUserData}
+        />
+
+        <LogoutModal
+           modalOpen={modalOpen2}
+           handleModalOpen={handleModalOpen2}
+           handleDrop = {handleDrop}
         />
 
         </Fragment>

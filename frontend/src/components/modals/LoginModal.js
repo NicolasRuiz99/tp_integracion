@@ -2,11 +2,11 @@ import React,{useState} from 'react';
 import {Link,withRouter} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import './../css/default.css';
-import './../css/modal.css';
-import {login, getCustomerInfo} from './pages/customer/utils/CustomerFunctions'
+import './../../css/default.css';
+import './../../css/modal.css';
+import {login, getCustomerInfo} from '../pages/customer/utils/CustomerFunctions'
 
-const LoginModal = ({modalOpen,handleModalOpen,setUser,history, setUserData}) => { 
+const LoginModal = ({modalOpen,handleModalOpen,setUser,history}) => { 
 
   const [mail, setMail] = useState('');
   const [pass, setPass] = useState('');
@@ -33,7 +33,6 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history, setUserData}) =>
     const res = await getCustomerInfo(resp.user_id);
     console.log(res[0]);
     setUser (resp.user_id);
-    setUserData(res[0]);
 
 
     }catch{

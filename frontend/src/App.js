@@ -30,7 +30,7 @@ import Checkout4 from './components/pages/shop/ShopCheckout4';
 const App = () => {
 
     const [user_id,setUser] = useState(null);
-    const [userData, setUserData] = useState(null);
+    const [isLogged, setIsLogged] = useState(false);
 
     useEffect (()=>{
       if (user_id !== null){
@@ -43,20 +43,15 @@ const App = () => {
       }
     },[user_id])
 
-    useEffect (()=>{
-      if (userData !== null){
-        localStorage.setItem ('userData', userData)
-      }else{
-        let data = localStorage.getItem ('userData')
-        if (data !== "null"){
-          setUserData (data);
-        }
-      }
-    },[userData])
+    const handleDrop = () => {
+      setIsLogged(!isLogged);
+      setUser (null);
+      localStorage.setItem ('user_id', null)
+  }
   
     return (
       <Fragment >      
-          <Header user_id = {user_id} setUser = {setUser} setUserData={setUserData} userData={userData}/>
+          <Header user_id = {user_id} setUser = {setUser} handleDrop={handleDrop} isLogged={isLogged} setIsLogged={setIsLogged}/>
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route  path="/contact" component={Contact} />
@@ -77,7 +72,6 @@ const App = () => {
               render={()=>(
                 <Registro
                   setUser = {setUser}
-                  setUserData = {setUserData}
                 />
               )}/>
             <Route  path="/ofertas" component={Ofertas} />
@@ -85,12 +79,12 @@ const App = () => {
             render={()=>(
                 <CustomerAccount
                   user_id = {user_id}
-                  setUser={setUser}
+                  handleDrop={handleDrop}
                 />
             )}/>
-            <Route  path="/customer-orders" render={() =>(<CustomerOrders />)} />
+            <Route  path="/customer-orders" render={() =>(<CustomerOrders handleDrop={handleDrop} />)} />
             <Route  path="/customer-order" component={CustomerOrder} />
-            <Route  path="/customer-wishlist" render={() =>(<WishList />)} />
+            <Route  path="/customer-wishlist" render={() =>(<WishList handleDrop={handleDrop}/>)} />
             <Route  path='/customer-chat' render={() =>(<Chat user_name={'cliente'} />)} />
             <Route component={RouteError}/>
           </Switch>
