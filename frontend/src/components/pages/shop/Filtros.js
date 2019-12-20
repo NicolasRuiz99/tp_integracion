@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 
 const Filtros = () => {
     return (
-        <div className="col-md-3">
+        <div className="col-md-3" style={{'padding-right': '35px'}}>
             {/* Menú y filtros */}
             <div className="panel panel-default sidebar-menu">
                 <div className="panel-heading">

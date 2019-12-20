@@ -11,7 +11,7 @@ const ProductItem = ({item}) => {
 
     return (
         <Fragment>
-        <div className="col-lg-4 col-md-6">
+        <div className="col-lg-4 col-md-6" style={{'padding-right': '30px'}}>
             <div className="product">
             <div className="image"><Link to={link}><img src={product1} alt="" className="img-fluid image1"/></Link></div>
                 <div className="text">
