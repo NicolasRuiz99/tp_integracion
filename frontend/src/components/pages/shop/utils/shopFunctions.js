@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const getProducts = () => {
+const getProducts = async() => {
     return axios
     .get("/product/listall")
     .then(res => {
@@ -9,7 +9,7 @@ const getProducts = () => {
     .catch(err => {throw err})
 }
 
-const getProductInfo = (id) => {
+const getProductInfo = async(id) => {
     return axios
     .post("/product/get",{
         id
@@ -20,7 +20,7 @@ const getProductInfo = (id) => {
     .catch(err => {throw err})
 }
 
-const getProductColor_size = (id) => {
+const getProductColor_size = async(id) => {
     return axios
     .post("/product/getColor_size",{
         id
@@ -31,7 +31,7 @@ const getProductColor_size = (id) => {
     .catch(err => {throw err})
 }
 
-const getProductReview = (id) => {
+const getProductReview = async(id) => {
     return axios
     .post("/product/getReview",{
         id

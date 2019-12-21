@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, json
-from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview
+from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser
 
@@ -24,6 +24,12 @@ def listall():
 @app.route ('/product/listall',methods=['GET'])
 def listproducts():
     results = listProducts()
+    return jsonify({'results' : results})
+
+@app.route ('/product/getRecomended',methods=['POST'])
+def listproductsRecomended():
+    type_id = request.json ['type']
+    results = listRecomendedProducts (type_id)
     return jsonify({'results' : results})
 
 @app.route ('/customer/listall',methods=['GET'])
@@ -413,6 +419,7 @@ def getProductColor_size():
         return handleError (err)
     finally:
         if not (error):
+            print (result)
             return jsonify({'result': 'success','data' : result})
 
 @app.route ('/product/getReview',methods=['POST'])

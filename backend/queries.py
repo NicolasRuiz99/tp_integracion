@@ -21,6 +21,9 @@ def getUserCustomer (id):
 def listProducts ():
     return listTable ('products')
 
+def listRecomendedProducts (type_id):
+    return query ('select * from products where type = ' + str(type_id))
+
 def getColor_size (prod_id):
     return query ('select c.id,c.color,c.size,c.stock from color_size c where prod_id = ' + str(prod_id))
 

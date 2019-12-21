@@ -20,7 +20,7 @@ const ProductItem = ({item}) => {
                 </div>
             </div>
             <div className="ribbon-holder">            
-            {(item.discount != 0)? <div className="ribbon sale">-{item.discount}% OFF</div>: null}
+            {(item.discount !== 0)? <div className="ribbon sale">-{item.discount}% OFF</div>: null}
             </div>  
         </div>
         </Fragment>    

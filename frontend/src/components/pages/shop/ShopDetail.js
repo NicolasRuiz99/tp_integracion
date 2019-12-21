@@ -2,6 +2,7 @@ import React, { Fragment,useEffect,useState } from 'react';
 import BreadCrumbs from '../../BreadCrumbs';
 import {Link,withRouter} from 'react-router-dom';
 import Review from './../Review';
+import Rating from './Rating';
 import './../../../css/default.css';
 import {getProductInfo,getProductColor_size,getProductReview} from './utils/shopFunctions';
 //React image gallery
@@ -16,6 +17,7 @@ import product5 from "./../../../assets/product5.jpg" ;
 import img from "./../../../assets/detailsquareBig.jpg";
 import img2 from "./../../../assets/detailsquare.jpg";
 import ReviewList from '../../lists/ReviewList';
+import Color_sizeList from '../../lists/Color_sizeList';
 
 const ShopDetail = ({props}) => {
     const images = [
@@ -33,8 +35,17 @@ const ShopDetail = ({props}) => {
     const [prodInfo,setProdInfo] = useState ({});
     const [color_size,setColor_size] = useState ([]);
     const [reviews,setReviews] = useState ([]);
+    const [avgReview,setAvgReview] = useState (0);
     const [error,setError] = useState (false);
 
+    const getAverage = async(list) => {
+      let total = 0;
+      for (let i = 0; i < list.length; i++){
+          total += list[i].stars        
+      }
+      return (total / list.length)
+    }
+    
     useEffect (()=>{
       const product_id = props.match.params.id;
       
@@ -59,14 +70,16 @@ const ShopDetail = ({props}) => {
       getProductReview (product_id)
       .then(res =>{
         setReviews (res);
+        setAvgReview (getAverage(res))
       })
       .catch (err =>{
         setError (true);
         return;
       })
 
-      setError (false);
 
+      setError (false);
+      
     },[])
 
     return (
@@ -84,44 +97,7 @@ const ShopDetail = ({props}) => {
                 <div className="col-sm-6">
                   <div className="box mb-4 mt-4">
                     <form>
-                     
-                      <div className="sizes">
-                      <div className="col-sm-10">
-                        <h3>Tamaños disponibles</h3>
-                        
-                          <select className="bs-select" >
-                          <option value="38">38</option>
-                          <option value="39">39</option>
-                          <option value="40">40</option>
-                          <option value="42">42</option>
-                        </select>
-                        </div>
-                        <br/>
-                        
-                      </div>
-                      <div className="sizes">
-                      <div className="col-sm-10">
-                      <h3>Colores disponibles</h3>
-                        <select className="bs-select" >
-                          <option value="38">Marrón</option>
-                          <option value="39">Negro</option>
-                          <option value="40">Blanco</option>
-                          <option value="42">Amarillo</option>
-                        </select>
-                        </div>
-                        <br />
-                      </div>
-                      <div className="sizes">
-                      <div className="col-sm-11">
-                      <h3>Unidades <span className="span-detail">(566 disponibles)</span></h3>
-                        <select className="bs-select" >
-                          <option value="38">1</option>
-                          <option value="39">2</option>
-                          <option value="40">3</option>
-                          <option value="42">4</option>
-                        </select>
-                      </div>
-                      </div>
+                      <Color_sizeList list = {color_size} />
                       <div className="col-sm-10">
                       <div className="product">
                         <p className="price"> {(prodInfo.discount != 0)?<del> ${prodInfo.price} </del> : null} ${prodInfo.price-((prodInfo.discount*prodInfo.price)/100)}</p> 
@@ -141,6 +117,10 @@ const ShopDetail = ({props}) => {
                 <blockquote className="blockquote">
                   <p className="mb-0"><em>{prodInfo.dsc}</em></p>
                 </blockquote>
+                <h4>Valoración media</h4>
+                <ul>
+                <li><Rating stars={avgReview} change={false}/> ({reviews.length} opinion/es)</li>
+                </ul>
                 <h4>Material</h4>
                 <ul>
                   <li>{prodInfo.material}</li>
@@ -148,7 +128,7 @@ const ShopDetail = ({props}) => {
                 <h4>Marca</h4>
                 <ul>
                   <li>{prodInfo.brand}</li>
-                </ul>
+                </ul>               
               </div>
               <div id="product-social" className="box social text-center mb-5 mt-5">
                 <h4 className="heading-light">Compártelo con tus amigos</h4>
