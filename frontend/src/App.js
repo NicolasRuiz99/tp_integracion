@@ -14,7 +14,7 @@ import HomePage from './components/pages/HomePage';
 //Pages customer
 import CustomerAccount from './components/pages/customer/CustomerAccount';
 import CustomerOrders from './components/pages/customer/CustomerOrders';
-import CustomerOrder from './components/pages/customer/CustomerOrder'
+import CustomerOrder from './components/pages/customer/CustomerOrder';
 import WishList from './components/pages/customer/CustomerWishList';
 import Registro from './components/pages/customer/CustomerRegister';
  import Chat from './components/pages/customer/chat/Customerchat';
@@ -30,7 +30,7 @@ import Checkout4 from './components/pages/shop/ShopCheckout4';
 const App = () => {
 
     const [user_id,setUser] = useState(null);
-    const [user_name, setUserName] = useState('');
+    const [isLogged, setIsLogged] = useState(false);
 
     useEffect (()=>{
       if (user_id !== null){
@@ -43,24 +43,19 @@ const App = () => {
       }
     },[user_id])
 
-    useEffect (()=>{
-      if (user_name !== ''){
-        localStorage.setItem ('user_name', user_name)
-      }else{
-        let name = localStorage.getItem ('user_name')
-        if (name !== "null"){
-          setUserName (name);
-        }
-      }
-    },[user_name])
+    const handleDrop = () => {
+      setIsLogged(!isLogged);
+      setUser (null);
+      localStorage.setItem ('user_id', null)
+  }
   
     return (
       <Fragment >      
-          <Header user_id = {user_id} setUser = {setUser} setUserName={setUserName}/>
+          <Header user_id = {user_id} setUser = {setUser} handleDrop={handleDrop} isLogged={isLogged} setIsLogged={setIsLogged}/>
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route  path="/contact" component={Contact} />
-            <Route  path="/historial" component={Historial} />
+            <Route  path="/populars" component={Historial} />
             <Route  path="/shop-category" component={Categorias} />
             <Route  path="/shop-detail/:id" 
               render={(props)=>(
@@ -84,13 +79,13 @@ const App = () => {
             render={()=>(
                 <CustomerAccount
                   user_id = {user_id}
-                  user_name = {user_name}
+                  handleDrop={handleDrop}
                 />
             )}/>
-            <Route  path="/customer-orders" render={() =>(<CustomerOrders user_name={user_name} />)} />
+            <Route  path="/customer-orders" render={() =>(<CustomerOrders handleDrop={handleDrop} />)} />
             <Route  path="/customer-order" component={CustomerOrder} />
-            <Route  path="/customer-wishlist" render={() =>(<WishList user_name={user_name} />)} />
-            <Route  path='/customer-chat' render={() =>(<Chat user_name={user_name} />)} />
+            <Route  path="/customer-wishlist" render={() =>(<WishList handleDrop={handleDrop}/>)} />
+            <Route  path='/customer-chat' render={() =>(<Chat user_name={'cliente'} />)} />
             <Route component={RouteError}/>
           </Switch>
           <Footer />

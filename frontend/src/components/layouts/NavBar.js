@@ -17,7 +17,7 @@ const NavBar = () => {
                   <Link to="/shop-category" className="nav-link ">Categorias</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/historial" className="nav-link ">Historial</Link>
+                  <Link to="/populars" className="nav-link ">Más vendidos</Link>
                 </li>
                 <li className="nav-item">
                   <Link to="/ofertas" className="nav-link ">Ofertas</Link>
@@ -28,7 +28,7 @@ const NavBar = () => {
               </ul>
               <form role="search" className="navbar-form">
                 <div className="input-group">
-                  <input type="search" placeholder="Buscar" className="form-control"/><span className="input-group-btn"/ >
+                  <input type="search" placeholder="Buscar" className="form-control" style={{'border-color':'#F4F6F6'}}/><span className="input-group-btn"/ >
                     <button type="submit" className="btn btn-main"><i className="fa fa-search"></i></button>
                 </div>
               </form> 

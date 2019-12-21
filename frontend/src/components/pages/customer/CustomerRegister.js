@@ -2,7 +2,6 @@ import React, {Fragment, useState} from 'react';
 import {Link,withRouter} from 'react-router-dom';
 import './../../../css/default.css';
 import BreadCrumbs from './../../BreadCrumbs';
-import axios from 'axios';
 import {register, login,getEMails} from './utils/CustomerFunctions';
 
 const CustomerRegister = ({history,setUser}) => {
@@ -38,7 +37,7 @@ const CustomerRegister = ({history,setUser}) => {
     //validar que el mail no este en uso
 
     if (mailList.find(item => {
-      return item.e_mail == email
+      return item.e_mail === email
     })){
       setErrorMail (true);
       return;

@@ -4,7 +4,7 @@ import BreadCrumbs from './../../BreadCrumbs';
 import CustomerSection from './CustomerSection';
 import {Link} from 'react-router-dom';
 
-const CustomerOrders = ({user_name}) => {
+const CustomerOrders = ({setUser, handleDrop}) => {
     return (
         <Fragment>
         <BreadCrumbs 
@@ -72,7 +72,7 @@ const CustomerOrders = ({user_name}) => {
                 </div>
               </div>
             </div>
-            <CustomerSection user_name={user_name} />
+            <CustomerSection setUser={setUser} handleDrop={handleDrop}/>
           </div>
         </div>
       </div>

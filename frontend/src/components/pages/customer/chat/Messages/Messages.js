@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, Fragment} from 'react';
+import React, { useEffect} from 'react';
 import Message from './Message/Message';
 import './messages.css';
 

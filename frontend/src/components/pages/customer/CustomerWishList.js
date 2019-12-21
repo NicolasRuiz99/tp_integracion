@@ -10,7 +10,7 @@ import product3 from "./../../../assets/product3.jpg"
 import product4 from "./../../../assets/product4.jpg"
 import product5 from "./../../../assets/product5.jpg" 
 
-const CustomerWishList = ({user_name}) => {
+const CustomerWishList = ({setUser, handleDrop}) => {
     return (
         <Fragment>
       <BreadCrumbs name={"Mis deseos"} />
@@ -78,7 +78,7 @@ const CustomerWishList = ({user_name}) => {
                 </div>
               </div>
             </div>
-            <CustomerSection user_name={user_name}/>
+            <CustomerSection setUser={setUser} handleDrop={handleDrop}/>
           </div>
         </div>
       </div>

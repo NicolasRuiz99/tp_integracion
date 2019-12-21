@@ -1,13 +1,13 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import TopBar from './TopBar';
 import NavBar from './NavBar';
 
-const Header = ({user_id,setUser, setUserName}) => {
+const Header = ({user_id,setUser, isLogged, setIsLogged, handleDrop}) => {
     
 
     return (
         <Fragment>
-            <TopBar user_id = {user_id} setUser = {setUser} setUserName={setUserName}/>
+            <TopBar user_id = {user_id} setUser = {setUser}  isLogged={isLogged} setIsLogged={setIsLogged} handleDrop={handleDrop} />
             <NavBar />
         </Fragment>
     );

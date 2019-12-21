@@ -4,7 +4,7 @@ import './../../../css/default.css';
 import BreadCrumbs from '../../BreadCrumbs';
 import {getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo} from './utils/CustomerFunctions'
 
-const CustomerAccount = ({user_id, user_name}) => {
+const CustomerAccount = ({user_id, handleDrop}) => {
 
     //confirmacion email y contraseña
     const [psw,setPsw] = useState ('');
@@ -323,8 +323,18 @@ const CustomerAccount = ({user_id, user_name}) => {
                   </div>
                 </form>
               </div>
+              <div className="bo3">
+                <div className="heading">
+                  <h3 className="text-uppercase">Eliminar cuenta</h3>
+                </div>
+                <form onSubmit={''}>
+                    <div className="text-center">
+                      <button type="submit" className="btn btn-danger"><i class="fas fa-minus-circle"></i> Eliminar cuenta :(</button>
+                    </div>
+                  </form>
+              </div>
             </div>
-            <CustomerSection user_name={user_name} />
+            <CustomerSection user_name={"usuario"} handleDrop={handleDrop} />
           </div>
         </div>
       </div>
