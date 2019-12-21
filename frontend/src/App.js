@@ -31,6 +31,7 @@ const App = () => {
 
     const [user_id,setUser] = useState(null);
     const [isLogged, setIsLogged] = useState(false);
+    const [search, setSearch] = useState('');
 
     useEffect (()=>{
       if (user_id !== null){
@@ -46,17 +47,20 @@ const App = () => {
     const handleDrop = () => {
       setIsLogged(!isLogged);
       setUser (null);
-      localStorage.setItem ('user_id', null)
-  }
+      localStorage.setItem ('user_id', null);
+    }
+    
   
     return (
       <Fragment >      
-          <Header user_id = {user_id} setUser = {setUser} handleDrop={handleDrop} isLogged={isLogged} setIsLogged={setIsLogged}/>
+          <Header user_id = {user_id} setUser = {setUser} handleDrop={handleDrop} isLogged={isLogged} setIsLogged={setIsLogged} setSearch={setSearch} search={search} />
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route  path="/contact" component={Contact} />
             <Route  path="/populars" component={Historial} />
-            <Route  path="/shop-category" component={Categorias} />
+            <Route  path="/shop-category" render={() => (
+              <Categorias search={search} />
+            )} />
             <Route  path="/shop-detail/:id" 
               render={(props)=>(
                 <ShopDetail

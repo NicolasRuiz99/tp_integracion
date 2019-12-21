@@ -1,4 +1,5 @@
 import React,{Fragment} from "react";
+import {withRouter} from 'react-router-dom';
 import ProductItem from "./ProductItem";
 
 import './../../css/default.css';
@@ -19,4 +20,4 @@ const ProductList = ({list}) => {
     );
 };
 
-export default ProductList;
+export default withRouter(ProductList);

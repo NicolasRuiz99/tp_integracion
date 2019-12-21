@@ -1,5 +1,6 @@
 import React, { Fragment, useState,useEffect } from 'react';
 import BreadCrumbs from '../../BreadCrumbs';
+import {withRouter} from 'react-router-dom';
 import Paginacion from './Paginacion';
 import './../../../css/default.css';
 import Filtros from './Filtros';
@@ -13,7 +14,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import ProductList from '../../lists/ProductList';
 import {getProducts} from './utils/shopFunctions';
 
-const ShopCategorias = () => {
+const ShopCategorias = ({search}) => {
 
     const [error,setError] = useState (false);
     const [list,setList] = useState ([]);
@@ -26,7 +27,13 @@ const ShopCategorias = () => {
         setLoading(true);
         getProducts ()
         .then (res => {
-            setList (res);
+            if(search!== '') {
+                setList(res.filter(product => {
+                    return (product.name.toLowerCase().includes(search.toLowerCase()));
+                }))
+            }else{
+                setList(res);
+            }
             setLoading(false);
         })
         .catch (err=>{
@@ -37,9 +44,8 @@ const ShopCategorias = () => {
         if (list.length === 0){
             setError (true);
         }
-        
         setError (false);
-    },[]);
+    },[search, currentPage]);
 
     //Obtener lista de productos actual
     const indexOfLastList = currentPage * listPerPage;
@@ -74,4 +80,4 @@ const ShopCategorias = () => {
     );
 }
 
-export default ShopCategorias;
+export default withRouter(ShopCategorias);

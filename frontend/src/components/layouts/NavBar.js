@@ -1,9 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import './../../css/default.css';
 import logo from './../../assets/logo.png';
 
-const NavBar = () => {
+const NavBar = ({setSearch, history}) => {
+
+    const sendSearch = (event) => {
+      event.preventDefault();
+      history.push('/shop-category');
+   
+    }
+
+
+
     return (
       <header className="nav-holder make-sticky">
         <div id="navbar" role="navigation" className="navbar navbar-expand-lg navbar-light">
@@ -28,8 +37,13 @@ const NavBar = () => {
               </ul>
               <form role="search" className="navbar-form">
                 <div className="input-group">
-                  <input type="search" placeholder="Buscar" className="form-control" style={{'border-color':'#F4F6F6'}}/><span className="input-group-btn"/ >
-                    <button type="submit" className="btn btn-main"><i className="fa fa-search"></i></button>
+                  <input 
+                  type="search" placeholder="Buscar" 
+                  className="form-control" style={{'border-color':'#F4F6F6'}}
+                  onChange={({ target: { value } }) => setSearch(value)}
+                  onKeyPress={event => event.key === 'Enter' ? sendSearch(event) : null}
+                  /><span className="input-group-btn"></span>
+                    <button type="submit" className="btn btn-main" onClick={e => sendSearch(e)}><i className="fa fa-search"></i></button>
                 </div>
               </form> 
           </div>
@@ -39,4 +53,4 @@ const NavBar = () => {
     );
   }
 
-export default NavBar;
+export default withRouter(NavBar);
