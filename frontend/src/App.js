@@ -6,11 +6,11 @@ import './css/App.css';
 import Header from './components/layouts/Header';
 import Footer from './components/layouts/Footer';
 //Import pages
-import Contact from './components/pages/Contact';
-import Historial from './components/pages/Historial';
-import Ofertas from './components/pages/Ofertas';
+import Contact from './components/pages/nav-items/Contact';
+import Historial from './components/pages/nav-items/Historial';
+import Ofertas from './components/pages/nav-items/Ofertas';
 import RouteError from './components/pages/RouteError';
-import HomePage from './components/pages/HomePage';
+import HomePage from './components/pages/nav-items/HomePage';
 //Pages customer
 import CustomerAccount from './components/pages/customer/CustomerAccount';
 import CustomerOrders from './components/pages/customer/CustomerOrders';

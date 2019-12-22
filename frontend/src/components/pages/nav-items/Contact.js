@@ -1,6 +1,6 @@
 import React from 'react';
-import './../../css/default.css';
-import BreadCrumbs from './../BreadCrumbs';
+import './../../../css/default.css';
+import BreadCrumbs from './../../BreadCrumbs';
 
 
 const Contact = () => {

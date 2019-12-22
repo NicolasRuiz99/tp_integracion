@@ -1,10 +1,10 @@
 import React, { Fragment, useState,useEffect } from 'react';
-import ProductList from '../lists/ProductList';
-import {getProducts} from './shop/utils/shopFunctions';
-import Paginacion from './shop/Paginacion';
-import '../../css/default.css';
-import Filtros from './shop/Filtros';
-import BreadCrumbs from '../BreadCrumbs';
+import ProductList from '../../lists/ProductList';
+import {getProducts} from './../shop/utils/shopFunctions';
+import Paginacion from './../shop/Paginacion';
+import './../../../css/default.css';
+import Filtros from './../shop/Filtros';
+import BreadCrumbs from '../../BreadCrumbs';
 import {Link} from 'react-router-dom';
 
 const Ofertas = () => {

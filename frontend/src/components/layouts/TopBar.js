@@ -3,7 +3,8 @@ import {Link, withRouter} from 'react-router-dom';
 import './../../css/default.css';
 import LoginModal from './../modals/LoginModal';
 import LogoutModal from './../modals/LogoutModal';
-
+import GoogleLogin from 'react-google-login';
+import FacebookLogin from 'react-facebook-login';
 
 const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop}) => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -24,7 +25,14 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop}) => {
     const handleModalOpen2 = () => {
         setModalOpen2(!modalOpen2);
      }
+    
+    const responseFacebook = (response) => {
+        console.log(response);
+    }
 
+    const responseGoogle = (response) => {
+        console.log(response);
+    }
 
     return (
         <Fragment>
@@ -105,7 +113,21 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop}) => {
            modalOpen={modalOpen2}
            handleModalOpen={handleModalOpen2}
            handleDrop = {handleDrop}
+        />{/*0
+        <GoogleLogin
+        clientId="673282052111-of0572517o98uurd7b1jf2vbgp1ui50m.apps.googleusercontent.com"
+        buttonText="Login"
+        onSuccess={responseGoogle}
+        onFailure={responseGoogle}
+        cookiePolicy={'single_host_origin'}
         />
+        <FacebookLogin
+        appId="859707344447806"
+        autoLoad={true}
+        fields="name,email,picture"
+        onClick={componentClicked}
+        callback={responseFacebook} 
+        />*/}
 
         </Fragment>
     );

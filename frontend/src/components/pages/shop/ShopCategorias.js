@@ -45,7 +45,12 @@ const ShopCategorias = ({search}) => {
             setError (true);
         }
         setError (false);
-    },[search, currentPage]);
+        
+        
+        setCurrentPage(1);
+            
+        
+    },[search]);
 
     //Obtener lista de productos actual
     const indexOfLastList = currentPage * listPerPage;
@@ -53,7 +58,10 @@ const ShopCategorias = ({search}) => {
     const currentList = list.slice(indexOfFirstList, indexOfLastList);
 
     //Cambiar de pagina
-    const paginate = pageNumber => setCurrentPage(pageNumber);
+    const paginate = pageNumber => {
+        setCurrentPage(pageNumber);
+    }
+
 
     return (
         <Fragment>

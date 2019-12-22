@@ -40,19 +40,6 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history}) => {
       return;
     }
 
-    /*
-    login(customer).then(resp => {
-      console.log(resp);
-      
-      setUser(resp.user_id);
-    })
-    .catch (err => {
-      setError (true);
-      return;
-    })
-    ;
-    */
-
     setError(false);
 
     handleModalOpen ();
