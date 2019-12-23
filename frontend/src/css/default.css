@@ -2516,3 +2516,7 @@ table tr td {
 #checkout .payment-method:hover, #checkout .shipping-method:hover {
   cursor: pointer;
 }
+
+.fragment {
+  overflow-x: hidden !important;
+}

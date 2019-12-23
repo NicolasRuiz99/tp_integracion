@@ -2,6 +2,7 @@ import React, {Fragment,useState,useEffect} from 'react';
 import { Route, Switch} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
+import TopButton from './components/top-button/GoTopButton'
 //Import layouts
 import Header from './components/layouts/Header';
 import Footer from './components/layouts/Footer';
@@ -52,7 +53,7 @@ const App = () => {
     
   
     return (
-      <Fragment >      
+      <div className="fragment" >      
           <Header user_id = {user_id} setUser = {setUser} handleDrop={handleDrop} isLogged={isLogged} setIsLogged={setIsLogged} setSearch={setSearch} search={search} />
           <Switch>
             <Route exact path="/" component={HomePage} />
@@ -93,7 +94,8 @@ const App = () => {
             <Route component={RouteError}/>
           </Switch>
           <Footer />
-      </Fragment>
+          <TopButton />
+      </div>
     )
   }
 
