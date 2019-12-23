@@ -26,7 +26,7 @@ const NavBar = ({setSearch, history}) => {
                   <Link to="/shop-category" className="nav-link ">Categorias</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/populars" className="nav-link ">Más vendidos</Link>
+                  <Link to="/populars" className="nav-link ">Top 10</Link>
                 </li>
                 <li className="nav-item">
                   <Link to="/ofertas" className="nav-link ">Ofertas</Link>

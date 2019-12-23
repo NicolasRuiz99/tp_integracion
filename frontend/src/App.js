@@ -8,7 +8,7 @@ import Header from './components/layouts/Header';
 import Footer from './components/layouts/Footer';
 //Import pages
 import Contact from './components/pages/nav-items/Contact';
-import Historial from './components/pages/nav-items/Historial';
+import TopVentas from './components/pages/nav-items/TopVentas';
 import Ofertas from './components/pages/nav-items/Ofertas';
 import RouteError from './components/pages/RouteError';
 import HomePage from './components/pages/nav-items/HomePage';
@@ -58,7 +58,7 @@ const App = () => {
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route  path="/contact" component={Contact} />
-            <Route  path="/populars" component={Historial} />
+            <Route  path="/top-ten" component={TopVentas} />
             <Route  path="/shop-category" render={() => (
               <Categorias search={search} />
             )} />
