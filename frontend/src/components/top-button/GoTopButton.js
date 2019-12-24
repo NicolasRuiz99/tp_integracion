@@ -9,7 +9,6 @@ class GoTopButton extends React.Component {
     return ( 
       <div>
         <ScrollUpButton 
-        EasingType="easeInOutSine"
         style={{
           background: 'rgba(56, 167, 187, 0.9)',
         }} />

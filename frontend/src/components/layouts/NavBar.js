@@ -23,10 +23,10 @@ const NavBar = ({setSearch, history}) => {
             <div id="navbarSupportedContent" class="collapse navbar-collapse">
               <ul className="nav navbar-nav m-auto">
                 <li className="nav-item">
-                  <Link to="/shop-category" className="nav-link ">Categorias</Link>
+                  <Link to="/shop-category" className="nav-link ">Tienda</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/populars" className="nav-link ">Top 10</Link>
+                  <Link to="/populars" className="nav-link ">Top ventas</Link>
                 </li>
                 <li className="nav-item">
                   <Link to="/ofertas" className="nav-link ">Ofertas</Link>
