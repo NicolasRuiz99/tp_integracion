@@ -49,8 +49,6 @@ const CustomerAccount = ({user_id, handleDrop}) => {
           })
           .catch (err => {
               setServerError (true);
-              console.log(err);
-              
               return;
           });
           setServerError (false);
@@ -327,7 +325,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
                 <div className="heading">
                   <h3 className="text-uppercase">Eliminar cuenta</h3>
                 </div>
-                <form onSubmit={''}>
+                <form>
                     <div className="text-center">
                       <button type="submit" className="btn btn-danger"><i class="fas fa-minus-circle"></i> Eliminar cuenta :(</button>
                     </div>

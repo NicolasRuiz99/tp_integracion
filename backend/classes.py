@@ -353,7 +353,7 @@ class Wishlist:
     def delete (self):
         deleteFromTable2 ('wishlist',(self.id_user, self.id_prod),'id_user = %s and id_prod = %s')
 
-    def get (self,_id):
+    def get (self):
         res = searchID2 ('wishlist',(self.id_user, self.id_prod),'id_user = %s and id_prod = %s')  
         self.id_user = res[0]
         self.id_prod = res[1]

@@ -29,3 +29,9 @@ def getColor_size (prod_id):
 
 def getReview (prod_id):
     return query ('select r.id,r.date,r.stars,r.title,r.commentary from review r where id_product = ' + str(prod_id))
+
+def getUserWishlist (user_id):
+    return query ('select p.id,p.name,p.dsc,p.material,p.genre,p.brand,p.type,p.discount,p.price from wishlist w,products p where w.id_prod = p.id and w.id_user = ' + str(user_id))
+
+def getWishlistItem (user_id,prod_id):
+    return query ('select * from wishlist where id_user = ' + str(user_id) + ' and id_prod = ' + str(prod_id))

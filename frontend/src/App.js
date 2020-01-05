@@ -66,6 +66,7 @@ const App = () => {
               render={(props)=>(
                 <ShopDetail
                   props = {props}
+                  user_id = {user_id}
                 />
               )}/>
             <Route  path="/shop-cart" component={Cart} />
@@ -89,7 +90,7 @@ const App = () => {
             )}/>
             <Route  path="/customer-orders" render={() =>(<CustomerOrders handleDrop={handleDrop} />)} />
             <Route  path="/customer-order" component={CustomerOrder} />
-            <Route  path="/customer-wishlist" render={() =>(<WishList handleDrop={handleDrop}/>)} />
+            <Route  path="/customer-wishlist" render={() =>(<WishList handleDrop={handleDrop} user_id={user_id}/>)} />
             <Route  path='/customer-chat' render={() =>(<Chat user_name={'cliente'} />)} />
             <Route component={RouteError}/>
           </Switch>
