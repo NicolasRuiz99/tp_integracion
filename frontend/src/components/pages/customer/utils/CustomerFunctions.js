@@ -80,4 +80,51 @@ const modUserInfo = ({id,e_mail,psw}) => {
     .catch(err => {throw err})
 }
 
-export {login, register,getEMails,getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo};
+const getUserWishlist = user_id => {
+    return axios
+    .post("/wishlist/get",{
+        id_user: user_id
+    })
+    .then(res => {return res.data.data
+    })
+    .catch(err => {throw err})
+}
+
+const getWishlistItem = ({user_id,product_id}) => {
+    return axios
+    .post("/wishlist/item",{
+        id_user: user_id,
+        id_prod: product_id
+    })
+    .then(res => {return res.data.data
+    
+    })
+    .catch(err => {throw err})
+}
+
+const addWishlistItem = ({user_id,product_id}) => {
+    return axios
+    .post("/wishlist/add",{
+        id_user: user_id,
+        id_prod: product_id
+    })
+    .then(res => {return res.data
+    
+    
+    })
+    .catch(err => {throw err})
+}
+
+const deleteWishlistItem = ({user_id,product_id}) => {
+    return axios
+    .post("/wishlist/delete",{
+        id_user: user_id,
+        id_prod: product_id
+    })
+    .then(res => {return res.data
+    
+    })
+    .catch(err => {throw err})
+}
+
+export {login, register,getEMails,getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo,getUserWishlist,getWishlistItem,addWishlistItem,deleteWishlistItem};

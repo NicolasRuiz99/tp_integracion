@@ -123,3 +123,6 @@ INSERT INTO "review" (date, stars, title, commentary, id_product) VALUES
 ('24/11/2019', 6, 'Excelente', 'Nada mal', 3),
 ('26/11/2019', 2, 'Pesimo', 'No me gusto', 3),
 ('29/11/2019', 4, 'Todo ok', 'Nada mal', 4);
+
+INSERT INTO "wishlist" (id_user,id_prod) VALUES
+(2,1),(2,2),(2,3),(2,4),(4,3),(5,5),(6,2),(6,3),(6,4),(7,1);

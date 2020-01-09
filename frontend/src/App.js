@@ -64,6 +64,7 @@ const App = () => {
           search={search} 
           />
           <Switch>
+<<<<<<< HEAD
             <Route 
             exact path="/" component={HomePage} 
             />
@@ -123,6 +124,45 @@ const App = () => {
             />
             <Route component={RouteError}
             />
+=======
+            <Route exact path="/" component={HomePage} />
+            <Route  path="/contact" component={Contact} />
+            <Route  path="/top-ten" component={TopVentas} />
+            <Route  path="/shop-category" render={() => (
+              <Categorias search={search} />
+            )} />
+            <Route  path="/shop-detail/:id" 
+              render={(props)=>(
+                <ShopDetail
+                  props = {props}
+                  user_id = {user_id}
+                />
+              )}/>
+            <Route  path="/shop-cart" component={Cart} />
+            <Route  path="/shop-checkout1" component={Checkout1} />
+            <Route  path="/shop-checkout2" component={Checkout2} />
+            <Route  path="/shop-checkout3" component={Checkout3} />
+            <Route  path="/shop-checkout4" component={Checkout4} />
+            <Route  path="/registro"
+              render={()=>(
+                <Registro
+                  setUser = {setUser}
+                />
+              )}/>
+            <Route  path="/ofertas" component={Ofertas} />
+            <Route  path="/customer-account" 
+            render={()=>(
+                <CustomerAccount
+                  user_id = {user_id}
+                  handleDrop={handleDrop}
+                />
+            )}/>
+            <Route  path="/customer-orders" render={() =>(<CustomerOrders handleDrop={handleDrop} />)} />
+            <Route  path="/customer-order" component={CustomerOrder} />
+            <Route  path="/customer-wishlist" render={() =>(<WishList handleDrop={handleDrop} user_id={user_id}/>)} />
+            <Route  path='/customer-chat' render={() =>(<Chat user_name={'cliente'} />)} />
+            <Route component={RouteError}/>
+>>>>>>> f302e91024d23987764585fa8af36dbee03dad53
           </Switch>
           <Footer />
           <TopButton />
