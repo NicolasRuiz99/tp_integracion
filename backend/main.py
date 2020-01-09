@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, json
-from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts
+from queries import listUsers,listTypes,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser
 
@@ -196,6 +196,11 @@ def addType():
     finally:
         if not (error):
             return jsonify({'result' : 'success'})
+
+@app.route ('/type/listall',methods=['GET'])
+def listAllTypes():
+    results = listTypes()
+    return jsonify({'results' : results})
 
 @app.route ('/type/mod',methods=['POST'])
 def modType():
@@ -847,6 +852,23 @@ def deleteWishlist():
     finally:
         if not (error):
             return jsonify({'result' : 'success'})
+
+@app.route ('/wishlist/getall',methods=['POST'])
+def getAllWishlist():
+    error = False
+    id_user = request.json['id_user']
+    new = Wishlist (id_user)
+    try:
+        new.getAll()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            result = dict (id = new.id_user, product = new.id_product, date = new.date)
+            return jsonify({'result': 'success','data' : result})
+
+
 
 @app.route ('/review/add',methods=['POST'])
 def addReview():

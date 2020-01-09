@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './../../../css/default.css';
 import {Link} from 'react-router-dom';
-
 //Constantes de categorías
 const GENEROS = {
     masculino: 'M',
@@ -20,6 +19,13 @@ const CATEGORIAS = {
     camisas: 'camisas',
     ropaInterior: 'ropaInterior'
 }
+
+const MARCAS = [
+    'adidas',
+    'nike',
+    'taverniti',
+    'lacoste'
+];
 
 const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isActive2}) => {
     //States checkbox de marcas
@@ -41,6 +47,7 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
     const {isActiveF, isActiveM, isActiveT, isActiveU} = isActive;
     const {isActiveRemera, isActivePantalon, isActivePollera, isActiveRopaInterior, isActiveAbrigos,
            isActiveAccesorios, isActiveCalzado, isActiveCamisas} = isActive2;
+    
     
     //Metodos para activacion categórica
     const handleClick = (categoria) => {

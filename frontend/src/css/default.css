@@ -1072,8 +1072,8 @@ a.text-primary:focus, a.text-primary:hover {
   footer.main-footer {
     padding: 60px 0;
     padding-bottom: 0;
-    background: #24292e;
-    color: #fff;
+    background: rgb(255, 255, 255);
+    color:#24292e;
   }
   
   footer.main-footer a {
@@ -1082,7 +1082,7 @@ a.text-primary:focus, a.text-primary:hover {
   }
   
   footer.main-footer h4 {
-    color: #eee;
+    color: #747575;
     margin: 10px 0;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -1090,7 +1090,7 @@ a.text-primary:focus, a.text-primary:hover {
   
   footer.main-footer p {
     font-size: 0.9rem;
-    color: #aaa;
+    color: rgb(141, 141, 141);
   }
   
   footer.main-footer hr {
@@ -1124,8 +1124,8 @@ a.text-primary:focus, a.text-primary:hover {
   
   footer.main-footer .copyrights {
     padding: 50px 0;
-    background: rgb(225, 228, 232);
-    color: #24292e;
+    background:rgb(255, 255, 255);
+    color: rgb(129, 129, 129);
     margin-top: 50px;
   }
   
@@ -1139,23 +1139,6 @@ a.text-primary:focus, a.text-primary:hover {
     margin-bottom: 0;
   }
   
-  @media (max-width: 991px) {
-    footer.main-footer .photo-stream a {
-      width: 120px;
-      height: 120px;
-    }
-  }
-  
-  @media (max-width: 767px) {
-    footer.main-footer .photo-stream li {
-      width: 32%;
-      margin-bottom: 10px;
-    }
-    footer.main-footer .photo-stream a {
-      width: 100%;
-      height: auto;
-    }
-  }
 
   /* Estilos para el h6 */
   .h6 {

@@ -359,6 +359,12 @@ class Wishlist:
         self.id_prod = res[1]
         self.date = res[2]
 
+    def getAll (self,_id):
+        res = searchID ('wishlist',_id)  
+        self.id_user = res[0]
+        self.id_prod = res[1]
+        self.date = res[2]
+
 class Review:
     def __init__ (self,date=None,stars=None,title=None,commentary=None,id_product=None,_id=None):
         self.id = _id
