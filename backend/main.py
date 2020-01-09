@@ -1,9 +1,5 @@
 from flask import Flask, jsonify, request, json
-<<<<<<< HEAD
-from queries import listUsers,listTypes,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts
-=======
 from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem
->>>>>>> f302e91024d23987764585fa8af36dbee03dad53
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser
 
@@ -856,15 +852,6 @@ def deleteWishlist():
         if not (error):
             return jsonify({'result' : 'success'})
 
-<<<<<<< HEAD
-@app.route ('/wishlist/getall',methods=['POST'])
-def getAllWishlist():
-    error = False
-    id_user = request.json['id_user']
-    new = Wishlist (id_user)
-    try:
-        new.getAll()
-=======
 @app.route ('/wishlist/get',methods=['POST'])
 def getWishlist():
     result = []
@@ -872,18 +859,11 @@ def getWishlist():
     id_user = request.json['id_user']
     try:
         result = getUserWishlist (id_user)
->>>>>>> f302e91024d23987764585fa8af36dbee03dad53
     except (Exception) as err:
         error = True
         return handleError (err)
     finally:
         if not (error):
-<<<<<<< HEAD
-            result = dict (id = new.id_user, product = new.id_product, date = new.date)
-            return jsonify({'result': 'success','data' : result})
-
-
-=======
             return jsonify({'result' : 'success','data' : result})
 
 @app.route ('/wishlist/item',methods=['POST'])
@@ -902,7 +882,6 @@ def getWishItem():
     finally:
         if not (error):
             return jsonify({'result' : 'success','data' : result})
->>>>>>> f302e91024d23987764585fa8af36dbee03dad53
 
 @app.route ('/review/add',methods=['POST'])
 def addReview():
