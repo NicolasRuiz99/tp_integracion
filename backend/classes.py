@@ -353,27 +353,35 @@ class Wishlist:
     def delete (self):
         deleteFromTable2 ('wishlist',(self.id_user, self.id_prod),'id_user = %s and id_prod = %s')
 
-    def get (self,_id):
+    def get (self):
         res = searchID2 ('wishlist',(self.id_user, self.id_prod),'id_user = %s and id_prod = %s')  
         self.id_user = res[0]
         self.id_prod = res[1]
         self.date = res[2]
 
+    def getAll (self,_id):
+        res = searchID ('wishlist',_id)  
+        self.id_user = res[0]
+        self.id_prod = res[1]
+        self.date = res[2]
+
 class Review:
-    def __init__ (self,date=None,stars=None,title=None,commentary=None,id_product=None,_id=None):
+    def __init__ (self,stars=None,title=None,commentary='Sin comentarios',id_product=None,id_user=None,_id=None,date=None):
         self.id = _id
         self.date = date
         self.stars = stars
         self.title = title
         self.commentary = commentary
         self.id_product = id_product
+        self.id_user = id_user
 
     def add (self):
-        new_record = (self.date, self.stars, self.title, self.commentary, self.id_product)
-        addToTable ('review (date, stars, title, commentary, id_product)',new_record,'(%s,%s,%s,%s,%s)')
+        new_record = (self.stars, self.title, self.commentary, self.id_product,self.id_user)
+        print (new_record)
+        addToTable ('review (stars, title, commentary, id_product,id_user)',new_record,'(%s,%s,%s,%s,%s)')
 
     def mod (self):
-        updateTable ('review',(self.date, self.stars, self.title, self.commentary, self.id_product, self.id),'date = %s, stars = %s, title = %s, commentary = %s, id_product = %s')
+        updateTable ('review',(self.stars, self.title, self.commentary, self.id_product,self.id_user, self.id),'stars = %s, title = %s, commentary = %s, id_product = %s, id_user = %s')
 
     def delete (self):
         deleteFromTable ('review',self.id)
@@ -386,6 +394,7 @@ class Review:
         self.title = res[3]
         self.commentary = res[4]
         self.id_product = res[5]
+        self.id_user = res[6]
 
 #cust = Customer ()
 #cust.get (7)

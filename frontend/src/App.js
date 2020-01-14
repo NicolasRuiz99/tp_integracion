@@ -2,19 +2,19 @@ import React, {Fragment,useState,useEffect} from 'react';
 import { Route, Switch} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
+import TopButton from './components/top-button/GoTopButton'
 //Import layouts
 import Header from './components/layouts/Header';
 import Footer from './components/layouts/Footer';
 //Import pages
-import Contact from './components/pages/Contact';
-import Historial from './components/pages/Historial';
-import Ofertas from './components/pages/Ofertas';
+import Contact from './components/pages/nav-items/Contact';
+import TopVentas from './components/pages/nav-items/TopVentas';
 import RouteError from './components/pages/RouteError';
-import HomePage from './components/pages/HomePage';
+import HomePage from './components/pages/nav-items/HomePage';
 //Pages customer
 import CustomerAccount from './components/pages/customer/CustomerAccount';
 import CustomerOrders from './components/pages/customer/CustomerOrders';
-import CustomerOrder from './components/pages/customer/CustomerOrder'
+import CustomerOrder from './components/pages/customer/CustomerOrder';
 import WishList from './components/pages/customer/CustomerWishList';
 import Registro from './components/pages/customer/CustomerRegister';
  import Chat from './components/pages/customer/chat/Customerchat';
@@ -30,6 +30,9 @@ import Checkout4 from './components/pages/shop/ShopCheckout4';
 const App = () => {
 
     const [user_id,setUser] = useState(null);
+    const [isLogged, setIsLogged] = useState(false);
+    const [search, setSearch] = useState('');
+    const [isOferta, setIsOferta] = useState(false);
 
     useEffect (()=>{
       if (user_id !== null){
@@ -41,16 +44,31 @@ const App = () => {
         }
       }
     },[user_id])
+
+    const handleDrop = () => {
+      setIsLogged(!isLogged);
+      setUser (null);
+      localStorage.setItem ('user_id', null);
+    }
+    
   
     return (
-      <Fragment >      
-          <Header user_id = {user_id} setUser = {setUser}/>
+      <div className="fragment" >      
+          <Header user_id = {user_id} setUser = {setUser} handleDrop={handleDrop} isLogged={isLogged} setIsLogged={setIsLogged} setSearch={setSearch} search={search} isOferta={isOferta} />
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route  path="/contact" component={Contact} />
-            <Route  path="/historial" component={Historial} />
-            <Route  path="/shop-category" component={Categorias} />
-            <Route  path="/shop-detail" component={ShopDetail} />
+            <Route  path="/top-ten" component={TopVentas} />
+            <Route  path="/shop-category" render={() => (
+              <Categorias search={search} setIsOferta={setIsOferta} isOferta={false}/>
+            )} />
+            <Route  path="/shop-detail/:id" 
+              render={(props)=>(
+                <ShopDetail
+                  props = {props}
+                  user_id = {user_id}
+                />
+              )}/>
             <Route  path="/shop-cart" component={Cart} />
             <Route  path="/shop-checkout1" component={Checkout1} />
             <Route  path="/shop-checkout2" component={Checkout2} />
@@ -62,23 +80,32 @@ const App = () => {
                   setUser = {setUser}
                 />
               )}/>
-            <Route  path="/ofertas" component={Ofertas} />
+            <Route  path="/ofertas" render={() => (
+              <Categorias search={search} setIsOferta={setIsOferta} isOferta={true}  />
+            )} />
             <Route  path="/customer-account" 
             render={()=>(
                 <CustomerAccount
                   user_id = {user_id}
+                  handleDrop={handleDrop}
                 />
             )}/>
-            <Route  path="/customer-orders" component={CustomerOrders} />
+            <Route  path="/customer-orders" render={() =>(<CustomerOrders handleDrop={handleDrop} />)} />
             <Route  path="/customer-order" component={CustomerOrder} />
+<<<<<<< HEAD
             <Route  path="/customer-wishlist" component={WishList} />
             {/* //Ruta de prueba para el chat */}
             <Route  path='/customer-chat/:chatID/:room' component={Chat} />
             {/* <Route  path='/customer-chat' render={ () => (<Chat user_id={user_id} />)} /> */}
+=======
+            <Route  path="/customer-wishlist" render={() =>(<WishList handleDrop={handleDrop} user_id={user_id}/>)} />
+            <Route  path='/customer-chat' render={() =>(<Chat user_name={'cliente'} />)} />
+>>>>>>> 0e3e23e637cffba1c6196d922fdee5bf09483358
             <Route component={RouteError}/>
           </Switch>
           <Footer />
-      </Fragment>
+          <TopButton />
+      </div>
     )
   }
 

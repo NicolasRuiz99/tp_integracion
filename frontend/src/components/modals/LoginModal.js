@@ -2,9 +2,9 @@ import React,{useState} from 'react';
 import {Link,withRouter} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import './../css/default.css';
-import './../css/modal.css';
-import {login} from './pages/customer/utils/CustomerFunctions'
+import './../../css/default.css';
+import './../../css/modal.css';
+import {login, getCustomerInfo} from '../pages/customer/utils/CustomerFunctions'
 
 const LoginModal = ({modalOpen,handleModalOpen,setUser,history}) => { 
 
@@ -28,25 +28,17 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history}) => {
     //Conectar con el backend
 
     try{
-    const resp = await login (customer)
-    setUser (resp.user_id)
+    const resp = await login (customer);
+    console.log(resp);
+    const res = await getCustomerInfo(resp.user_id);
+    console.log(res[0]);
+    setUser (resp.user_id);
+
+
     }catch{
       setError (true);
       return;
     }
-
-    /*
-    login(customer).then(resp => {
-      console.log(resp);
-      
-      setUser(resp.user_id);
-    })
-    .catch (err => {
-      setError (true);
-      return;
-    })
-    ;
-    */
 
     setError(false);
 

@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, json
-from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts
+from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser
 
@@ -24,6 +24,12 @@ def listall():
 @app.route ('/product/listall',methods=['GET'])
 def listproducts():
     results = listProducts()
+    return jsonify({'results' : results})
+
+@app.route ('/product/getRecomended',methods=['POST'])
+def listproductsRecomended():
+    type_id = request.json ['type']
+    results = listRecomendedProducts (type_id)
     return jsonify({'results' : results})
 
 @app.route ('/customer/listall',methods=['GET'])
@@ -190,6 +196,11 @@ def addType():
     finally:
         if not (error):
             return jsonify({'result' : 'success'})
+
+@app.route ('/type/listall',methods=['GET'])
+def listAllTypes():
+    results = listTypes()
+    return jsonify({'results' : results})
 
 @app.route ('/type/mod',methods=['POST'])
 def modType():
@@ -402,6 +413,32 @@ def getProduct():
             result = dict (id = new.id, name = new.name, dsc = new.dsc, material = new.material, genre = new.genre, brand = new.brand,type = new.type, discount = new.discount, price = new.price)
             return jsonify({'result': 'success','data' : result})
 
+@app.route ('/product/getColor_size',methods=['POST'])
+def getProductColor_size():
+    error = False
+    id = request.json['id']
+    try:
+        result = getColor_size (id)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result': 'success','data' : result})
+
+@app.route ('/product/getReview',methods=['POST'])
+def getProductReview():
+    error = False
+    id = request.json['id']
+    try:
+        result = getReview (id)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result': 'success','data' : result})
+
 @app.route ('/color_size/add',methods=['POST'])
 def addColor_size():
     error = False
@@ -452,6 +489,7 @@ def deleteColor_size():
         if not (error):
             return jsonify({'result' : 'success'})
 
+"""
 @app.route ('/color_size/get',methods=['POST'])
 def getColor_size():
     error = False
@@ -466,6 +504,7 @@ def getColor_size():
         if not (error):
             result = dict (id = new.id, color = new.color, size = new.size,stock = new.stock,prod_id = new.prod_id)
             return jsonify({'result': 'success','data' : result})
+"""
 
 @app.route ('/coupon/add',methods=['POST'])
 def addCoupon():
@@ -668,6 +707,23 @@ def getPurchase():
             result = dict (id = new.id, price = new.price, date = new.date, state = new.state, id_user = new.id_user, id_coupon = new.id_coupon ,id_shipping = new.id_shipping)
             return jsonify({'result': 'success','data' : result})
 
+@app.route ('/purchase/item',methods=['POST'])
+def getPurchItem():
+    result = False
+    error = False
+    id_user = request.json['id_user']
+    id_prod = request.json['id_prod']
+    try:
+        item = getPurchaseItem (id_user,id_prod)
+        if (item != []):
+            result = True
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data' : result})
+
 @app.route ('/purchxitem/add',methods=['POST'])
 def addPurchxitem():
     error = False
@@ -785,10 +841,9 @@ def getReservation():
 @app.route ('/wishlist/add',methods=['POST'])
 def addWishlist():
     error = False
-    date = request.json['date']
     id_user = request.json['id_user']
     id_prod = request.json['id_prod']
-    new = Wishlist (id_user,id_prod,date)
+    new = Wishlist (id_user,id_prod)
     try:
         new.add()
     except (Exception) as err:
@@ -813,15 +868,46 @@ def deleteWishlist():
         if not (error):
             return jsonify({'result' : 'success'})
 
+@app.route ('/wishlist/get',methods=['POST'])
+def getWishlist():
+    result = []
+    error = False
+    id_user = request.json['id_user']
+    try:
+        result = getUserWishlist (id_user)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data' : result})
+
+@app.route ('/wishlist/item',methods=['POST'])
+def getWishItem():
+    result = False
+    error = False
+    id_user = request.json['id_user']
+    id_prod = request.json['id_prod']
+    try:
+        item = getWishlistItem (id_user,id_prod)
+        if (item != []):
+            result = True
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data' : result})
+
 @app.route ('/review/add',methods=['POST'])
 def addReview():
     error = False
-    date = request.json['date']
     stars = request.json['stars']
     title = request.json['title']
     commentary = request.json['commentary']
-    id_product = request.json['id_product']
-    new = Review (date,stars,title,commentary,id_product)
+    id_prod = request.json['id_prod']
+    id_user = request.json['id_user']
+    new = Review (stars,title,commentary,id_prod,id_user)
     try:
         new.add()
     except (Exception) as err:
@@ -840,7 +926,8 @@ def modReview():
     title = request.json['title']
     commentary = request.json['commentary']
     id_product = request.json['id_product']
-    new = Review (date,stars,title,commentary,id_product,id)
+    id_user = request.json['id_user']
+    new = Review (date,stars,title,commentary,id_product,id_user,id)
     try:
         new.mod()
     except (Exception) as err:
@@ -865,6 +952,7 @@ def deleteReview():
         if not (error):
             return jsonify({'result' : 'success'})
 
+"""
 @app.route ('/review/get',methods=['POST'])
 def getReview():
     error = False
@@ -879,6 +967,7 @@ def getReview():
         if not (error):
             result = dict (id = new.id, date = new.date, stars = new.stars, title = new.title, commentary = new.commentary, id_product = new.id_product)
             return jsonify({'result': 'success','data' : result})
+"""
 
 if __name__ == '__main__':
     app.run(debug=True)

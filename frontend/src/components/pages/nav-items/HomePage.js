@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
-import Slider from '../Slider';
+import Slider from '../../Slider';
 import {Link} from 'react-router-dom';
-
+import './../../../css/default.css';
 //Imagenes
-import product1 from "./../../assets/product1.jpg"
-import product2 from "./../../assets/product2.jpg"
-import product3 from "./../../assets/product3.jpg"
-import product4 from "./../../assets/product4.jpg"
-import product5 from "./../../assets/product5.jpg" 
+import product1 from "./../../../assets/product1.jpg"
+import product2 from "./../../../assets/product2.jpg"
+import product3 from "./../../../assets/product3.jpg"
+import product4 from "./../../../assets/product4.jpg"
+import product5 from "./../../../assets/product5.jpg" 
 
 const HomePage = () => {
     return (

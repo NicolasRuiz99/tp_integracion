@@ -1,16 +1,18 @@
 import React, {useState, Fragment, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import './../../css/default.css';
-import LoginModal from './../LoginModal';
+import LoginModal from './../modals/LoginModal';
+import LogoutModal from './../modals/LogoutModal';
+import GoogleLogin from 'react-google-login';
+import FacebookLogin from 'react-facebook-login';
 
-
-const TopBar = ({user_id,setUser}) => {
+const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop}) => {
     const [modalOpen, setModalOpen] = useState(false);
-    const [isLogged, setIsLogged] = useState(false);
+    const [modalOpen2, setModalOpen2] = useState(false);
 
     useEffect (()=>{
         if (user_id !== null){
-            setIsLogged (true)
+            setIsLogged (true);
         }else{
             setIsLogged (false)
         }
@@ -20,12 +22,17 @@ const TopBar = ({user_id,setUser}) => {
         setModalOpen(!modalOpen);
      }
     
-     const handleDrop = () => {
-         setIsLogged(!isLogged);
-         setUser (null);
-         localStorage.setItem ('user_id', null)
+    const handleModalOpen2 = () => {
+        setModalOpen2(!modalOpen2);
      }
+    
+    const responseFacebook = (response) => {
+        console.log(response);
+    }
 
+    const responseGoogle = (response) => {
+        console.log(response);
+    }
 
     return (
         <Fragment>
@@ -34,7 +41,6 @@ const TopBar = ({user_id,setUser}) => {
                 <div className="row d-flex align-items-center">
                     <div className="col-md-6 d-md-block d-none mr-0">
                         <p>Contactános en <i className="fas fa-phone"></i>   +54 3442 425688 </p>
-                        <p> o <i className="fas fa-envelope"></i> soporte-indumentariaonline@hotmail.com </p>
                     </div>
                     <div className="col-md-6">
                         <div className="d-flex justify-content-md-end justify-content-end">
@@ -75,21 +81,22 @@ const TopBar = ({user_id,setUser}) => {
                                     <i class="fas fa-shopping-cart"></i>
                                     <span className="d-none d-md-inline-block">Carrito</span>
                                 </Link>
-                                </div>
-                                
-                                <ul className="social-custom list-inline">
-                                <li className="nav-item dropdown active"><a href="javascript: void(0)" data-toggle="dropdown" className="dropdown-toggle"><span className="d-none d-md-inline-block">Mi perfil</span></a>
+                                <Link to="/customer-notifications" className="signup-btn" title="No tenés notificaciones">
+                                    <i class="fas fa-bell"></i>
+                                </Link>
+                                <Link className="nav-item dropdown active"><Link onClick={e => {
+                                e.preventDefault()
+                                }} data-toggle="dropdown" className="dropdown-toggle signup-btn" style={{color: "#fff"}}><span className="d-none d-md-inline-block">{`Mi Cuenta`}</span></Link>
                                     <ul class="dropdown-menu">
-                                        <li className="dropdown-item"><Link to="/customer-account" class="nav-link">Mi cuenta</Link></li>
-                                        <li className="dropdown-item"><Link to="/customer-orders" class="nav-link">Mis compras</Link></li>
-                                        <li className="dropdown-item"><Link to="/customer-wishlist" class="nav-link">Mis deseos</Link></li>
-                                        <li className="dropdown-item"><Link to="/" class="nav-link" onClick={handleDrop}>Salir</Link></li>
+                                        <li className="dropdown-item"><Link to="/customer-account" class="nav-link" style={{color: "#fff"}}>Mi cuenta</Link></li>
+                                        <li className="dropdown-item"><Link to="/customer-orders" class="nav-link" style={{color: "#fff"}}>Mis compras</Link></li>
+                                        <li className="dropdown-item"><Link to="/customer-wishlist" class="nav-link" style={{color: "#fff"}}>Mis deseos</Link></li>
+                                        <li className="dropdown-item"><Link class="nav-link" onClick={handleModalOpen2} style={{color: "#fff"}}>Salir</Link></li>
                                     </ul>
-                                </li>
-                                </ul>
+                                </Link>
+                                </div>
                                 </Fragment>
-                                
-                                 )}
+                                )}
                         </div>
                     </div>
                 </div>
@@ -102,8 +109,28 @@ const TopBar = ({user_id,setUser}) => {
            setUser = {setUser}
         />
 
+        <LogoutModal
+           modalOpen={modalOpen2}
+           handleModalOpen={handleModalOpen2}
+           handleDrop = {handleDrop}
+        />{/*0
+        <GoogleLogin
+        clientId="673282052111-of0572517o98uurd7b1jf2vbgp1ui50m.apps.googleusercontent.com"
+        buttonText="Login"
+        onSuccess={responseGoogle}
+        onFailure={responseGoogle}
+        cookiePolicy={'single_host_origin'}
+        />
+        <FacebookLogin
+        appId="859707344447806"
+        autoLoad={true}
+        fields="name,email,picture"
+        onClick={componentClicked}
+        callback={responseFacebook} 
+        />*/}
+
         </Fragment>
     );
 }
 
-export default TopBar;
+export default withRouter(TopBar);

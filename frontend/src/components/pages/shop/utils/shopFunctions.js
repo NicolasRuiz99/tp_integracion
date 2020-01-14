@@ -1,12 +1,55 @@
 import axios from 'axios';
 
-const getProducts = () => {
+const getProducts = async() => {
     return axios
-    .get("product/listall")
+    .get("/product/listall")
     .then(res => {
         return res.data.results
     })
     .catch(err => {throw err})
 }
 
-export {getProducts};
+const getProductInfo = async(id) => {
+    return axios
+    .post("/product/get",{
+        id
+    })
+    .then(res => {
+        return res.data.data
+    })
+    .catch(err => {throw err})
+}
+
+const getProductColor_size = async(id) => {
+    return axios
+    .post("/product/getColor_size",{
+        id
+    })
+    .then(res => {
+        return res.data.data
+    })
+    .catch(err => {throw err})
+}
+
+const getProductReview = async(id) => {
+    return axios
+    .post("/product/getReview",{
+        id
+    })
+    .then(res => {
+        return res.data.data
+    })
+    .catch(err => {throw err})
+}
+
+//Obtener tipos
+/*const getProductType = async() => {
+    return axios
+    .get("/type/listall")
+    .then(res => {
+        return res.data.results
+    })
+    .catch(err => {throw err})
+}*/
+
+export {getProducts,getProductInfo,getProductColor_size,getProductReview};

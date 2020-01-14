@@ -1,4 +1,5 @@
 import React, {useState, Fragment, useEffect} from 'react';
+import {withRouter} from 'react-router-dom'
 import './chat.css';
 import './../../../../css/default.css';
 
@@ -10,21 +11,23 @@ import Messages from './Messages/Messages';
 import BreadCrumbs from '../../../BreadCrumbs';
 import CustomerSection from '../CustomerSection';
 
+import queryString from 'query-string';
+
 let socket;
 
-const CustomerChat = (props) => {
+const CustomerChat = (props, {user_name}) => {
     const [chatID, setChatID] = useState('');
     const [room, setRoom] = useState('');
     const [users, setUsers] = useState('');
     const ENDPOINT = 'http://localhost:3001';
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
-
+    
     useEffect(() => {
-        const { chatID, room } = props.match.params;
+        const {chatID, room} = queryString.parse(props.location.search);
         console.log(`ID: ${chatID}, Sala: ${room}`);
         socket = io(ENDPOINT);
-    
+        
         setRoom(room);
         setChatID(chatID)
         
@@ -34,7 +37,7 @@ const CustomerChat = (props) => {
             alert(error);
           }
         });
-      }, [ENDPOINT, props.match.params]);
+      }, [ENDPOINT, props.location.search]);
 
       useEffect(() => {
         //Escuchando mensajes
@@ -75,7 +78,7 @@ const CustomerChat = (props) => {
                 <Messages messages={messages} id={chatID} />
                 <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
                 </div>
-                <CustomerSection />
+                <CustomerSection user_name={user_name}/>
             </div>    
             </div>
         </div>
@@ -83,4 +86,4 @@ const CustomerChat = (props) => {
     );
 };
 
-export default CustomerChat;
+export default withRouter(CustomerChat);

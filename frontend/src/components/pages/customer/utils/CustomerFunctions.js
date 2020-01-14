@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const login = user => {
     return axios
-    .post("user/login", {
+    .post("/user/login", {
         e_mail: user.mail,
         psw: user.pass
     })
@@ -12,25 +12,25 @@ const login = user => {
 
 const register = user => {
     return axios
-    .post("user/register", {
+    .post("/user/register", {
         e_mail: user.email,
         psw: user.contraseña,
         id_role: 2
     })
-    .then(res => {return res.data})
+    .then(res => {console.log(res.data); return res.data})
     .catch(err => {throw err})
 }
 
 const getEMails = () => {
     return axios
-    .get("user/list_emails")
+    .get("/user/list_emails")
     .then(res => {return res.data.results})
     .catch(err => {throw err})
 }
 
 const getCustomerInfo = id => {
     return axios
-    .post("user/getCustomer",{
+    .post("/user/getCustomer",{
         id
     })
     .then(res => {return res.data.data})
@@ -39,7 +39,7 @@ const getCustomerInfo = id => {
 
 const addCustomerInfo = ({dni,name,surname,genre,c_size,shoe_size,phone_no,id_user}) => {
     return axios
-    .post("customer/add",{
+    .post("/customer/add",{
         dni,
         name,
         surname,
@@ -55,7 +55,7 @@ const addCustomerInfo = ({dni,name,surname,genre,c_size,shoe_size,phone_no,id_us
 
 const modCustomerInfo = ({id,dni,name,surname,genre,c_size,shoe_size,phone_no}) => {
     return axios
-    .post("customer/mod",{
+    .post("/customer/mod",{
         id,
         dni,
         name,
@@ -71,7 +71,7 @@ const modCustomerInfo = ({id,dni,name,surname,genre,c_size,shoe_size,phone_no}) 
 
 const modUserInfo = ({id,e_mail,psw}) => {
     return axios
-    .post("user/mod",{
+    .post("/user/mod",{
         id,
         e_mail,
         psw
@@ -80,4 +80,77 @@ const modUserInfo = ({id,e_mail,psw}) => {
     .catch(err => {throw err})
 }
 
-export {login, register,getEMails,getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo};
+const getUserWishlist = user_id => {
+    return axios
+    .post("/wishlist/get",{
+        id_user: user_id
+    })
+    .then(res => {return res.data.data
+    })
+    .catch(err => {throw err})
+}
+
+const getWishlistItem = ({user_id,product_id}) => {
+    return axios
+    .post("/wishlist/item",{
+        id_user: user_id,
+        id_prod: product_id
+    })
+    .then(res => {return res.data.data
+    
+    })
+    .catch(err => {throw err})
+}
+
+const addWishlistItem = ({user_id,product_id}) => {
+    return axios
+    .post("/wishlist/add",{
+        id_user: user_id,
+        id_prod: product_id
+    })
+    .then(res => {return res.data
+    
+    
+    })
+    .catch(err => {throw err})
+}
+
+const deleteWishlistItem = ({user_id,product_id}) => {
+    return axios
+    .post("/wishlist/delete",{
+        id_user: user_id,
+        id_prod: product_id
+    })
+    .then(res => {return res.data
+    
+    })
+    .catch(err => {throw err})
+}
+
+const getUserPurchaseItem = ({user_id,product_id}) => {
+    return axios
+    .post("/purchase/item",{
+        id_user: user_id,
+        id_prod: product_id
+    })
+    .then(res => {return res.data.data
+    
+    })
+    .catch(err => {throw err})
+}
+
+const addReviewItem = ({user_id,prod_id,stars,title,commentary}) => {
+    return axios
+    .post("/review/add",{
+        id_user: user_id,
+        id_prod: prod_id,
+        stars,
+        title,
+        commentary
+    })
+    .then(res => {return res.data
+    })
+    .catch(err => {throw err})
+}
+
+export {login, register,getEMails,getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo,getUserWishlist,getWishlistItem,addWishlistItem,deleteWishlistItem,getUserPurchaseItem,addReviewItem};

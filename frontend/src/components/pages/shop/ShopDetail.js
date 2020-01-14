@@ -1,9 +1,11 @@
-import React, { Fragment } from 'react';
+import React, { Fragment,useEffect,useState } from 'react';
 import BreadCrumbs from '../../BreadCrumbs';
-import {Link} from 'react-router-dom';
+import {Link,withRouter} from 'react-router-dom';
 import Review from './../Review';
-import './../../../css/default.css';
 import Rating from './Rating';
+import './../../../css/default.css';
+import {getProductInfo,getProductColor_size,getProductReview} from './utils/shopFunctions';
+import {getWishlistItem,addWishlistItem,deleteWishlistItem,getUserPurchaseItem} from '../customer/utils/CustomerFunctions';
 //React image gallery
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from 'react-image-gallery';
@@ -15,9 +17,11 @@ import product4 from "./../../../assets/product4.jpg";
 import product5 from "./../../../assets/product5.jpg" ;
 import img from "./../../../assets/detailsquareBig.jpg";
 import img2 from "./../../../assets/detailsquare.jpg";
+import ReviewList from '../../lists/ReviewList';
+import Color_sizeList from '../../lists/Color_sizeList';
 
-const ShopDetail = () => {
-  const images = [
+const ShopDetail = ({props,user_id}) => {
+    const images = [
     {
       original: img,
       thumbnail: img2,
@@ -28,9 +32,121 @@ const ShopDetail = () => {
       original: img,
       thumbnail: img2,
     }]
+
+    const [prodInfo,setProdInfo] = useState ({});
+    const [color_size,setColor_size] = useState ([]);
+    const [reviews,setReviews] = useState ([]);
+    const [avgReview,setAvgReview] = useState (0);
+    const [error,setError] = useState (false);
+    const [isWishlisted,setWishlisted] = useState (false);
+    const [isPurchased,setPurchased] = useState (false);
+    const [isReviewed,setReviewed] = useState (false);
+    const [selectedItem,setSelectedItem] = useState ({});
+    const [selectedStock,setSelectedStock] = useState (0);
+
+    const getAverage = (list) => {
+      let total = 0;
+      if (list.length !== 0){
+        for (let i = 0; i < list.length; i++){
+          total += list[i].stars        
+      }
+      total = total / list.length;
+      }
+      setAvgReview (total)
+    }
+
+    const getUserReview = (list) => {
+        const res = list
+        for (let i = 0; i < res.length; i++){
+          if (res[i].id_user === user_id){
+            setReviewed (true);
+            break;
+          }
+        }
+    }
+
+    const ManageWishlist = () => {
+      const product_id = prodInfo.id
+      
+      if (isWishlisted) {
+          deleteWishlistItem ({user_id,product_id})
+          .then (res=>{
+            setWishlisted (false);
+          })
+          .catch (err =>{
+            setError (true);
+            return;
+          })
+      }else{
+        addWishlistItem ({user_id,product_id})
+        .then (res=>{
+          setWishlisted (true);
+        })
+        .catch (err =>{
+          setError (true);
+          return;
+        })
+      }
+    }
+    
+    useEffect (()=>{
+      const product_id = props.match.params.id;
+      
+      getProductInfo (product_id)
+      .then(res =>{
+          setProdInfo (res);
+      })
+      .catch (err =>{
+          setError (true);
+          return;
+      })
+
+      getProductColor_size (product_id)
+      .then(res =>{
+        setColor_size (res);
+      })
+      .catch (err =>{
+        setError (true);
+        return;
+      })
+
+      getUserPurchaseItem ({user_id,product_id})
+      .then(res =>{
+        setPurchased (res);
+      })
+      .catch (err =>{
+        setError (true);
+      return;
+      })
+
+      getProductReview (product_id)
+      .then(res =>{
+        setReviews (res);
+        getAverage(res);
+        getUserReview (res);
+      })
+      .catch (err =>{
+        setError (true);
+        return;
+      })
+      
+      getWishlistItem ({user_id,product_id})
+      .then(res =>{
+          setWishlisted (res);
+      })
+      .catch (err =>{
+        setError (true);
+        return;
+      })
+
+      setError (false);
+      
+    },[user_id,isReviewed])
+
+    if (user_id === null){
     return (
         <Fragment>
-      <BreadCrumbs name={"Nombre del producto"} />
+      <BreadCrumbs name={prodInfo.name} />
 
       <div id="content">
         <div className="container">
@@ -40,52 +156,18 @@ const ShopDetail = () => {
                 <div className="col-sm-6">
                 <ImageGallery items={images} />
                 </div>
-                <div className="col-sm-6">
+                <div className="col-sm-5">
                   <div className="box mb-4 mt-4">
                     <form>
-                     
-                      <div className="sizes">
-                      <div className="col-sm-10">
-                        <h3>Tamaños disponibles</h3>
-                        
-                          <select className="bs-select" >
-                          <option value="38">38</option>
-                          <option value="39">39</option>
-                          <option value="40">40</option>
-                          <option value="42">42</option>
-                        </select>
-                        </div>
-                        <br/>
-                        
-                      </div>
-                      <div className="sizes">
-                      <div className="col-sm-10">
-                      <h3>Colores disponibles</h3>
-                        <select className="bs-select" >
-                          <option value="38">Marrón</option>
-                          <option value="39">Negro</option>
-                          <option value="40">Blanco</option>
-                          <option value="42">Amarillo</option>
-                        </select>
-                        </div>
-                        <br />
-                      </div>
-                      <div className="sizes">
+                      <Color_sizeList list = {color_size} setSelectedItem = {setSelectedItem} setSelectedStock = {setSelectedStock} />
                       <div className="col-sm-11">
-                      <h3>Unidades <span className="span-detail">(566 disponibles)</span></h3>
-                        <select className="bs-select" >
-                          <option value="38">1</option>
-                          <option value="39">2</option>
-                          <option value="40">3</option>
-                          <option value="42">4</option>
-                        </select>
+                      <div className="product">
+                        <p className="price"> {(prodInfo.discount !== 0)?<del> ${prodInfo.price} </del> : null} ${prodInfo.price-((prodInfo.discount*prodInfo.price)/100)}</p> 
                       </div>
-                      </div>
-                      <div className="col-sm-10">
-                      <p className="price">$824.00</p>
                       <p className="text-center">
-                        <button type="submit" className="btn btn-outlined"><i className="fa fa-shopping-cart"></i> Añadir al carrito</button>
-                        <button type="submit" data-toggle="tooltip" data-placement="top" title="Añadir a mis deseos" className="btn btn-default"><i className="fa fa-heart-o"></i></button>
+                        <button className="btn btn-outlined" disabled><i className="fa fa-shopping-cart"></i> Añadir al carrito</button>
+                        <button data-toggle="tooltip" data-placement="top" title="Añadir a mis deseos" className="btn btn-default" disabled><i className="fa fa-heart-o"></i></button>
+                        <button data-toggle="tooltip" data-placement="top" title="Reservar" className="btn btn-default" disabled><i class="far fa-calendar-alt"></i></button>   
                       </p>
                       </div>
                     </form>
@@ -95,18 +177,21 @@ const ShopDetail = () => {
               <div id="details" className="box mb-4 mt-4">
                 <p></p>
                 <h4>Detalles del producto</h4>
-                <p>Zapatos de vestir Pizzoni hombre</p>
+                <blockquote className="blockquote">
+                  <p className="mb-0"><em>{prodInfo.dsc}</em></p>
+                </blockquote>
+                <h4>Valoración media</h4>
+                <ul>
+                <li><Rating stars={avgReview} change={false}/> ({reviews.length} opinion/es)</li> 
+                </ul>
                 <h4>Material</h4>
                 <ul>
-                  <li>Cuero</li>
+                  <li>{prodInfo.material}</li>
                 </ul>
-                <h4>Tamaño</h4>
+                <h4>Marca</h4>
                 <ul>
-                  <li>Regular</li>
-                </ul>
-                <blockquote className="blockquote">
-                  <p className="mb-0"><em>Zapato de vestir de Hombre Pizzoni con costura en capellada. Fabricado en Ecocuero, con plantilla confortable y base en PVC de larga duración</em></p>
-                </blockquote>
+                  <li>{prodInfo.brand}</li>
+                </ul>               
               </div>
               <div id="product-social" className="box social text-center mb-5 mt-5">
                 <h4 className="heading-light">Compártelo con tus amigos</h4>
@@ -116,16 +201,7 @@ const ShopDetail = () => {
                 </ul>
               </div>
               {/* Reseñas */}
-              <Review />
-              <div className="box mb-4 mt-4">
-                <h3 className="m_3">Reseñas del producto</h3>
-                <span className="m_text">Titulo1</span>
-                <p className="m_text">Customer1: Muy bueno! quedé encantado  <Rating stars={5}/></p>
-                <span className="m_text">Titulo2</span>
-                <p className="m_text">Customer2: Pésimo material <Rating stars={1}/></p>
-                <span className="m_text">Titulo3</span>
-                <p className="m_text">Customer3: Todo OK! <Rating stars={4}/></p>
-              </div>
+              <ReviewList list = {reviews} />
               <div className="row">
                 <div className="col-lg-3 col-md-6">
                   <div className="box text-uppercase mt-0 mb-small">
@@ -160,28 +236,91 @@ const ShopDetail = () => {
                   </div>
                 </div>
               </div>
+             
+            </div>
+          </div>
+        </div>
+      </div>
+      </Fragment>
+    );
+    }else{
+    return (
+        <Fragment>
+      <BreadCrumbs name={prodInfo.name} />
+
+      <div id="content">
+        <div className="container">
+          <div className="row bar">
+            <div className="col-lg-9">
+              <div id="productMain" className="row">
+                <div className="col-sm-6">
+                <ImageGallery items={images} />
+                </div>
+                <div className="col-sm-6">
+                  <div className="box mb-4 mt-4">
+                    <form>
+                      <Color_sizeList list = {color_size} setSelectedItem = {setSelectedItem} setSelectedStock = {setSelectedStock} />
+                      <div className="col-sm-10">
+                      <div className="product">
+                        <p className="price"> {(prodInfo.discount !== 0)?<del> ${prodInfo.price} </del> : null} ${prodInfo.price-((prodInfo.discount*prodInfo.price)/100)}</p> 
+                      </div>
+                      <p className="text-center">
+                        <button className="btn btn-outlined"><i className="fa fa-shopping-cart"></i> Añadir al carrito</button>
+                        {(isWishlisted)? 
+                        <button data-toggle="tooltip" data-placement="top" title="Eliminar de mis deseos" className="btn btn-danger" onClick={ManageWishlist}><i className="fa fa-heart-o"></i></button>
+                        :
+                        <button data-toggle="tooltip" data-placement="top" title="Añadir a mis deseos" className="btn btn-default" onClick={ManageWishlist}><i className="fa fa-heart-o"></i></button>
+                        }
+                        <button data-toggle="tooltip" data-placement="top" title="Reservar" className="btn btn-default"><i class="far fa-calendar-alt"></i></button>
+                        </p>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div id="details" className="box mb-4 mt-4">
+                <p></p>
+                <h4>Detalles del producto</h4>
+                <blockquote className="blockquote">
+                  <p className="mb-0"><em>{prodInfo.dsc}</em></p>
+                </blockquote>
+                <h4>Valoración media</h4>
+                <ul>
+                <li><Rating stars={avgReview} change={false}/> ({reviews.length} opinion/es)</li>
+                </ul>
+                <h4>Material</h4>
+                <ul>
+                  <li>{prodInfo.material}</li>
+                </ul>
+                <h4>Marca</h4>
+                <ul>
+                  <li>{prodInfo.brand}</li>
+                </ul>               
+              </div>
+              <div id="product-social" className="box social text-center mb-5 mt-5">
+                <h4 className="heading-light">Compártelo con tus amigos</h4>
+                <ul className="social list-inline">
+                  <li className="list-inline-item"><Link to="#" data-animate-hover="pulse" className="external facebook"><i className="fab fa-facebook"></i></Link></li>
+                  <li className="list-inline-item"><Link to="#" data-animate-hover="pulse" className="external gplus"><i className="fab fa-google-plus"></i></Link></li>
+                </ul>
+              </div>
+              {/* Reseñas */}
+              {(isPurchased)?
+              <div>
+                {(isReviewed)?
+                <h4 className="heading-light">Producto ya reseñado</h4>
+                :
+                <Review setReviewed = {setReviewed} user_id = {user_id} prod_id = {prodInfo.id}/>
+                }
+              </div>
+              :
+              <h4 className="heading-light">Compra el producto para opinar!</h4>
+              }
+              <ReviewList list = {reviews} />
               <div className="row">
                 <div className="col-lg-3 col-md-6">
                   <div className="box text-uppercase mt-0 mb-small">
-                    <h3>Productos visitados</h3>
-                  </div>
-                </div>
-                <div className="col-lg-3 col-md-6">
-                  <div className="product">
-                    <div className="image"><Link to="#"><img src={product5} alt="" className="img-fluid image1"/></Link></div>
-                    <div className="text">
-                      <h3 className="h5"><Link to="/shop-detail">Sudadera negra con capucha</Link></h3>
-                      <p className="price">$1250</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-lg-3 col-md-6">
-                  <div className="product">
-                    <div className="image"><Link to="#"><img src={product4} alt="" className="img-fluid image1"/></Link></div>
-                    <div className="text">
-                      <h3 className="h5"><Link to="/shop-detail">Sudadera blanca con capucha</Link></h3>
-                      <p className="price">$1500</p>
-                    </div>
+                    <h3>Productos que te podrían interesar</h3>
                   </div>
                 </div>
                 <div className="col-lg-3 col-md-6">
@@ -193,13 +332,33 @@ const ShopDetail = () => {
                     </div>
                   </div>
                 </div>
+                <div className="col-lg-3 col-md-6">
+                  <div className="product">
+                    <div className="image"><Link to="#"><img src={product3} alt="" className="img-fluid image1"/></Link></div>
+                    <div className="text">
+                      <h3 className="h5"><Link to="/shop-detail">Pantalon soldado Ibera</Link></h3>
+                      <p className="price">$2300</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-lg-3 col-md-6">
+                  <div className="product">
+                    <div className="image"><Link to="#"><img src={product1} alt="" className="img-fluid image1"/></Link></div>
+                    <div className="text">
+                      <h3 className="h5"><Link to="/shop-detail">Zapatillas azules deportivas Adidas</Link></h3>
+                      <p className="price">$2143</p>
+                    </div>
+                  </div>
+                </div>
               </div>
+             
             </div>
           </div>
         </div>
       </div>
       </Fragment>
     );
+    } 
 }
 
-export default ShopDetail;
+export default withRouter (ShopDetail);
