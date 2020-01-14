@@ -29,10 +29,10 @@ import Checkout4 from './components/pages/shop/ShopCheckout4';
 
 const App = () => {
 
-    const [user_id,setUser] = useState(null);
-    const [isLogged, setIsLogged] = useState(false);
-    const [search, setSearch] = useState('');
-    const [isOferta, setIsOferta] = useState(false);
+  const [user_id,setUser] = useState(null);
+  const [isLogged, setIsLogged] = useState(false);
+  const [search, setSearch] = useState('');
+  const [isOferta, setIsOferta] = useState(false);
 
     useEffect (()=>{
       if (user_id !== null){
