@@ -3,17 +3,20 @@ import React, {useState,useEffect} from 'react'
  
 //Page de npm https://www.npmjs.com/package/react-star-ratings
 
-const Rating = ({stars,change}) => {
+const Rating = ({stars,change,setStars}) => {
     
     const [rating, setRating] = useState(0); //Por default
     
     const handleRating = ( newRating, name ) => {
       setRating(newRating);
+      setStars (newRating);
     }
 
     useEffect (()=>{
       if (!change){
         setRating (stars);
+      }else{
+        setStars (0);
       }
     },[change, stars])
 

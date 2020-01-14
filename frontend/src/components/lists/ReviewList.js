@@ -2,6 +2,7 @@ import React,{Fragment} from "react";
 import ReviewItem from "./ReviewItem";
 
 const ReviewList = ({list}) => {
+
     return (
         <Fragment>               
             <div className="box mb-4 mt-4">

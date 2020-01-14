@@ -5,7 +5,7 @@ import Review from './../Review';
 import Rating from './Rating';
 import './../../../css/default.css';
 import {getProductInfo,getProductColor_size,getProductReview} from './utils/shopFunctions';
-import {getWishlistItem,addWishlistItem,deleteWishlistItem} from '../customer/utils/CustomerFunctions';
+import {getWishlistItem,addWishlistItem,deleteWishlistItem,getUserPurchaseItem} from '../customer/utils/CustomerFunctions';
 //React image gallery
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from 'react-image-gallery';
@@ -39,13 +39,30 @@ const ShopDetail = ({props,user_id}) => {
     const [avgReview,setAvgReview] = useState (0);
     const [error,setError] = useState (false);
     const [isWishlisted,setWishlisted] = useState (false);
+    const [isPurchased,setPurchased] = useState (false);
+    const [isReviewed,setReviewed] = useState (false);
+    const [selectedItem,setSelectedItem] = useState ({});
+    const [selectedStock,setSelectedStock] = useState (0);
 
-    const getAverage = async(list) => {
+    const getAverage = (list) => {
       let total = 0;
-      for (let i = 0; i < list.length; i++){
+      if (list.length !== 0){
+        for (let i = 0; i < list.length; i++){
           total += list[i].stars        
       }
-      return (total / list.length)
+      total = total / list.length;
+      }
+      setAvgReview (total)
+    }
+
+    const getUserReview = (list) => {
+        const res = list
+        for (let i = 0; i < res.length; i++){
+          if (res[i].id_user === user_id){
+            setReviewed (true);
+            break;
+          }
+        }
     }
 
     const ManageWishlist = () => {
@@ -93,28 +110,38 @@ const ShopDetail = ({props,user_id}) => {
         return;
       })
 
+      getUserPurchaseItem ({user_id,product_id})
+      .then(res =>{
+        setPurchased (res);
+      })
+      .catch (err =>{
+        setError (true);
+      return;
+      })
+
       getProductReview (product_id)
       .then(res =>{
         setReviews (res);
-        setAvgReview (getAverage(res))
+        getAverage(res);
+        getUserReview (res);
       })
       .catch (err =>{
         setError (true);
         return;
       })
       
-        getWishlistItem ({user_id,product_id})
-        .then(res =>{
-            setWishlisted (res);
-        })
-        .catch (err =>{
-          setError (true);
-          return;
-        })
+      getWishlistItem ({user_id,product_id})
+      .then(res =>{
+          setWishlisted (res);
+      })
+      .catch (err =>{
+        setError (true);
+        return;
+      })
 
       setError (false);
       
-    },[user_id])
+    },[user_id,isReviewed])
 
     if (user_id === null){
     return (
@@ -132,8 +159,8 @@ const ShopDetail = ({props,user_id}) => {
                 <div className="col-sm-5">
                   <div className="box mb-4 mt-4">
                     <form>
-                      <Color_sizeList list = {color_size} />
-                      <div className="col-sm-10">
+                      <Color_sizeList list = {color_size} setSelectedItem = {setSelectedItem} setSelectedStock = {setSelectedStock} />
+                      <div className="col-sm-11">
                       <div className="product">
                         <p className="price"> {(prodInfo.discount !== 0)?<del> ${prodInfo.price} </del> : null} ${prodInfo.price-((prodInfo.discount*prodInfo.price)/100)}</p> 
                       </div>
@@ -155,7 +182,7 @@ const ShopDetail = ({props,user_id}) => {
                 </blockquote>
                 <h4>Valoración media</h4>
                 <ul>
-                <li><Rating stars={0} change={false}/> ({reviews.length} opinion/es)</li>
+                <li><Rating stars={avgReview} change={false}/> ({reviews.length} opinion/es)</li> 
                 </ul>
                 <h4>Material</h4>
                 <ul>
@@ -174,7 +201,6 @@ const ShopDetail = ({props,user_id}) => {
                 </ul>
               </div>
               {/* Reseñas */}
-              <Review />
               <ReviewList list = {reviews} />
               <div className="row">
                 <div className="col-lg-3 col-md-6">
@@ -233,7 +259,7 @@ const ShopDetail = ({props,user_id}) => {
                 <div className="col-sm-6">
                   <div className="box mb-4 mt-4">
                     <form>
-                      <Color_sizeList list = {color_size} />
+                      <Color_sizeList list = {color_size} setSelectedItem = {setSelectedItem} setSelectedStock = {setSelectedStock} />
                       <div className="col-sm-10">
                       <div className="product">
                         <p className="price"> {(prodInfo.discount !== 0)?<del> ${prodInfo.price} </del> : null} ${prodInfo.price-((prodInfo.discount*prodInfo.price)/100)}</p> 
@@ -241,7 +267,7 @@ const ShopDetail = ({props,user_id}) => {
                       <p className="text-center">
                         <button className="btn btn-outlined"><i className="fa fa-shopping-cart"></i> Añadir al carrito</button>
                         {(isWishlisted)? 
-                        <button data-toggle="tooltip" data-placement="top" title="Añadir a mis deseos" className="btn btn-danger" onClick={ManageWishlist}><i className="fa fa-heart-o"></i></button>
+                        <button data-toggle="tooltip" data-placement="top" title="Eliminar de mis deseos" className="btn btn-danger" onClick={ManageWishlist}><i className="fa fa-heart-o"></i></button>
                         :
                         <button data-toggle="tooltip" data-placement="top" title="Añadir a mis deseos" className="btn btn-default" onClick={ManageWishlist}><i className="fa fa-heart-o"></i></button>
                         }
@@ -260,7 +286,7 @@ const ShopDetail = ({props,user_id}) => {
                 </blockquote>
                 <h4>Valoración media</h4>
                 <ul>
-                <li><Rating stars={0} change={false}/> ({reviews.length} opinion/es)</li>
+                <li><Rating stars={avgReview} change={false}/> ({reviews.length} opinion/es)</li>
                 </ul>
                 <h4>Material</h4>
                 <ul>
@@ -279,7 +305,17 @@ const ShopDetail = ({props,user_id}) => {
                 </ul>
               </div>
               {/* Reseñas */}
-              <Review />
+              {(isPurchased)?
+              <div>
+                {(isReviewed)?
+                <h4 className="heading-light">Producto ya reseñado</h4>
+                :
+                <Review setReviewed = {setReviewed} user_id = {user_id} prod_id = {prodInfo.id}/>
+                }
+              </div>
+              :
+              <h4 className="heading-light">Compra el producto para opinar!</h4>
+              }
               <ReviewList list = {reviews} />
               <div className="row">
                 <div className="col-lg-3 col-md-6">

@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, json
-from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem
+from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser
 
@@ -424,7 +424,6 @@ def getProductColor_size():
         return handleError (err)
     finally:
         if not (error):
-            print (result)
             return jsonify({'result': 'success','data' : result})
 
 @app.route ('/product/getReview',methods=['POST'])
@@ -708,6 +707,23 @@ def getPurchase():
             result = dict (id = new.id, price = new.price, date = new.date, state = new.state, id_user = new.id_user, id_coupon = new.id_coupon ,id_shipping = new.id_shipping)
             return jsonify({'result': 'success','data' : result})
 
+@app.route ('/purchase/item',methods=['POST'])
+def getPurchItem():
+    result = False
+    error = False
+    id_user = request.json['id_user']
+    id_prod = request.json['id_prod']
+    try:
+        item = getPurchaseItem (id_user,id_prod)
+        if (item != []):
+            result = True
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data' : result})
+
 @app.route ('/purchxitem/add',methods=['POST'])
 def addPurchxitem():
     error = False
@@ -886,12 +902,12 @@ def getWishItem():
 @app.route ('/review/add',methods=['POST'])
 def addReview():
     error = False
-    date = request.json['date']
     stars = request.json['stars']
     title = request.json['title']
     commentary = request.json['commentary']
-    id_product = request.json['id_product']
-    new = Review (date,stars,title,commentary,id_product)
+    id_prod = request.json['id_prod']
+    id_user = request.json['id_user']
+    new = Review (stars,title,commentary,id_prod,id_user)
     try:
         new.add()
     except (Exception) as err:
@@ -910,7 +926,8 @@ def modReview():
     title = request.json['title']
     commentary = request.json['commentary']
     id_product = request.json['id_product']
-    new = Review (date,stars,title,commentary,id_product,id)
+    id_user = request.json['id_user']
+    new = Review (date,stars,title,commentary,id_product,id_user,id)
     try:
         new.mod()
     except (Exception) as err:
