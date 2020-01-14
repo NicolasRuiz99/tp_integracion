@@ -39,13 +39,16 @@ const ShopDetail = ({props,user_id}) => {
     const [avgReview,setAvgReview] = useState (0);
     const [error,setError] = useState (false);
     const [isWishlisted,setWishlisted] = useState (false);
+    const [selectedItem,setSelectedItem] = useState ({});
+    const [selectedStock,setSelectedStock] = useState (0);
 
-    const getAverage = async(list) => {
+    const getAverage = (list) => {
       let total = 0;
       for (let i = 0; i < list.length; i++){
           total += list[i].stars        
       }
-      return (total / list.length)
+      total = total / list.length;
+      setAvgReview (total)
     }
 
     const ManageWishlist = () => {
@@ -96,7 +99,7 @@ const ShopDetail = ({props,user_id}) => {
       getProductReview (product_id)
       .then(res =>{
         setReviews (res);
-        setAvgReview (getAverage(res))
+        getAverage(res);
       })
       .catch (err =>{
         setError (true);
@@ -132,7 +135,7 @@ const ShopDetail = ({props,user_id}) => {
                 <div className="col-sm-6">
                   <div className="box mb-4 mt-4">
                     <form>
-                      <Color_sizeList list = {color_size} />
+                      <Color_sizeList list = {color_size} setSelectedItem = {setSelectedItem} setSelectedStock = {setSelectedStock} />
                       <div className="col-sm-10">
                       <div className="product">
                         <p className="price"> {(prodInfo.discount !== 0)?<del> ${prodInfo.price} </del> : null} ${prodInfo.price-((prodInfo.discount*prodInfo.price)/100)}</p> 
@@ -155,7 +158,7 @@ const ShopDetail = ({props,user_id}) => {
                 </blockquote>
                 <h4>Valoración media</h4>
                 <ul>
-                <li><Rating stars={0} change={false}/> ({reviews.length} opinion/es)</li>
+                <li><Rating stars={avgReview} change={false}/> ({reviews.length} opinion/es)</li> 
                 </ul>
                 <h4>Material</h4>
                 <ul>
@@ -174,7 +177,6 @@ const ShopDetail = ({props,user_id}) => {
                 </ul>
               </div>
               {/* Reseñas */}
-              <Review />
               <ReviewList list = {reviews} />
               <div className="row">
                 <div className="col-lg-3 col-md-6">
@@ -233,7 +235,7 @@ const ShopDetail = ({props,user_id}) => {
                 <div className="col-sm-6">
                   <div className="box mb-4 mt-4">
                     <form>
-                      <Color_sizeList list = {color_size} />
+                      <Color_sizeList list = {color_size} setSelectedItem = {setSelectedItem} setSelectedStock = {setSelectedStock} />
                       <div className="col-sm-10">
                       <div className="product">
                         <p className="price"> {(prodInfo.discount !== 0)?<del> ${prodInfo.price} </del> : null} ${prodInfo.price-((prodInfo.discount*prodInfo.price)/100)}</p> 
@@ -260,7 +262,7 @@ const ShopDetail = ({props,user_id}) => {
                 </blockquote>
                 <h4>Valoración media</h4>
                 <ul>
-                <li><Rating stars={0} change={false}/> ({reviews.length} opinion/es)</li>
+                <li><Rating stars={avgReview} change={false}/> ({reviews.length} opinion/es)</li>
                 </ul>
                 <h4>Material</h4>
                 <ul>

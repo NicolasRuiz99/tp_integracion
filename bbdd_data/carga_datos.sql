@@ -69,6 +69,8 @@ INSERT INTO "products" (name, dsc, material, genre, brand, type, discount, price
 
 INSERT INTO "color_size" (color, size, stock, prod_id) VALUES 
 ('azul', '40', 50, 1),
+('azul', '43', 54, 1),
+('azul', '41', 52, 1),
 ('verde', '42', 100, 2), 
 ('purpura', 'L', 150, 3), 
 ('amarillo', '41', 500, 4),

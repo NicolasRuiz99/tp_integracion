@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, json
-from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem
+from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser
 
@@ -702,6 +702,23 @@ def getPurchase():
         if not (error):
             result = dict (id = new.id, price = new.price, date = new.date, state = new.state, id_user = new.id_user, id_coupon = new.id_coupon ,id_shipping = new.id_shipping)
             return jsonify({'result': 'success','data' : result})
+
+@app.route ('/purchase/item',methods=['POST'])
+def getPurchItem():
+    result = False
+    error = False
+    id_user = request.json['id_user']
+    id_prod = request.json['id_prod']
+    try:
+        item = getPurchaseItem (id_user,id_prod)
+        if (item != []):
+            result = True
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data' : result})
 
 @app.route ('/purchxitem/add',methods=['POST'])
 def addPurchxitem():

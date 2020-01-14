@@ -8,6 +8,7 @@ const ReviewItem = ({item}) => {
         <Fragment>
             <span className="m_text">{item.title}</span>
             <p className="m_text">{item.commentary}  <Rating stars={item.stars} change={false}/></p>
+        <p className="m_text">Fecha: {item.date}</p>
         </Fragment>    
     );
 };
