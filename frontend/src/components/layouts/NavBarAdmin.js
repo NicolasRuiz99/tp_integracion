@@ -3,18 +3,12 @@ import { Link, withRouter } from 'react-router-dom';
 import './../../css/default.css';
 import logo from './../../assets/logo.png';
 
-const NavBar = ({setSearch, history, isOferta}) => {
+const NavBarAdmin = ({setSearch, history}) => {
 
     const sendSearch = (event) => {
       event.preventDefault();
-      if (isOferta) {
-        history.push('/ofertas');  
-      } else{
-        history.push('/shop-category');
-      }
+      history.push('/shop-category');
     }
-
-
 
     return (
       <header className="nav-holder make-sticky">
@@ -26,16 +20,16 @@ const NavBar = ({setSearch, history, isOferta}) => {
             <div id="navbarSupportedContent" class="collapse navbar-collapse">
               <ul className="nav navbar-nav m-auto">
                 <li className="nav-item">
-                  <Link to="/shop-category" className="nav-link ">Tienda</Link>
+                  <Link to="/shop-category" className="nav-link ">Ventas</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/populars" className="nav-link ">Top ventas</Link>
+                  <Link to="/populars" className="nav-link ">Reservas</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/ofertas" className="nav-link ">Ofertas</Link>
+                  <Link to="/ofertas" className="nav-link ">Productos</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/contact" className="nav-link ">Contáctanos</Link>
+                  <Link to="/contact" className="nav-link ">Clientes</Link>
                 </li>
               </ul>
               <form role="search" className="navbar-form">
@@ -51,9 +45,8 @@ const NavBar = ({setSearch, history, isOferta}) => {
               </form> 
           </div>
         </div>
-      </header>
-            
+      </header>        
     );
   }
 
-export default withRouter(NavBar);
+export default withRouter(NavBarAdmin);

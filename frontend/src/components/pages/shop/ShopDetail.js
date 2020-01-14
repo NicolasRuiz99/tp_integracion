@@ -156,7 +156,7 @@ const ShopDetail = ({props,user_id}) => {
                 <div className="col-sm-6">
                 <ImageGallery items={images} />
                 </div>
-                <div className="col-sm-6">
+                <div className="col-sm-5">
                   <div className="box mb-4 mt-4">
                     <form>
                       <Color_sizeList list = {color_size} setSelectedItem = {setSelectedItem} setSelectedStock = {setSelectedStock} />

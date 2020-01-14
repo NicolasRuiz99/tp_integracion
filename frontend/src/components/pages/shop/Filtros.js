@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './../../../css/default.css';
 import {Link} from 'react-router-dom';
+import {selectGenre, selectCategorie} from './utils/filterFunctions';
 //Constantes de categorías
 const GENEROS = {
     masculino: 'M',
@@ -51,63 +52,11 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
     
     //Metodos para activacion categórica
     const handleClick = (categoria) => {
-        const {masculino, femenino, todos, unisex} = GENEROS;
-        switch (categoria) {
-            case masculino:
-                setIsActive({isActiveM: true, isActiveF: false, isActiveT: false, isActiveU: false});
-                setCategories(categoria);
-                break;
-            case femenino:
-                setIsActive({isActiveM: false, isActiveF: true, isActiveT: false, isActiveU: false});
-                setCategories(categoria);
-                break;
-            case unisex:
-                setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: true});
-                setCategories(categoria);
-                break;
-            case todos:
-                setIsActive({isActiveM: false, isActiveF: false, isActiveT: true, isActiveU: false});
-                setCategories(categoria);
-                break;
-        }
+        selectGenre(GENEROS, categoria, setIsActive, setCategories);
     }
 
     const handleClick2 = (categoria) => {
-        const {accesorios, abrigos, calzado, camisas, remeras, ropaInterior, pantalones, pollera} = CATEGORIAS;
-        switch (categoria) {
-            case abrigos:
-                setIsActive2({isActiveAbrigos: true, isActiveAccesorios: false, isActiveCalzado: false, isActiveCamisas: false,
-                isActivePantalon: false, isActivePollera: false, isActiveRemera: false, isActiveRopaInterior: false});
-                break;
-            case accesorios:
-                setIsActive2({isActiveAbrigos: false, isActiveAccesorios: true, isActiveCalzado: false, isActiveCamisas: false,
-                isActivePantalon: false, isActivePollera: false, isActiveRemera: false, isActiveRopaInterior: false});
-                break;
-            case calzado:
-                setIsActive2({isActiveAbrigos: false, isActiveAccesorios: false, isActiveCalzado: true, isActiveCamisas: false,
-                isActivePantalon: false, isActivePollera: false, isActiveRemera: false, isActiveRopaInterior: false});
-                break;
-            case camisas:
-                setIsActive2({isActiveAbrigos: false, isActiveAccesorios: false, isActiveCalzado: false, isActiveCamisas: true,
-                isActivePantalon: false, isActivePollera: false, isActiveRemera: false, isActiveRopaInterior: false});
-                break;
-            case remeras:
-                setIsActive2({isActiveAbrigos: false, isActiveAccesorios: false, isActiveCalzado: false, isActiveCamisas: false,
-                isActivePantalon: false, isActivePollera: false, isActiveRemera: true, isActiveRopaInterior: false});
-                break;
-            case ropaInterior:
-                setIsActive2({isActiveAbrigos: false, isActiveAccesorios: false, isActiveCalzado: false, isActiveCamisas: false,
-                isActivePantalon: false, isActivePollera: false, isActiveRemera: false, isActiveRopaInterior: true});
-                break;
-            case pantalones:
-                setIsActive2({isActiveAbrigos: false, isActiveAccesorios: false, isActiveCalzado: false, isActiveCamisas: false,
-                isActivePantalon: true, isActivePollera: false, isActiveRemera: false, isActiveRopaInterior: false});
-                break;
-            case pollera:
-                setIsActive2({isActiveAbrigos: false, isActiveAccesorios: false, isActiveCalzado: false, isActiveCamisas: false,
-                isActivePantalon: false, isActivePollera: true, isActiveRemera: false, isActiveRopaInterior: false});
-                break;
-        }
+        selectCategorie(CATEGORIAS, categoria, setIsActive2);
     }
 
     //Métodos de limpieza

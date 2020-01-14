@@ -9,7 +9,6 @@ import Footer from './components/layouts/Footer';
 //Import pages
 import Contact from './components/pages/nav-items/Contact';
 import TopVentas from './components/pages/nav-items/TopVentas';
-import Ofertas from './components/pages/nav-items/Ofertas';
 import RouteError from './components/pages/RouteError';
 import HomePage from './components/pages/nav-items/HomePage';
 //Pages customer
@@ -33,6 +32,7 @@ const App = () => {
     const [user_id,setUser] = useState(null);
     const [isLogged, setIsLogged] = useState(false);
     const [search, setSearch] = useState('');
+    const [isOferta, setIsOferta] = useState(false);
 
     useEffect (()=>{
       if (user_id !== null){
@@ -54,13 +54,13 @@ const App = () => {
   
     return (
       <div className="fragment" >      
-          <Header user_id = {user_id} setUser = {setUser} handleDrop={handleDrop} isLogged={isLogged} setIsLogged={setIsLogged} setSearch={setSearch} search={search} />
+          <Header user_id = {user_id} setUser = {setUser} handleDrop={handleDrop} isLogged={isLogged} setIsLogged={setIsLogged} setSearch={setSearch} search={search} isOferta={isOferta} />
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route  path="/contact" component={Contact} />
             <Route  path="/top-ten" component={TopVentas} />
             <Route  path="/shop-category" render={() => (
-              <Categorias search={search} />
+              <Categorias search={search} setIsOferta={setIsOferta} isOferta={false}/>
             )} />
             <Route  path="/shop-detail/:id" 
               render={(props)=>(
@@ -80,7 +80,9 @@ const App = () => {
                   setUser = {setUser}
                 />
               )}/>
-            <Route  path="/ofertas" component={Ofertas} />
+            <Route  path="/ofertas" render={() => (
+              <Categorias search={search} setIsOferta={setIsOferta} isOferta={true}  />
+            )} />
             <Route  path="/customer-account" 
             render={()=>(
                 <CustomerAccount
