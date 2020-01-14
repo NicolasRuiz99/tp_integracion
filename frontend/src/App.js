@@ -72,8 +72,9 @@ const App = () => {
             <Route  path="/customer-orders" component={CustomerOrders} />
             <Route  path="/customer-order" component={CustomerOrder} />
             <Route  path="/customer-wishlist" component={WishList} />
-            //Ruta de prueba para el chat
+            {/* //Ruta de prueba para el chat */}
             <Route  path='/customer-chat/:chatID/:room' component={Chat} />
+            {/* <Route  path='/customer-chat' render={ () => (<Chat user_id={user_id} />)} /> */}
             <Route component={RouteError}/>
           </Switch>
           <Footer />
