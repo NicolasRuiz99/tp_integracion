@@ -46,12 +46,12 @@ const ShopCategorias = ({search}) => {
             setCopyList(res);
             setLoading(false);
         })
-        .catch (err=>{
-            setError (true);
+        .catch (err => {
+            setError(true);
             return;
         });
         if (list.length === 0){
-            setError (true);
+            setError(true);
         }
         setError (false);        
     }, [] );
@@ -159,12 +159,14 @@ const ShopCategorias = ({search}) => {
                         </div> :
                         <div className="col-md-9">
                             <p className="text-muted lead">
-                                 En nuestro sitio ofrecemos una amplia selección de los mejores productos del mercado.
+                                En nuestro sitio ofrecemos una amplia selección de los mejores productos del mercado.
                             </p>
                             { (!error) ? 
                             <ProductList list = {currentList} /> : 
-                            <div className="alert alert-danger mt-2 mb-5 text-center">Hubo un error al recuperar los datos
-                            </div>}
+                            <div className="alert alert-danger mt-2 mb-5 text-center">
+                                Hubo un error al recuperar los datos
+                            </div>
+                            }
                             <br /> 
                             <Paginacion 
                             listPerPage={listPerPage} 

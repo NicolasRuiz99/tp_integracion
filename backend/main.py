@@ -197,6 +197,11 @@ def addType():
         if not (error):
             return jsonify({'result' : 'success'})
 
+@app.route ('/type/listall',methods=['GET'])
+def listAllTypes():
+    results = listTypes()
+    return jsonify({'results' : results})
+
 @app.route ('/type/mod',methods=['POST'])
 def modType():
     error = False

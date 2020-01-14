@@ -42,4 +42,14 @@ const getProductReview = async(id) => {
     .catch(err => {throw err})
 }
 
+//Obtener tipos
+/*const getProductType = async() => {
+    return axios
+    .get("/type/listall")
+    .then(res => {
+        return res.data.results
+    })
+    .catch(err => {throw err})
+}*/
+
 export {getProducts,getProductInfo,getProductColor_size,getProductReview};

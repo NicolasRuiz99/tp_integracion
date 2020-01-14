@@ -324,9 +324,7 @@ const ShopDetail = ({props,user_id}) => {
       </div>
       </Fragment>
     );
-    }
-
-    
+    } 
 }
 
 export default withRouter (ShopDetail);
