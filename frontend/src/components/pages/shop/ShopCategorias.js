@@ -7,8 +7,9 @@ import Filtros from './Filtros';
 import Spinner from 'react-bootstrap/Spinner';
 import ProductList from '../../lists/ProductList';
 import {getProducts} from './utils/shopFunctions';
+import {changeCategories, unselectCategories, unselectCategories2, createCountxCategoria} from './utils/categoriesFunctions';
 
-const ShopCategorias = ({search}) => {
+const ShopCategorias = ({search, setIsOferta, isOferta}) => {
     const [error,setError] = useState (false);
     const [list,setList] = useState ([]);
     //solo obtener la lista una sola vez
@@ -39,12 +40,27 @@ const ShopCategorias = ({search}) => {
 
     //UseEffect inicial
     useEffect( () => {
+      
         setLoading(true);
         getProducts ()
         .then (res => {
+            if (isOferta) {
+              res = res.filter(product => {
+                if(product.discount > 0) {
+                  let producto = product;
+                  return producto;
+                }
+            });
             setList(res);
             setCopyList(res);
             setLoading(false);
+            setIsOferta(true);
+            } else {
+            setList(res);
+            setCopyList(res);
+            setLoading(false);
+            setIsOferta(false);
+            }
         })
         .catch (err => {
             setError(true);
@@ -54,68 +70,22 @@ const ShopCategorias = ({search}) => {
             setError(true);
         }
         setError (false);        
-    }, [] );
+    }, [isOferta] );
 
     //UseEffect de busqueda
     useEffect( () => {
-        if(search!== '') {
-            setCopyList(list.filter(product => {
-                return (product.name.toLowerCase().includes(search.toLowerCase()) || product.brand.toLowerCase().includes(search.toLowerCase()));
-            }));
-            setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: false});
-            setIsActive2({isActiveAbrigos: false, isActiveAccesorios: false, isActiveCalzado: false, isActiveCamisas: false,
-                         isActivePantalon: false, isActivePollera: false, isActiveRemera: false, isActiveRopaInterior: false});
-        }else{
-            setCopyList(list);
-            setIsActive({isActiveM: false, isActiveF: false, isActiveT: true, isActiveU: false});
-        }
+        unselectCategories2(search, setCopyList, list, setIsActive, setIsActive2);
         setCurrentPage(1);       
     },[search]);
 
     //UseEffects para categorias
     useEffect(() => {
-        if(categories !== 'all') {
-            setCopyList(list.filter(product => {
-                return product.genre.includes(categories); 
-            }));
-            setIsActive2({isActiveAbrigos: false, isActiveAccesorios: false, isActiveCalzado: false, isActiveCamisas: false,
-                isActivePantalon: false, isActivePollera: false, isActiveRemera: false, isActiveRopaInterior: false});
-        }else{
-            setCopyList(list);
-            setIsActive2({isActiveAbrigos: false, isActiveAccesorios: false, isActiveCalzado: false, isActiveCamisas: false,
-                isActivePantalon: false, isActivePollera: false, isActiveRemera: false, isActiveRopaInterior: false});
-        }
+        unselectCategories(categories, setCopyList, list, setIsActive2);
         setCurrentPage(1);                
     }, [categories]);
 
     useEffect( () => {
-        const {isActiveAbrigos, isActiveAccesorios, isActiveCalzado, isActiveCamisas,
-                isActivePantalon, isActivePollera, isActiveRemera, isActiveRopaInterior} = isActive2;
-        
-        //Pendidente extraer tipos de la base de datos
-        if (isActiveAbrigos) {
-            setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: false});
-            setCopyList(list.filter(product => product.type === 7 ))} 
-        if (isActiveAccesorios) {
-            setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: false});
-            setCopyList(list.filter(product => product.type === 6 ))} 
-        if (isActiveCalzado) {
-            setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: false});
-            setCopyList(list.filter(product => product.type === 1 ))} 
-        if (isActiveCamisas) {
-            setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: false});
-            setCopyList(list.filter(product => product.type === 2 ))} 
-        if (isActivePantalon) {
-            setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: false});
-            setCopyList(list.filter(product => product.type === 3 ))} 
-        if (isActivePollera) {setCopyList(list.filter(product => product.type === 3 ))} 
-        if (isActiveRemera) {
-            setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: false});
-            setCopyList(list.filter(product => product.type === 2 ))} 
-        if (isActiveRopaInterior) {
-            setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: false});
-            setCopyList(list.filter(product => product.type === 5 ))} 
-
+        changeCategories(isActive2, list, setIsActive, setCopyList);
     }, [isActive2]);
 
     //Obtener lista de productos actual
@@ -128,16 +98,7 @@ const ShopCategorias = ({search}) => {
     
 
     //Creo el objeto que almacenará el numero que representa la cantidad de cada categoría
-    const countxCategoria = {
-        listAll: list.length,
-        listMen: list.filter(item => item.genre === 'M').length,
-        listWomen: list.filter(item => item.genre === 'F').length,
-        listUni: list.filter(item => item.genre === 'U').length,
-        listNike: copyList.filter(item => item.brand === "nike").length,
-        listLacoste: copyList.filter(item => item.brand === "lacoste").length,
-        listAdidas: copyList.filter(item => item.brand === "adidas").length,
-        listTaverniti: copyList.filter(item => item.brand === "taverniti").length,
-    }
+    const countxCategoria = createCountxCategoria(list, copyList);
 
     return (
         <Fragment>
