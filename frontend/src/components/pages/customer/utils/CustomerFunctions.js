@@ -127,4 +127,30 @@ const deleteWishlistItem = ({user_id,product_id}) => {
     .catch(err => {throw err})
 }
 
-export {login, register,getEMails,getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo,getUserWishlist,getWishlistItem,addWishlistItem,deleteWishlistItem};
+const getUserPurchaseItem = ({user_id,product_id}) => {
+    return axios
+    .post("/purchase/item",{
+        id_user: user_id,
+        id_prod: product_id
+    })
+    .then(res => {return res.data.data
+    
+    })
+    .catch(err => {throw err})
+}
+
+const addReviewItem = ({user_id,prod_id,stars,title,commentary}) => {
+    return axios
+    .post("/review/add",{
+        id_user: user_id,
+        id_prod: prod_id,
+        stars,
+        title,
+        commentary
+    })
+    .then(res => {return res.data
+    })
+    .catch(err => {throw err})
+}
+
+export {login, register,getEMails,getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo,getUserWishlist,getWishlistItem,addWishlistItem,deleteWishlistItem,getUserPurchaseItem,addReviewItem};

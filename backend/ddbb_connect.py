@@ -11,7 +11,7 @@ DEC2FLOAT = dbapi.extensions.new_type(
 dbapi.extensions.register_type(DEC2FLOAT)
 
 def connect_ddbb ():
-    con = dbapi.connect("dbname='prueba2' user='postgres' host='127.0.0.1' password='admin123'")
+    con = dbapi.connect("dbname='prueba2' user='admin' host='127.0.0.1' password='admin123'")
     #con = dbapi.connect("dbname='rfhdbqhh' user='rfhdbqhh' host='https://api.elephantsql.com/console/b32d8ae1-c7dc-4f1a-8ec9-6c92d7e0a766' password='0AtujGm4UIIGA1wzJHk3TXYrZnalpr0t'")
     #up.uses_netloc.append("rfhdbqhh")
     #url = up.urlparse(os.environ["postgres://rfhdbqhh:0AtujGm4UIIGA1wzJHk3TXYrZnalpr0t@motty.db.elephantsql.com:5432/rfhdbqhh"])

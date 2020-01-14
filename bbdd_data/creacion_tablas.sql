@@ -189,7 +189,9 @@ CREATE TABLE review (
     title varchar(15),  
     commentary t_comment default 'Sin comentario',
 	id_product int,
-	FOREIGN KEY (id_product) REFERENCES products (id)
+    id_user int,
+	FOREIGN KEY (id_product) REFERENCES products (id),
+    FOREIGN KEY (id_user) REFERENCES users (id)
 );
 
 --creación de roles

@@ -117,14 +117,14 @@ select create_reservation(5, 10, 10);
 
 UPDATE "reservations" SET state = 'cancelled' WHERE id in (2,4,7,9);
 
-INSERT INTO "review" (date, stars, title, commentary, id_product) VALUES 
-('22/11/2019', 6, 'Todo ok', 'Quedé encantado', 1),
-('20/11/2019', 2, 'Todo mal', 'Vino con polillas', 1),
-('21/11/2019', 5, 'Todo en orden', 'llegó ok', 1),
-('24/11/2019', 3, 'Todo ok', 'Nada mal', 2),
-('24/11/2019', 6, 'Excelente', 'Nada mal', 3),
-('26/11/2019', 2, 'Pesimo', 'No me gusto', 3),
-('29/11/2019', 4, 'Todo ok', 'Nada mal', 4);
+INSERT INTO "review" (date, stars, title, commentary, id_product,id_user) VALUES 
+('22/11/2019', 6, 'Todo ok', 'Quedé encantado', 1,1),
+('20/11/2019', 2, 'Todo mal', 'Vino con polillas', 1,8),
+('21/11/2019', 5, 'Todo en orden', 'llegó ok', 1,9),
+('24/11/2019', 3, 'Todo ok', 'Nada mal', 2,1),
+('24/11/2019', 6, 'Excelente', 'Nada mal', 3,3),
+('26/11/2019', 2, 'Pesimo', 'No me gusto', 3,2),
+('29/11/2019', 4, 'Todo ok', 'Nada mal', 4,1);
 
 INSERT INTO "wishlist" (id_user,id_prod) VALUES
 (2,1),(2,2),(2,3),(2,4),(4,3),(5,5),(6,2),(6,3),(6,4),(7,1);
