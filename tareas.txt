@@ -1,7 +1,6 @@
 --frontend
 mapear listado de productos que faltan
 terminar los filtros
-hacer listado top-ventas
 completar headCrumbs
 agregar boton de eliminar en la lista de deseados
 hacer lista de reservas del usuario

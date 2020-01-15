@@ -42,6 +42,15 @@ const getProductReview = async(id) => {
     .catch(err => {throw err})
 }
 
+const getTopSellers = async() => {
+    return axios
+    .get("/product/topsellers")
+    .then(res => {
+        return res.data.results
+    })
+    .catch(err => {throw err})
+}
+
 //Obtener tipos
 /*const getProductType = async() => {
     return axios
@@ -52,4 +61,4 @@ const getProductReview = async(id) => {
     .catch(err => {throw err})
 }*/
 
-export {getProducts,getProductInfo,getProductColor_size,getProductReview};
+export {getProducts,getProductInfo,getProductColor_size,getProductReview,getTopSellers};
