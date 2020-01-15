@@ -21,19 +21,10 @@ const CATEGORIAS = {
     ropaInterior: 'ropaInterior'
 }
 
-const MARCAS = [
-    'adidas',
-    'nike',
-    'taverniti',
-    'lacoste'
-];
-
 const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isActive2}) => {
-    //States checkbox de marcas
-    const [brandAdidas, setBrandAdidas] = useState(false);
-    const [brandNike, setBrandNike] = useState(false);
-    const [brandTaverniti, setBrandTaverniti] = useState(false);
-    const [brandLacoste, setBrandLacoste] = useState(false);
+    //States inputs del precio 
+    const [priceMin, setPriceMin] = useState('');
+    const [priceMax, setPriceMax] = useState('');
 
     //States checkbox de colores
     const [colorBlanco, setColorBlanco] = useState(false);
@@ -60,12 +51,10 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
     }
 
     //Métodos de limpieza
-    const handleLimpiarMarcas = (e) => {
+    const handleLimpiarPrecio = (e) => {
         e.preventDefault();
-        setBrandAdidas(false);
-        setBrandLacoste(false);
-        setBrandNike(false);
-        setBrandTaverniti(false);
+        setPriceMin('');
+        setPriceMax('');
     };
 
     const handleLimpiarColores = (e) => {
@@ -189,8 +178,8 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
             </div>
             <div className="panel panel-default sidebar-menu">
                 <div className="panel-heading d-flex align-items-center justify-content-between">
-                    <h3 className="h4 panel-title">Marcas</h3>
-                    <div onClick={(e) => handleLimpiarMarcas(e)} className="btn btn-sm btn-danger">
+                    <h3 className="h4 panel-title">Precio</h3>
+                    <div onClick={(e) => handleLimpiarPrecio(e)} className="btn btn-sm btn-danger">
                         <i className="fa fa-times-circle"></i>
                         <span className="d-none d-md-inline-block">Limpiar</span>
                     </div>
@@ -201,41 +190,20 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
                             <div className="checkbox">
                                 <label>
                                     <input 
-                                    type="checkbox" 
-                                    checked={brandAdidas}
-                                    onChange={() => setBrandAdidas(!brandAdidas)}
+                                    style={{width: '95px', 'border-radius': '15px', border:'1px solid #a6abb0'}}
+                                    type="text"
+                                    onChange={(e) => setPriceMin(e.target.value)}
+                                    value={priceMin}
+                                    placeholder=" $ Mín."
                                     /> 
-                                    Adidas  ({listAdidas})
-                                </label>
-                            </div>
-                            <div className="checkbox">
-                                <label>
-                                    <input 
-                                    type="checkbox"
-                                    checked={brandLacoste}
-                                    onChange={() => setBrandLacoste(!brandLacoste)}
-                                    /> 
-                                    Lacoste  ({listLacoste})
-                                </label>
-                            </div>
-                            <div className="checkbox">
-                                <label>
-                                    <input 
-                                    type="checkbox"
-                                    checked={brandNike}
-                                    onChange={() => setBrandNike(!brandNike)}
-                                    /> 
-                                    Nike  ({listNike})
-                                </label>
-                            </div>
-                            <div className="checkbox">
-                                <label>
-                                    <input 
-                                    type="checkbox"
-                                    checked={brandTaverniti}
-                                    onChange={() => setBrandTaverniti(!brandTaverniti)}
-                                    /> 
-                                    Taverniti  ({listTaverniti})
+                                    
+                                    <input
+                                    style={{width: '95px', 'border-radius': '15px', border:'1px solid #a6abb0'}} 
+                                    type="text"
+                                    onChange={(e) => setPriceMax(e.target.value)}
+                                    value={priceMax}
+                                    placeholder=" $ Máx."
+                                    />
                                 </label>
                             </div>
                         </div>
