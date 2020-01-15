@@ -53,7 +53,7 @@ FROM ProductosValorados
 WHERE valoracion = (SELECT MAX(valoracion) 
 					FROM ProductosValorados);
 
---Dado un tipo de producto, listar los mas vendidos
+--Listar los mas vendidos
 
 CREATE VIEW ProductoStockVendido
 AS
@@ -62,18 +62,20 @@ WHERE pitem.id_purchase = purch.id AND purch.state = 'success' AND pitem.id_colo
 GROUP BY c.prod_id ORDER BY stock DESC;
 
 
-CREATE OR REPLACE FUNCTION TipoProductoVendidos ( tipo varchar)
+CREATE OR REPLACE FUNCTION ProductosMasVendidos ()
 RETURNS table (
 		id int,
 		name varchar,
-		type varchar,
-		stock bigint)
+		stock bigint,
+		discount percent,
+		price t_price
+		)
 AS $body$
 BEGIN
 	RETURN QUERY
-	SELECT p.id,p.name,t.name,psv.stock
-	FROM ProductoStockVendido psv, products p, type t
-	WHERE (p.id = psv.prod_id AND p.type = t.id AND t.name = tipo) ORDER BY psv.stock DESC;
+	SELECT p.id,p.name,psv.stock,p.discount,p.price
+	FROM ProductoStockVendido psv, products p
+	WHERE (p.id = psv.prod_id) ORDER BY psv.stock DESC LIMIT 10;
 END;
 $body$
 LANGUAGE plpgsql;

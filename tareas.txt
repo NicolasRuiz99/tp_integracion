@@ -1,8 +1,12 @@
 --frontend
 mapear listado de productos que faltan
 terminar los filtros
+<<<<<<< HEAD
 hacer listado top-ventas
 completar breadCrumbs
+=======
+completar headCrumbs
+>>>>>>> 6bfe1b5b7a48b9eb857ca24ae6dd391fe57198bb
 agregar boton de eliminar en la lista de deseados
 hacer lista de reservas del usuario
 hacer lista de reviews del usuario
