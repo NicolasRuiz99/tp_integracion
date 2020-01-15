@@ -1,0 +1,22 @@
+--frontend
+mapear listado de productos que faltan
+terminar los filtros
+hacer listado top-ventas
+carrito cuando no estas logeado
+agregar boton de eliminar en la lista de deseados
+hacer lista de reservas del usuario
+hacer lista de reviews del usuario
+mapear lista de compras y carrito del usuario
+funcionalidad de agregar al carrito y de reservar
+espacio para escribir stock a comprar (en el detalle del producto)
+mapear secciones de confirmacion de compra
+
+(para el final)
+terminar chat
+notificaciones
+
+--backend
+optimizar consultas y ordenar codigo
+
+(para el final)
+tabla de notificaciones?
