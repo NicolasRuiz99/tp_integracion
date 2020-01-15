@@ -193,13 +193,6 @@ const ShopDetail = ({props,user_id}) => {
                   <li>{prodInfo.brand}</li>
                 </ul>               
               </div>
-              <div id="product-social" className="box social text-center mb-5 mt-5">
-                <h4 className="heading-light">Compártelo con tus amigos</h4>
-                <ul className="social list-inline">
-                  <li className="list-inline-item"><Link to="#" data-animate-hover="pulse" className="external facebook"><i className="fab fa-facebook"></i></Link></li>
-                  <li className="list-inline-item"><Link to="#" data-animate-hover="pulse" className="external gplus"><i className="fab fa-google-plus"></i></Link></li>
-                </ul>
-              </div>
               {/* Reseñas */}
               <ReviewList list = {reviews} />
               <div className="row">
@@ -297,18 +290,12 @@ const ShopDetail = ({props,user_id}) => {
                   <li>{prodInfo.brand}</li>
                 </ul>               
               </div>
-              <div id="product-social" className="box social text-center mb-5 mt-5">
-                <h4 className="heading-light">Compártelo con tus amigos</h4>
-                <ul className="social list-inline">
-                  <li className="list-inline-item"><Link to="#" data-animate-hover="pulse" className="external facebook"><i className="fab fa-facebook"></i></Link></li>
-                  <li className="list-inline-item"><Link to="#" data-animate-hover="pulse" className="external gplus"><i className="fab fa-google-plus"></i></Link></li>
-                </ul>
-              </div>
+              
               {/* Reseñas */}
               {(isPurchased)?
               <div>
                 {(isReviewed)?
-                <h4 className="heading-light">Producto ya reseñado</h4>
+                <h4 className="heading-light">Producto ya valorado</h4>
                 :
                 <Review setReviewed = {setReviewed} user_id = {user_id} prod_id = {prodInfo.id}/>
                 }

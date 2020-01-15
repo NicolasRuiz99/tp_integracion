@@ -3,10 +3,9 @@ import {Link, withRouter} from 'react-router-dom';
 import './../../css/default.css';
 import LoginModal from './../modals/LoginModal';
 import LogoutModal from './../modals/LogoutModal';
-import GoogleLogin from 'react-google-login';
-import FacebookLogin from 'react-facebook-login';
 
-const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop}) => {
+
+const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history}) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalOpen2, setModalOpen2] = useState(false);
 
@@ -26,13 +25,15 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop}) => {
         setModalOpen2(!modalOpen2);
      }
     
-    const responseFacebook = (response) => {
-        console.log(response);
+    //Método para evitar que se acceda al carrito si el usuario no está logeado
+    const toCart = () => {
+        if (isLogged) {
+            history.push('/shop-cart');
+        }else{
+            history.push('/registro');
+        }
     }
-
-    const responseGoogle = (response) => {
-        console.log(response);
-    }
+    
 
     return (
         <Fragment>
@@ -48,7 +49,7 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop}) => {
                                 {(!isLogged) ? (
                                     <Fragment>
                                     <div className="login">
-                                    <Link to="/shop-cart" className="signup-btn">
+                                    <Link onClick={toCart} className="signup-btn">
                                     <i class="fas fa-shopping-cart"></i>
                                     <span className="d-none d-md-inline-block">Carrito</span>
                                     </Link>
@@ -77,7 +78,7 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop}) => {
                                     <i class="fas fa-heart"></i>
                                     <span className="d-none d-md-inline-block">Mis deseos</span>
                                 </Link>
-                                <Link to="/shop-cart" className="signup-btn">
+                                <Link onClick={toCart} className="signup-btn">
                                     <i class="fas fa-shopping-cart"></i>
                                     <span className="d-none d-md-inline-block">Carrito</span>
                                 </Link>

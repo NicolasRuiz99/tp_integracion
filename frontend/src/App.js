@@ -92,15 +92,8 @@ const App = () => {
             )}/>
             <Route  path="/customer-orders" render={() =>(<CustomerOrders handleDrop={handleDrop} />)} />
             <Route  path="/customer-order" component={CustomerOrder} />
-<<<<<<< HEAD
-            <Route  path="/customer-wishlist" component={WishList} />
-            {/* //Ruta de prueba para el chat */}
-            <Route  path='/customer-chat/:chatID/:room' component={Chat} />
-            {/* <Route  path='/customer-chat' render={ () => (<Chat user_id={user_id} />)} /> */}
-=======
             <Route  path="/customer-wishlist" render={() =>(<WishList handleDrop={handleDrop} user_id={user_id}/>)} />
             <Route  path='/customer-chat' render={() =>(<Chat user_name={'cliente'} />)} />
->>>>>>> 0e3e23e637cffba1c6196d922fdee5bf09483358
             <Route component={RouteError}/>
           </Switch>
           <Footer />
