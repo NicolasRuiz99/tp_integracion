@@ -260,7 +260,7 @@ const ShopDetail = ({props,user_id}) => {
                   <div className="box mb-4 mt-4">
                     <form>
                       <Color_sizeList list = {color_size} setSelectedItem = {setSelectedItem} setSelectedStock = {setSelectedStock} />
-                      <div className="col-sm-10">
+                      <div className="col-sm-11">
                       <div className="product">
                         <p className="price"> {(prodInfo.discount !== 0)?<del> ${prodInfo.price} </del> : null} ${prodInfo.price-((prodInfo.discount*prodInfo.price)/100)}</p> 
                       </div>
