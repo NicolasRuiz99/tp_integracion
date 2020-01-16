@@ -55,17 +55,14 @@ const unselectCategories2 = (search, setCopyList, list, setIsActive, setIsActive
     }
 }
 
-const createCountxCategoria = (list, copyList) => {
+const createCountxCategoria = (list) => {
     return {
         listAll: list.length,
         listMen: list.filter(item => item.genre === 'M').length,
         listWomen: list.filter(item => item.genre === 'F').length,
         listUni: list.filter(item => item.genre === 'U').length,
-        listNike: copyList.filter(item => item.brand === "nike").length,
-        listLacoste: copyList.filter(item => item.brand === "lacoste").length,
-        listAdidas: copyList.filter(item => item.brand === "adidas").length,
-        listTaverniti: copyList.filter(item => item.brand === "taverniti").length,
     };
 }
+
 
 export {changeCategories, unselectCategories, unselectCategories2, createCountxCategoria};

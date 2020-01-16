@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './../../../css/default.css';
 import {Link} from 'react-router-dom';
-import {selectGenre, selectCategorie} from './utils/filterFunctions';
+import {selectGenre, selectCategorie, selectPrice} from './utils/filterFunctions';
 //Constantes de categorías
 const GENEROS = {
     masculino: 'M',
@@ -21,7 +21,7 @@ const CATEGORIAS = {
     ropaInterior: 'ropaInterior'
 }
 
-const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isActive2}) => {
+const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isActive2, lista, setCopyList}) => {
     //States inputs del precio 
     const [priceMin, setPriceMin] = useState('');
     const [priceMax, setPriceMax] = useState('');
@@ -34,7 +34,7 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
     const [colorRojo, setColorRojo] = useState(false);
 
     //Obtenemos cantidades
-    const {listAll, listMen, listWomen, listUni, listNike, listLacoste, listAdidas, listTaverniti} = list;
+    const {listAll, listMen, listWomen, listUni} = list;
     //obtenemos estados de activacion 
     const {isActiveF, isActiveM, isActiveT, isActiveU} = isActive;
     const {isActiveRemera, isActivePantalon, isActivePollera, isActiveRopaInterior, isActiveAbrigos,
@@ -43,11 +43,11 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
     
     //Metodos para activacion categórica
     const handleClick = (categoria) => {
-        selectGenre(GENEROS, categoria, setIsActive, setCategories);
+        selectGenre(GENEROS, categoria, setIsActive, setCategories, setIsActive2, setCopyList, lista);
     }
 
     const handleClick2 = (categoria) => {
-        selectCategorie(CATEGORIAS, categoria, setIsActive2);
+        selectCategorie(CATEGORIAS, categoria, setIsActive2, setIsActive);
     }
 
     //Métodos de limpieza
@@ -64,6 +64,31 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
         setColorVerde(false);
         setColorAmarillo(false);
         setColorRojo(false);
+    };
+
+    const handlePrice = (e) => {
+        e.preventDefault();
+        selectPrice(setIsActive2, setIsActive);
+        if (priceMin === '' || priceMax === '' || isNaN(priceMin) || isNaN(priceMax) ) {
+            return;
+        }else{
+            //En caso de que el mínimo fuera máximo
+            if (parseInt(priceMin) > parseInt(priceMax)) {
+                return;
+            }
+        }
+        let listado = lista.filter(product => {
+            //Verifica que haya un descuento para comparar el precio resultante de aplicarlo 
+            if (product.discount > 0) {
+                let precio = product.price-((product.discount*product.price)/100);
+                return  precio >= parseInt(priceMin) &&  precio <= parseInt(priceMax);
+            }else {
+                return product.price >= parseInt(priceMin) &&  product.price <= parseInt(priceMax);
+            }
+            
+        });
+        //Ordena la busqueda de menor a mayor
+        setCopyList(listado.sort((a,b) => a.price - b.price));
     };
 
   
@@ -185,7 +210,7 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
                     </div>
                 </div>
                 <div className="panel-body">
-                    <form>
+                    <form onSubmit={handlePrice}>
                         <div className="form-group">
                             <div className="checkbox">
                                 <label>

@@ -98,7 +98,7 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
     
 
     //Creo el objeto que almacenará el numero que representa la cantidad de cada categoría
-    const countxCategoria = createCountxCategoria(list, copyList);
+    const countxCategoria = createCountxCategoria(list);
 
     return (
         <Fragment>
@@ -113,6 +113,8 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
                         setIsActive={setIsActive}
                         isActive2={isActive2}
                         setIsActive2={setIsActive2}
+                        setCopyList={setCopyList}
+                        lista={list}
                         />
                         {(loading) ? 
                         <div className="col-md-9 text-center"> 
