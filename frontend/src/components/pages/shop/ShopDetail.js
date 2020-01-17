@@ -164,11 +164,6 @@ const ShopDetail = ({props,user_id}) => {
                       <div className="product">
                         <p className="price"> {(prodInfo.discount !== 0)?<del> ${prodInfo.price} </del> : null} ${prodInfo.price-((prodInfo.discount*prodInfo.price)/100)}</p> 
                       </div>
-                      <p className="text-center">
-                        <button className="btn btn-outlined" disabled><i className="fa fa-shopping-cart"></i> Añadir al carrito</button>
-                        <button data-toggle="tooltip" data-placement="top" title="Añadir a mis deseos" className="btn btn-default" disabled><i className="fa fa-heart-o"></i></button>
-                        <button data-toggle="tooltip" data-placement="top" title="Reservar" className="btn btn-default" disabled><i class="far fa-calendar-alt"></i></button>   
-                      </p>
                       </div>
                     </form>
                   </div>
@@ -259,11 +254,11 @@ const ShopDetail = ({props,user_id}) => {
                       </div>
                       <p className="text-center">
                         <button className="btn btn-outlined"><i className="fa fa-shopping-cart"></i> Añadir al carrito</button>
-                        {(isWishlisted)? 
-                        <button data-toggle="tooltip" data-placement="top" title="Eliminar de mis deseos" className="btn btn-danger" onClick={ManageWishlist}><i className="fa fa-heart-o"></i></button>
-                        :
-                        <button data-toggle="tooltip" data-placement="top" title="Añadir a mis deseos" className="btn btn-default" onClick={ManageWishlist}><i className="fa fa-heart-o"></i></button>
-                        }
+                        <button data-toggle="tooltip" data-placement="top" title={`${(isWishlisted) ? 'Eliminar de mis deseos' : 'Añadir a mis deseos'}`} 
+                        className={`btn ${(isWishlisted) ? ('btn-danger') : ('btn-default')}`} 
+                        onClick={ManageWishlist}>
+                          <i className="fa fa-heart-o"></i>
+                        </button>
                         <button data-toggle="tooltip" data-placement="top" title="Reservar" className="btn btn-default"><i class="far fa-calendar-alt"></i></button>
                         </p>
                       </div>

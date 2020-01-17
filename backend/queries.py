@@ -19,7 +19,7 @@ def getUserCustomer (id):
     return query ('select * from UserCustomer where id_user = ' + str(id))
 
 def listProducts ():
-    return listTable ('products')
+    return listTable ('ProductsList')
 
 def listRecomendedProducts (type_id):
     return query ('select * from products where type = ' + str(type_id))

@@ -9,6 +9,7 @@ const Color_sizeList = ({list, setSelectedItem, setSelectedStock}) => {
     const [selectedColor,setSelectedColor] = useState ('');
     const [selectedSize,setSelectedSize] = useState ('');
     const [item,setItem] = useState ({});
+    const [cantidad, setCantidad] = useState(1);
 
     const setColorValues = () => {
         const nList = [...new Set (list.map(e=>e.color))];
@@ -80,7 +81,20 @@ const Color_sizeList = ({list, setSelectedItem, setSelectedStock}) => {
                           ))}
                         </select>
                         </div>
-                        <br/>                        
+                        <br/> 
+            <div className="sizes">
+                      <div className="col-sm-10">
+                        <h3>Cantidad</h3>
+                          <input 
+                          className='bs-select' 
+                          type='number' 
+                          value={cantidad}
+                          onChange={(e) => setCantidad(e.target.value)} 
+                          min="1" 
+                          max={item.stock} />
+                        </div>
+                        <br/>
+                      </div>                       
                       </div>
             <div className="sizes">
                       <div className="col-sm-11">
