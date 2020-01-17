@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, json
-from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes
+from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser
 
@@ -14,6 +14,11 @@ app = Flask(__name__)
 @app.route ('/user/list_emails',methods=['GET'])
 def list_emails():
     results = listUsersE_Mails ()
+    return jsonify({'results' : results})
+
+@app.route ('/product/topsellers',methods=['GET'])
+def listtopsellers():
+    results = listProductosMasVendidos()
     return jsonify({'results' : results})
 
 @app.route ('/user/listall',methods=['GET'])

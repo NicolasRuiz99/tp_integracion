@@ -29,7 +29,7 @@ const NavBar = ({setSearch, history, isOferta}) => {
                   <Link to="/shop-category" className="nav-link ">Tienda</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/populars" className="nav-link ">Top ventas</Link>
+                  <Link to="/top-sellers" className="nav-link ">Top ventas</Link>
                 </li>
                 <li className="nav-item">
                   <Link to="/ofertas" className="nav-link ">Ofertas</Link>

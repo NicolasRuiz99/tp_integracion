@@ -39,3 +39,5 @@ def getWishlistItem (user_id,prod_id):
 def getPurchaseItem (user_id,prod_id):
     return query ('select * from UserPurchase where id_user = ' + str(user_id) + ' and prod_id = ' + str(prod_id))
 
+def listProductosMasVendidos ():
+    return listTable ('ProductosMasVendidos()')

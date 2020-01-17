@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './../../../css/default.css';
 import {Link} from 'react-router-dom';
-import {selectGenre, selectCategorie} from './utils/filterFunctions';
+import {selectGenre, selectCategorie, selectPrice} from './utils/filterFunctions';
 //Constantes de categorías
 const GENEROS = {
     masculino: 'M',
@@ -21,19 +21,10 @@ const CATEGORIAS = {
     ropaInterior: 'ropaInterior'
 }
 
-const MARCAS = [
-    'adidas',
-    'nike',
-    'taverniti',
-    'lacoste'
-];
-
-const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isActive2}) => {
-    //States checkbox de marcas
-    const [brandAdidas, setBrandAdidas] = useState(false);
-    const [brandNike, setBrandNike] = useState(false);
-    const [brandTaverniti, setBrandTaverniti] = useState(false);
-    const [brandLacoste, setBrandLacoste] = useState(false);
+const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isActive2, lista, setCopyList}) => {
+    //States inputs del precio 
+    const [priceMin, setPriceMin] = useState('');
+    const [priceMax, setPriceMax] = useState('');
 
     //States checkbox de colores
     const [colorBlanco, setColorBlanco] = useState(false);
@@ -43,7 +34,7 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
     const [colorRojo, setColorRojo] = useState(false);
 
     //Obtenemos cantidades
-    const {listAll, listMen, listWomen, listUni, listNike, listLacoste, listAdidas, listTaverniti} = list;
+    const {listAll, listMen, listWomen, listUni} = list;
     //obtenemos estados de activacion 
     const {isActiveF, isActiveM, isActiveT, isActiveU} = isActive;
     const {isActiveRemera, isActivePantalon, isActivePollera, isActiveRopaInterior, isActiveAbrigos,
@@ -52,20 +43,18 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
     
     //Metodos para activacion categórica
     const handleClick = (categoria) => {
-        selectGenre(GENEROS, categoria, setIsActive, setCategories);
+        selectGenre(GENEROS, categoria, setIsActive, setCategories, setIsActive2, setCopyList, lista);
     }
 
     const handleClick2 = (categoria) => {
-        selectCategorie(CATEGORIAS, categoria, setIsActive2);
+        selectCategorie(CATEGORIAS, categoria, setIsActive2, setIsActive);
     }
 
     //Métodos de limpieza
-    const handleLimpiarMarcas = (e) => {
+    const handleLimpiarPrecio = (e) => {
         e.preventDefault();
-        setBrandAdidas(false);
-        setBrandLacoste(false);
-        setBrandNike(false);
-        setBrandTaverniti(false);
+        setPriceMin('');
+        setPriceMax('');
     };
 
     const handleLimpiarColores = (e) => {
@@ -75,6 +64,31 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
         setColorVerde(false);
         setColorAmarillo(false);
         setColorRojo(false);
+    };
+
+    const handlePrice = (e) => {
+        e.preventDefault();
+        selectPrice(setIsActive2, setIsActive);
+        if (priceMin === '' || priceMax === '' || isNaN(priceMin) || isNaN(priceMax) ) {
+            return;
+        }else{
+            //En caso de que el mínimo fuera máximo
+            if (parseInt(priceMin) > parseInt(priceMax)) {
+                return;
+            }
+        }
+        let listado = lista.filter(product => {
+            //Verifica que haya un descuento para comparar el precio resultante de aplicarlo 
+            if (product.discount > 0) {
+                let precio = product.price-((product.discount*product.price)/100);
+                return  precio >= parseInt(priceMin) &&  precio <= parseInt(priceMax);
+            }else {
+                return product.price >= parseInt(priceMin) &&  product.price <= parseInt(priceMax);
+            }
+            
+        });
+        //Ordena la busqueda de menor a mayor
+        setCopyList(listado.sort((a,b) => a.price - b.price));
     };
 
   
@@ -189,53 +203,32 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
             </div>
             <div className="panel panel-default sidebar-menu">
                 <div className="panel-heading d-flex align-items-center justify-content-between">
-                    <h3 className="h4 panel-title">Marcas</h3>
-                    <div onClick={(e) => handleLimpiarMarcas(e)} className="btn btn-sm btn-danger">
+                    <h3 className="h4 panel-title">Precio</h3>
+                    <div onClick={(e) => handleLimpiarPrecio(e)} className="btn btn-sm btn-danger">
                         <i className="fa fa-times-circle"></i>
                         <span className="d-none d-md-inline-block">Limpiar</span>
                     </div>
                 </div>
                 <div className="panel-body">
-                    <form>
+                    <form onSubmit={handlePrice}>
                         <div className="form-group">
                             <div className="checkbox">
                                 <label>
                                     <input 
-                                    type="checkbox" 
-                                    checked={brandAdidas}
-                                    onChange={() => setBrandAdidas(!brandAdidas)}
+                                    style={{width: '95px', 'border-radius': '15px', border:'1px solid #a6abb0'}}
+                                    type="text"
+                                    onChange={(e) => setPriceMin(e.target.value)}
+                                    value={priceMin}
+                                    placeholder=" $ Mín."
                                     /> 
-                                    Adidas  ({listAdidas})
-                                </label>
-                            </div>
-                            <div className="checkbox">
-                                <label>
-                                    <input 
-                                    type="checkbox"
-                                    checked={brandLacoste}
-                                    onChange={() => setBrandLacoste(!brandLacoste)}
-                                    /> 
-                                    Lacoste  ({listLacoste})
-                                </label>
-                            </div>
-                            <div className="checkbox">
-                                <label>
-                                    <input 
-                                    type="checkbox"
-                                    checked={brandNike}
-                                    onChange={() => setBrandNike(!brandNike)}
-                                    /> 
-                                    Nike  ({listNike})
-                                </label>
-                            </div>
-                            <div className="checkbox">
-                                <label>
-                                    <input 
-                                    type="checkbox"
-                                    checked={brandTaverniti}
-                                    onChange={() => setBrandTaverniti(!brandTaverniti)}
-                                    /> 
-                                    Taverniti  ({listTaverniti})
+                                    
+                                    <input
+                                    style={{width: '95px', 'border-radius': '15px', border:'1px solid #a6abb0'}} 
+                                    type="text"
+                                    onChange={(e) => setPriceMax(e.target.value)}
+                                    value={priceMax}
+                                    placeholder=" $ Máx."
+                                    />
                                 </label>
                             </div>
                         </div>

@@ -1,8 +1,6 @@
 import psycopg2 as dbapi
 from psycopg2 import Error
 import json
-import os
-import urllib.parse as up
 
 DEC2FLOAT = dbapi.extensions.new_type(
     dbapi.extensions.DECIMAL.values,
@@ -11,15 +9,7 @@ DEC2FLOAT = dbapi.extensions.new_type(
 dbapi.extensions.register_type(DEC2FLOAT)
 
 def connect_ddbb ():
-    #con = dbapi.connect("dbname='prueba2' user='admin' host='127.0.0.1' password='admin123'")
     con = dbapi.connect("dbname='rfhdbqhh' user='rfhdbqhh' host='motty.db.elephantsql.com' password='0AtujGm4UIIGA1wzJHk3TXYrZnalpr0t'")
-    #up.uses_netloc.append("rfhdbqhh")
-    #url = up.urlparse(os.environ["postgres://rfhdbqhh:0AtujGm4UIIGA1wzJHk3TXYrZnalpr0t@motty.db.elephantsql.com:5432/rfhdbqhh"])
-    #con = dbapi.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
-
-    #up.uses_netloc.append("postgres")
-    #url = up.urlparse(os.environ["postgres://rfhdbqhh:0AtujGm4UIIGA1wzJHk3TXYrZnalpr0t@motty.db.elephantsql.com:5432/rfhdbqhh"])
-    #con = dbapi.connect(database=url.path[1:],user=url.username,password=url.password,host=url.hostname,port=url.port)
     cur = con.cursor()
     return con,cur
 

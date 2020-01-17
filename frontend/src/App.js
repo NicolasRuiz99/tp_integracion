@@ -26,13 +26,14 @@ import Checkout1 from './components/pages/shop/ShopCheckout';
 import Checkout2 from './components/pages/shop/ShopCheckout2';
 import Checkout3 from './components/pages/shop/ShopCheckout3';
 import Checkout4 from './components/pages/shop/ShopCheckout4';
+import TopSellers from './components/pages/nav-items/TopSellers';
 
 const App = () => {
 
-    const [user_id,setUser] = useState(null);
-    const [isLogged, setIsLogged] = useState(false);
-    const [search, setSearch] = useState('');
-    const [isOferta, setIsOferta] = useState(false);
+  const [user_id,setUser] = useState(null);
+  const [isLogged, setIsLogged] = useState(false);
+  const [search, setSearch] = useState('');
+  const [isOferta, setIsOferta] = useState(false);
 
     useEffect (()=>{
       if (user_id !== null){
@@ -62,6 +63,7 @@ const App = () => {
             <Route  path="/shop-category" render={() => (
               <Categorias search={search} setIsOferta={setIsOferta} isOferta={false}/>
             )} />
+            <Route path="/top-sellers" component={TopSellers}/>
             <Route  path="/shop-detail/:id" 
               render={(props)=>(
                 <ShopDetail
