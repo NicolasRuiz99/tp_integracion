@@ -1732,6 +1732,7 @@ Estilos del producto */
   min-height: 63px;
 }
 
+
 .product .price {
   font-size: 1.1rem;
 }
@@ -1751,6 +1752,8 @@ Estilos del producto */
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
+
+
 
 .product:hover .text {
   border-color: #555;
@@ -1821,7 +1824,7 @@ Estilos del producto */
   font-size: 0.9rem;
   margin-bottom: 20px;
   position: absolute;
-  top: 30px;
+  top: 42px;
   left: -15px;
   text-align: center;
 }

@@ -13,7 +13,7 @@ const CustomerSection = ({user_name, handleDrop}) => {
 
   return (
     <Fragment>
-        <div className="col-lg-3 mt-4 mt-lg-0">
+        <div className="col-lg-3 mt-4 mt-lg-0" style={{'margin-right': '-15px'}}>
               {/* Menu del cliente */}
               <div className="panel panel-default sidebar-menu">
                 <div className="panel-heading">

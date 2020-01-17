@@ -1,22 +1,39 @@
 import React, { Fragment,useState,useEffect } from 'react';
 import BreadCrumbs from '../../BreadCrumbs';
 import CustomerSection from './CustomerSection';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import './../../../css/default.css';
 import Spinner from 'react-bootstrap/Spinner';
 import {getUserWishlist} from './utils/CustomerFunctions';
 import ProductList from '../../lists/ProductList';
+import DeleteProductModal from '../../modals/DeleteProductModal'
 
 const CustomerWishList = ({setUser, handleDrop,user_id}) => {
 
     const [error,setError] = useState (false);
     const [list,setList] = useState ([]);
     const [loading, setLoading] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+    //ID del producto a eliminar
+    const [idProduct, setIdProduct] = useState(null);
+    const [tamañoList, setTamañoList] = useState(null);
+
+    const handleModalOpen = (id) => {
+      if (id != null) {
+        setModalOpen(!modalOpen);
+        setIdProduct(id);
+      }else{
+        setModalOpen(!modalOpen);
+        setIdProduct(null);
+      }  
+    };
 
     useEffect( () => {
+      setLoading(true);
       getUserWishlist (user_id)
       .then (res => {
           setList(res);
+          setLoading(false);
       })
       .catch (err=>{
           setError (true);
@@ -25,8 +42,9 @@ const CustomerWishList = ({setUser, handleDrop,user_id}) => {
       if (list.length === 0){
           setError (true);
       }
-      setError (false);        
-  }, [user_id] );
+      setError (false);
+      setTamañoList(list.length);        
+  }, [user_id, tamañoList] );
 
     return (
         <Fragment>
@@ -42,7 +60,7 @@ const CustomerWishList = ({setUser, handleDrop,user_id}) => {
                   <Spinner animation="border" variant="info" size="lg"  />
                 </div> :
               <div>
-              { (!error) ? <ProductList list = {list} /> : <div className="alert alert-danger mt-2 mb-5 text-center">Hubo un error al recuperar los datos</div>}
+              { (!error) ? <ProductList style={{'margin-left': '-40px'}} list = {list} isEditable={true} handleModalOpen={handleModalOpen} /> : <div className="alert alert-danger mt-2 mb-5 text-center">Hubo un error al recuperar los datos</div>}
               </div>
               }
             </div>
@@ -50,8 +68,17 @@ const CustomerWishList = ({setUser, handleDrop,user_id}) => {
           </div>
         </div>
       </div>
+      <DeleteProductModal 
+        modalOpen={modalOpen}
+        handleModalOpen={handleModalOpen}
+        idProduct={idProduct}
+        setIdProduct={setIdProduct}
+        user_id={user_id} 
+        tamañoList={tamañoList}
+        setTamañoList={setTamañoList}
+        />
       </Fragment>
     );
 }
 
-export default CustomerWishList;
+export default withRouter(CustomerWishList);

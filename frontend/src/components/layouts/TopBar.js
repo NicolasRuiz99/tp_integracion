@@ -114,22 +114,7 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history}) =
            modalOpen={modalOpen2}
            handleModalOpen={handleModalOpen2}
            handleDrop = {handleDrop}
-        />{/*0
-        <GoogleLogin
-        clientId="673282052111-of0572517o98uurd7b1jf2vbgp1ui50m.apps.googleusercontent.com"
-        buttonText="Login"
-        onSuccess={responseGoogle}
-        onFailure={responseGoogle}
-        cookiePolicy={'single_host_origin'}
         />
-        <FacebookLogin
-        appId="859707344447806"
-        autoLoad={true}
-        fields="name,email,picture"
-        onClick={componentClicked}
-        callback={responseFacebook} 
-        />*/}
-
         </Fragment>
     );
 }
