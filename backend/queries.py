@@ -21,6 +21,9 @@ def getUserCustomer (id):
 def listProducts ():
     return listTable ('ProductsList')
 
+def listPurchases (id_user):
+    return query ('select * from PurchaseList where id_user = ' + str(id_user))
+
 def listRecomendedProducts (type_id):
     return query ('select * from products where type = ' + str(type_id))
 

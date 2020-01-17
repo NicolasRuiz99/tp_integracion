@@ -92,7 +92,7 @@ const App = () => {
                   handleDrop={handleDrop}
                 />
             )}/>
-            <Route  path="/customer-orders" render={() =>(<CustomerOrders handleDrop={handleDrop} />)} />
+            <Route  path="/customer-orders" render={() =>(<CustomerOrders handleDrop={handleDrop} user_id={user_id} />)} />
             <Route  path="/customer-order" component={CustomerOrder} />
             <Route  path="/customer-wishlist" render={() =>(<WishList handleDrop={handleDrop} user_id={user_id}/>)} />
             <Route  path='/customer-chat' render={() =>(<Chat user_name={'cliente'} />)} />

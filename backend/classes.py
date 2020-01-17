@@ -294,10 +294,11 @@ class Purchase:
         self.id_shipping = res[6]
 
 class Purchxitem:
-    def __init__ (self,id_purchase=None,id_color_size=None,stock=None):
+    def __init__ (self,id_purchase=None,id_color_size=None,stock=None,purch_price=None):
         self.id_purchase = id_purchase
         self.id_color_size = id_color_size
         self.stock = stock
+        self.purch_price = purch_price
 
     def add (self):
         new_record = (self.id_purchase, self.id_color_size,self.stock )
@@ -311,6 +312,7 @@ class Purchxitem:
         self.id_purchase = res[0]
         self.id_color_size = res[1]
         self.stock = res[2]
+        self.purch_price = res [3]
 
 class Reservation:
     def __init__ (self,date=None,stock=None,id_user=None,id_color_size=None,state=None,_id=None):

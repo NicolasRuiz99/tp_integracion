@@ -153,4 +153,14 @@ const addReviewItem = ({user_id,prod_id,stars,title,commentary}) => {
     .catch(err => {throw err})
 }
 
-export {login, register,getEMails,getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo,getUserWishlist,getWishlistItem,addWishlistItem,deleteWishlistItem,getUserPurchaseItem,addReviewItem};
+const getPurchaseList = ({user_id}) => {
+    return axios
+    .post("/purchase/list",{
+        id_user: user_id,
+    })
+    .then(res => {return res.data.data
+    })
+    .catch(err => {throw err})
+}
+
+export {login, register,getEMails,getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo,getUserWishlist,getWishlistItem,addWishlistItem,deleteWishlistItem,getUserPurchaseItem,addReviewItem,getPurchaseList};

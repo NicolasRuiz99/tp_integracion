@@ -157,6 +157,7 @@ CREATE TABLE purchxitem (
     id_purchase int not null,
     id_color_size int,
     stock t_stock,
+    purch_price t_price default 0,
     PRIMARY KEY (id_purchase,id_color_size),
 	FOREIGN KEY (id_purchase) REFERENCES purchase (id)
 );

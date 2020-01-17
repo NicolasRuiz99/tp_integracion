@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, json
-from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos
+from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser
 
@@ -722,6 +722,20 @@ def getPurchItem():
         item = getPurchaseItem (id_user,id_prod)
         if (item != []):
             result = True
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data' : result})
+
+@app.route ('/purchase/list',methods=['POST'])
+def listUserPurchase():
+    result = []
+    error = False
+    id_user = request.json['id_user']
+    try:
+        result = listPurchases (id_user)
     except (Exception) as err:
         error = True
         return handleError (err)
