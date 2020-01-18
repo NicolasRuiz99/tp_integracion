@@ -19,6 +19,7 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
     const [listPerPage] = useState(6);
     //Valor de categoría inicial
     const [categories, setCategories] = useState('all');
+    
     //State para activar el estilo de selección por categoria
     const [isActive, setIsActive] = useState({
         isActiveF: false,
@@ -38,6 +39,8 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
         isActiveCamisas: false,
     });
 
+    const [colors, setColors] = useState({});
+
     //UseEffect inicial
     useEffect( () => {
       
@@ -51,11 +54,15 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
                   return producto;
                 }
             });
+            dividirColores(res);
+            setColors(cuentaColores(res));
             setList(res);
             setCopyList(res);
             setLoading(false);
             setIsOferta(true);
             } else {
+            dividirColores(res);
+            setColors(cuentaColores(res));
             setList(res);
             setCopyList(res);
             setLoading(false);
@@ -69,7 +76,7 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
         if (list.length === 0){
             setError(true);
         }
-        setError (false);        
+        setError (false);    
     }, [isOferta] );
 
     //UseEffect de busqueda
@@ -77,6 +84,8 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
         unselectCategories2(search, setCopyList, list, setIsActive, setIsActive2);
         setCurrentPage(1);       
     },[search]);
+
+    
 
     //UseEffects para categorias
     useEffect(() => {
@@ -96,13 +105,55 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
     //Cambiar de pagina
     const paginate = pageNumber => setCurrentPage(pageNumber);
     
-
     //Creo el objeto que almacenará el numero que representa la cantidad de cada categoría
     const countxCategoria = createCountxCategoria(list);
 
+    const cuentaColores = (vector) => {
+        //Variables de colores
+        let yellow = 0;
+        let blue = 0;
+        let red = 0;
+        let green = 0;
+        let white = 0;
+        vector.forEach(item => {
+            let colores = item.colors;
+            colores.forEach(value => {
+                if (value === 'amarillo') {
+                    return yellow = yellow + 1;
+                }
+                if (value === 'azul') {
+                    return blue = blue + 1;
+                }
+                if (value === 'verde') {
+                    return green = green + 1;
+                }
+                if (value === 'blanco') {
+                    return white = white + 1;
+                }
+                if (value === 'rojo') {
+                    return red = red + 1;
+                }
+            });
+        });
+        return {yellow, blue, green, red, white};
+    };
+
+    const dividirColores = (lista) => {
+        lista.forEach(item => {
+            //Saco los corchetes
+            let rebanada = item.colors.slice(1, -1); 
+            //Creo el vector auxiliar de colores al sacar las comas
+            let colores = rebanada.split(",");
+            //lo sustituyo
+            item.colors = colores;
+        });
+    };
+
+   
+
     return (
         <Fragment>
-            <BreadCrumbs name={"Tienda"} />
+         <BreadCrumbs name={"Tienda"} />
             <div id="content">
                 <div className="container">
                     <div className="row bar">
@@ -115,6 +166,7 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
                         setIsActive2={setIsActive2}
                         setCopyList={setCopyList}
                         lista={list}
+                        colors={colors}
                         />
                         {(loading) ? 
                         <div className="col-md-9 text-center"> 

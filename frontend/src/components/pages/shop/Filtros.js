@@ -21,7 +21,7 @@ const CATEGORIAS = {
     ropaInterior: 'ropaInterior'
 }
 
-const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isActive2, lista, setCopyList}) => {
+const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isActive2, lista, setCopyList, colors}) => {
     //States inputs del precio 
     const [priceMin, setPriceMin] = useState('');
     const [priceMax, setPriceMax] = useState('');
@@ -33,6 +33,7 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
     const [colorAmarillo, setColorAmarillo] = useState(false);
     const [colorRojo, setColorRojo] = useState(false);
 
+
     //Obtenemos cantidades
     const {listAll, listMen, listWomen, listUni} = list;
     //obtenemos estados de activacion 
@@ -40,7 +41,7 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
     const {isActiveRemera, isActivePantalon, isActivePollera, isActiveRopaInterior, isActiveAbrigos,
            isActiveAccesorios, isActiveCalzado, isActiveCamisas} = isActive2;
     
-    
+
     //Metodos para activacion categórica
     const handleClick = (categoria) => {
         selectGenre(GENEROS, categoria, setIsActive, setCategories, setIsActive2, setCopyList, lista);
@@ -65,6 +66,8 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
         setColorAmarillo(false);
         setColorRojo(false);
     };
+
+    
 
     const handlePrice = (e) => {
         e.preventDefault();
@@ -249,54 +252,54 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
                 <div className="panel-body">
                     <form>
                         <div className="form-group">
-                            <div className="checkbox">
-                                <label>
-                                <input 
+                            <div className="checkbox" >
+                                <label >
+                                <input  style={{width:'20px'}}
                                 type="checkbox"
                                 checked={colorBlanco}
                                 onChange={() => setColorBlanco(!colorBlanco)}
                                 />
-                                <span className="colour white"></span> Blanco (14)
+                                <span className="colour white"></span> Blanco ({colors.white})
                                 </label>
                             </div>
                             <div className="checkbox">
                                 <label>
-                                <input 
+                                <input style={{width:'20px'}} 
                                 type="checkbox"
                                 checked={colorAzul}
                                 onChange={() => setColorAzul(!colorAzul)}
                                 />
-                                <span className="colour blue"></span> Azul (10)
+                                <span className="colour blue"></span> Azul ({colors.blue})
                                 </label>
                             </div>
                             <div className="checkbox">
                                 <label>
-                                <input 
+                                <input style={{width:'20px'}}
                                 type="checkbox"
                                 checked={colorVerde}
                                 onChange={() => setColorVerde(!colorVerde)}
                                 />
-                                <span className="colour green"></span> Verde (20)
+                                <span className="colour green"></span> Verde ({colors.green})
                                 </label>
                             </div>
                             <div className="checkbox">
                                 <label>
-                                <input 
+                                <input style={{width:'20px'}}
                                 type="checkbox"
                                 checked={colorAmarillo}
                                 onChange={() => setColorAmarillo(!colorAmarillo)}
                                 />
-                                <span className="colour yellow"></span> Amarillo (13)
+                                <span className="colour yellow"></span> Amarillo ({colors.yellow})
                                 </label>
                             </div>
                             <div className="checkbox">
                                 <label>
-                                <input 
+                                <input style={{width:'20px'}}
                                 type="checkbox"
                                 checked={colorRojo}
                                 onChange={() => setColorRojo(!colorRojo)}
                                 />
-                                <span className="colour red"></span> Rojo (10)
+                                <span className="colour red"></span> Rojo ({colors.red})
                                 </label>
                             </div>
                         </div>
