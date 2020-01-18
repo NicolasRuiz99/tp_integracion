@@ -44,3 +44,6 @@ def getPurchaseItem (user_id,prod_id):
 
 def listProductosMasVendidos ():
     return listTable ('ProductosMasVendidos()')
+
+def listPurchaseItems (id):
+    return query ('select prod_id,name,color,stock,purch_price from PurchaseItems where id_purchase = ' + str(id))

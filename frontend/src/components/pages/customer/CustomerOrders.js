@@ -2,7 +2,7 @@ import React, { Fragment,useEffect,useState } from 'react';
 import './../../../css/default.css';
 import BreadCrumbs from './../../BreadCrumbs';
 import CustomerSection from './CustomerSection';
-import {getPurchaseList} from '../customer/utils/CustomerFunctions'
+import {getPurchaseList} from '../customer/utils/CustomerFunctions';
 import PurchaseList from '../../lists/PurchaseList';
 import {Link} from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';

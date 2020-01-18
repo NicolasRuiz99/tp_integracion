@@ -17,3 +17,11 @@ FROM products p;
 CREATE VIEW PurchaseList
 AS 
 SELECT id,price,date,state,id_user FROM purchase WHERE state != 'cart';
+
+CREATE VIEW PurchaseItems
+AS 
+SELECT p.id prod_id,p.name,cz.color,pitem.stock,pitem.purch_price,pitem.id_purchase
+FROM purchxitem pitem, products p,color_size cz 
+WHERE pitem.id_purchase = p.id and pitem.id_color_size = cz.id;
+
+

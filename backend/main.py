@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, json
-from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases
+from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases,listPurchaseItems
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser
 
@@ -708,7 +708,7 @@ def getPurchaseInfo():
     purch.id = id
     try:
         purch.get()
-        result['product'] = (dict (id = purch.id,price = purch.price,date = purch.date,state = purch.state)) 
+        result['purchase'] = (dict (id = purch.id,price = purch.price,date = purch.date,state = purch.state)) 
         if (purch.id_shipping != None):
             ship = Shipping ()
             ship.id = purch.id_shipping
@@ -725,6 +725,20 @@ def getPurchaseInfo():
     finally:
         if not (error):
             return jsonify({'result': 'success','data' : result})
+
+@app.route ('/purchase/listItems',methods=['POST'])
+def listUserPurchaseItems():
+    result = []
+    error = False
+    id = request.json['id']
+    try:
+        result = listPurchaseItems (id)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data' : result})
 
 @app.route ('/purchase/item',methods=['POST'])
 def getPurchItem():
