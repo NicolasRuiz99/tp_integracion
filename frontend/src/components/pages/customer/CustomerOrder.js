@@ -1,13 +1,30 @@
-import React, { Fragment } from 'react';
+import React, { Fragment,useEffect,useState } from 'react';
 import CustomerSection from './CustomerSection';
 import BreadCrumbs from '../../BreadCrumbs';
 import img1 from "./../../../assets/detailsquare.jpg";
 import img2 from "./../../../assets/detailsquare2.jpg";
 import './../../../css/default.css';
 import {Link} from 'react-router-dom';
+import {getPurchaseInfo} from'./utils/CustomerFunctions';
 
 
-const CustomerOrder = () => {
+const CustomerOrder = ({props,user_id}) => {
+
+    const [purchInfo,setPurchInfo] = useState ('')
+    const [error,setError] = useState (false);
+
+    useEffect (()=>{
+        const purch_id = props.match.params.id;
+        getPurchaseInfo (purch_id)
+        .then (res =>{
+            setPurchInfo (res);
+        })
+        .catch (err =>{
+            setError (true);
+        })
+        setError (false);
+    },[user_id])
+
     return (
         <Fragment>
       <BreadCrumbs name={"Compra # 123"} />

@@ -225,11 +225,12 @@ class Coupon:
     def delete (self):
         deleteFromTable ('coupon',self.id)
 
-    def get (self,_id):
-        res = searchID ('coupon',_id)  
+    def get (self):
+        res = searchID ('coupon',self.id)  
         self.id = res[0]
         self.pc = res[1]
         self.cad_date = res[2]
+        self.used = res[3]
 
 class Shipping:
     def __init__ (self,address=None,zip=None,name=None,surname=None,dni=None,track_code=None,province=None,_id=None):
@@ -252,8 +253,8 @@ class Shipping:
     def delete (self):
         deleteFromTable ('shipping',self.id)
 
-    def get (self,_id):
-        res = searchID ('shipping',_id)  
+    def get (self):
+        res = searchID ('shipping',self.id)  
         self.id = res[0]
         self.address = res[1]
         self.zip = res[2]
@@ -283,15 +284,14 @@ class Purchase:
     def delete (self):
         deleteFromTable ('purchase',self.id)
 
-    def get (self,_id):
-        res = searchID ('purchase',_id)  
-        self.id = res[0]
+    def get (self):
+        res = searchID ('purchase',self.id)  
         self.price = res[1]
         self.date = res[2]
         self.state = res[3]
         self.id_user = res[4]
         self.id_coupon = res[5]
-        self.id_shipping = res[6]
+        self.id_shipping = res[5]
 
 class Purchxitem:
     def __init__ (self,id_purchase=None,id_color_size=None,stock=None,purch_price=None):

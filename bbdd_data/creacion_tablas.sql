@@ -124,6 +124,7 @@ CREATE TABLE coupon (
     id serial,
     pc percent,
     cad_date date,
+    used boolean,
     PRIMARY KEY (id)
 );
 

@@ -254,7 +254,7 @@ const ShopDetail = ({props,user_id}) => {
                       </div>
                       <p className="text-center">
                         <button className="btn btn-outlined"><i className="fa fa-shopping-cart"></i> Añadir al carrito</button>
-                        <button data-toggle="tooltip" data-placement="top" title={`${(isWishlisted) ? 'Eliminar de mis deseos' : 'Añadir a mis deseos'}`} 
+                        <button data-toggle="tooltip" type="button" data-placement="top" title={`${(isWishlisted) ? 'Eliminar de mis deseos' : 'Añadir a mis deseos'}`} 
                         className={`btn ${(isWishlisted) ? ('btn-danger') : ('btn-default')}`} 
                         onClick={ManageWishlist}>
                           <i className="fa fa-heart-o"></i>

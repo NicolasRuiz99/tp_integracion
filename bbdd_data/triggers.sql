@@ -52,12 +52,15 @@ IF (NEW.state = 'pending') OR (NEW.state = 'success' AND OLD.state != 'pending')
 	UPDATE "purchxitem"
 	SET purch_price = (SELECT (p.price-((p.discount*p.price)/100)) FROM products p, color_size cz WHERE id_color_size = cz.id and cz.prod_id = p.id)
 	WHERE id_purchase = NEW.id;
+
+	UPDATE "coupon" SET used = true WHERE id = NEW.id_coupon;
 ELSE
 	IF (NEW.state = 'cancelled' AND OLD.state = 'pending') THEN
 		UPDATE "color_size" 
 		SET stock = stock + (SELECT pitem.stock FROM purchxitem pitem WHERE id_purchase = NEW.id AND pitem.id_color_size = id) 
 		WHERE id IN (SELECT id_color_size FROM purchxitem WHERE id_purchase = NEW.id);
 	END IF;
+	UPDATE "coupon" SET used = false WHERE id = NEW.id_coupon;
 END IF;
 RETURN NEW;
 END; $funcemp$ LANGUAGE plpgsql;

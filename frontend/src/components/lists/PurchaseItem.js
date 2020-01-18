@@ -37,7 +37,7 @@ const PurchaseItem = ({item}) => {
                 <td>{date}</td>
                 <td>$ {item.price}</td>
                 <td><span className={clase}>{estado}</span></td>
-                <td><Link to="/customer-order" className="btn btn-outlined btn-sm">Ver</Link></td>
+                <td><Link to={link} className="btn btn-outlined btn-sm">Ver</Link></td>
             </tr>
         </Fragment>    
     );

@@ -163,4 +163,14 @@ const getPurchaseList = ({user_id}) => {
     .catch(err => {throw err})
 }
 
-export {login, register,getEMails,getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo,getUserWishlist,getWishlistItem,addWishlistItem,deleteWishlistItem,getUserPurchaseItem,addReviewItem,getPurchaseList};
+const getPurchaseInfo = (id) => {
+    return axios
+    .post("/purchase/getInfo",{
+        id
+    })
+    .then(res => {return res.data.data
+    })
+    .catch(err => {throw err})
+}
+
+export {login, register,getEMails,getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo,getUserWishlist,getWishlistItem,addWishlistItem,deleteWishlistItem,getUserPurchaseItem,addReviewItem,getPurchaseList,getPurchaseInfo};

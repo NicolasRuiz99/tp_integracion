@@ -85,10 +85,10 @@ INSERT INTO "color_size" (color, size, stock, prod_id) VALUES
 ('rojo', 'XL', 500, 9), 
 ('amarillo', 'XXL', 800, 10);
 
-INSERT INTO "coupon" (pc, cad_date) VALUES
-(50, '21/04/2020'), (30, '12/03/2020'), 
-(20, '21/12/2070'), (50, '12/12/2020'), 
-(31, '10/10/2020');
+INSERT INTO "coupon" (pc, cad_date, used) VALUES
+(50, '21/04/2020',false), (30, '12/03/2020',false), 
+(20, '21/12/2070',false), (50, '12/12/2020',false), 
+(31, '10/10/2020',false);
 
 INSERT INTO "shipping" (address, zip, name, surname, dni, track_code, province) VALUES 
 ('belgrano 679', 3260, 'Raul', 'Paz','56512355', 54654231, 'Entre rios'),

@@ -46,20 +46,18 @@ def listTable (table):
         return results
 
 def searchID (table,_id):
+    res = []
     try:
         con, cur = connect_ddbb ()
         query = 'select * from ' + table + ' where id = %s'
         cur.execute (query,(_id, ))  
-        res = cur.fetchone()
-        if (res == None):
-            raise Exception ('no results to fetch')
-        else:
-            return res 
+        res = cur.fetchone()         
     except (Exception,Error) as error:
         if (con):
             raise Exception ('OperationFailed ' + error.args[0])
     finally:
         disconnect_ddbb (con,cur)
+        return res 
 
 def updateTable (table,values,setValues):
     try:
@@ -98,20 +96,18 @@ def deleteFromTable2 (table,values,qValues):
         disconnect_ddbb (con,cur)
 
 def searchID2 (table,values,qValues):
+    res = []
     try:
         con, cur = connect_ddbb ()
         query = 'select * from ' + table + ' where ' + qValues
         cur.execute (query,values)  
         res = cur.fetchone()
-        if (res == None):
-            raise Exception ('no results to fetch')
-        else:
-            return res 
     except (Exception,Error) as error:
         if (con):
             raise Exception ('OperationFailed', error.args[0])
     finally:
         disconnect_ddbb (con,cur)
+        return res 
 
 def logInUser (e_mail,psw):
     try:

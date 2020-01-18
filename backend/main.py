@@ -562,8 +562,9 @@ def getCoupon():
     error = False
     id = request.json['id']
     new = Coupon ()
+    new.id = id
     try:
-        new.get(id)
+        new.get()
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -633,8 +634,9 @@ def getShipping():
     error = False
     id = request.json['id']
     new = Shipping ()
+    new.id = id
     try:
-        new.get(id)
+        new.get()
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -697,19 +699,31 @@ def deletePurchase():
         if not (error):
             return jsonify({'result' : 'success'})
 
-@app.route ('/purchase/get',methods=['POST'])
-def getPurchase():
+@app.route ('/purchase/getInfo',methods=['POST'])
+def getPurchaseInfo():
     error = False
+    result = {}
     id = request.json['id']
-    new = Purchase ()
+    purch = Purchase ()
+    purch.id = id
     try:
-        new.get(id)
+        purch.get()
+        result['product'] = (dict (id = purch.id,price = purch.price,date = purch.date,state = purch.state)) 
+        if (purch.id_shipping != None):
+            ship = Shipping ()
+            ship.id = purch.id_shipping
+            ship.get()
+            result['shipping'] = (dict (id = ship.id, address = ship.address, zip = ship.zip, name = ship.name, surname = ship.surname, dni = ship.dni, track_code = ship.track_code, province = ship.province))
+        if (purch.id_coupon != None):
+            coup = Coupon ()
+            coup.id = purch.id_coupon
+            coup.get()
+            result['coupon'] = (dict (id = coup.id, pc = coup.pc, cad_date = coup.cad_date, used = coup.used))
     except (Exception) as err:
         error = True
         return handleError (err)
     finally:
         if not (error):
-            result = dict (id = new.id, price = new.price, date = new.date, state = new.state, id_user = new.id_user, id_coupon = new.id_coupon ,id_shipping = new.id_shipping)
             return jsonify({'result': 'success','data' : result})
 
 @app.route ('/purchase/item',methods=['POST'])
