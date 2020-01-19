@@ -7,6 +7,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import {getUserWishlist} from './utils/CustomerFunctions';
 import ProductList from '../../lists/ProductList';
 import DeleteProductModal from '../../modals/DeleteProductModal'
+import Paginacion from './../shop/Paginacion';
 
 const CustomerWishList = ({setUser, handleDrop,user_id}) => {
 
@@ -17,6 +18,9 @@ const CustomerWishList = ({setUser, handleDrop,user_id}) => {
     //ID del producto a eliminar
     const [idProduct, setIdProduct] = useState(null);
     const [tamañoList, setTamañoList] = useState(null);
+    //Paginación
+    const [currentPage, setCurrentPage] = useState(1);
+    const [listPerPage] = useState(6);
 
     const handleModalOpen = (id) => {
       if (id != null) {
@@ -43,8 +47,17 @@ const CustomerWishList = ({setUser, handleDrop,user_id}) => {
           setError (true);
       }
       setError (false);
-      setTamañoList(list.length);        
+      setTamañoList(list.length);
+      setCurrentPage(1);        
   }, [user_id, tamañoList] );
+
+  //Obtener lista de productos actual
+  const indexOfLastList = currentPage * listPerPage;
+  const indexOfFirstList = indexOfLastList - listPerPage;
+  const currentList = list.slice(indexOfFirstList, indexOfLastList);
+
+  //Cambiar de pagina
+  const paginate = pageNumber => setCurrentPage(pageNumber);
 
     return (
         <Fragment>
@@ -60,7 +73,7 @@ const CustomerWishList = ({setUser, handleDrop,user_id}) => {
                   <Spinner animation="border" variant="info" size="lg"  />
                 </div> :
               <div>
-              { (!error) ? <ProductList style={{'margin-left': '-40px'}} list = {list} isEditable={true} handleModalOpen={handleModalOpen} /> : <div className="alert alert-danger mt-2 mb-5 text-center">Hubo un error al recuperar los datos</div>}
+              { (!error) ? <ProductList style={{'margin-left': '-40px'}} list = {currentList} isEditable={true} handleModalOpen={handleModalOpen} /> : <div className="alert alert-danger mt-2 mb-5 text-center">Hubo un error al recuperar los datos</div>}
               </div>
               }
             </div>
@@ -68,6 +81,15 @@ const CustomerWishList = ({setUser, handleDrop,user_id}) => {
           </div>
         </div>
       </div>
+      <div style={{paddingRight: '270px'}}>
+      <Paginacion 
+        listPerPage={listPerPage} 
+        totalList={list.length} 
+        paginate={paginate} 
+        setCurrentPage={setCurrentPage} 
+        currentPage={currentPage}
+        />
+      </div>  
       <DeleteProductModal 
         modalOpen={modalOpen}
         handleModalOpen={handleModalOpen}

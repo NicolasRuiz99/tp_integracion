@@ -12,7 +12,7 @@ const Paginacion = ({listPerPage, totalList, paginate, currentPage}) => {
     }
 
     return (
-        <div className="pages"> 
+        <div className="pages" > 
             <nav aria-label="Page navigation example" className="d-flex justify-content-center">
                 <ul className="pagination">
                     <li className="page-item"><Link onClick={() => paginate(currentPage - 1)} className="page-link"> <i className="fa fa-angle-double-left"></i></Link></li>
