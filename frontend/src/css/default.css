@@ -1668,6 +1668,16 @@ Estilo para customer */
   background: #ffc107;
 }
 
+.panel-body span.colour.purple {
+  background: #7d2181;
+}
+
+.panel-body span.colour.magenta {
+  background: #FF00FF;
+}
+.panel-body span.colour.orange {
+  background: #ff8000;
+}
 .heading, .panel-heading {
   margin-bottom: 1rem;
 }

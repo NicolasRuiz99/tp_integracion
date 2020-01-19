@@ -7,7 +7,7 @@ import Filtros from './Filtros';
 import Spinner from 'react-bootstrap/Spinner';
 import ProductList from '../../lists/ProductList';
 import {getProducts} from './utils/shopFunctions';
-import {changeCategories, unselectCategories, unselectCategories2, createCountxCategoria} from './utils/categoriesFunctions';
+import {changeCategories, unselectCategories, unselectCategories2, createCountxCategoria, countColors} from './utils/categoriesFunctions';
 
 const ShopCategorias = ({search, setIsOferta, isOferta}) => {
     const [error,setError] = useState (false);
@@ -109,33 +109,7 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
     const countxCategoria = createCountxCategoria(list);
 
     const cuentaColores = (vector) => {
-        //Variables de colores
-        let yellow = 0;
-        let blue = 0;
-        let red = 0;
-        let green = 0;
-        let white = 0;
-        vector.forEach(item => {
-            let colores = item.colors;
-            colores.forEach(value => {
-                if (value === 'amarillo') {
-                    return yellow = yellow + 1;
-                }
-                if (value === 'azul') {
-                    return blue = blue + 1;
-                }
-                if (value === 'verde') {
-                    return green = green + 1;
-                }
-                if (value === 'blanco') {
-                    return white = white + 1;
-                }
-                if (value === 'rojo') {
-                    return red = red + 1;
-                }
-            });
-        });
-        return {yellow, blue, green, red, white};
+      return countColors(vector);
     };
 
     const dividirColores = (lista) => {

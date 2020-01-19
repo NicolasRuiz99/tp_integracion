@@ -90,7 +90,137 @@ const selectPrice = (setIsActive, setIsActive2) => {
     setIsActive2({isActivePantalon: false, isActivePollera: false, isActiveRopaInterior: false, isActiveAbrigos: false, isActiveAccesorios: false, isActiveCalzado:false, isActiveCamisas: false});
 };
 
+const colorsLogic = (color, setColorNaranja, setColorAmarillo, setColorBlanco, setColorMagenta, setColorVerde, setColorAzul, setColorRojo, setColorPurpura) => {
+    switch (color) {
+        case 'blanco':
+            setColorBlanco(true);
+            setColorRojo(false);
+            setColorVerde(false);
+            setColorAzul(false);
+            setColorAmarillo(false);
+            setColorPurpura(false);
+            setColorMagenta(false);
+            setColorNaranja(false);
+            break;
+        case 'amarillo':
+            setColorAmarillo(true);
+            setColorBlanco(false);
+            setColorRojo(false);
+            setColorVerde(false);
+            setColorAzul(false);
+            setColorPurpura(false);
+            setColorMagenta(false);
+            setColorNaranja(false);
+            break;
+        case 'azul':
+            setColorAzul(true);
+            setColorAmarillo(false);
+            setColorBlanco(false);
+            setColorRojo(false);
+            setColorVerde(false);
+            setColorPurpura(false);
+            setColorMagenta(false);
+            setColorNaranja(false);
+            break;
+        case 'verde':
+            setColorVerde(true);
+            setColorAzul(false);
+            setColorAmarillo(false);
+            setColorBlanco(false);
+            setColorRojo(false);
+            setColorPurpura(false);
+            setColorMagenta(false);
+            setColorNaranja(false);
+            break;
+        case 'rojo':
+            setColorRojo(true);
+            setColorVerde(false);
+            setColorAzul(false);
+            setColorAmarillo(false);
+            setColorBlanco(false);
+            setColorPurpura(false);
+            setColorMagenta(false);
+            setColorNaranja(false);
+            break;
+        case 'purpura':
+            setColorPurpura(true);
+            setColorRojo(false);
+            setColorVerde(false);
+            setColorAzul(false);
+            setColorAmarillo(false);
+            setColorBlanco(false);
+            setColorMagenta(false);
+            setColorNaranja(false);
+            break;
+            case 'naranja':
+                setColorPurpura(false);
+                setColorRojo(false);
+                setColorVerde(false);
+                setColorAzul(false);
+                setColorAmarillo(false);
+                setColorBlanco(false);
+                setColorMagenta(false);
+                setColorNaranja(true);
+                break;
+            case 'magenta':
+                setColorPurpura(false);
+                setColorRojo(false);
+                setColorVerde(false);
+                setColorAzul(false);
+                setColorAmarillo(false);
+                setColorBlanco(false);
+                setColorMagenta(true);
+                setColorNaranja(false);
+                break;
+        default:
+            setColorBlanco(false);
+            setColorRojo(false);
+            setColorVerde(false);
+            setColorAzul(false);
+            setColorAmarillo(false);
+            setColorPurpura(false);
+            setColorMagenta(false);
+            setColorNaranja(false);
+            break;
+    }
+};
+
+const showList = (color, lista) => {
+    let listado = lista.filter(item => item.colors.includes(color));
+    return listado;
+}
+
+const showListLogic = (setCopyList, lista, colorNaranja, colorAmarillo, colorBlanco, colorMagenta, colorVerde, colorAzul, colorRojo, colorPurpura) => {
+    if (colorBlanco === false && colorAmarillo === false && colorAzul === false && colorPurpura === false && colorVerde === false && colorMagenta && false && colorRojo === false && colorNaranja === false) {
+        return;
+    }else {
+        if (colorBlanco) {
+            setCopyList(showList('blanco', lista));
+        };
+        if (colorAmarillo) {
+         setCopyList(showList('amarillo', lista));
+        };
+        if (colorAzul) {
+         setCopyList(showList('azul', lista));
+        };
+        if (colorPurpura) {
+         setCopyList(showList('purpura', lista));
+        };
+        if (colorRojo) {
+         setCopyList(showList('rojo', lista));
+        };
+        if (colorNaranja) {
+            setCopyList(showList('naranja', lista));
+        };
+        if (colorMagenta) {
+            setCopyList(showList('magenta', lista));
+        };
+        if (colorVerde) {
+            setCopyList(showList('verde', lista))
+        }
+    }
+}
 
 
 
-export {selectGenre, selectCategorie, selectPrice};
+export {selectGenre, selectCategorie, selectPrice, colorsLogic, showListLogic};

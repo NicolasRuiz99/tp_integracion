@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './../../../css/default.css';
 import {Link} from 'react-router-dom';
-import {selectGenre, selectCategorie, selectPrice} from './utils/filterFunctions';
+import {selectGenre, selectCategorie, selectPrice, colorsLogic, showListLogic} from './utils/filterFunctions';
 //Constantes de categorías
 const GENEROS = {
     masculino: 'M',
@@ -26,14 +26,15 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
     const [priceMin, setPriceMin] = useState('');
     const [priceMax, setPriceMax] = useState('');
 
-    //States checkbox de colores
+    //States radios de colores
     const [colorBlanco, setColorBlanco] = useState(false);
     const [colorAzul, setColorAzul] = useState(false);
     const [colorVerde, setColorVerde] = useState(false);
     const [colorAmarillo, setColorAmarillo] = useState(false);
     const [colorRojo, setColorRojo] = useState(false);
-
-
+    const [colorPurpura, setColorPurpura] = useState(false);
+    const [colorNaranja, setColorNaranja ] = useState(false);
+    const [colorMagenta, setColorMagenta ] = useState(false);
     //Obtenemos cantidades
     const {listAll, listMen, listWomen, listUni} = list;
     //obtenemos estados de activacion 
@@ -58,18 +59,16 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
         setPriceMax('');
     };
 
-    const handleLimpiarColores = (e) => {
-        e.preventDefault();
-        setColorBlanco(false);
-        setColorAzul(false);
-        setColorVerde(false);
-        setColorAmarillo(false);
-        setColorRojo(false);
-    };
+   const activarColor = (color) => {
+    colorsLogic(color, setColorNaranja, setColorAmarillo, setColorBlanco, setColorMagenta, setColorVerde, setColorAzul, setColorRojo, setColorPurpura);
+   };
+   
+   const handleSearchColor = (e) => {
+       e.preventDefault();
+       showListLogic(setCopyList, lista, colorNaranja, colorAmarillo, colorBlanco, colorMagenta, colorVerde, colorAzul, colorRojo, colorPurpura);
+   }
 
-    
-
-    const handlePrice = (e) => {
+   const handlePrice = (e) => {
         e.preventDefault();
         selectPrice(setIsActive2, setIsActive);
         if (priceMin === '' || priceMax === '' || isNaN(priceMin) || isNaN(priceMax) ) {
@@ -244,20 +243,16 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
             <div className="panel panel-default sidebar-menu">
                 <div className="panel-heading d-flex align-items-center justify-content-between">
                     <h3 className="h4 panel-title">Colores</h3>
-                    <div onClick={ (e) => handleLimpiarColores(e) } className="btn btn-sm btn-danger">
-                        <i className="fa fa-times-circle"></i>
-                        <span className="d-none d-md-inline-block">Limpiar</span>
-                    </div>
                 </div>
                 <div className="panel-body">
-                    <form>
-                        <div className="form-group">
+                    <form onSubmit={handleSearchColor}>
+                        <div className="form-group" style={{'max-height': '200px','overflow-y': 'scroll', 'overflow-x': 'hidden'}}>
                             <div className="checkbox" >
                                 <label >
                                 <input  style={{width:'20px'}}
-                                type="checkbox"
+                                type="radio"
                                 checked={colorBlanco}
-                                onChange={() => setColorBlanco(!colorBlanco)}
+                                onChange={() => activarColor('blanco')}
                                 />
                                 <span className="colour white"></span> Blanco ({colors.white})
                                 </label>
@@ -265,9 +260,9 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
                             <div className="checkbox">
                                 <label>
                                 <input style={{width:'20px'}} 
-                                type="checkbox"
+                                type="radio"
                                 checked={colorAzul}
-                                onChange={() => setColorAzul(!colorAzul)}
+                                onChange={() => activarColor('azul')}
                                 />
                                 <span className="colour blue"></span> Azul ({colors.blue})
                                 </label>
@@ -275,9 +270,9 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
                             <div className="checkbox">
                                 <label>
                                 <input style={{width:'20px'}}
-                                type="checkbox"
+                                type="radio"
                                 checked={colorVerde}
-                                onChange={() => setColorVerde(!colorVerde)}
+                                onChange={() => activarColor('verde')}
                                 />
                                 <span className="colour green"></span> Verde ({colors.green})
                                 </label>
@@ -285,9 +280,9 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
                             <div className="checkbox">
                                 <label>
                                 <input style={{width:'20px'}}
-                                type="checkbox"
+                                type="radio"
                                 checked={colorAmarillo}
-                                onChange={() => setColorAmarillo(!colorAmarillo)}
+                                onChange={() => activarColor('amarillo')}
                                 />
                                 <span className="colour yellow"></span> Amarillo ({colors.yellow})
                                 </label>
@@ -295,11 +290,41 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
                             <div className="checkbox">
                                 <label>
                                 <input style={{width:'20px'}}
-                                type="checkbox"
+                                type="radio"
                                 checked={colorRojo}
-                                onChange={() => setColorRojo(!colorRojo)}
+                                onChange={() => activarColor('rojo')}
                                 />
                                 <span className="colour red"></span> Rojo ({colors.red})
+                                </label>
+                            </div>
+                            <div className="checkbox">
+                                <label>
+                                <input style={{width:'20px'}}
+                                type="radio"
+                                checked={colorPurpura}
+                                onChange={() => activarColor('purpura')}
+                                />
+                                <span className="colour purple"></span> Púrpura ({colors.purple})
+                                </label>
+                            </div>
+                            <div className="checkbox">
+                                <label>
+                                <input style={{width:'20px'}}
+                                type="radio"
+                                checked={colorNaranja}
+                                onChange={() => activarColor('naranja')}
+                                />
+                                <span className="colour orange"></span> Naranja ({colors.orange})
+                                </label>
+                            </div>
+                            <div className="checkbox">
+                                <label>
+                                <input style={{width:'20px'}}
+                                type="radio"
+                                checked={colorMagenta}
+                                onChange={() => activarColor('magenta')}
+                                />
+                                <span className="colour magenta"></span> Magenta ({colors.magenta})
                                 </label>
                             </div>
                         </div>

@@ -48,7 +48,7 @@ const CustomerWishList = ({setUser, handleDrop,user_id}) => {
       }
       setError (false);
       setTamañoList(list.length);
-      setCurrentPage(1);        
+            
   }, [user_id, tamañoList] );
 
   //Obtener lista de productos actual
