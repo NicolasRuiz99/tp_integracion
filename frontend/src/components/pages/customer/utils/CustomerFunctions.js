@@ -183,4 +183,43 @@ const listPurchaseItems = (id) => {
     .catch(err => {throw err})
 }
 
-export {login, register,getEMails,getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo,getUserWishlist,getWishlistItem,addWishlistItem,deleteWishlistItem,getUserPurchaseItem,addReviewItem,getPurchaseList,getPurchaseInfo,listPurchaseItems};
+const listCartItems = (user_id) => {
+    return axios
+    .post("/cart/listItems",{
+        user_id
+    })
+    .then(res => {return res.data.data
+    })
+    .catch(err => {throw err})
+}
+
+const getCartInfo = (user_id) => {
+    return axios
+    .post("/cart/getInfo",{
+        user_id
+    })
+    .then(res => {return res.data.data
+    })
+    .catch(err => {throw err})
+}
+
+export {
+    login, 
+    register,
+    getEMails,
+    getCustomerInfo,
+    addCustomerInfo,
+    modCustomerInfo,
+    modUserInfo,
+    getUserWishlist,
+    getWishlistItem,
+    addWishlistItem,
+    deleteWishlistItem,
+    getUserPurchaseItem,
+    addReviewItem,
+    getPurchaseList,
+    getPurchaseInfo,
+    listPurchaseItems,
+    listCartItems,
+    getCartInfo
+};

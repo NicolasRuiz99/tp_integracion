@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, json
-from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases,listPurchaseItems
+from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases,listPurchaseItems,listCartItems,getCartInfo
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser
 
@@ -750,6 +750,34 @@ def getPurchItem():
         item = getPurchaseItem (id_user,id_prod)
         if (item != []):
             result = True
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data' : result})
+
+@app.route ('/cart/listItems',methods=['POST'])
+def listUserCartItems():
+    result = []
+    error = False
+    user_id = request.json['user_id']
+    try:
+        result = listCartItems (user_id)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data' : result})
+
+@app.route ('/cart/getInfo',methods=['POST'])
+def getUserCartInfo():
+    result = []
+    error = False
+    user_id = request.json['user_id']
+    try:
+        result = getCartInfo (user_id)
     except (Exception) as err:
         error = True
         return handleError (err)

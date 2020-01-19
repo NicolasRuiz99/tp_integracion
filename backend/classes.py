@@ -275,8 +275,8 @@ class Purchase:
         self.id_shipping = id_shipping
 
     def add (self):
-        new_record = (self.price,self.date,self.state,self.id_user,self.id_coupon,self.id_shipping )
-        addToTable ('purchase (price, date, state, id_user, id_coupon, id_shipping)',new_record,'(%s,%s,%s,%s,%s,%s)')
+        new_record = (self.price,self.state,self.id_user,self.id_coupon,self.id_shipping )
+        addToTable ('purchase (price,state, id_user, id_coupon, id_shipping)',new_record,'(%s,%s,%s,%s,%s,%s)')
 
     def mod (self):
         updateTable ('purchase',(self.price,self.date,self.state,self.id_user,self.id_coupon,self.id_shipping, self.id),'price = %s, date = %s, state = %s, id_user = %s, id_coupon = %s, id_shipping = %s')

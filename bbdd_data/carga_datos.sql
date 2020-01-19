@@ -98,10 +98,12 @@ INSERT INTO "shipping" (address, zip, name, surname, dni, track_code, province) 
 INSERT INTO "purchase" (date, state, id_user, id_coupon, id_shipping) VALUES 
 ('17/12/2019', 'cart', 1, 1, 1 ), 
 ('10/12/2019', 'cart', 2, 2, 2 ),
-('01/12/2019', 'cart', 3, 3, 3 );
+('01/12/2019', 'cart', 3, 3, 3 ),
+('17/12/2019', 'cart', 1, null, null ),
+('17/12/2019', 'cart', 2, 5, null );
 
 INSERT INTO "purchxitem" (id_purchase, id_color_size,stock) VALUES 
-(1,1,2),(2,2,5),(3,3,6),(1,4,1),(1,5,3),(3,6,4),(2,7,2),(1,8,1),(1,9,1),(1,10,2),(2,4,3),(2,5,2);
+(1,1,2),(2,2,5),(3,3,6),(1,4,1),(1,5,3),(3,6,4),(2,7,2),(1,8,1),(1,9,1),(1,10,2),(4,4,3),(4,5,2),(4,13,1),(4,9,2),(5,4,2),(5,9,1),(5,12,1);
 
 UPDATE "purchase" SET state = 'success' WHERE id = 1;
 UPDATE "purchase" SET state = 'pending' WHERE id = 2;
