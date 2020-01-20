@@ -26,7 +26,7 @@ WHERE pitem.id_color_size = cz.id and cz.prod_id = p.id;
 
 CREATE VIEW CartItems
 AS 
-SELECT p.id prod_id,p.name,cz.color,cz.size,pitem.stock,p.price,p.discount,purch.id_user
+SELECT p.id prod_id,p.name,cz.id id_color_size,cz.color,cz.size,pitem.stock,p.price,p.discount,purch.id_user
 FROM purchxitem pitem, products p,color_size cz,purchase purch
 WHERE pitem.id_color_size = cz.id and cz.prod_id = p.id and pitem.id_purchase = purch.id and purch.state = 'cart';
 

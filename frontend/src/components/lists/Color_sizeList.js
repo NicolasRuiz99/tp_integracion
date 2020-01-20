@@ -2,14 +2,13 @@ import React,{Fragment,useState,useEffect} from "react";
 import Color_sizeItem from "./Color_sizeItem";
 import "./../../css/default.css"
 
-const Color_sizeList = ({list, setSelectedItem, setSelectedStock}) => {
+const Color_sizeList = ({list, setSelectedItem, setSelectedStock,selectedStock}) => {
 
     const [colorList,setColorList] = useState ([]);
     const [sizeList,setSizeList] = useState ([]);
     const [selectedColor,setSelectedColor] = useState ('');
     const [selectedSize,setSelectedSize] = useState ('');
     const [item,setItem] = useState ({});
-    const [cantidad, setCantidad] = useState(1);
 
     const setColorValues = () => {
         const nList = [...new Set (list.map(e=>e.color))];
@@ -85,13 +84,22 @@ const Color_sizeList = ({list, setSelectedItem, setSelectedStock}) => {
             <div className="sizes">
                       <div className="col-sm-10">
                         <h3>Cantidad</h3>
+                        {(item.stock === 0)?
                           <input 
                           className='bs-select' 
                           type='number' 
-                          value={cantidad}
-                          onChange={(e) => setCantidad(e.target.value)} 
+                          disabled
+                          />
+                          :
+                          <input 
+                          className='bs-select' 
+                          type='number' 
+                          value={selectedStock}
+                          onChange={(e) => setSelectedStock(e.target.value)} 
                           min="1" 
-                          max={item.stock} />
+                          max={item.stock} 
+                          />
+                        }                         
                         </div>
                         <br/>
                       </div>                       

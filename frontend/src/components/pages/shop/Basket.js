@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import BasketItem from '../../lists/BasketItem';
 import uuid from 'uuid';
 
-const Basket = ({list}) => {
+const Basket = ({list,cartInfo,deleteItem}) => {
 
     return (
             <Fragment>
@@ -24,13 +24,14 @@ const Basket = ({list}) => {
                         <BasketItem 
                             key = {uuid()}
                             item = {item}
+                            deleteItem = {deleteItem}
                         />
                     ))}
                     </tbody>
                     <tfoot>
                     <tr>
                         <th colspan="5">Total</th>
-                        <th colspan="2">$446.00</th>
+                        <th colspan="2">${cartInfo.price}</th>
                     </tr>
                     </tfoot>
                 </table>

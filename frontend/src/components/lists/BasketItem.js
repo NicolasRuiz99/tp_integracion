@@ -3,7 +3,7 @@ import img1 from "./../../assets/detailsquare.jpg";
 import {Link} from 'react-router-dom';
 import './../../css/default.css';
 
-const BasketItem = ({item}) => {
+const BasketItem = ({item,deleteItem}) => {
 
     const [link,setLink] = useState ('');
     const descuento = (item.discount*item.price/100);
@@ -20,8 +20,8 @@ const BasketItem = ({item}) => {
                 <td>{item.stock}</td>
                 <td>${item.price}</td>
                 <td>${descuento}</td>
-                <td>${item.price - descuento}</td>
-                <td><Link to="#"><i className="fa fa-trash-o"></i></Link></td>
+                <td>${(item.price - descuento)*item.stock}</td>
+                <td><Link onClick = {() => deleteItem (item.id_color_size)}><i className="fa fa-trash-o"></i></Link></td>
             </tr>
         </Fragment>    
     );

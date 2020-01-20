@@ -757,6 +757,51 @@ def getPurchItem():
         if not (error):
             return jsonify({'result' : 'success','data' : result})
 
+@app.route ('/purchase/list',methods=['POST'])
+def listUserPurchase():
+    result = []
+    error = False
+    id_user = request.json['id_user']
+    try:
+        result = listPurchases (id_user)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data' : result})
+
+@app.route ('/cart/add',methods=['POST'])
+def addPurchxitem():
+    error = False
+    id_purchase = request.json['id_purchase']
+    id_color_size = request.json['id_color_size']
+    stock = request.json['stock']
+    new = Purchxitem (id_purchase,id_color_size,stock)
+    try:
+        new.add()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success'})
+
+@app.route ('/cart/delete',methods=['POST'])
+def deleteCartItem():
+    error = False
+    id_purchase = request.json['id_purchase']
+    id_color_size = request.json['id_color_size']
+    new = Purchxitem (id_purchase,id_color_size)
+    try:
+        new.delete()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success'})
+
 @app.route ('/cart/listItems',methods=['POST'])
 def listUserCartItems():
     result = []
@@ -778,6 +823,13 @@ def getUserCartInfo():
     user_id = request.json['user_id']
     try:
         result = getCartInfo (user_id)
+        if len (result) == 0:
+            print ('entro')
+            new = Purchase ()
+            new.id_user = user_id
+            new.add ()
+            result = getCartInfo (user_id)
+            print (result)
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -785,20 +837,7 @@ def getUserCartInfo():
         if not (error):
             return jsonify({'result' : 'success','data' : result})
 
-@app.route ('/purchase/list',methods=['POST'])
-def listUserPurchase():
-    result = []
-    error = False
-    id_user = request.json['id_user']
-    try:
-        result = listPurchases (id_user)
-    except (Exception) as err:
-        error = True
-        return handleError (err)
-    finally:
-        if not (error):
-            return jsonify({'result' : 'success','data' : result})
-
+"""
 @app.route ('/purchxitem/add',methods=['POST'])
 def addPurchxitem():
     error = False
@@ -814,7 +853,9 @@ def addPurchxitem():
     finally:
         if not (error):
             return jsonify({'result' : 'success'})
+"""
 
+"""
 @app.route ('/purchxitem/delete',methods=['POST'])
 def deletePurchxitem():
     error = False
@@ -829,6 +870,7 @@ def deletePurchxitem():
     finally:
         if not (error):
             return jsonify({'result' : 'success'})
+"""
 
 @app.route ('/purchxitem/get',methods=['POST'])
 def getPurchxitem():

@@ -5,7 +5,7 @@ import CouponBox from './CouponBox';
 import OrderSummary from './OrderSummary';
 import {Link} from 'react-router-dom';
 import './../../../css/default.css';
-import {listCartItems,getCartInfo} from'../customer/utils/CustomerFunctions';
+import {listCartItems,getCartInfo,deleteCartItem} from'../customer/utils/CustomerFunctions';
 
 const ShopCart = ({user_id}) => {
 
@@ -13,14 +13,27 @@ const ShopCart = ({user_id}) => {
     const [list,setList] = useState ([]);
     const [error,setError] = useState (false);
     const [emptyCart,setEmptyCart] = useState (false);
+    const [refresh,setRefresh] = useState (false);
+
+    const deleteItem = (id_color_size) => {
+        deleteCartItem (id_color_size,cartInfo.id)
+        .then (res => {
+            setRefresh (true);
+        })
+        .catch (err => {
+            setError (true);
+            return;
+        })
+    }
 
     useEffect (()=>{
         getCartInfo (user_id)
         .then (res => {
-            setCartInfo (res);
+            setCartInfo (res[0]);
         })
         .catch (err => {
             setError (true);
+            return;
         })
         listCartItems (user_id)
         .then (res => {
@@ -31,9 +44,10 @@ const ShopCart = ({user_id}) => {
         })
         .catch (err => {
             setError (true);
+            return;
         })
         setError (false);
-    },[user_id])
+    },[user_id,refresh])
 
     return (
         <Fragment>
@@ -47,11 +61,11 @@ const ShopCart = ({user_id}) => {
                     <div id="basket" className="col-lg-9">
                     
                     <div className="box mt-0 pb-0 no-horizontal-padding">
-                    {(emptyCart)?null:<Basket list = {list}/>}
+                    {(emptyCart)?null:<Basket list = {list} cartInfo = {cartInfo} deleteItem = {deleteItem}/>}
                     <div className="box-footer d-flex justify-content-between align-items-center">
                     <div className="left-col"><Link to="/shop-category" className="btn btn-secondary mt-0"><i className="fa fa-chevron-left"></i> Continuar comprando</Link></div>
                     <div className="right-col">
-                    <Link to="/shop-cart" className="btn btn-secondary"><i className="fa fa-refresh"></i> Actualizar el carrito</Link>
+                    <button type="button" onClick = {()=>setRefresh(true)} className="btn btn-secondary"><i className="fa fa-refresh"></i> Actualizar el carrito</button>
                     {(emptyCart)?
                     <button type="submit" className="btn btn-outlined" disabled>Proceder al pago <i className="fa fa-chevron-right"></i></button>
                     :
@@ -68,7 +82,7 @@ const ShopCart = ({user_id}) => {
                     null
                     :
                     <div>
-                    <OrderSummary />
+                    <OrderSummary cartInfo= {cartInfo}/>
                     <CouponBox />
                     </div>
                     }

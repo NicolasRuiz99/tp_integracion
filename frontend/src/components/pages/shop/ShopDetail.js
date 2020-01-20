@@ -5,7 +5,7 @@ import Review from './../Review';
 import Rating from './Rating';
 import './../../../css/default.css';
 import {getProductInfo,getProductColor_size,getProductReview} from './utils/shopFunctions';
-import {getWishlistItem,addWishlistItem,deleteWishlistItem,getUserPurchaseItem} from '../customer/utils/CustomerFunctions';
+import {getWishlistItem,addWishlistItem,deleteWishlistItem,getUserPurchaseItem,addCartItem,getCartInfo} from '../customer/utils/CustomerFunctions';
 //React image gallery
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from 'react-image-gallery';
@@ -20,7 +20,7 @@ import img2 from "./../../../assets/detailsquare.jpg";
 import ReviewList from '../../lists/ReviewList';
 import Color_sizeList from '../../lists/Color_sizeList';
 
-const ShopDetail = ({props,user_id}) => {
+const ShopDetail = ({props,user_id,history}) => {
     const images = [
     {
       original: img,
@@ -42,7 +42,7 @@ const ShopDetail = ({props,user_id}) => {
     const [isPurchased,setPurchased] = useState (false);
     const [isReviewed,setReviewed] = useState (false);
     const [selectedItem,setSelectedItem] = useState ({});
-    const [selectedStock,setSelectedStock] = useState (0);
+    const [selectedStock,setSelectedStock] = useState (1);
 
     const getAverage = (list) => {
       let total = 0;
@@ -87,6 +87,27 @@ const ShopDetail = ({props,user_id}) => {
           return;
         })
       }
+    }
+
+    const addToCart = () =>{
+        if (selectedStock <= 0 || selectedStock > selectedItem.stock){
+            setSelectedStock (1);
+            return;
+        }
+        getCartInfo (user_id)
+        .then (res => {
+            addCartItem (selectedItem.id,res[0].id,selectedStock)
+            .then ()
+            .catch (err => {
+                setError (true);
+                return;
+            })
+        })
+        .catch (err => {
+            setError (true);
+            return;
+        })
+        history.push('/shop-cart')
     }
     
     useEffect (()=>{
@@ -159,7 +180,7 @@ const ShopDetail = ({props,user_id}) => {
                 <div className="col-sm-5">
                   <div className="box mb-4 mt-4">
                     <form>
-                      <Color_sizeList list = {color_size} setSelectedItem = {setSelectedItem} setSelectedStock = {setSelectedStock} />
+                      <Color_sizeList list = {color_size} setSelectedItem = {setSelectedItem} setSelectedStock = {setSelectedStock} selectedStock = {selectedStock} />
                       <div className="col-sm-11">
                       <div className="product">
                         <p className="price"> {(prodInfo.discount !== 0)?<del> ${prodInfo.price} </del> : null} ${prodInfo.price-((prodInfo.discount*prodInfo.price)/100)}</p> 
@@ -247,13 +268,17 @@ const ShopDetail = ({props,user_id}) => {
                 <div className="col-sm-6">
                   <div className="box mb-4 mt-4">
                     <form>
-                      <Color_sizeList list = {color_size} setSelectedItem = {setSelectedItem} setSelectedStock = {setSelectedStock} />
+                      <Color_sizeList list = {color_size} setSelectedItem = {setSelectedItem} setSelectedStock = {setSelectedStock} selectedStock = {selectedStock}/>
                       <div className="col-sm-11">
                       <div className="product">
                         <p className="price"> {(prodInfo.discount !== 0)?<del> ${prodInfo.price} </del> : null} ${prodInfo.price-((prodInfo.discount*prodInfo.price)/100)}</p> 
                       </div>
                       <p className="text-center">
-                        <button className="btn btn-outlined"><i className="fa fa-shopping-cart"></i> Añadir al carrito</button>
+                        {(selectedItem.stock === 0)?
+                        <button className="btn btn-outlined" disabled ><i className="fa fa-shopping-cart"></i> Añadir al carrito</button>
+                        :
+                        <button type="button"  className="btn btn-outlined" onClick={addToCart} ><i className="fa fa-shopping-cart"></i> Añadir al carrito</button>
+                        }                      
                         <button data-toggle="tooltip" type="button" data-placement="top" title={`${(isWishlisted) ? 'Eliminar de mis deseos' : 'Añadir a mis deseos'}`} 
                         className={`btn ${(isWishlisted) ? ('btn-danger') : ('btn-default')}`} 
                         onClick={ManageWishlist}>
