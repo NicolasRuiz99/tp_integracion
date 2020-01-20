@@ -13,12 +13,17 @@ CREATE OR REPLACE FUNCTION precio_compra() RETURNS TRIGGER AS $funcemp$
 DECLARE
 precio t_price;
 BEGIN
-precio := (SELECT SUM(price) FROM ProductoStockPrecio WHERE purch_id = NEW.id_purchase);
-UPDATE "purchase" SET price = precio WHERE id = NEW.id_purchase;
+IF (TG_OP = 'INSERT') THEN
+	precio := (SELECT SUM(price) FROM ProductoStockPrecio WHERE purch_id = NEW.id_purchase);
+	UPDATE "purchase" SET price = precio WHERE id = NEW.id_purchase;
+ELSE
+	precio := (SELECT SUM(price) FROM ProductoStockPrecio WHERE purch_id = OLD.id_purchase);
+	UPDATE "purchase" SET price = precio WHERE id = OLD.id_purchase;
+END IF;
 RETURN NEW;
 END; $funcemp$ LANGUAGE plpgsql;
 
-CREATE TRIGGER set_precio AFTER INSERT ON purchxitem
+CREATE TRIGGER set_precio AFTER INSERT OR DELETE ON purchxitem
 FOR EACH ROW EXECUTE PROCEDURE precio_compra();
 
 --trigger para checkear cambios de estado de la compra

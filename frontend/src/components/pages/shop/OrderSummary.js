@@ -1,7 +1,7 @@
 import React from 'react';
 import './../../../css/default.css';
 
-const OrderSummary = () => {
+const OrderSummary = ({cartInfo}) => {
     return (
         <div id="order-summary" className="box mt-0 mb-4 p-0">
             <div className="box-header mt-0">
@@ -13,15 +13,11 @@ const OrderSummary = () => {
                 <tbody>
                 <tr>
                     <td>Subtotal de la compra</td>
-                    <th>$446.00</th>
+                    <th>${cartInfo.price}</th>
                 </tr>
                 <tr>
-                    <td>Envío</td>
+                    <td>Descuento</td>
                     <th>$10.00</th>
-                </tr>
-                <tr>
-                    <td>Impuesto</td>
-                    <th>$0.00</th>
                 </tr>
                 <tr className="total">
                     <td>Total</td>

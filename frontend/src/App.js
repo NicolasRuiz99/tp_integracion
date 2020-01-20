@@ -71,7 +71,7 @@ const App = () => {
                   user_id = {user_id}
                 />
               )}/>
-            <Route  path="/shop-cart" component={Cart} />
+            <Route  path="/shop-cart" render = {()=> <Cart user_id = {user_id} />} />
             <Route  path="/shop-checkout1" component={Checkout1} />
             <Route  path="/shop-checkout2" component={Checkout2} />
             <Route  path="/shop-checkout3" component={Checkout3} />

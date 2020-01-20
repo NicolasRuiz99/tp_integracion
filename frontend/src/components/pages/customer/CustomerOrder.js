@@ -77,7 +77,7 @@ const CustomerOrder = ({props,user_id}) => {
               Hubo un error al recuperar los datos
             </div>
             :
-            <div id="customer-order" className="col-lg-9">
+            <div id="customer-order" className="col-lg-12">
             <hr />
             <p className="lead">La compra #{purchInfo.id} fue solicitada el <strong>{moment(purchInfo.date).utc().format('DD/MM/YYYY')}</strong> y en este momento <strong>{state}</strong>.</p>
             <p className="text-muted">Si tenés alguna duda, por favor <Link to="/contact">contáctanos</Link>, nuestro servicio de atención al cliente trabaja 24/7.</p>

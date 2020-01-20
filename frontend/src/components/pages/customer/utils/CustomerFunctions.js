@@ -183,4 +183,68 @@ const listPurchaseItems = (id) => {
     .catch(err => {throw err})
 }
 
-export {login, register,getEMails,getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo,getUserWishlist,getWishlistItem,addWishlistItem,deleteWishlistItem,getUserPurchaseItem,addReviewItem,getPurchaseList,getPurchaseInfo,listPurchaseItems};
+const listCartItems = (user_id) => {
+    return axios
+    .post("/cart/listItems",{
+        user_id
+    })
+    .then(res => {return res.data.data
+    })
+    .catch(err => {throw err})
+}
+
+const getCartInfo = (user_id) => {
+    return axios
+    .post("/cart/getInfo",{
+        user_id
+    })
+    .then(res => {return res.data.data
+    })
+    .catch(err => {throw err})
+}
+
+const deleteCartItem = (id_color_size,purch_id) => {
+    return axios
+    .post("/cart/delete",{
+        id_color_size,
+        id_purchase: purch_id
+    })
+    .then(res => {return res.data
+    })
+    .catch(err => {throw err})
+}
+
+const addCartItem = (id_color_size,purch_id,stock) => {
+    return axios
+    .post("/cart/add",{
+        id_color_size,
+        id_purchase: purch_id,
+        stock
+    })
+    .then(res => {return res.data
+    })
+    .catch(err => {throw err})
+}
+
+export {
+    login, 
+    register,
+    getEMails,
+    getCustomerInfo,
+    addCustomerInfo,
+    modCustomerInfo,
+    modUserInfo,
+    getUserWishlist,
+    getWishlistItem,
+    addWishlistItem,
+    deleteWishlistItem,
+    getUserPurchaseItem,
+    addReviewItem,
+    getPurchaseList,
+    getPurchaseInfo,
+    listPurchaseItems,
+    listCartItems,
+    getCartInfo,
+    deleteCartItem,
+    addCartItem
+};
