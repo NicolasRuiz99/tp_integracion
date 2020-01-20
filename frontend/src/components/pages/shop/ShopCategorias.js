@@ -19,7 +19,7 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
     const [listPerPage] = useState(6);
     //Valor de categoría inicial
     const [categories, setCategories] = useState('all');
-    const [sort, setSort] = useState('ascendente');
+    const [sort, setSort] = useState('');
     
     //State para activar el estilo de selección por categoria
     const [isActive, setIsActive] = useState({
@@ -60,7 +60,7 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
             setList(res);
             setCopyList(res);
             setCopyList(res);
-            //setSort('ascendente');
+            setSort('ascendente');
             setLoading(false);
             setIsOferta(true);
             } else {
@@ -68,7 +68,7 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
             setColors(cuentaColores(res));
             setList(res);
             setCopyList(res);
-            //setSort('ascendente');
+            setSort('ascendente');
             setLoading(false);
             setIsOferta(false);
             }
@@ -110,16 +110,16 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
             setCopyList(ordenarAlfabeticamente(sort, copyList ));
         }
         if (sort === 'menor') {
-            setCopyList(ordenarxPrecio(sort, copyList));
+            setCopyList(ordenarxPrecio(sort, copyList ));
         }
         if (sort === 'mayor') {
-            setCopyList(ordenarxPrecio(sort, copyList));
+            setCopyList(ordenarxPrecio(sort, copyList ));
         }                                    
     };
 
     useEffect(() => {
         setOrdenar();
-    }, [sort, copyList])
+    }, [sort])
 
     //Obtener lista de productos actual
     const indexOfLastList = currentPage * listPerPage;
