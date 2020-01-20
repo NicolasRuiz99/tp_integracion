@@ -21,7 +21,7 @@ const CATEGORIAS = {
     ropaInterior: 'ropaInterior'
 }
 
-const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isActive2, lista, setCopyList, colors}) => {
+const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isActive2, lista, setCopyList, colors, setSort}) => {
     //States inputs del precio 
     const [priceMin, setPriceMin] = useState('');
     const [priceMax, setPriceMax] = useState('');
@@ -90,7 +90,8 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
             
         });
         //Ordena la busqueda de menor a mayor
-        setCopyList(listado.sort((a,b) => a.price - b.price));
+        setCopyList(listado);
+        setSort('ascendente');
     };
 
   

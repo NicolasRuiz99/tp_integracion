@@ -106,5 +106,44 @@ const countColors = (vector) => {
       return {yellow, blue, green, red, white, purple, orange, magenta};
 }
 
+//Metodos de ordenamiento
+const ordenarAlfabeticamente = (metodo, lista) => {
+    let listado;
+    if(metodo  === 'ascendente') {
+        listado = lista.sort((a,b) => {
+            if (a.name > b.name) {
+                return 1;
+              }
+              if (a.name < b.name) {
+                return -1;
+              }
+              // si a es igual que b
+              return 0;
+        });
+    }if (metodo === 'descendente'){
+        listado = lista.sort((a,b) => {
+            if (a.name < b.name) {
+                return 1;
+              }
+              if (a.name > b.name) {
+                return -1;
+              }
+              // si a es igual que b
+              return 0;
+        });
+    }
+    return listado;
+};
 
-export {changeCategories, unselectCategories, unselectCategories2, createCountxCategoria, countColors};
+const ordenarxPrecio = (metodo, lista) => {
+    let listado;
+    if (metodo === 'menor') {
+        listado = lista.sort((a,b) => a.price - b.price);
+    }if (metodo === 'mayor') {
+        listado = lista.sort((a,b) => b.price - a.price);
+    }
+    return listado;
+}
+
+
+export {changeCategories, unselectCategories, unselectCategories2, createCountxCategoria, countColors, ordenarAlfabeticamente, ordenarxPrecio};
