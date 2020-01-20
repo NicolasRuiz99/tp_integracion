@@ -21,12 +21,8 @@ import Registro from './components/pages/customer/CustomerRegister';
 //Pages shop
 import Categorias from './components/pages/shop/ShopCategorias';
 import ShopDetail from './components/pages/shop/ShopDetail';
-import Cart from './components/pages/shop/ShopCart';
-import Checkout1 from './components/pages/shop/ShopCheckout';
-import Checkout2 from './components/pages/shop/ShopCheckout2';
-import Checkout3 from './components/pages/shop/ShopCheckout3';
-import Checkout4 from './components/pages/shop/ShopCheckout4';
 import TopSellers from './components/pages/nav-items/TopSellers';
+import ShopCheckout from './components/pages/shop/ShopCheckout';
 
 const App = () => {
 
@@ -71,11 +67,7 @@ const App = () => {
                   user_id = {user_id}
                 />
               )}/>
-            <Route  path="/shop-cart" render = {()=> <Cart user_id = {user_id} />} />
-            <Route  path="/shop-checkout1" component={Checkout1} />
-            <Route  path="/shop-checkout2" component={Checkout2} />
-            <Route  path="/shop-checkout3" component={Checkout3} />
-            <Route  path="/shop-checkout4" component={Checkout4} />
+            <Route  path='/shop-checkout' render={() =>(<ShopCheckout user_id = {user_id}/>)} />
             <Route  path="/registro"
               render={()=>(
                 <Registro

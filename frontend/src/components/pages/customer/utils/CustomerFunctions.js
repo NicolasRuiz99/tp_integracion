@@ -226,6 +226,24 @@ const addCartItem = (id_color_size,purch_id,stock) => {
     .catch(err => {throw err})
 }
 
+const getCoupon = id => {
+    return axios
+    .post("/coupon/get",{
+        id
+    })
+    .then(res => {return res.data})
+    .catch(err => {throw err})
+}
+
+const useCoupon = id => {
+    return axios
+    .post("/coupon/use",{
+        id
+    })
+    .then(res => {return res.data})
+    .catch(err => {throw err})
+}
+
 export {
     login, 
     register,
@@ -246,5 +264,7 @@ export {
     listCartItems,
     getCartInfo,
     deleteCartItem,
-    addCartItem
+    addCartItem,
+    getCoupon,
+    useCoupon
 };

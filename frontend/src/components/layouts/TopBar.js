@@ -28,7 +28,7 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history}) =
     //Método para evitar que se acceda al carrito si el usuario no está logeado
     const toCart = () => {
         if (isLogged) {
-            history.push('/shop-cart');
+            history.push('/shop-checkout/cart');
         }else{
             history.push('/registro');
         }

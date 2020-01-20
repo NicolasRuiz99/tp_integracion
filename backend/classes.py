@@ -210,17 +210,19 @@ class Color_size:
         self.prod_id = res[4]
 
 class Coupon:
-    def __init__ (self,pc=None,cad_date=None,_id=None):
+    def __init__ (self,pc=None,cad_date=None,used=False,_id=None):
         self.id = _id
         self.pc = pc
         self.cad_date = cad_date
+        self.used = used
 
     def add (self):
-        new_record = (self.pc, self.cad_date )
-        addToTable ('coupon (pc, cad_date)',new_record,'(%s,%s)')
+        new_record = (self.pc, self.cad_date, self.used )
+        addToTable ('coupon (pc, cad_date, used)',new_record,'(%s,%s,%s)')
 
-    def mod (self):
-        updateTable ('coupon',(self.pc, self.cad_date),'pc = %s, cad_date = %s')
+    def use (self):
+        self.used = True
+        updateTable ('coupon',(self.used),'used = %s')
 
     def delete (self):
         deleteFromTable ('coupon',self.id)

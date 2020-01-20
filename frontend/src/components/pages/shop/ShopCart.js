@@ -1,19 +1,20 @@
 import React, { Fragment,useState,useEffect } from 'react';
 import BreadCrumbs from '../../BreadCrumbs';
 import Basket from './Basket';
-import CouponBox from './CouponBox';
 import OrderSummary from './OrderSummary';
 import {Link} from 'react-router-dom';
 import './../../../css/default.css';
 import {listCartItems,getCartInfo,deleteCartItem} from'../customer/utils/CustomerFunctions';
+import Spinner from 'react-bootstrap/Spinner';
 
-const ShopCart = ({user_id}) => {
+const ShopCart = ({user_id,route,setPurchInfo,setItems,coupon,setCoupon}) => {
 
     const [cartInfo,setCartInfo] = useState ([]);
     const [list,setList] = useState ([]);
     const [error,setError] = useState (false);
     const [emptyCart,setEmptyCart] = useState (false);
     const [refresh,setRefresh] = useState (false);
+    const [loading,setLoading] = useState (false);
 
     const deleteItem = (id_color_size) => {
         deleteCartItem (id_color_size,cartInfo.id)
@@ -27,22 +28,29 @@ const ShopCart = ({user_id}) => {
     }
 
     useEffect (()=>{
+        setRefresh (false);
+        setLoading (true);
         getCartInfo (user_id)
         .then (res => {
             setCartInfo (res[0]);
+            setPurchInfo (res[0]);
         })
         .catch (err => {
+            setLoading (false);
             setError (true);
             return;
         })
         listCartItems (user_id)
         .then (res => {
             setList (res);
+            setItems (res);
             if (res.length === 0){
                 setEmptyCart (true);
             }
+            setLoading (false);
         })
         .catch (err => {
+            setLoading (false);
             setError (true);
             return;
         })
@@ -54,12 +62,16 @@ const ShopCart = ({user_id}) => {
             <BreadCrumbs name={"Carrito"} />
             <div id="content">
                 <div className="container">
+                {(loading)?
+                <div className="col-md-13 text-center"> 
+                <Spinner animation="border" variant="info" size="lg"  />
+                </div>
+                :
                 <div className="row bar">
                     <div className="col-lg-12">
                     <p className="text-muted lead">Tenés actualmente {list.length} item(s) en tu carrito.</p>
                     </div>
                     <div id="basket" className="col-lg-9">
-                    
                     <div className="box mt-0 pb-0 no-horizontal-padding">
                     {(emptyCart)?null:<Basket list = {list} cartInfo = {cartInfo} deleteItem = {deleteItem}/>}
                     <div className="box-footer d-flex justify-content-between align-items-center">
@@ -69,7 +81,7 @@ const ShopCart = ({user_id}) => {
                     {(emptyCart)?
                     <button type="submit" className="btn btn-outlined" disabled>Proceder al pago <i className="fa fa-chevron-right"></i></button>
                     :
-                    <button type="submit" className="btn btn-outlined">Proceder al pago <i className="fa fa-chevron-right"></i></button>
+                    <Link to={`${route}/1`} className="btn btn-outlined">Proceder al pago <i className="fa fa-chevron-right"></i></Link>
                     }
                 </div>
                 </div>
@@ -82,12 +94,12 @@ const ShopCart = ({user_id}) => {
                     null
                     :
                     <div>
-                    <OrderSummary cartInfo= {cartInfo}/>
-                    <CouponBox />
+                    <OrderSummary price = {cartInfo.price} setCoupon = {setCoupon} coupon = {coupon} />
                     </div>
                     }
                     </div>
                 </div>
+                }
                 </div>
             </div>
         </Fragment>

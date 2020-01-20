@@ -526,22 +526,6 @@ def addCoupon():
         if not (error):
             return jsonify({'result' : 'success'})
 
-@app.route ('/coupon/mod',methods=['POST'])
-def modCoupon():
-    error = False
-    id = request.json['id']
-    pc = request.json['pc']
-    cad_date = request.json['cad_date']
-    new = Coupon (pc,cad_date,id)
-    try:
-        new.mod()
-    except (Exception) as err:
-        error = True
-        return handleError (err)
-    finally:
-        if not (error):
-            return jsonify({'result' : 'success'})
-
 @app.route ('/coupon/delete',methods=['POST'])
 def deleteCoupon():
     error = False
@@ -569,9 +553,28 @@ def getCoupon():
         error = True
         return handleError (err)
     finally:
-        if not (error):
-            result = dict (id = new.id, pc = new.pc, cad_date = new.cad_date)
-            return jsonify({'result': 'success','data' : result})
+        if not (error):       
+            if (new.used == True):
+                return jsonify({'result': 'used'})
+            else:
+                result = dict (id = new.id, pc = new.pc, cad_date = new.cad_date, used = new.used)
+                return jsonify({'result': 'success','data' : result})     
+
+@app.route ('/coupon/use',methods=['POST'])
+def useCoupon():
+    error = False
+    id = request.json['id']
+    new = Coupon ()
+    new.id = id
+    try:
+        new.get()
+        new.use()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):       
+            return jsonify({'result': 'success'})   
 
 @app.route ('/shipping/add',methods=['POST'])
 def addShipping():
@@ -824,12 +827,10 @@ def getUserCartInfo():
     try:
         result = getCartInfo (user_id)
         if len (result) == 0:
-            print ('entro')
             new = Purchase ()
             new.id_user = user_id
             new.add ()
             result = getCartInfo (user_id)
-            print (result)
     except (Exception) as err:
         error = True
         return handleError (err)

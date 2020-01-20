@@ -19,6 +19,7 @@ import img from "./../../../assets/detailsquareBig.jpg";
 import img2 from "./../../../assets/detailsquare.jpg";
 import ReviewList from '../../lists/ReviewList';
 import Color_sizeList from '../../lists/Color_sizeList';
+import Spinner from 'react-bootstrap/Spinner';
 
 const ShopDetail = ({props,user_id,history}) => {
     const images = [
@@ -43,6 +44,7 @@ const ShopDetail = ({props,user_id,history}) => {
     const [isReviewed,setReviewed] = useState (false);
     const [selectedItem,setSelectedItem] = useState ({});
     const [selectedStock,setSelectedStock] = useState (1);
+    const [loading,setLoading] = useState (false);
 
     const getAverage = (list) => {
       let total = 0;
@@ -97,7 +99,9 @@ const ShopDetail = ({props,user_id,history}) => {
         getCartInfo (user_id)
         .then (res => {
             addCartItem (selectedItem.id,res[0].id,selectedStock)
-            .then ()
+            .then (res=>{
+              history.push('/shop-checkout/cart');
+            })
             .catch (err => {
                 setError (true);
                 return;
@@ -106,11 +110,11 @@ const ShopDetail = ({props,user_id,history}) => {
         .catch (err => {
             setError (true);
             return;
-        })
-        history.push('/shop-cart')
+        }) 
     }
     
     useEffect (()=>{
+      setLoading (true);
       const product_id = props.match.params.id;
       
       getProductInfo (product_id)
@@ -168,7 +172,6 @@ const ShopDetail = ({props,user_id,history}) => {
     return (
         <Fragment>
       <BreadCrumbs name={prodInfo.name} />
-
       <div id="content">
         <div className="container">
           <div className="row bar">
@@ -256,7 +259,6 @@ const ShopDetail = ({props,user_id,history}) => {
     return (
         <Fragment>
       <BreadCrumbs name={prodInfo.name} />
-
       <div id="content">
         <div className="container">
           <div className="row bar">
