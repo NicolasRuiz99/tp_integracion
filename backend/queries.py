@@ -52,4 +52,7 @@ def listCartItems (user_id):
     return query ('select prod_id,name,id_color_size,color,size,stock,price,discount from CartItems where id_user = ' + str(user_id))
 
 def getCartInfo (user_id):
-    return query ('select id,price,date,state,id_user,id_coupon,id_shipping from CartInfo where id_user = ' + str(user_id))
+    return query ('select id,price,date,state,id_user,id_coupon from CartInfo where id_user = ' + str(user_id))
+
+def listReservations (user_id):
+    return query ('select id,prod_id,name,color,size,stock,price,discount,date,state from ReservationsList where id_user = ' + str(user_id))

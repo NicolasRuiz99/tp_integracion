@@ -21,7 +21,11 @@ const BasketItem = ({item,deleteItem}) => {
                 <td>${item.price}</td>
                 <td>${descuento}</td>
                 <td>${(item.price - descuento)*item.stock}</td>
+                {(deleteItem)!==null?
                 <td><Link onClick = {() => deleteItem (item.id_color_size)}><i className="fa fa-trash-o"></i></Link></td>
+                :
+                null
+                }           
             </tr>
         </Fragment>    
     );

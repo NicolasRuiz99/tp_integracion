@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, json
-from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases,listPurchaseItems,listCartItems,getCartInfo
+from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases,listPurchaseItems,listCartItems,getCartInfo,listReservations
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser
 
@@ -579,14 +579,14 @@ def useCoupon():
 @app.route ('/shipping/add',methods=['POST'])
 def addShipping():
     error = False
+    id = request.json['id']
     address = request.json['address']
     zip = request.json['zip']
     name = request.json['name']
     surname = request.json['surname']
     dni = request.json['dni']
-    track_code = request.json['track_code']
     province = request.json['province']
-    new = Shipping (address,zip,name,surname,dni,track_code,province)
+    new = Shipping (address,zip,name,surname,dni,province,id)
     try:
         new.add()
     except (Exception) as err:
@@ -676,8 +676,7 @@ def modPurchase():
     state = request.json['state']
     id_user = request.json['id_user']
     id_coupon = request.json['id_coupon']
-    id_shipping = request.json['id_shipping']
-    new = Purchase (price,date,state,id_user,id_coupon,id_shipping,id)
+    new = Purchase (price,date,state,id_user,id_coupon,id)
     try:
         new.mod()
     except (Exception) as err:
@@ -712,10 +711,10 @@ def getPurchaseInfo():
     try:
         purch.get()
         result['purchase'] = (dict (id = purch.id,price = purch.price,date = purch.date,state = purch.state)) 
-        if (purch.id_shipping != None):
-            ship = Shipping ()
-            ship.id = purch.id_shipping
-            ship.get()
+        ship = Shipping ()
+        ship.id = id
+        ship.get()
+        if (ship.id != None):
             result['shipping'] = (dict (id = ship.id, address = ship.address, zip = ship.zip, name = ship.name, surname = ship.surname, dni = ship.dni, track_code = ship.track_code, province = ship.province))
         if (purch.id_coupon != None):
             coup = Coupon ()
@@ -955,6 +954,20 @@ def getReservation():
         if not (error):
             result = dict (id = new.id, date = new.date, stock = new.stock, id_user = new.id_user, id_color_size = new.id_color_size, state = new.state)
             return jsonify({'result': 'success','data' : result})
+
+@app.route ('/reservation/list',methods=['POST'])
+def listUserReservations():
+    result = []
+    error = False
+    id_user = request.json['id_user']
+    try:
+        result = listReservations (id_user)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data' : result})
 
 @app.route ('/wishlist/add',methods=['POST'])
 def addWishlist():

@@ -14,15 +14,17 @@ const ShopCheckout = ({user_id}) => {
     const [purchInfo,setPurchInfo] = useState ('');
     const [items,setItems] = useState ([]);
     const [coupon,setCoupon] = useState ('');
+    const [ship,setShip] = useState (false);
+    const [shipInfo,setShipInfo] = useState ('');
 
     return (
         <Fragment>
             <Switch>
             <Route  path={`${route}/cart`} render = {()=> <Cart user_id = {user_id} route = {route} setItems = {setItems} setPurchInfo = {setPurchInfo} setCoupon = {setCoupon} coupon = {coupon} />} />
-            <Route  path={`${route}/1`} render = {()=> <Checkout1 route = {route} setCoupon = {setCoupon} coupon = {coupon} cartInfo = {purchInfo} />} />
-            <Route  path={`${route}/2`} render = {()=> <Checkout2 route = {route} setCoupon = {setCoupon} coupon = {coupon} cartInfo = {purchInfo} />} />
-            <Route  path={`${route}/3`} render = {()=> <Checkout3 route = {route} setCoupon = {setCoupon} coupon = {coupon} cartInfo = {purchInfo} />} />
-            <Route  path={`${route}/4`} render = {()=> <Checkout4 route = {route} setCoupon = {setCoupon} coupon = {coupon} cartInfo = {purchInfo} />} />
+            <Route  path={`${route}/1`} render = {()=> <Checkout1 route = {route} setCoupon = {setCoupon} coupon = {coupon} cartInfo = {purchInfo} ship = {ship} setShip = {setShip} />} />
+            <Route  path={`${route}/2`} render = {()=> <Checkout2 route = {route} setCoupon = {setCoupon} coupon = {coupon} cartInfo = {purchInfo} shipInfo = {shipInfo} setShipInfo = {setShipInfo} />} />
+            <Route  path={`${route}/3`} render = {()=> <Checkout3 route = {route} setCoupon = {setCoupon} coupon = {coupon} cartInfo = {purchInfo} ship = {ship} />} />
+            <Route  path={`${route}/4`} render = {()=> <Checkout4 route = {route} setCoupon = {setCoupon} coupon = {coupon} cartInfo = {purchInfo} ship = {ship} list = {items} shipInfo = {shipInfo} />} />
             <Route component={RouteError}/>
             </Switch>
         </Fragment>
