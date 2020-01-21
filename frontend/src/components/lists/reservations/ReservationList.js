@@ -4,7 +4,7 @@ import {withRouter} from 'react-router-dom';
 import './../../../css/default.css';
 import ReservationItem from "./ReservationItem";
 
-const ReservationList = ({list}) => {
+const ReservationList = ({list, handleModalOpen}) => {
     return (
         <Fragment>
             <div className="box mt-0 mb-lg-0">
@@ -27,6 +27,7 @@ const ReservationList = ({list}) => {
                         <ReservationItem 
                             key = {item.id}
                             item = {item}
+                            handleModalOpen={handleModalOpen}
                         />
                     ))}
                     </tbody>

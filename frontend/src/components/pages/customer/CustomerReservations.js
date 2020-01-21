@@ -4,10 +4,8 @@ import CustomerSection from './CustomerSection';
 import {Link, withRouter} from 'react-router-dom';
 import './../../../css/default.css';
 import Spinner from 'react-bootstrap/Spinner';
-import {getUserReservationList} from './utils/CustomerFunctions';
-import ProductList from '../../lists/ProductList';
-import DeleteProductModal from '../../modals/DeleteProductModal'
-import Paginacion from './../shop/Paginacion';
+import {getUserReservationList, modReservation, getReservation} from './utils/CustomerFunctions';
+import CancelReservationModal from '../../modals/CancelReservationModal'
 import ReservationList from '../../lists/reservations/ReservationList';
 
 const CustomerReservations = ({ handleDrop,user_id}) => {
@@ -16,27 +14,53 @@ const CustomerReservations = ({ handleDrop,user_id}) => {
     const [list,setList] = useState ([]);
     const [loading, setLoading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
-    //ID del producto a eliminar
-    //const [idProduct, setIdProduct] = useState(null);
-    const [tamañoList, setTamañoList] = useState(null);
-    const [serverError,setServerError] = useState (false);
+    //reserva a cancelar
+    const [reserve, setReserve] = useState(null);
+    const [serverError,setServerError] = useState(false);
+    const [success,setSuccess] = useState (false);
 
-    // const handleModalOpen = (id) => {
-    //   if (id != null) {
-    //     setModalOpen(!modalOpen);
-    //     setIdProduct(id);
-    //   }else{
-    //     setModalOpen(!modalOpen);
-    //     setIdProduct(null);
-    //   }  
-    // };
+    const handleModalOpen = (reserve) => {
+    
+        if (reserve != null) {
+        setModalOpen(!modalOpen);
+        let id= reserve.id;
+        getReservation(id)
+        .then(res => {
+          //console.log(res);
+          setReserve(res);
+        })
+        .catch(err => {
+          setError(true);
+        })
+      }else{
+        setModalOpen(!modalOpen);
+        setReserve(null);
+      }
+      setError(false);  
+     };
+
+    const cancelarReserva = () => {
+      const {id,date,stock,id_color_size} = reserve;
+      let id_user = user_id;
+      let state = 'cancelled';
+      modReservation({id,date,stock,id_user,id_color_size,state})
+      .then(res => {
+        setSuccess(true);
+      })
+      .catch (err => {
+        setServerError(true);
+        setSuccess (false);
+      });
+      setServerError(false);
+      setReserve(null);
+    }
 
     useEffect( () => {
       setLoading(true);
       getUserReservationList(user_id)
       .then (res => {
           setList(res);
-          console.log(res);
+          //console.log(res);
           setLoading(false);
       })
       .catch (err=>{
@@ -48,9 +72,8 @@ const CustomerReservations = ({ handleDrop,user_id}) => {
       }
       setError (false);
       setServerError(false);
-      setTamañoList(list.length);
             
-  }, [user_id, tamañoList] );
+  }, [user_id] );
 
 
   return (
@@ -64,6 +87,7 @@ const CustomerReservations = ({ handleDrop,user_id}) => {
           <div id="customer-orders" className="col-md-9">
           <hr />
           <p className="text-muted">Si tenés alguna duda, por favor <Link to="/contact">contáctanos</Link>, nuestro servicio de atención al cliente trabaja 24/7.</p>
+          { (success) ? <div className="alert alert-success mt-2 mb-5 text-center">Cambios realizados con éxito</div> : null}
           {(loading) ? 
               <div className="col-md-9 text-center"> 
               <Spinner animation="border" variant="info" size="lg"  />
@@ -81,7 +105,7 @@ const CustomerReservations = ({ handleDrop,user_id}) => {
                       No hay compras para mostrar
                     </div>
                     :
-                    <ReservationList list={list}/>
+                    <ReservationList list={list} handleModalOpen={handleModalOpen} />
                     }
                   </div>
                   }
@@ -92,17 +116,14 @@ const CustomerReservations = ({ handleDrop,user_id}) => {
         </div>
       </div>
     </div>
-    </Fragment>
-     
-    );
-}
- {/* <DeleteProductModal 
+    <CancelReservationModal 
         modalOpen={modalOpen}
         handleModalOpen={handleModalOpen}
-        idProduct={idProduct}
-        setIdProduct={setIdProduct}
+        cancelarReserva={cancelarReserva}
         user_id={user_id} 
-        tamañoList={tamañoList}
-        setTamañoList={setTamañoList}
-        /> */}
+  />
+    </Fragment> 
+    );
+}
+   
 export default withRouter(CustomerReservations);

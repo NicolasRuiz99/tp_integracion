@@ -263,6 +263,29 @@ const getUserReservationList = user_id => {
     .catch(err => {throw err})
 }
 
+const modReservation = ({id,date,stock,id_user,id_color_size,state}) => {
+    return axios
+    .post("/reservation/mod",{
+        id,
+        date,
+        stock,
+        id_user,
+        id_color_size,
+        state,
+    })
+    .then(res => {return res.data})
+    .catch(err => {throw err})
+}
+
+const getReservation = id => {
+    return axios
+    .post("/reservation/get",{
+        id
+    })
+    .then(res => {return res.data.data})
+    .catch(err => {throw err})
+}
+
 export {
     login, 
     register,
@@ -287,5 +310,7 @@ export {
     getCoupon,
     useCoupon,
     addShipping,
-    getUserReservationList
+    getUserReservationList,
+    modReservation,
+    getReservation
 };

@@ -5,13 +5,12 @@ import './../../../css/default.css';
 import './reservation.css';
 import moment from 'moment';
 
-const ReservationItem = ({item}) => {
+const ReservationItem = ({item, handleModalOpen}) => {
 
     const [link,setLink] = useState ('');
     const [estado,setEstado] = useState ('');
     const [clase,setClase] = useState ('');
     const date = moment(item.date).utc().format('DD/MM/YYYY');
-    
 
     useEffect (()=> {
         setLink (`/shop-detail/${item.prod_id}`);
@@ -44,7 +43,12 @@ const ReservationItem = ({item}) => {
                 <td>
                     <Link to={link} className="btn btn-outlined btn-sm">Ver</Link>
                     {(estado === 'reservada') ? 
-                    (<Link className="cancelar" style={{float: 'right', marginRight:'25px', display:'inline-block'}} title="Cancelar">
+                    (<Link 
+                    className="cancelar" 
+                    style={{float: 'right', marginRight:'25px', display:'inline-block'}} 
+                    title="Cancelar"
+                    onClick={() => handleModalOpen(item)}
+                    >
                     <i class="fas fa-times-circle"></i>
                     </Link>)
                     : null}
