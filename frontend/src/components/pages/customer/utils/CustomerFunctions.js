@@ -253,6 +253,16 @@ const addShipping = id => {
     .catch(err => {throw err})
 }
 
+const getUserReservationList = user_id => {
+    return axios
+    .post("/reservation/list",{
+        id_user: user_id
+    })
+    .then(res => {return res.data.data
+    })
+    .catch(err => {throw err})
+}
+
 export {
     login, 
     register,
@@ -276,5 +286,6 @@ export {
     addCartItem,
     getCoupon,
     useCoupon,
-    addShipping
+    addShipping,
+    getUserReservationList
 };

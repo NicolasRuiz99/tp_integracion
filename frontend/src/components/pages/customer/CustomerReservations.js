@@ -4,10 +4,11 @@ import CustomerSection from './CustomerSection';
 import {Link, withRouter} from 'react-router-dom';
 import './../../../css/default.css';
 import Spinner from 'react-bootstrap/Spinner';
-import {getUserWishlist} from './utils/CustomerFunctions';
+import {getUserReservationList} from './utils/CustomerFunctions';
 import ProductList from '../../lists/ProductList';
 import DeleteProductModal from '../../modals/DeleteProductModal'
 import Paginacion from './../shop/Paginacion';
+import ReservationList from '../../lists/reservations/ReservationList';
 
 const CustomerReservations = ({ handleDrop,user_id}) => {
 
@@ -16,81 +17,86 @@ const CustomerReservations = ({ handleDrop,user_id}) => {
     const [loading, setLoading] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     //ID del producto a eliminar
-    const [idProduct, setIdProduct] = useState(null);
+    //const [idProduct, setIdProduct] = useState(null);
     const [tamañoList, setTamañoList] = useState(null);
-    //Paginación
-    const [currentPage, setCurrentPage] = useState(1);
-    const [listPerPage] = useState(6);
+    const [serverError,setServerError] = useState (false);
 
-    const handleModalOpen = (id) => {
-      if (id != null) {
-        setModalOpen(!modalOpen);
-        setIdProduct(id);
-      }else{
-        setModalOpen(!modalOpen);
-        setIdProduct(null);
-      }  
-    };
+    // const handleModalOpen = (id) => {
+    //   if (id != null) {
+    //     setModalOpen(!modalOpen);
+    //     setIdProduct(id);
+    //   }else{
+    //     setModalOpen(!modalOpen);
+    //     setIdProduct(null);
+    //   }  
+    // };
 
     useEffect( () => {
       setLoading(true);
-      getUserWishlist (user_id)
+      getUserReservationList(user_id)
       .then (res => {
           setList(res);
+          console.log(res);
           setLoading(false);
       })
       .catch (err=>{
-          setError (true);
+          setServerError(true);
           return;
       });
       if (list.length === 0){
           setError (true);
       }
       setError (false);
+      setServerError(false);
       setTamañoList(list.length);
             
   }, [user_id, tamañoList] );
 
-  //Obtener lista de productos actual
-  const indexOfLastList = currentPage * listPerPage;
-  const indexOfFirstList = indexOfLastList - listPerPage;
-  const currentList = list.slice(indexOfFirstList, indexOfLastList);
 
-  //Cambiar de pagina
-  const paginate = pageNumber => setCurrentPage(pageNumber);
-
-    return (
-        <Fragment>
-      <BreadCrumbs name={"Mis reservas"} />
+  return (
+      <Fragment>
+      <BreadCrumbs 
+        name={"Mis reservas"}
+      />
       <div id="content">
-        <div className="container">
-          <div className="row bar">
-            <div className="col-lg-9">
-                <hr />
-              <p className="lead">Esta es tu lista de reservas.</p>
-              {(loading) ? 
-                <div className="col-md-9 text-center"> 
-                  <Spinner animation="border" variant="info" size="lg"  />
-                </div> :
+      <div className="container">
+        <div className="row bar mb-0">
+          <div id="customer-orders" className="col-md-9">
+          <hr />
+          <p className="text-muted">Si tenés alguna duda, por favor <Link to="/contact">contáctanos</Link>, nuestro servicio de atención al cliente trabaja 24/7.</p>
+          {(loading) ? 
+              <div className="col-md-9 text-center"> 
+              <Spinner animation="border" variant="info" size="lg"  />
+              </div> 
+              :
               <div>
-              { (!error) ? <ProductList style={{'margin-left': '-40px'}} list = {currentList} isEditable={true} handleModalOpen={handleModalOpen} /> : <div className="alert alert-danger mt-2 mb-5 text-center">Hubo un error al recuperar los datos</div>}
+                  { (serverError)?
+                  <div className="alert alert-danger mt-2 mb-5 text-center">
+                    Hubo un error al recuperar los datos
+                  </div>
+                  :
+                  <div>
+                    { (error) ?
+                    <div className="alert alert-danger mt-2 mb-5 text-center">
+                      No hay compras para mostrar
+                    </div>
+                    :
+                    <ReservationList list={list}/>
+                    }
+                  </div>
+                  }
               </div>
-              }
-            </div>
-            <CustomerSection user_name={user_id} handleDrop={handleDrop}/>
+          }
           </div>
+          <CustomerSection handleDrop={handleDrop}/>
         </div>
       </div>
-      <div style={{paddingRight: '270px'}}>
-      <Paginacion 
-        listPerPage={listPerPage} 
-        totalList={list.length} 
-        paginate={paginate} 
-        setCurrentPage={setCurrentPage} 
-        currentPage={currentPage}
-        />
-      </div>  
-      <DeleteProductModal 
+    </div>
+    </Fragment>
+     
+    );
+}
+ {/* <DeleteProductModal 
         modalOpen={modalOpen}
         handleModalOpen={handleModalOpen}
         idProduct={idProduct}
@@ -98,9 +104,5 @@ const CustomerReservations = ({ handleDrop,user_id}) => {
         user_id={user_id} 
         tamañoList={tamañoList}
         setTamañoList={setTamañoList}
-        />
-      </Fragment>
-    );
-}
-
+        /> */}
 export default withRouter(CustomerReservations);
