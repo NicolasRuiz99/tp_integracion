@@ -33,3 +33,9 @@ WHERE pitem.id_color_size = cz.id and cz.prod_id = p.id and pitem.id_purchase = 
 CREATE VIEW CartInfo
 AS
 SELECT * FROM purchase WHERE state = 'cart'; 
+
+CREATE VIEW ReservationsList
+AS
+SELECT r.id,p.id prod_id,p.name,cz.color,cz.size,r.stock,p.price,p.discount,r.date,r.state,r.id_user
+FROM products p,color_size cz,reservations r
+WHERE r.id_color_size = cz.id and cz.prod_id = p.id ORDER BY r.id;

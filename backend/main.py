@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, json
-from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases,listPurchaseItems,listCartItems,getCartInfo
+from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases,listPurchaseItems,listCartItems,getCartInfo,listReservations
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser
 
@@ -954,6 +954,20 @@ def getReservation():
         if not (error):
             result = dict (id = new.id, date = new.date, stock = new.stock, id_user = new.id_user, id_color_size = new.id_color_size, state = new.state)
             return jsonify({'result': 'success','data' : result})
+
+@app.route ('/reservation/list',methods=['POST'])
+def listUserReservations():
+    result = []
+    error = False
+    id_user = request.json['id_user']
+    try:
+        result = listReservations (id_user)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data' : result})
 
 @app.route ('/wishlist/add',methods=['POST'])
 def addWishlist():
