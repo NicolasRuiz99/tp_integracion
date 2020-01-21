@@ -15,6 +15,7 @@ import HomePage from './components/pages/nav-items/HomePage';
 import CustomerAccount from './components/pages/customer/CustomerAccount';
 import CustomerOrders from './components/pages/customer/CustomerOrders';
 import CustomerOrder from './components/pages/customer/CustomerOrder';
+import Reservations from './components/pages/customer/CustomerReservations';
 import WishList from './components/pages/customer/CustomerWishList';
 import Registro from './components/pages/customer/CustomerRegister';
  import Chat from './components/pages/customer/chat/Customerchat';
@@ -87,6 +88,7 @@ const App = () => {
             <Route  path="/customer-orders" render={() =>(<CustomerOrders handleDrop={handleDrop} user_id={user_id} />)} />
             <Route  path="/customer-order/:id" render={(props) =>(<CustomerOrder props = {props} user_id={user_id} />)} />
             <Route  path="/customer-wishlist" render={() =>(<WishList handleDrop={handleDrop} user_id={user_id}/>)} />
+            <Route  path="/customer-reservations" render={() =>(<Reservations handleDrop={handleDrop} user_id={user_id}/>)} />
             <Route  path='/customer-chat' render={() =>(<Chat user_name={'cliente'} />)} />
             <Route component={RouteError}/>
           </Switch>

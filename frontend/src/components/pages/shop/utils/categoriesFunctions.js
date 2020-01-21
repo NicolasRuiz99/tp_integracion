@@ -109,24 +109,24 @@ const countColors = (vector) => {
 //Metodos de ordenamiento
 const ordenarAlfabeticamente = (metodo, lista) => {
     let listado;
-    if(metodo  === 'ascendente') {
+    if(metodo  === 'descendente') {
         listado = lista.sort((a,b) => {
-            if (a.name > b.name) {
-                return 1;
-              }
-              if (a.name < b.name) {
+            if (a.name < b.name) {
                 return -1;
+              }
+              else if (a.name > b.name) {
+                return 1;
               }
               // si a es igual que b
               return 0;
         });
-    }if (metodo === 'descendente'){
+    }else if (metodo === 'ascendente'){
         listado = lista.sort((a,b) => {
-            if (a.name < b.name) {
-                return 1;
-              }
-              if (a.name > b.name) {
+            if (a.name > b.name) {
                 return -1;
+              }
+              if (a.name < b.name) {
+                return 1;
               }
               // si a es igual que b
               return 0;
@@ -137,9 +137,9 @@ const ordenarAlfabeticamente = (metodo, lista) => {
 
 const ordenarxPrecio = (metodo, lista) => {
     let listado;
-    if (metodo === 'menor') {
+    if (metodo === 'mayor') {
         listado = lista.sort((a,b) => a.price - b.price);
-    }if (metodo === 'mayor') {
+    }else if (metodo === 'menor') {
         listado = lista.sort((a,b) => b.price - a.price);
     }
     return listado;

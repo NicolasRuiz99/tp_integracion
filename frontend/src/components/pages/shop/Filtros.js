@@ -21,7 +21,7 @@ const CATEGORIAS = {
     ropaInterior: 'ropaInterior'
 }
 
-const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isActive2, lista, setCopyList, colors, setSort}) => {
+const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isActive2, lista, setCopyList, colors}) => {
     //States inputs del precio 
     const [priceMin, setPriceMin] = useState('');
     const [priceMax, setPriceMax] = useState('');
@@ -46,10 +46,12 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
     //Metodos para activacion categórica
     const handleClick = (categoria) => {
         selectGenre(GENEROS, categoria, setIsActive, setCategories, setIsActive2, setCopyList, lista);
+       
     }
 
     const handleClick2 = (categoria) => {
         selectCategorie(CATEGORIAS, categoria, setIsActive2, setIsActive);
+
     }
 
     //Métodos de limpieza
@@ -91,7 +93,6 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
         });
         //Ordena la busqueda de menor a mayor
         setCopyList(listado);
-        setSort('ascendente');
     };
 
   

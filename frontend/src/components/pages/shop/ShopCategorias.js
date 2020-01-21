@@ -4,6 +4,7 @@ import {withRouter} from 'react-router-dom';
 import Paginacion from './Paginacion';
 import './../../../css/default.css';
 import Filtros from './Filtros';
+import Select from 'react-select';
 import Spinner from 'react-bootstrap/Spinner';
 import ProductList from '../../lists/ProductList';
 import {getProducts} from './utils/shopFunctions';
@@ -19,7 +20,7 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
     const [listPerPage] = useState(6);
     //Valor de categoría inicial
     const [categories, setCategories] = useState('all');
-    const [sort, setSort] = useState('');
+    const [sort, setSort] = useState(null);
     
     //State para activar el estilo de selección por categoria
     const [isActive, setIsActive] = useState({
@@ -59,8 +60,6 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
             setColors(cuentaColores(res));
             setList(res);
             setCopyList(res);
-            setCopyList(res);
-            setSort('ascendente');
             setLoading(false);
             setIsOferta(true);
             } else {
@@ -68,7 +67,6 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
             setColors(cuentaColores(res));
             setList(res);
             setCopyList(res);
-            setSort('ascendente');
             setLoading(false);
             setIsOferta(false);
             }
@@ -102,7 +100,7 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
     }, [isActive2]);
 
     
-    const setOrdenar = () => {
+    const setOrdenar = (sort) => {
         if (sort === 'ascendente') {
             setCopyList(ordenarAlfabeticamente(sort, copyList ));
         }
@@ -114,12 +112,20 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
         }
         if (sort === 'mayor') {
             setCopyList(ordenarxPrecio(sort, copyList ));
+        }
+        if (sort === null) {
+            return;
         }                                    
     };
 
+    const putColor = (event) => {
+        let option = event.value;
+        setSort(option);
+    }
+
     useEffect(() => {
-        setOrdenar();
-    }, [sort])
+        setOrdenar(sort);
+    }, [sort, copyList])
 
     //Obtener lista de productos actual
     const indexOfLastList = currentPage * listPerPage;
@@ -147,7 +153,12 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
         });
     };
 
-   
+    const options= [
+        { label: "A-Z", value: 'ascendente' },
+        { label: "Z-A", value: 'descendente' },
+        { label: "Mayor precio", value: 'mayor' },
+        { label: "Menor precio", value: 'menor' },
+      ];
 
     return (
         <Fragment>
@@ -165,7 +176,6 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
                         setCopyList={setCopyList}
                         lista={list}
                         colors={colors}
-                        setSort={setSort}
                         />
                         {(loading) ? 
                         <div className="col-md-9 text-center"> 
@@ -173,18 +183,16 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
                         </div> :
                         <div className="col-md-9">
                             <p className="text lead">
-                                En nuestro sitio ofrecemos una amplia selección de los mejores productos del mercado.
-                                <div className="sizes">
-                                    <select className="bs-select" 
-                                    style={{width: '120px', float: 'right', height: '26px', marginRight: '15px', 'font-size': '1.0rem'}}
-                                    onChange={ (e) =>{e.preventDefault();  setSort(e.target.value)}}
+                            <div className="sizes ">
+                                    <Select className="mt-4 col-md-3 col-offset-4 float-right"
+                                    onChange={putColor}
+                                    options={options}
+                                    placeholder="Ver.."
+                                    defaultValue="ascendente"
                                     >
-                                        <option value="descendente" >{'A-Z'}</option>
-                                        <option value="ascendente" >{'Z-A'}</option>
-                                        <option value="menor">{'Mayor precio'}</option>
-                                        <option value="mayor">{'Menor precio'}</option>
-                                    </select>
+                                    </Select>
                                 </div>
+                                En nuestro sitio ofrecemos una amplia selección de los mejores productos del mercado.      
                             </p>
                             { (!error) ? 
                             <ProductList list = {currentList} /> : 

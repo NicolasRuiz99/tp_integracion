@@ -9,7 +9,7 @@ import ProductList from '../../lists/ProductList';
 import DeleteProductModal from '../../modals/DeleteProductModal'
 import Paginacion from './../shop/Paginacion';
 
-const CustomerWishList = ({setUser, handleDrop,user_id}) => {
+const CustomerReservations = ({ handleDrop,user_id}) => {
 
     const [error,setError] = useState (false);
     const [list,setList] = useState ([]);
@@ -61,13 +61,13 @@ const CustomerWishList = ({setUser, handleDrop,user_id}) => {
 
     return (
         <Fragment>
-      <BreadCrumbs name={"Mis deseos"} />
+      <BreadCrumbs name={"Mis reservas"} />
       <div id="content">
         <div className="container">
           <div className="row bar">
             <div className="col-lg-9">
                 <hr />
-              <p className="lead">Esta es tu lista de tus productos deseados.</p>
+              <p className="lead">Esta es tu lista de reservas.</p>
               {(loading) ? 
                 <div className="col-md-9 text-center"> 
                   <Spinner animation="border" variant="info" size="lg"  />
@@ -103,4 +103,4 @@ const CustomerWishList = ({setUser, handleDrop,user_id}) => {
     );
 }
 
-export default withRouter(CustomerWishList);
+export default withRouter(CustomerReservations);

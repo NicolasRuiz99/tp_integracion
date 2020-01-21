@@ -92,6 +92,7 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history}) =
                                         <li className="dropdown-item"><Link to="/customer-account" class="nav-link" style={{color: "#fff"}}>Mi cuenta</Link></li>
                                         <li className="dropdown-item"><Link to="/customer-orders" class="nav-link" style={{color: "#fff"}}>Mis compras</Link></li>
                                         <li className="dropdown-item"><Link to="/customer-wishlist" class="nav-link" style={{color: "#fff"}}>Mis deseos</Link></li>
+                                        <li className="dropdown-item"><Link to="/customer-reservations" class="nav-link" style={{color: "#fff"}}>Mis reservas</Link></li>
                                         <li className="dropdown-item"><Link class="nav-link" onClick={handleModalOpen2} style={{color: "#fff"}}>Salir</Link></li>
                                     </ul>
                                 </Link>
