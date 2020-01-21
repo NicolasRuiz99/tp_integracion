@@ -9,7 +9,6 @@ ALTER SEQUENCE purchase_id_seq RESTART WITH 1;
 ALTER SEQUENCE reservations_id_seq RESTART WITH 1;
 ALTER SEQUENCE review_id_seq RESTART WITH 1;
 ALTER SEQUENCE roles_id_seq RESTART WITH 1;
-ALTER SEQUENCE shipping_id_seq RESTART WITH 1;
 ALTER SEQUENCE type_id_seq RESTART WITH 1;
 ALTER SEQUENCE users_id_seq RESTART WITH 1;
 
@@ -90,17 +89,17 @@ INSERT INTO "coupon" (pc, cad_date, used) VALUES
 (20, '21/12/2070',false), (50, '12/12/2020',false), 
 (31, '10/10/2020',false);
 
-INSERT INTO "shipping" (address, zip, name, surname, dni, track_code, province) VALUES 
-('belgrano 679', 3260, 'Raul', 'Paz','56512355', 54654231, 'Entre rios'),
-('sarmiento 345', 4250, 'Roman', 'Pizeta','56512038', 15923789, 'La pampa'), 
-('los tulipanes 789', 3260, 'Manuel', 'Rodriguez','89562318', 54654232, 'Entre rios');
+INSERT INTO "purchase" (date, state, id_user, id_coupon) VALUES 
+('17/12/2019', 'cart', 1, 1), 
+('10/12/2019', 'cart', 2, 2),
+('01/12/2019', 'cart', 3, 3),
+('17/12/2019', 'cart', 1, null),
+('17/12/2019', 'cart', 2, 5);
 
-INSERT INTO "purchase" (date, state, id_user, id_coupon, id_shipping) VALUES 
-('17/12/2019', 'cart', 1, 1, 1 ), 
-('10/12/2019', 'cart', 2, 2, 2 ),
-('01/12/2019', 'cart', 3, 3, 3 ),
-('17/12/2019', 'cart', 1, null, null ),
-('17/12/2019', 'cart', 2, 5, null );
+INSERT INTO "shipping" (id,address, zip, name, surname, dni, track_code, province) VALUES 
+(1,'belgrano 679', 3260, 'Raul', 'Paz','56512355', 54654231, 'Entre rios'),
+(2,'sarmiento 345', 4250, 'Roman', 'Pizeta','56512038', 15923789, 'La pampa'), 
+(3,'los tulipanes 789', 3260, 'Manuel', 'Rodriguez','89562318', 54654232, 'Entre rios');
 
 INSERT INTO "purchxitem" (id_purchase, id_color_size,stock) VALUES 
 (1,1,2),(2,2,5),(3,3,6),(1,4,1),(1,5,3),(3,6,4),(2,7,2),(1,8,1),(1,9,1),(1,10,2),(4,4,3),(4,5,2),(4,13,1),(4,9,2),(5,4,2),(5,9,1),(5,12,1);

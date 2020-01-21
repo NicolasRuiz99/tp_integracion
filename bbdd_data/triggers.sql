@@ -80,7 +80,7 @@ BEGIN
 IF (TG_OP = 'DELETE') AND (OLD.state != 'cart') THEN
 	RAISE EXCEPTION 'delete no permitido';
 ELSE
-	IF (OLD.state != 'cart') AND ((OLD.price != NEW.price) OR  (OLD.date != NEW.date) OR (OLD.id_user != NEW.id_user) OR (OLD.id_coupon != NEW.id_coupon) OR (OLD.id_shipping != NEW.id_shipping)) THEN
+	IF (OLD.state != 'cart') AND ((OLD.price != NEW.price) OR  (OLD.date != NEW.date) OR (OLD.id_user != NEW.id_user) OR (OLD.id_coupon != NEW.id_coupon)) THEN
 		RAISE EXCEPTION 'update de atributo no permitido';
 	END IF;
 END IF;

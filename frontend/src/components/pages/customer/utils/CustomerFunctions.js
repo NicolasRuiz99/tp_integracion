@@ -244,6 +244,15 @@ const useCoupon = id => {
     .catch(err => {throw err})
 }
 
+const addShipping = id => {
+    return axios
+    .post("/shipping/add",{
+        id
+    })
+    .then(res => {return res.data})
+    .catch(err => {throw err})
+}
+
 export {
     login, 
     register,
@@ -266,5 +275,6 @@ export {
     deleteCartItem,
     addCartItem,
     getCoupon,
-    useCoupon
+    useCoupon,
+    addShipping
 };

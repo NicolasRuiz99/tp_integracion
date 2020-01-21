@@ -3,11 +3,10 @@ import OrderSummary from './OrderSummary';
 import BreadCrumbs from '../../BreadCrumbs';
 import {Link} from 'react-router-dom';
 import './../../../css/default.css';
-import img from "./../../../assets/detailsquare.jpg";
-import img2 from "./../../../assets/basketsquare.jpg";
 import CouponBox from './CouponBox';
+import Basket from './Basket';
 
-const ShopCheckout4 = ({route,coupon,setCoupon,cartInfo}) => {
+const ShopCheckout4 = ({route,coupon,setCoupon,cartInfo,ship,list,shipInfo}) => {
     return (
         <Fragment>
             <BreadCrumbs name={"Compra - Revisión"} />
@@ -18,51 +17,29 @@ const ShopCheckout4 = ({route,coupon,setCoupon,cartInfo}) => {
               <div className="box">
                 <form method="get" action="/shop-checkout4">
                   <ul className="nav nav-pills nav-fill">
-                    <li className="nav-item"><Link to={`${route}/1`} className="nav-link"> <i className="fa fa-map-marker"></i><br/>Dirección</Link></li>
-                    <li className="nav-item"><Link to={`${route}/2`} className="nav-link"><i className="fa fa-truck"></i><br/>Método de entrega</Link></li>
+                  <li className="nav-item"><Link to={`${route}/1`} className="nav-link"><i className="fa fa-truck"></i><br/>Método de entrega</Link></li>
+                    <li className="nav-item"><Link to={`${route}/2`} className={(ship)?"nav-link":"nav-link disabled"}> <i className="fa fa-map-marker"></i><br/>Dirección</Link></li>
                     <li className="nav-item"><Link to={`${route}/3`} className="nav-link"><i className="fa fa-money"></i><br/>Método de pago</Link></li>
                     <li className="nav-item"><Link to={`${route}/4`} className="nav-link active"><i className="fa fa-eye"></i><br/>Revisión de la compra</Link></li>
                   </ul>
                 </form>
                 <div className="content">
-                  <div className="table-responsive">
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th colspan="2">Producto</th>
-                          <th>Cantidad</th>
-                          <th>Precio unitario</th>
-                          <th>Descuento</th>
-                          <th>Total</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td><Link to="#"><img src={img} alt="White Blouse Armani"/></Link></td>
-                          <td><Link to="#">Zapato de cuero negro</Link></td>
-                          <td>2</td>
-                          <td>$123.00</td>
-                          <td>$0.00</td>
-                          <td>$246.00</td>
-                        </tr>
-                        <tr>
-                          <td><Link to="#"><img src={img2} alt="Black Blouse Armani"/></Link></td>
-                          <td><Link to="#">Pantalón deportivo</Link></td>
-                          <td>1</td>
-                          <td>$200.00</td>
-                          <td>$0.00</td>
-                          <td>$200.00</td>
-                        </tr>
-                      </tbody>
-                      <tfoot>
-                        <tr>
-                          <th colspan="5">Total</th>
-                          <th>$446.00</th>
-                        </tr>
-                      </tfoot>
-                    </table>
+                <Basket list = {list} cartInfo = {cartInfo} deleteItem = {null}/>
+                </div>
+                {(shipInfo.id)?
+                <div className="row addresses">
+                  <div className="col-md-10 text-left">
+                    <h4 className="text-uppercase">Datos de envío</h4>
+                    <p>Recibe: {`${shipInfo.name} ${shipInfo.surname}`}<br />DNI: {shipInfo.dni}<br />Provincia: {shipInfo.province}<br />Codigo postal: {shipInfo.zip}<br />Dirección:	{shipInfo.address}<br /></p>
                   </div>
                 </div>
+                :
+                <div className="row addresses">
+                  <div className="col-md-10 text-left">
+                    <h4 className="text-uppercase">Retiro en sucursal (ver pág. de contacto)</h4>
+                  </div>
+                </div>
+                }
                 <div className="box-footer d-flex flex-wrap align-items-center justify-content-between">
                   <div className="left-col"><Link to={`${route}/3`} className="btn btn-secondary mt-0"><i className="fa fa-chevron-left"></i>Volver al método de pago</Link></div>
                   <div className="right-col">

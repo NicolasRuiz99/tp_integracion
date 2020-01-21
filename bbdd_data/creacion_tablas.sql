@@ -128,18 +128,6 @@ CREATE TABLE coupon (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE shipping (
-    id serial,
-    address varchar (30),
-    zip numeric (7),
-    name varchar (15),
-    surname varchar (15),
-    dni t_dni,
-    track_code numeric (30) unique,
-    province varchar (15),
-    PRIMARY KEY (id)
-);
-
 CREATE TABLE purchase (
     id serial,
     price t_price default 0,
@@ -147,11 +135,22 @@ CREATE TABLE purchase (
     state purch_state,
     id_user int,
     id_coupon int,
-    id_shipping int,
     PRIMARY KEY (id),
     FOREIGN KEY (id_user) REFERENCES users (id),
-    FOREIGN KEY (id_coupon) REFERENCES coupon (id),
-    FOREIGN KEY (id_shipping) REFERENCES shipping (id)
+    FOREIGN KEY (id_coupon) REFERENCES coupon (id)
+);
+
+CREATE TABLE shipping (
+    id int,
+    address varchar (30),
+    zip numeric (7),
+    name varchar (15),
+    surname varchar (15),
+    dni t_dni,
+    track_code numeric (30),
+    province varchar (60),
+    PRIMARY KEY (id),
+    FOREIGN KEY (id) REFERENCES purchase (id)
 );
 
 CREATE TABLE purchxitem (

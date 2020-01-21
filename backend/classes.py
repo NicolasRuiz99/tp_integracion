@@ -246,8 +246,8 @@ class Shipping:
         self.province = province
 
     def add (self):
-        new_record = (self.address, self.zip, self.name, self.surname, self.dni, self.track_code, self.province )
-        addToTable ('shipping (address, zip, name, surname, dni, track_code, province)',new_record,'(%s,%s,%s,%s,%s,%s,%s)')
+        new_record = (self.id,self.address, self.zip, self.name, self.surname, self.dni, self.track_code, self.province )
+        addToTable ('shipping (id,address, zip, name, surname, dni, track_code, province)',new_record,'(%s,%s,%s,%s,%s,%s,%s,%s)')
 
     def mod (self):
         updateTable ('shipping',(self.address, self.zip, self.name, self.surname, self.dni, self.track_code, self.province, self.id),'address = %s, zip = %s, name = %s, surname = %s, dni = %s, track_code = %s, province = %s')
@@ -257,31 +257,33 @@ class Shipping:
 
     def get (self):
         res = searchID ('shipping',self.id)  
-        self.id = res[0]
-        self.address = res[1]
-        self.zip = res[2]
-        self.name = res[3]
-        self.surname = res[4]
-        self.dni = res[5]
-        self.track_code = res[6]
-        self.province = res[7]
+        if (len(res)==0):
+            self.id = None
+        else:
+            self.id = res[0]
+            self.address = res[1]
+            self.zip = res[2]
+            self.name = res[3]
+            self.surname = res[4]
+            self.dni = res[5]
+            self.track_code = res[6]
+            self.province = res[7]
 
 class Purchase:
-    def __init__ (self,price=None,date=None,state='cart',id_user=None,id_coupon=None,id_shipping=None,_id=None):
+    def __init__ (self,price=None,date=None,state='cart',id_user=None,id_coupon=None,_id=None):
         self.id = _id
         self.price = price 
         self.date = date
         self.state = state
         self.id_user = id_user
         self.id_coupon = id_coupon
-        self.id_shipping = id_shipping
 
     def add (self):
-        new_record = (self.id_user,self.id_coupon,self.id_shipping, self.state)
-        addToTable ('purchase (id_user, id_coupon, id_shipping, state)',new_record,'(%s,%s,%s,%s)')
+        new_record = (self.id_user,self.id_coupon,self.state)
+        addToTable ('purchase (id_user, id_coupon, state)',new_record,'(%s,%s,%s)')
 
     def mod (self):
-        updateTable ('purchase',(self.price,self.date,self.state,self.id_user,self.id_coupon,self.id_shipping, self.id),'price = %s, date = %s, state = %s, id_user = %s, id_coupon = %s, id_shipping = %s')
+        updateTable ('purchase',(self.price,self.date,self.state,self.id_user,self.id_coupon, self.id),'price = %s, date = %s, state = %s, id_user = %s, id_coupon = %s')
 
     def delete (self):
         deleteFromTable ('purchase',self.id)
@@ -293,7 +295,6 @@ class Purchase:
         self.state = res[3]
         self.id_user = res[4]
         self.id_coupon = res[5]
-        self.id_shipping = res[5]
 
 class Purchxitem:
     def __init__ (self,id_purchase=None,id_color_size=None,stock=None,purch_price=None):

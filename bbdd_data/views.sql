@@ -33,5 +33,3 @@ WHERE pitem.id_color_size = cz.id and cz.prod_id = p.id and pitem.id_purchase = 
 CREATE VIEW CartInfo
 AS
 SELECT * FROM purchase WHERE state = 'cart'; 
-
-
