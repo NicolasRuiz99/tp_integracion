@@ -43,7 +43,7 @@ const ShopCheckout4 = ({route,coupon,setCoupon,cartInfo,ship,list,shipInfo}) => 
                 <div className="box-footer d-flex flex-wrap align-items-center justify-content-between">
                   <div className="left-col"><Link to={`${route}/3`} className="btn btn-secondary mt-0"><i className="fa fa-chevron-left"></i>Volver al método de pago</Link></div>
                   <div className="right-col">
-                    <button type="submit" className="btn btn-main">Confirmar<i className="fa fa-chevron-right"></i></button>
+                    <button type="submit" className="btn btn-main" >Confirmar<i className="fa fa-chevron-right"></i></button>
                   </div>
                 </div>
               </div>

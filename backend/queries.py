@@ -56,3 +56,6 @@ def getCartInfo (user_id):
 
 def listReservations (user_id):
     return query ('select id,prod_id,name,color,size,stock,price,discount,date,state from ReservationsList where id_user = ' + str(user_id))
+
+def getReservationItem (user_id,id_color_size):
+    return query ('select id from ActiveReservations where id_user = ' + str (user_id) + 'and id_color_size = ' + str(id_color_size))

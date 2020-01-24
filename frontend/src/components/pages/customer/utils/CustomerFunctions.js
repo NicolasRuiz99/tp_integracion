@@ -277,6 +277,15 @@ const modReservation = ({id,date,stock,id_user,id_color_size,state}) => {
     .catch(err => {throw err})
 }
 
+const cancelReservation = id => {
+    return axios
+    .post("/reservation/cancel",{
+        id
+    })
+    .then(res => {return res.data})
+    .catch(err => {throw err})
+}
+
 const getReservation = id => {
     return axios
     .post("/reservation/get",{
@@ -287,19 +296,26 @@ const getReservation = id => {
 }
 
 
-const addReservation = ({date,stock,id_user,id_color_size,state}) => {
+const addReservation = ({stock,id_user,id_color_size}) => {
     return axios
     .post("/reservation/add",{
-        date,
         stock,
         id_user,
-        id_color_size,
-        state
+        id_color_size
     })
-    .then(res => {return res.data.results})
+    .then(res => {return res.data.result})
     .catch(err => {throw err})
 }
 
+const getReservationItem = (id_user,id_color_size) => {
+    return axios
+    .post("/reservation/item",{
+        id_user,
+        id_color_size
+    })
+    .then(res => {return res.data.data})
+    .catch(err => {throw err})
+}
 
 export {
     login, 
@@ -328,5 +344,7 @@ export {
     getUserReservationList,
     modReservation,
     getReservation,
-    addReservation
+    addReservation,
+    getReservationItem,
+    cancelReservation
 };

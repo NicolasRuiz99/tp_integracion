@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, json
-from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases,listPurchaseItems,listCartItems,getCartInfo,listReservations
+from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases,listPurchaseItems,listCartItems,getCartInfo,listReservations,getReservationItem
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser
 
@@ -891,12 +891,10 @@ def getPurchxitem():
 @app.route ('/reservation/add',methods=['POST'])
 def addReservation():
     error = False
-    date = request.json['date']
     stock = request.json['stock']
     id_user = request.json['id_user']
     id_color_size = request.json['id_color_size']
-    state = request.json['state']
-    new = Reservation (date,stock,id_user,id_color_size,state)
+    new = Reservation (None,stock,id_user,id_color_size,None,None)
     try:
         new.add()
     except (Exception) as err:
@@ -918,6 +916,21 @@ def modReservation():
     new = Reservation (date,stock,id_user,id_color_size,state,id)
     try:
         new.mod()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success'})
+
+@app.route ('/reservation/cancel',methods=['POST'])
+def cancelReservation():
+    error = False
+    id = request.json['id']
+    new = Reservation ()
+    new.id = id
+    try:
+        new.cancel ()
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -953,6 +966,21 @@ def getReservation():
     finally:
         if not (error):
             result = dict (id = new.id, date = new.date, stock = new.stock, id_user = new.id_user, id_color_size = new.id_color_size, state = new.state)
+            return jsonify({'result': 'success','data' : result})
+
+@app.route ('/reservation/item',methods=['POST'])
+def getUserReservationItem():
+    result = []
+    error = False
+    id_user = request.json['id_user']
+    id_color_size = request.json['id_color_size']
+    try:
+        result = getReservationItem (id_user,id_color_size)    
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
             return jsonify({'result': 'success','data' : result})
 
 @app.route ('/reservation/list',methods=['POST'])

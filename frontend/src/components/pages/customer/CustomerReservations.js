@@ -4,7 +4,7 @@ import CustomerSection from './CustomerSection';
 import {Link, withRouter} from 'react-router-dom';
 import './../../../css/default.css';
 import Spinner from 'react-bootstrap/Spinner';
-import {getUserReservationList, modReservation, getReservation} from './utils/CustomerFunctions';
+import {getUserReservationList, cancelReservation, getReservation} from './utils/CustomerFunctions';
 import CancelReservationModal from '../../modals/CancelReservationModal'
 import ReservationList from '../../lists/reservations/ReservationList';
 
@@ -17,7 +17,7 @@ const CustomerReservations = ({ handleDrop,user_id}) => {
     //reserva a cancelar
     const [reserve, setReserve] = useState(null);
     const [serverError,setServerError] = useState(false);
-    const [success,setSuccess] = useState (false);
+    const [refresh,setRefresh] = useState (false);
 
     const handleModalOpen = (reserve) => {
     
@@ -26,7 +26,6 @@ const CustomerReservations = ({ handleDrop,user_id}) => {
         let id= reserve.id;
         getReservation(id)
         .then(res => {
-          //console.log(res);
           setReserve(res);
         })
         .catch(err => {
@@ -40,16 +39,13 @@ const CustomerReservations = ({ handleDrop,user_id}) => {
      };
 
     const cancelarReserva = () => {
-      const {id,date,stock,id_color_size} = reserve;
-      let id_user = user_id;
-      let state = 'cancelled';
-      modReservation({id,date,stock,id_user,id_color_size,state})
+      const {id} = reserve;
+      cancelReservation(id)
       .then(res => {
-        setSuccess(true);
+        setRefresh(true);
       })
       .catch (err => {
         setServerError(true);
-        setSuccess (false);
       });
       setServerError(false);
       setReserve(null);
@@ -60,7 +56,6 @@ const CustomerReservations = ({ handleDrop,user_id}) => {
       getUserReservationList(user_id)
       .then (res => {
           setList(res);
-          //console.log(res);
           setLoading(false);
       })
       .catch (err=>{
@@ -73,7 +68,7 @@ const CustomerReservations = ({ handleDrop,user_id}) => {
       setError (false);
       setServerError(false);
             
-  }, [user_id] );
+  }, [user_id,refresh] );
 
 
   return (
@@ -87,7 +82,6 @@ const CustomerReservations = ({ handleDrop,user_id}) => {
           <div id="customer-orders" className="col-md-9">
           <hr />
           <p className="text-muted">Si tenés alguna duda, por favor <Link to="/contact">contáctanos</Link>, nuestro servicio de atención al cliente trabaja 24/7.</p>
-          { (success) ? <div className="alert alert-success mt-2 mb-5 text-center">Cambios realizados con éxito</div> : null}
           {(loading) ? 
               <div className="col-md-9 text-center"> 
               <Spinner animation="border" variant="info" size="lg"  />

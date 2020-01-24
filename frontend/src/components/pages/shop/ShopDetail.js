@@ -6,7 +6,7 @@ import Rating from './Rating';
 import './../../../css/default.css';
 import {getProductInfo,getProductColor_size,getProductReview} from './utils/shopFunctions';
 import {getWishlistItem,addWishlistItem,deleteWishlistItem,getUserPurchaseItem,addCartItem,getCartInfo,
-        addReservation,getReservation, getUserReservationList, modReservation} from '../customer/utils/CustomerFunctions';
+        addReservation,getReservationItem, cancelReservation} from '../customer/utils/CustomerFunctions';
 //React image gallery
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from 'react-image-gallery';
@@ -21,7 +21,7 @@ import img2 from "./../../../assets/detailsquare.jpg";
 import ReviewList from '../../lists/ReviewList';
 import Color_sizeList from '../../lists/Color_sizeList';
 import Spinner from 'react-bootstrap/Spinner';
-import moment from 'moment';
+import Error from '../../messages/Error';
 
 const ShopDetail = ({props,user_id,history}) => {
     const images = [
@@ -42,13 +42,14 @@ const ShopDetail = ({props,user_id,history}) => {
     const [avgReview,setAvgReview] = useState (0);
     const [error,setError] = useState (false);
     const [isWishlisted,setWishlisted] = useState (false);
-    const [isReservated, setIsReservated] = useState(false);
-    const [reservas, setReservas] = useState([]);
     const [isPurchased,setPurchased] = useState (false);
     const [isReviewed,setReviewed] = useState (false);
     const [selectedItem,setSelectedItem] = useState ({});
     const [selectedStock,setSelectedStock] = useState (1);
     const [loading,setLoading] = useState (false);
+    const [isReserved,setIsReserved] = useState (false);
+    const [resID,setResID] = useState (null);
+    const [stockError,setStockError] = useState (false);
 
     const getAverage = (list) => {
       let total = 0;
@@ -96,48 +97,43 @@ const ShopDetail = ({props,user_id,history}) => {
     }
 
     const ManageReservation = () => {
-        let id;
-        let id_user = user_id;
-        let state ;
-        let date;
-        let stock ;
-        let id_color_size ;
- 
-      if (isReservated) {
-        let id= reservas.id;
-        let state = 'cancelled';
-        let date = reservas.date;
-        let stock = reservas.stock;
-        let id_color_size = reservas.id_color_size
-        modReservation({id,date,stock,id_user,id_color_size,state})
-        .then(res => {
-          setIsReservated(false);
-        })
-        .catch (err => {
-          setError(true);
+        if (selectedStock <= 0 || selectedStock > selectedItem.stock){
+          setSelectedStock (1);
+          setStockError (true);
           return;
-        });
-      }
-      else{
-        date = moment().format('DD/MM/YYYY');
-        state = "reservated";
-        stock = selectedItem.stock;
-        id_color_size = color_size.id;
-        addReservation({date,stock,id_user,id_color_size,state})
+        }
+        setStockError (false);
+        let id_user = user_id;
+        let stock = selectedStock;
+        let id_color_size = selectedItem.id;
+        addReservation({stock,id_user,id_color_size})
         .then(res => {
-          setIsReservated(true);
+          history.push ('/customer-reservations');
         })
         .catch (err =>{
           setError (true);
           return;
-        })
-    }
+    })
   }
+
+  const deleteReservation = () => {
+      cancelReservation (resID)
+      .then (res=>{
+        setIsReserved (false);
+      })
+      .catch (err=>{
+        setError (true);
+      })
+      setError (false);
+  }
+
     const addToCart = () =>{
         if (selectedStock <= 0 || selectedStock > selectedItem.stock){
             setSelectedStock (1);
+            setStockError (true);
             return;
         }
+        setStockError (false);
         getCartInfo (user_id)
         .then (res => {
             addCartItem (selectedItem.id,res[0].id,selectedStock)
@@ -154,7 +150,8 @@ const ShopDetail = ({props,user_id,history}) => {
             return;
         }) 
     }
-    
+
+    //use effect inicial
     useEffect (()=>{
       setLoading (true);
       const product_id = props.match.params.id;
@@ -205,26 +202,27 @@ const ShopDetail = ({props,user_id,history}) => {
         setError (true);
         return;
       })
-     
-      getUserReservationList(user_id)
-      .then (res => {
-        res = res.filter(item => item.prod_id == product_id && item.state === "reservated");
-        if (res.length === 0) {
-          setIsReservated(false);
-        }else {
-          setIsReservated(true);
-          setReservas(res);
-        }
-        
-        //console.log(res);
-      })
-      .catch (err=>{
-          setError(true);
-          return;
-      });
       setError (false);
       
     },[user_id,isReviewed])
+
+    // use effect para cuando se actualiza el item seleccionado
+    useEffect (()=>{
+        getReservationItem (user_id,selectedItem.id)
+        .then (res=>{
+          if (res.length === 0){
+              setIsReserved (false);
+          }else{
+            setIsReserved (true);
+            setResID (res[0].id);
+          }
+        })
+        .catch (err=>{
+          setError (true);
+          return;
+        })
+        setError (false);
+    },[selectedItem])
 
     if (user_id === null){
     return (
@@ -344,13 +342,14 @@ const ShopDetail = ({props,user_id,history}) => {
                         onClick={ManageWishlist}>
                           <i className="fa fa-heart-o"></i>
                         </button>
-                        <button type="button" data-toggle="tooltip" data-placement="top" title={`${(isReservated) ? 'Reservar' : 'Cancelar reserva'}`} 
-                        className={`btn ${isReservated ? ('btn-success') : ('btn-default')}`}
-                        onClick={ManageReservation}>
+                        <button type="button" data-toggle="tooltip" data-placement="top" title={(isReserved)?"Cancelar reserva":"Reservar"} 
+                        className={(isReserved)?"btn btn-danger":"btn btn-default"}
+                        onClick={(isReserved)?deleteReservation:ManageReservation}>
                           <i class="far fa-calendar-alt"></i>
                         </button>
                         </p>
                       </div>
+                      {stockError && <Error texto="Stock no permitido"/> }
                     </form>
                   </div>
                 </div>

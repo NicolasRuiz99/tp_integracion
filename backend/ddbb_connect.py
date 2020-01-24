@@ -140,3 +140,14 @@ def query (query):
     finally:
         disconnect_ddbb (con,cur)
         return results
+
+def callFun (name,values):
+    try:
+        con, cur = connect_ddbb ()
+        cur.callproc (name,values)  
+        con.commit ()
+    except (Exception,Error) as error:
+        if (con):
+            raise Exception ('OperationFailed', error.args[0])
+    finally:
+        disconnect_ddbb (con,cur)

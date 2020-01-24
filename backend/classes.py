@@ -1,4 +1,4 @@
-from ddbb_connect import addToTable,listTable,updateTable,deleteFromTable,searchID,deleteFromTable2,searchID2,query
+from ddbb_connect import addToTable,listTable,updateTable,deleteFromTable,searchID,deleteFromTable2,searchID2,query,callFun
 
 class User:
     def __init__ (self,e_mail = None,psw = None,id_role = None,_id = None):
@@ -327,11 +327,13 @@ class Reservation:
         self.state = state
 
     def add (self):
-        new_record = (self.date, self.stock, self.id_user, self.id_color_size, self.state )
-        addToTable ('reservations (date, stock, id_user, id_color_size, state)',new_record,'(%s,%s,%s,%s,%s)')
+        callFun ('create_reservation',[self.stock,self.id_user,self.id_color_size,])
 
     def mod (self):
         updateTable ('reservations',(self.date, self.stock, self.id_user, self.id_color_size, self.state, self.id),'date = %s, stock = %s, id_user = %s, id_color_size = %s, state = %s')
+
+    def cancel (self):
+        updateTable ('reservations',('cancelled',self.id),'state = %s')
 
     def delete (self):
         deleteFromTable ('reservations',self.id)
