@@ -3,6 +3,8 @@ import {Link,withRouter} from 'react-router-dom';
 import './../../../css/default.css';
 import BreadCrumbs from './../../BreadCrumbs';
 import {register, login,getEMails} from './utils/CustomerFunctions';
+import { validarLogin, validarEmail, validarPsw } from '../../../validacion/validate';
+import Error from '../../messages/Error';
 
 const CustomerRegister = ({history,setUser}) => {
 
@@ -11,13 +13,17 @@ const CustomerRegister = ({history,setUser}) => {
   const [email2, setEMail2] = useState ('');
   const [contraseña, setContraseña] = useState ('');
   const [contraseña2, setContraseña2] = useState ('');
-  const [error, setError] = useState(false);
   const [errorMail, setErrorMail] = useState(false);
   const [errorServer, setErrorServer] = useState(false);
 
   //states del login
   const [mail, setMail] = useState('');
   const [pass, setPass] = useState('');
+
+  //States de validacion
+  const [errorLogin, setErrorLogin] = useState({});
+  const [errorMails,setErrorMails] = useState({});
+  const [errorPSWS, setErrorPSWS] = useState({});
 
   const [mailList, setMailList] = useState([]);
   const [error2, setError2] = useState(false);
@@ -44,82 +50,59 @@ const CustomerRegister = ({history,setUser}) => {
     }
 
     setErrorMail (false);    
-
-    // Validar que todos los campos esten llenos
-    if( email === '' || email2 === '' ||  contraseña === '' || contraseña2 === '' ){
-      setError(true);
-      // detener la ejecución
+    const err1 = validarEmail(email, email2);
+    const err2 = validarPsw(contraseña, contraseña2);
+    if (err1.diferente || err1.formato || err1.obligatorio) {
+      setErrorMails(err1);
       return;
     }
-
-    if (email !== email2 || contraseña !== contraseña2) {
-      setError(true);
+    if (err2.obligatorio || err2.diferente || err2.incorrect){
+      setErrorPSWS(err2);
       return;
     }
 
     //Creacion del objeto
     const newCustomer = {email, contraseña};
-    
-    //Conectar con el backend
 
     register(newCustomer)
     .catch (err => {
-      setError (true);
+      setErrorServer(true);
       return;
-    })
-    ;
-
+    });
     login({mail: newCustomer.email, pass: newCustomer.contraseña})
     .then(resp => {
       setUser(resp.user_id);
     })
     .catch (err => {
-      setError (true);
+      setErrorServer(true);
       return;
-    })
-    ;
-
-    setError(false);
-
+    });
+    setErrorMails({});
+    setErrorServer(false);
+    setErrorPSWS({});
     history.push ('/customer-account')
   }
 
   const handleSubmitLogin = async (e) => {
     e.preventDefault();    
-
-    // Validar que todos los campos esten llenos
-    if( mail === '' || pass === '' ){
-      setError2(true);
+    const err = validarLogin(mail, pass);
+    if( err.obligatorio ){
+      setErrorLogin(err);
       // detener la ejecución
       return;
     }
-
     //Creacion del objeto
     const customer = {mail, pass};
-    
-    //Conectar con el backend
-
-    /*
-    login(customer)
-    .then(resp => {
-      setUser(resp.user_id);
-    })
-    .catch (err => {
-      setError2 (true);
-      return;
-    });
-    */
-
     try{
       const resp = await login (customer)
       setUser (resp.user_id)
       }catch{
+        setErrorLogin({});
         setError2 (true);
         return;
     }
-
+    setErrorLogin({});
     setError2(false);
-
     history.push('/');
   }
 
@@ -138,9 +121,14 @@ const CustomerRegister = ({history,setUser}) => {
                 <p>Al registrarte accedes a un mundo lleno de productos de la última moda, descuentos fantásticos y mucho más para vos! El proceso entero no te llevará más de un minuto!</p>
                 <p className="text-muted">Si tenés alguna duda, por favor <Link to="/contact">contáctanos</Link>, nuestro servicio de atención al cliente trabaja 24/7.</p>
                 <hr />
-                { (error) ? <div className="alert alert-danger mt-2 mb-5 text-center">Todos los campos son obligatorios</div> : null}
-                { (errorMail) ? <div className="alert alert-danger mt-2 mb-5 text-center">Mail en uso</div> : null}
-                { (errorServer) ? <div className="alert alert-danger mt-2 mb-5 text-center">Error interno del servidor</div> : null}
+                {errorMails.obligatorio && <Error texto={errorMails.obligatorio}/>}
+                {errorMails.diferente && <Error texto={errorMails.diferente}/>}
+                {errorMails.formato && <Error texto={errorMails.formato}/>}
+                { errorMail && <Error texto="El email ya está en uso" />}
+                { errorPSWS.obligatorio && <Error texto={errorPSWS.obligatorio} />}
+                { errorPSWS.diferente && <Error texto={errorPSWS.diferente} />}
+                { errorPSWS.incorrect && <Error texto={errorPSWS.incorrect} />}
+                { errorServer &&  <Error texto="Error interno del servidor"/> }
                 <form onSubmit={handleSubmitRegister}>
                   <div className="form-group">
                     <label for="email-login">Email</label>
@@ -170,7 +158,8 @@ const CustomerRegister = ({history,setUser}) => {
                 <p className="lead">Ya estás registrado?</p>
                 <p className="text-muted">Si es así, por favor, ingresá tu email y contraseña.</p>
                 <hr />
-                { (error2) ? <div className="alert alert-danger mt-2 mb-5 text-center">Todos los campos son obligatorios</div> : null}
+                { error2 && <Error texto="Datos incorrectos" />}
+                { errorLogin.obligatorio && <Error texto={errorLogin.obligatorio} />}
                 <form onSubmit={handleSubmitLogin}>
                   <div className="form-group">
                     <label for="email">Email</label>

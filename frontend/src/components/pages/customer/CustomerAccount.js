@@ -141,7 +141,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
     const handleSubmitPSW = async(e) => {
       e.preventDefault();    
       const err = validarPsw(psw, psw2);
-      if (err.obligatorio || err.diferente){
+      if (err.obligatorio || err.diferente || err.incorrect){
           setErrorPSWS(err);
           setSuccessPSW(false);
           return;
@@ -206,6 +206,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
                 </div>
                 { errorPSWS.obligatorio && <Error texto={errorPSWS.obligatorio} />}
                 { errorPSWS.diferente && <Error texto={errorPSWS.diferente} />}
+                { errorPSWS.incorrect && <Error texto={errorPSWS.incorrect} />}
                 { successPSW && <Success texto="Cambios realizados con éxito" />}
                 <form onSubmit = {handleSubmitPSW}>
                   <div className="row">

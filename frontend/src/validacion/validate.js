@@ -9,7 +9,8 @@ const hayLetra = (cad) => {
     return false;
 }
 const distintos = (x,y) => x !== y;
-const patronEmail = (e) => !(/\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)/.test(e));
+const patronEmail = (e) => !(/^(?:[^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*|"[^\n"]+")@(?:[^<>()[\].,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,63}$/i.test(e));
+
 const obligatorio = (valor) => valor == null || valor.length == 0 || /^\s+$/.test(valor);
 const isNombre = (valor) => !(/^([a-z ñáéíóú]{3,15})$/i.test(valor));
 const isDni = (dni) => {
@@ -30,7 +31,9 @@ const isTel = (tel) => {
     }
     return false;
 }
-//Validaciones 
+const isPsw = (psw) => !(/^(?=.*\d)(?=.*[a-záéíóúüñ]).*[A-ZÁÉÍÓÚÜÑ]/.test(psw));
+
+//Validaciones del customer
 const validarEmail = (mail1, mail2) => {
     const errors = {}
     if (obligatorio(mail1) || obligatorio(mail2)){
@@ -50,6 +53,9 @@ const validarPsw = (psw1, psw2) => {
     const errors = {};
     if (obligatorio(psw2) || obligatorio(psw2)) {
         errors.obligatorio = "Todos los campos son obligatorios";
+    }
+    else if (isPsw(psw1) || psw1.length < 8) {
+        errors.incorrect = "La contraseña debe tener al menos 8 dígitos y estar compuesta por un número y una letra mayúscula";
     }
     else if (distintos(psw1, psw2)) {
         errors.diferente = "Ambas contraseñas deben coincidir";
@@ -86,5 +92,13 @@ const validarCustomer = (name, surname, tel, dni) => {
     return errors;
 }
 
+//Validacion del login
+const validarLogin = (mail, psw) => {
+    const errors = {};
+    if (obligatorio(mail) || obligatorio(psw)){
+        errors.obligatorio = "Todos los campos son obligatorios";
+    }
+    return errors;
+}
 
-export {validarEmail, validarPsw, validarCustomer};
+export {validarEmail, validarPsw, validarCustomer, validarLogin};
