@@ -163,6 +163,22 @@ const getPurchaseList = ({user_id}) => {
     .catch(err => {throw err})
 }
 
+const modPurchase = ({id,price,date,state,id_user,id_coupon}) => {
+    return axios
+    .post("/purchase/mod",{
+        id,
+        price,
+        date,
+        state,
+        id_user,
+        id_coupon
+    })
+    .then(res => {return res.data
+    })
+    .catch(err => {throw err})
+}
+
+
 const getPurchaseInfo = (id) => {
     return axios
     .post("/purchase/getInfo",{
@@ -179,6 +195,17 @@ const listPurchaseItems = (id) => {
         id
     })
     .then(res => {return res.data.data
+    })
+    .catch(err => {throw err})
+}
+
+const setPurchaseState = (id,state) => {
+    return axios
+    .post("/purchase/setState",{
+        id,
+        state
+    })
+    .then(res => {return res.data
     })
     .catch(err => {throw err})
 }
@@ -244,10 +271,16 @@ const useCoupon = id => {
     .catch(err => {throw err})
 }
 
-const addShipping = id => {
+const addShipping = ({id,address,zip,name,surname,dni,province}) => {
     return axios
     .post("/shipping/add",{
-        id
+        id,
+        address,
+        zip,
+        name,
+        surname,
+        dni,
+        province
     })
     .then(res => {return res.data})
     .catch(err => {throw err})
@@ -317,6 +350,17 @@ const getReservationItem = (id_user,id_color_size) => {
     .catch(err => {throw err})
 }
 
+const payMP = (list,id,coupon) => {
+    return axios
+    .post("/mercadopago",{
+        list,
+        id,
+        coupon
+    })
+    .then(res => {return res.data.data})
+    .catch(err => {throw err})
+}
+
 export {
     login, 
     register,
@@ -346,5 +390,8 @@ export {
     getReservation,
     addReservation,
     getReservationItem,
-    cancelReservation
+    cancelReservation,
+    payMP,
+    setPurchaseState,
+    modPurchase
 };

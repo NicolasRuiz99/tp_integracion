@@ -235,7 +235,7 @@ class Coupon:
         self.used = res[3]
 
 class Shipping:
-    def __init__ (self,address=None,zip=None,name=None,surname=None,dni=None,track_code=None,province=None,_id=None):
+    def __init__ (self,address=None,zip=None,name=None,surname=None,dni=None,province=None,_id=None,track_code=None):
         self.id = _id
         self.address = address
         self.zip = zip
@@ -257,7 +257,7 @@ class Shipping:
 
     def get (self):
         res = searchID ('shipping',self.id)  
-        if (len(res)==0):
+        if (res == None):
             self.id = None
         else:
             self.id = res[0]
@@ -284,6 +284,9 @@ class Purchase:
 
     def mod (self):
         updateTable ('purchase',(self.price,self.date,self.state,self.id_user,self.id_coupon, self.id),'price = %s, date = %s, state = %s, id_user = %s, id_coupon = %s')
+
+    def setState (self):
+        updateTable ('purchase',(self.state, self.id),'state = %s')
 
     def delete (self):
         deleteFromTable ('purchase',self.id)

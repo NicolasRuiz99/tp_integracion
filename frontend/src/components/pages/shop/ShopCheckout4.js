@@ -1,12 +1,50 @@
-import React, { Fragment } from 'react';
+import React, { Fragment,useState } from 'react';
 import OrderSummary from './OrderSummary';
 import BreadCrumbs from '../../BreadCrumbs';
 import {Link} from 'react-router-dom';
 import './../../../css/default.css';
 import CouponBox from './CouponBox';
 import Basket from './Basket';
+import { payMP, addShipping, modPurchase } from '../customer/utils/CustomerFunctions';
+import Error from '../../messages/Error';
 
-const ShopCheckout4 = ({route,coupon,setCoupon,cartInfo,ship,list,shipInfo}) => {
+const ShopCheckout4 = ({route,coupon,setCoupon,cartInfo,ship,list,shipInfo,history}) => {
+
+    const [error,setError] = useState (false);
+
+    const handleBuy = () => {
+      if (ship){
+        addShipping (shipInfo)
+        .then ()
+        .catch (err=>{
+          setError (true);
+          console.log(err);
+          
+          return;
+        })
+      }
+      let info = cartInfo;
+      info.state = 'pending' 
+      modPurchase (info)
+      .then ()
+      .catch (err=>{
+        setError (true);
+        return;
+      })
+      let pc = null;
+      if (coupon !== ''){
+          pc = coupon.pc
+      }
+      payMP (list,cartInfo.id,pc)
+      .then (res=>{
+          window.location.replace(res);
+      })
+      .catch (err=>{
+          setError(true);
+          return;
+      })
+      setError (false);
+    }
     return (
         <Fragment>
             <BreadCrumbs name={"Compra - Revisión"} />
@@ -43,9 +81,10 @@ const ShopCheckout4 = ({route,coupon,setCoupon,cartInfo,ship,list,shipInfo}) => 
                 <div className="box-footer d-flex flex-wrap align-items-center justify-content-between">
                   <div className="left-col"><Link to={`${route}/3`} className="btn btn-secondary mt-0"><i className="fa fa-chevron-left"></i>Volver al método de pago</Link></div>
                   <div className="right-col">
-                    <button type="submit" className="btn btn-main" >Confirmar<i className="fa fa-chevron-right"></i></button>
+                    <button type="submit" className="btn btn-main" onClick = {handleBuy} >Confirmar<i className="fa fa-chevron-right"></i></button>
                   </div>
                 </div>
+                {error && <Error texto="Ocurrió un error"/> }
               </div>
             </div>
             <div className="col-lg-3">

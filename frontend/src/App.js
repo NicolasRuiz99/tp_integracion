@@ -24,6 +24,7 @@ import Categorias from './components/pages/shop/ShopCategorias';
 import ShopDetail from './components/pages/shop/ShopDetail';
 import TopSellers from './components/pages/nav-items/TopSellers';
 import ShopCheckout from './components/pages/shop/ShopCheckout';
+import PurchResult from './components/pages/customer/purch_states/PurchResult';
 
 const App = () => {
 
@@ -87,6 +88,9 @@ const App = () => {
             )}/>
             <Route  path="/customer-orders" render={() =>(<CustomerOrders handleDrop={handleDrop} user_id={user_id} />)} />
             <Route  path="/customer-order/:id" render={(props) =>(<CustomerOrder props = {props} user_id={user_id} />)} />
+            <Route  path="/success/:id" render={(props) =>(<PurchResult props = {props} type = {1}/>)} />
+            <Route  path="/pending/:id" render={(props) =>(<PurchResult props = {props} type = {2}/>)} />
+            <Route  path="/failure/:id" render={(props) =>(<PurchResult props = {props} type = {3}/>)} />
             <Route  path="/customer-wishlist" render={() =>(<WishList handleDrop={handleDrop} user_id={user_id}/>)} />
             <Route  path="/customer-reservations" render={() =>(<Reservations handleDrop={handleDrop} user_id={user_id}/>)} />
             <Route  path='/customer-chat' render={() =>(<Chat user_name={'cliente'} />)} />

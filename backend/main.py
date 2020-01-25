@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, json
 from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases,listPurchaseItems,listCartItems,getCartInfo,listReservations,getReservationItem
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser
+from mp_api import pagar
 
 def handleError (error):
     detail = ''
@@ -10,6 +11,32 @@ def handleError (error):
     return jsonify ({'result': 'error', 'type': detail}), 500
 
 app = Flask(__name__)
+
+@app.route ('/mercadopago',methods=['POST'])
+def mercadopago():
+    items = []
+    error = False
+    lista = request.json['list']
+    id = request.json['id']
+    coupon  = request.json['coupon']
+    for i in lista:
+        precio = i['price'] - ((i['discount']*i['price'])/100)
+        if (coupon != None):
+            precio = precio - ((coupon*precio)/100)
+        items.append ({
+            "title": i['name'] + " color " + i['color'] + " talle " + i["size"],
+            "quantity": i['stock'],
+            "currency_id": "ARS",
+            "unit_price": precio
+        })
+    try:
+        url = pagar(items,id)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data': url})
 
 @app.route ('/user/list_emails',methods=['GET'])
 def list_emails():
@@ -679,6 +706,23 @@ def modPurchase():
     new = Purchase (price,date,state,id_user,id_coupon,id)
     try:
         new.mod()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success'})
+
+@app.route ('/purchase/setState',methods=['POST'])
+def setStatePurchase():
+    error = False
+    id = request.json['id']
+    state = request.json['state']
+    new = Purchase ()
+    new.id = id
+    new.state = state
+    try:
+        new.setState()
     except (Exception) as err:
         error = True
         return handleError (err)
