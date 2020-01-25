@@ -32,6 +32,7 @@ const isTel = (tel) => {
     return false;
 }
 const isPsw = (psw) => !(/^(?=.*\d)(?=.*[a-záéíóúüñ]).*[A-ZÁÉÍÓÚÜÑ]/.test(psw));
+const isZip = (zip) => !(/^\d{4}/.test(zip));
 
 //Validaciones del customer
 const validarEmail = (mail1, mail2) => {
@@ -101,4 +102,28 @@ const validarLogin = (mail, psw) => {
     return errors;
 }
 
-export {validarEmail, validarPsw, validarCustomer, validarLogin};
+//Validacion del carro
+const validarCarrito = (name, surname, zip, dni, province, address) => {
+    name = name.toLowerCase();
+    surname = surname.toLowerCase();
+    //zip = parseInt(zip);
+    const errors = {};
+    if (obligatorio(name) || obligatorio(surname) || obligatorio(zip) || obligatorio(address) || obligatorio(dni) || obligatorio(province) ) {
+        errors.obligatorio = "Todos los campos son obligatorios";
+    }
+    else if (isNombre(name)){
+        errors.name = "El nombre debe ser válido (15 carácteres máximo y 3 mínimo, sin números)";
+    }
+    else if (isNombre(surname)){        
+        errors.surname = "El apellido debe ser válido (15 carácteres máximo y 3 mínimo, sin números)";
+    }
+    else if (isDni(dni)) {
+        errors.dni = "El dni debe ser válido (8 carácteres máximo, sin letras)";
+    }
+    else if (isZip(zip)) {
+        errors.zip = "El código postal debe estar compuesto por 4 dígitos, sin letras";
+    }
+    return errors;
+}
+
+export {validarEmail, validarPsw, validarCustomer, validarLogin, validarCarrito};

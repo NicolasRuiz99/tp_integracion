@@ -6,6 +6,7 @@ import {getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo} from './uti
 import Error from '../../messages/Error';
 import Success from '../../messages/Success';
 import { validarEmail, validarPsw, validarCustomer} from '../../../validacion/validate';
+import DeleteAccountModal from '../../modals/DeleteAccountModal';
 
 const CustomerAccount = ({user_id, handleDrop}) => {
   
@@ -33,6 +34,13 @@ const CustomerAccount = ({user_id, handleDrop}) => {
     const [shoe_size,setShoe_size] = useState ('');
     const [phone_no,setPhone_no] = useState ('');
     const [serverError,setServerError] = useState (false);
+
+    //Eliminar cuenta
+    const [modalOpen, setModalOpen] = useState(false);
+  
+    const handleModalOpen = () => {
+      setModalOpen(!modalOpen);
+    }
     
     useEffect (()=>{
           getCustomerInfo (user_id)
@@ -160,6 +168,10 @@ const CustomerAccount = ({user_id, handleDrop}) => {
         })
       }
       setErrorPSWS({});
+    }
+
+    const handleDelete = () => {
+
     }
 
     return (
@@ -329,7 +341,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
                 </div>
                 <form>
                     <div className="text-center">
-                      <button type="submit" className="btn btn-danger"><i class="fas fa-minus-circle"></i> Eliminar cuenta :(</button>
+                      <button type="button" className="btn btn-danger" onClick={handleModalOpen}><i class="fas fa-minus-circle"></i> Eliminar cuenta :(</button>
                     </div>
                   </form>
               </div>
@@ -338,6 +350,12 @@ const CustomerAccount = ({user_id, handleDrop}) => {
           </div>
         </div>
       </div>
+      <DeleteAccountModal
+        modalOpen={modalOpen}
+        handleModalOpen={handleModalOpen}
+        id_user={user_id}
+        handleDrop = {handleDrop}
+     />
       </Fragment>
     );
 }

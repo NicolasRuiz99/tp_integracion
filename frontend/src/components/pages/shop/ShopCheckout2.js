@@ -5,6 +5,8 @@ import {Link,withRouter} from 'react-router-dom';
 import './../../../css/default.css';
 import { listProvinces } from './utils/shopFunctions';
 import ProvinceItem from '../../lists/ProvinceItem'
+import { validarCarrito } from '../../../validacion/validate';
+import Error from '../../messages/Error';
 
 const ShopCheckout2 = ({route,coupon,setCoupon,cartInfo,shipInfo,setShipInfo,history}) => {
 
@@ -16,15 +18,18 @@ const ShopCheckout2 = ({route,coupon,setCoupon,cartInfo,shipInfo,setShipInfo,his
     const [dni,setDNI] = useState ('');
     const [zip,setZIP] = useState ('');
     const [province,setProvince] = useState ('');
-    const [error,setError] = useState (false);
+
+    //State de validacion
+    const [errorCarrito, setErrorCarrito] = useState({});
 
     const handleSubmit = (e) => {
         e.preventDefault ();
-        if (name === '' || surname === '' || address === '' || dni === '' || zip === '' || province === ''){
-            setError (true);
+        const err = validarCarrito(name, surname, address, dni, zip, province);
+        console.log(err);
+        if (err.name || err.surname || err.obligatorio || err.dni || err.zip ){
+            setErrorCarrito(err);
             return;
         }
-        setError (false);
         setShipInfo ({
             id: cartInfo.id,
             name,
@@ -34,6 +39,7 @@ const ShopCheckout2 = ({route,coupon,setCoupon,cartInfo,shipInfo,setShipInfo,his
             zip,
             province
         })
+        setErrorCarrito({});
         history.push (`${route}/3`);
     }
 
@@ -76,7 +82,11 @@ const ShopCheckout2 = ({route,coupon,setCoupon,cartInfo,shipInfo,setShipInfo,his
                             <li className="nav-item"><Link to="#" className="nav-link disabled"><i className="fa fa-eye"></i><br/>Revisión del pedido</Link></li>
                         </ul>
                         <div className="content">
-                            { (error) ? <div className="alert alert-danger mt-2 mb-5 text-center">Todos los campos son obligatorios</div> : null}
+                            {errorCarrito.name && <Error texto={errorCarrito.name}/>}
+                            {errorCarrito.surname && <Error texto={errorCarrito.surname}/>}
+                            {errorCarrito.dni && <Error texto={errorCarrito.dni}/>}
+                            {errorCarrito.zip && <Error texto={errorCarrito.zip}/>}
+                            {errorCarrito.obligatorio && <Error texto={errorCarrito.obligatorio}/>}
                             <div className="row">
                             <div className="col-sm-6">
                                 <div className="form-group">

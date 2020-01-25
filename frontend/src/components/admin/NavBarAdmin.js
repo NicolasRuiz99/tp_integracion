@@ -3,13 +3,9 @@ import { Link, withRouter } from 'react-router-dom';
 import './../../css/default.css';
 import logo from './../../assets/logo.png';
 
-const NavBarAdmin = ({setSearch, history}) => {
+const NavBarAdmin = ({history}) => {
 
-    const sendSearch = (event) => {
-      event.preventDefault();
-      history.push('/shop-category');
-    }
-
+ 
     return (
       <header className="nav-holder make-sticky">
         <div id="navbar" role="navigation" className="navbar navbar-expand-lg navbar-light">
@@ -20,29 +16,18 @@ const NavBarAdmin = ({setSearch, history}) => {
             <div id="navbarSupportedContent" class="collapse navbar-collapse">
               <ul className="nav navbar-nav m-auto">
                 <li className="nav-item">
-                  <Link to="/shop-category" className="nav-link ">Ventas</Link>
+                  <Link to="/admin-sells" className="nav-link ">Ventas</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/populars" className="nav-link ">Reservas</Link>
+                  <Link to="/admin-reservations" className="nav-link ">Reservas</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/ofertas" className="nav-link ">Productos</Link>
+                  <Link to="/admin-products" className="nav-link ">Productos</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/contact" className="nav-link ">Clientes</Link>
+                  <Link to="/admin-customers" className="nav-link ">Clientes</Link>
                 </li>
-              </ul>
-              <form role="search" className="navbar-form">
-                <div className="input-group">
-                  <input 
-                  type="search" placeholder="Buscar" 
-                  className="form-control" style={{'border-color':'#F4F6F6'}}
-                  onChange={({ target: { value } }) => setSearch(value)}
-                  onKeyPress={event => event.key === 'Enter' ? sendSearch(event) : null}
-                  /><span className="input-group-btn"></span>
-                    <button type="submit" className="btn btn-main" onClick={e => sendSearch(e)}><i className="fa fa-search"></i></button>
-                </div>
-              </form> 
+              </ul> 
           </div>
         </div>
       </header>        

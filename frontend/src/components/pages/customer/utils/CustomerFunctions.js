@@ -37,6 +37,15 @@ const getCustomerInfo = id => {
     .catch(err => {throw err})
 }
 
+const deleteCustomer = id => {
+    return axios
+    .post("/user/delete", {
+        id
+    })
+    .then(res => {console.log(res.data); return res.data})
+    .catch(err => {throw err})
+}
+
 const addCustomerInfo = ({dni,name,surname,genre,c_size,shoe_size,phone_no,id_user}) => {
     return axios
     .post("/customer/add",{
@@ -365,6 +374,7 @@ export {
     login, 
     register,
     getEMails,
+    deleteCustomer,
     getCustomerInfo,
     addCustomerInfo,
     modCustomerInfo,
