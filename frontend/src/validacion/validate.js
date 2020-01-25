@@ -1,4 +1,7 @@
-const CARACTERES ="abcdefghyjklmnñopqrstuvwxyzABCDEFGHYJKLMNÑOPQRSTUVWXYZ.,{}´`*-!?¿%&$#¡<>[]^~¨+/|¬@:;=";
+const CARACTERES ="abcdefghyjklmnñopqrstuvwxyzABCDEFGHYJKLMNÑOPQRSTUVWXYZáéíóúÁÉÍÓÚ.°',_{}´`*-!?¿%&$#¡<>[]^~¨+/|¬@:;=";
+const LETRAS = "abcdefghyjklmnñopqrstuvwxyzABCDEFGHYJKLMNÑOPQRSTUVWXYZáéíóúÁÉÍÓÚ";
+const SIMBOLOS = ".°',_{}´`*-!?¿%&$#¡<>[]^~¨+/|¬@:;=";
+const NUMEROS = "0123456789";
 //Funciones de ayuda
 const hayLetra = (cad) => {
     for(let i=0; i < cad.length; i++){
@@ -8,9 +11,32 @@ const hayLetra = (cad) => {
     }
     return false;
 }
+const hayLetra2 = (cad) => {
+    for(let i=0; i < cad.length; i++){
+        if (LETRAS.indexOf(cad.charAt(i),0)!=-1){
+           return true;
+        }
+    }
+    return false;
+}
+const hayNumero = (cad) => {
+    for(let i=0; i < cad.length; i++){
+        if (NUMEROS.indexOf(cad.charAt(i),0)!=-1){
+           return true;
+        }
+    }
+    return false;
+}
+const haySimbolo = (cad) => {
+    for(let i=0; i < cad.length; i++){
+        if (SIMBOLOS.indexOf(cad.charAt(i),0)!=-1){
+           return true;
+        }
+    }
+    return false;
+}
 const distintos = (x,y) => x !== y;
 const patronEmail = (e) => !(/^(?:[^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*|"[^\n"]+")@(?:[^<>()[\].,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,63}$/i.test(e));
-
 const obligatorio = (valor) => valor == null || valor.length == 0 || /^\s+$/.test(valor);
 const isNombre = (valor) => !(/^([a-z ñáéíóú]{3,15})$/i.test(valor));
 const isDni = (dni) => {
@@ -32,7 +58,7 @@ const isTel = (tel) => {
     return false;
 }
 const isPsw = (psw) => !(/^(?=.*\d)(?=.*[a-záéíóúüñ]).*[A-ZÁÉÍÓÚÜÑ]/.test(psw));
-const isZip = (zip) => !(/^\d{4}/.test(zip));
+const isZip = (zip) => !(/^\d{4}$/.test(zip));
 
 //Validaciones del customer
 const validarEmail = (mail1, mail2) => {
@@ -103,13 +129,15 @@ const validarLogin = (mail, psw) => {
 }
 
 //Validacion del carro
-const validarCarrito = (name, surname, zip, dni, province, address) => {
+const validarCarrito = (name, surname, address, dni, zip, province) => {
     name = name.toLowerCase();
     surname = surname.toLowerCase();
-    //zip = parseInt(zip);
     const errors = {};
     if (obligatorio(name) || obligatorio(surname) || obligatorio(zip) || obligatorio(address) || obligatorio(dni) || obligatorio(province) ) {
         errors.obligatorio = "Todos los campos son obligatorios";
+    }
+    else if (!hayNumero(address) || !hayLetra2(address)|| haySimbolo(address) ) {
+        errors.address = "Domicilio inválido";
     }
     else if (isNombre(name)){
         errors.name = "El nombre debe ser válido (15 carácteres máximo y 3 mínimo, sin números)";
@@ -123,6 +151,7 @@ const validarCarrito = (name, surname, zip, dni, province, address) => {
     else if (isZip(zip)) {
         errors.zip = "El código postal debe estar compuesto por 4 dígitos, sin letras";
     }
+    
     return errors;
 }
 

@@ -25,8 +25,7 @@ const ShopCheckout2 = ({route,coupon,setCoupon,cartInfo,shipInfo,setShipInfo,his
     const handleSubmit = (e) => {
         e.preventDefault ();
         const err = validarCarrito(name, surname, address, dni, zip, province);
-        console.log(err);
-        if (err.name || err.surname || err.obligatorio || err.dni || err.zip ){
+        if (err.name || err.surname || err.obligatorio || err.dni || err.zip || err.address){
             setErrorCarrito(err);
             return;
         }
@@ -86,6 +85,7 @@ const ShopCheckout2 = ({route,coupon,setCoupon,cartInfo,shipInfo,setShipInfo,his
                             {errorCarrito.surname && <Error texto={errorCarrito.surname}/>}
                             {errorCarrito.dni && <Error texto={errorCarrito.dni}/>}
                             {errorCarrito.zip && <Error texto={errorCarrito.zip}/>}
+                            {errorCarrito.address && <Error texto={errorCarrito.address}/>}
                             {errorCarrito.obligatorio && <Error texto={errorCarrito.obligatorio}/>}
                             <div className="row">
                             <div className="col-sm-6">
