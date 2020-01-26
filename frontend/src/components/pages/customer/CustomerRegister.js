@@ -65,22 +65,25 @@ const CustomerRegister = ({history,setUser}) => {
     const newCustomer = {email, contraseña};
 
     register(newCustomer)
-    .catch (err => {
-      setErrorServer(true);
-      return;
-    });
-    login({mail: newCustomer.email, pass: newCustomer.contraseña})
-    .then(resp => {
-      setUser(resp.user_id);
+    .then (res=>{
+        setUser(res.user_id);
     })
     .catch (err => {
       setErrorServer(true);
       return;
     });
+    //login({mail: newCustomer.email, pass: newCustomer.contraseña})
+    //.then(resp => {
+    //  setUser(resp.user_id);
+    //})
+    //.catch (err => {
+    //  setErrorServer(true);
+    //  return;
+    //});
     setErrorMails({});
     setErrorServer(false);
     setErrorPSWS({});
-    history.push ('/customer-account')
+    history.push ('/');
   }
 
   const handleSubmitLogin = async (e) => {

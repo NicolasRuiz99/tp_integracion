@@ -2,7 +2,7 @@ import React, { Fragment,useEffect,useState } from 'react';
 import CustomerSection from './CustomerSection';
 import './../../../css/default.css';
 import BreadCrumbs from '../../BreadCrumbs';
-import {getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo} from './utils/CustomerFunctions'
+import {getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo, getUserInfo} from './utils/CustomerFunctions'
 import Error from '../../messages/Error';
 import Success from '../../messages/Success';
 import { validarEmail, validarPsw, validarCustomer} from '../../../validacion/validate';
@@ -43,12 +43,19 @@ const CustomerAccount = ({user_id, handleDrop}) => {
     }
     
     useEffect (()=>{
+          getUserInfo (user_id)
+          .then (res=>{
+            setEmail (res.e_mail);
+            setPsw (res.psw);
+          })
+          .catch (err=>{
+            setServerError (true);
+            return;
+          })
           getCustomerInfo (user_id)
           .then (res => {        
             if (res.length > 0){
               res = res[0];
-              setEmail (res.e_mail);
-              setPsw (res.psw);
               setDni (res.dni);
               setName (res.name);
               setSurnname (res.surname);
