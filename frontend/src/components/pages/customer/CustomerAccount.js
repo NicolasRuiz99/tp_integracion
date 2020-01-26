@@ -2,7 +2,11 @@ import React, { Fragment,useEffect,useState } from 'react';
 import CustomerSection from './CustomerSection';
 import './../../../css/default.css';
 import BreadCrumbs from '../../BreadCrumbs';
+<<<<<<< HEAD
 import {getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo, getUser} from './utils/CustomerFunctions'
+=======
+import {getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo, getUserInfo} from './utils/CustomerFunctions'
+>>>>>>> a9b0ba8b099712c3f3c4acea73b215fee48cea05
 import Error from '../../messages/Error';
 import Success from '../../messages/Success';
 import { validarEmail, validarPsw, validarCustomer} from '../../../validacion/validate';
@@ -42,6 +46,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
       setModalOpen(!modalOpen);
     }
     useEffect (()=>{
+<<<<<<< HEAD
       console.log(user_id);
       if(user_id !== null){
       getUser(user_id)
@@ -79,6 +84,36 @@ const CustomerAccount = ({user_id, handleDrop}) => {
       });
       
       setServerError (false);
+=======
+          getUserInfo (user_id)
+          .then (res=>{
+            setEmail (res.e_mail);
+            setPsw (res.psw);
+          })
+          .catch (err=>{
+            setServerError (true);
+            return;
+          })
+          getCustomerInfo (user_id)
+          .then (res => {        
+            if (res.length > 0){
+              res = res[0];
+              setDni (res.dni);
+              setName (res.name);
+              setSurnname (res.surname);
+              setGenre (res.genre);
+              setC_size (res.c_size);
+              setShoe_size (res.shoe_size);
+              setPhone_no (res.phone_no);
+              setCustomer_id (res.id);
+            }
+          })
+          .catch (err => {
+              setServerError (true);
+              return;
+          });
+          setServerError (false);
+>>>>>>> a9b0ba8b099712c3f3c4acea73b215fee48cea05
     },[user_id]);
 
    

@@ -105,12 +105,13 @@ def registerUser():
     new = User (e_mail,psw,id_role)
     try:
         new.register()
+        user_id = logInUser (e_mail,psw)
     except (Exception) as err:
         error = True
         return handleError (err)
     finally:
         if not (error):
-            return jsonify({'result' : 'success'})
+            return jsonify({'result' : 'success','user_id': user_id})
 
 @app.route ('/user/mod',methods=['POST'])
 def modUser():

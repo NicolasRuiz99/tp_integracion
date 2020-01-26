@@ -119,7 +119,7 @@ const ShopDetail = ({props,user_id,history}) => {
   const deleteReservation = () => {
       cancelReservation (resID)
       .then (res=>{
-        setIsReserved (false);
+        history.push ('/customer-reservations');
       })
       .catch (err=>{
         setError (true);

@@ -17,7 +17,7 @@ const register = user => {
         psw: user.contraseña,
         id_role: 2
     })
-    .then(res => {console.log(res.data); return res.data})
+    .then(res => {return res.data})
     .catch(err => {throw err})
 }
 
@@ -31,6 +31,15 @@ const getEMails = () => {
 const getCustomerInfo = id => {
     return axios
     .post("/user/getCustomer",{
+        id
+    })
+    .then(res => {return res.data.data})
+    .catch(err => {throw err})
+}
+
+const getUserInfo = id => {
+    return axios
+    .post("/user/get",{
         id
     })
     .then(res => {return res.data.data})
@@ -413,5 +422,6 @@ export {
     cancelReservation,
     payMP,
     setPurchaseState,
-    modPurchase
+    modPurchase,
+    getUserInfo
 };

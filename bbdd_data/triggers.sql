@@ -64,8 +64,9 @@ ELSE
 		UPDATE "color_size" 
 		SET stock = stock + (SELECT pitem.stock FROM purchxitem pitem WHERE id_purchase = NEW.id AND pitem.id_color_size = id) 
 		WHERE id IN (SELECT id_color_size FROM purchxitem WHERE id_purchase = NEW.id);
+		
+		UPDATE "coupon" SET used = false WHERE id = NEW.id_coupon;
 	END IF;
-	UPDATE "coupon" SET used = false WHERE id = NEW.id_coupon;
 END IF;
 RETURN NEW;
 END; $funcemp$ LANGUAGE plpgsql;

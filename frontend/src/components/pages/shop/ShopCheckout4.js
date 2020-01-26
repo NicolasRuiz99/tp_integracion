@@ -24,17 +24,21 @@ const ShopCheckout4 = ({route,coupon,setCoupon,cartInfo,ship,list,shipInfo,histo
         })
       }
       let info = cartInfo;
-      info.state = 'pending' 
+      info.state = 'pending';
+
+      let pc = null;
+      if (coupon !== ''){
+        pc = coupon.pc
+        info.id_coupon = coupon.id
+      }
       modPurchase (info)
       .then ()
       .catch (err=>{
         setError (true);
         return;
       })
-      let pc = null;
-      if (coupon !== ''){
-          pc = coupon.pc
-      }
+      
+      
       payMP (list,cartInfo.id,pc)
       .then (res=>{
           window.location.replace(res);
