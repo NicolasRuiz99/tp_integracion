@@ -5,7 +5,8 @@ import Review from './../Review';
 import Rating from './Rating';
 import './../../../css/default.css';
 import {getProductInfo,getProductColor_size,getProductReview} from './utils/shopFunctions';
-import {getWishlistItem,addWishlistItem,deleteWishlistItem,getUserPurchaseItem} from '../customer/utils/CustomerFunctions';
+import {getWishlistItem,addWishlistItem,deleteWishlistItem,getUserPurchaseItem,addCartItem,getCartInfo,
+        addReservation,getReservationItem, cancelReservation} from '../customer/utils/CustomerFunctions';
 //React image gallery
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from 'react-image-gallery';
@@ -19,8 +20,10 @@ import img from "./../../../assets/detailsquareBig.jpg";
 import img2 from "./../../../assets/detailsquare.jpg";
 import ReviewList from '../../lists/ReviewList';
 import Color_sizeList from '../../lists/Color_sizeList';
+import Spinner from 'react-bootstrap/Spinner';
+import Error from '../../messages/Error';
 
-const ShopDetail = ({props,user_id}) => {
+const ShopDetail = ({props,user_id,history}) => {
     const images = [
     {
       original: img,
@@ -42,7 +45,11 @@ const ShopDetail = ({props,user_id}) => {
     const [isPurchased,setPurchased] = useState (false);
     const [isReviewed,setReviewed] = useState (false);
     const [selectedItem,setSelectedItem] = useState ({});
-    const [selectedStock,setSelectedStock] = useState (0);
+    const [selectedStock,setSelectedStock] = useState (1);
+    const [loading,setLoading] = useState (false);
+    const [isReserved,setIsReserved] = useState (false);
+    const [resID,setResID] = useState (null);
+    const [stockError,setStockError] = useState (false);
 
     const getAverage = (list) => {
       let total = 0;
@@ -88,8 +95,65 @@ const ShopDetail = ({props,user_id}) => {
         })
       }
     }
-    
+
+    const ManageReservation = () => {
+        if (selectedStock <= 0 || selectedStock > selectedItem.stock){
+          setSelectedStock (1);
+          setStockError (true);
+          return;
+        }
+        setStockError (false);
+        let id_user = user_id;
+        let stock = selectedStock;
+        let id_color_size = selectedItem.id;
+        addReservation({stock,id_user,id_color_size})
+        .then(res => {
+          history.push ('/customer-reservations');
+        })
+        .catch (err =>{
+          setError (true);
+          return;
+    })
+  }
+
+  const deleteReservation = () => {
+      cancelReservation (resID)
+      .then (res=>{
+        history.push ('/customer-reservations');
+      })
+      .catch (err=>{
+        setError (true);
+      })
+      setError (false);
+  }
+
+    const addToCart = () =>{
+        if (selectedStock <= 0 || selectedStock > selectedItem.stock){
+            setSelectedStock (1);
+            setStockError (true);
+            return;
+        }
+        setStockError (false);
+        getCartInfo (user_id)
+        .then (res => {
+            addCartItem (selectedItem.id,res[0].id,selectedStock)
+            .then (res=>{
+              history.push('/shop-checkout/cart');
+            })
+            .catch (err => {
+                setError (true);
+                return;
+            })
+        })
+        .catch (err => {
+            setError (true);
+            return;
+        }) 
+    }
+
+    //use effect inicial
     useEffect (()=>{
+      setLoading (true);
       const product_id = props.match.params.id;
       
       getProductInfo (product_id)
@@ -138,16 +202,32 @@ const ShopDetail = ({props,user_id}) => {
         setError (true);
         return;
       })
-
       setError (false);
       
     },[user_id,isReviewed])
+
+    // use effect para cuando se actualiza el item seleccionado
+    useEffect (()=>{
+        getReservationItem (user_id,selectedItem.id)
+        .then (res=>{
+          if (res.length === 0){
+              setIsReserved (false);
+          }else{
+            setIsReserved (true);
+            setResID (res[0].id);
+          }
+        })
+        .catch (err=>{
+          setError (true);
+          return;
+        })
+        setError (false);
+    },[selectedItem])
 
     if (user_id === null){
     return (
         <Fragment>
       <BreadCrumbs name={prodInfo.name} />
-
       <div id="content">
         <div className="container">
           <div className="row bar">
@@ -159,7 +239,7 @@ const ShopDetail = ({props,user_id}) => {
                 <div className="col-sm-5">
                   <div className="box mb-4 mt-4">
                     <form>
-                      <Color_sizeList list = {color_size} setSelectedItem = {setSelectedItem} setSelectedStock = {setSelectedStock} />
+                      <Color_sizeList list = {color_size} setSelectedItem = {setSelectedItem} setSelectedStock = {setSelectedStock} selectedStock = {selectedStock} />
                       <div className="col-sm-11">
                       <div className="product">
                         <p className="price"> {(prodInfo.discount !== 0)?<del> ${prodInfo.price} </del> : null} ${prodInfo.price-((prodInfo.discount*prodInfo.price)/100)}</p> 
@@ -235,7 +315,6 @@ const ShopDetail = ({props,user_id}) => {
     return (
         <Fragment>
       <BreadCrumbs name={prodInfo.name} />
-
       <div id="content">
         <div className="container">
           <div className="row bar">
@@ -247,21 +326,30 @@ const ShopDetail = ({props,user_id}) => {
                 <div className="col-sm-6">
                   <div className="box mb-4 mt-4">
                     <form>
-                      <Color_sizeList list = {color_size} setSelectedItem = {setSelectedItem} setSelectedStock = {setSelectedStock} />
+                      <Color_sizeList list = {color_size} setSelectedItem = {setSelectedItem} setSelectedStock = {setSelectedStock} selectedStock = {selectedStock}/>
                       <div className="col-sm-11">
                       <div className="product">
                         <p className="price"> {(prodInfo.discount !== 0)?<del> ${prodInfo.price} </del> : null} ${prodInfo.price-((prodInfo.discount*prodInfo.price)/100)}</p> 
                       </div>
                       <p className="text-center">
-                        <button className="btn btn-outlined"><i className="fa fa-shopping-cart"></i> Añadir al carrito</button>
-                        <button data-toggle="tooltip" data-placement="top" title={`${(isWishlisted) ? 'Eliminar de mis deseos' : 'Añadir a mis deseos'}`} 
+                        {(selectedItem.stock === 0)?
+                        <button className="btn btn-outlined" disabled ><i className="fa fa-shopping-cart"></i> Añadir al carrito</button>
+                        :
+                        <button type="button"  className="btn btn-outlined" onClick={addToCart} ><i className="fa fa-shopping-cart"></i> Añadir al carrito</button>
+                        }                      
+                        <button data-toggle="tooltip" type="button" data-placement="top" title={`${(isWishlisted) ? 'Eliminar de mis deseos' : 'Añadir a mis deseos'}`} 
                         className={`btn ${(isWishlisted) ? ('btn-danger') : ('btn-default')}`} 
                         onClick={ManageWishlist}>
                           <i className="fa fa-heart-o"></i>
                         </button>
-                        <button data-toggle="tooltip" data-placement="top" title="Reservar" className="btn btn-default"><i class="far fa-calendar-alt"></i></button>
+                        <button type="button" data-toggle="tooltip" data-placement="top" title={(isReserved)?"Cancelar reserva":"Reservar"} 
+                        className={(isReserved)?"btn btn-danger":"btn btn-default"}
+                        onClick={(isReserved)?deleteReservation:ManageReservation}>
+                          <i class="far fa-calendar-alt"></i>
+                        </button>
                         </p>
                       </div>
+                      {stockError && <Error texto="Stock no permitido"/> }
                     </form>
                   </div>
                 </div>

@@ -25,6 +25,7 @@ const CustomerSection = ({user_name, handleDrop}) => {
                     <li className="nav-item"><Link to="/customer-orders"  ClassName="nav-link 
                     "    ><i className="fa fa-list"></i> Mis compras</Link></li>
                     <li className="nav-item "><Link to="/customer-wishlist" ClassName="nav-link" ><i className="fa fa-heart"></i> Mis deseos</Link></li>
+                    <li className="nav-item "><Link to="/customer-reservations" ClassName="nav-link" ><i class="far fa-calendar-alt"></i> Mis reservas</Link></li>
                     <li className="nav-item"><Link to="/customer-account" ClassName="nav-link"><i className="fa fa-user"></i> Mi cuenta</Link></li>
                     <li className="nav-item"><Link to={`/customer-chat?chatID=${user_name}&room=${1}`} ClassName="nav-link"><i class="fas fa-comments"></i> Chat</Link></li>
                     <li className="nav-item"><Link onClick={handleModalOpen} ClassName="nav-link" ><i className="fa fa-sign-out"></i> Salir</Link></li>

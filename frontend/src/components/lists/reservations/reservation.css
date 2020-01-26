@@ -1,0 +1,52 @@
+.reserve span.color {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-top: 10px;
+    margin-left: 5px;
+    border: 1px solid #555;
+  }
+
+.reserve label {
+    font-size: 0.8rem;
+    font-weight: 400 !important;
+    color: #777;
+    opacity: 0.9;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.reserve span.color.blanco {
+    background: #fff;
+  }
+  
+  .reserve span.color.azul {
+    background: #007bff;
+  }
+  
+  .reserve span.color.verde {
+    background: #28a745;
+  }
+  
+  .reserve span.color.rojo {
+    background: #dc3545;
+  }
+  
+  .reserve span.color.amarillo {
+    background: #ffc107;
+  }
+  
+  .reserve span.color.purpura {
+    background: #7d2181;
+  }
+  
+  .reserve span.color.magenta {
+    background: #FF00FF;
+  }
+  .reserve span.color.naranja {
+    background: #ff8000;
+  }
+
+.cancelar i {
+    color: #dc3545;
+}

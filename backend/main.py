@@ -1,7 +1,8 @@
 from flask import Flask, jsonify, request, json
-from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos
+from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases,listPurchaseItems,listCartItems,getCartInfo,listReservations,getReservationItem
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser
+from mp_api import pagar
 
 def handleError (error):
     detail = ''
@@ -10,6 +11,32 @@ def handleError (error):
     return jsonify ({'result': 'error', 'type': detail}), 500
 
 app = Flask(__name__)
+
+@app.route ('/mercadopago',methods=['POST'])
+def mercadopago():
+    items = []
+    error = False
+    lista = request.json['list']
+    id = request.json['id']
+    coupon  = request.json['coupon']
+    for i in lista:
+        precio = i['price'] - ((i['discount']*i['price'])/100)
+        if (coupon != None):
+            precio = precio - ((coupon*precio)/100)
+        items.append ({
+            "title": i['name'] + " color " + i['color'] + " talle " + i["size"],
+            "quantity": i['stock'],
+            "currency_id": "ARS",
+            "unit_price": precio
+        })
+    try:
+        url = pagar(items,id)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data': url})
 
 @app.route ('/user/list_emails',methods=['GET'])
 def list_emails():
@@ -78,12 +105,13 @@ def registerUser():
     new = User (e_mail,psw,id_role)
     try:
         new.register()
+        user_id = logInUser (e_mail,psw)
     except (Exception) as err:
         error = True
         return handleError (err)
     finally:
         if not (error):
-            return jsonify({'result' : 'success'})
+            return jsonify({'result' : 'success','user_id': user_id})
 
 @app.route ('/user/mod',methods=['POST'])
 def modUser():
@@ -526,22 +554,6 @@ def addCoupon():
         if not (error):
             return jsonify({'result' : 'success'})
 
-@app.route ('/coupon/mod',methods=['POST'])
-def modCoupon():
-    error = False
-    id = request.json['id']
-    pc = request.json['pc']
-    cad_date = request.json['cad_date']
-    new = Coupon (pc,cad_date,id)
-    try:
-        new.mod()
-    except (Exception) as err:
-        error = True
-        return handleError (err)
-    finally:
-        if not (error):
-            return jsonify({'result' : 'success'})
-
 @app.route ('/coupon/delete',methods=['POST'])
 def deleteCoupon():
     error = False
@@ -562,27 +574,47 @@ def getCoupon():
     error = False
     id = request.json['id']
     new = Coupon ()
+    new.id = id
     try:
-        new.get(id)
+        new.get()
     except (Exception) as err:
         error = True
         return handleError (err)
     finally:
-        if not (error):
-            result = dict (id = new.id, pc = new.pc, cad_date = new.cad_date)
-            return jsonify({'result': 'success','data' : result})
+        if not (error):       
+            if (new.used == True):
+                return jsonify({'result': 'used'})
+            else:
+                result = dict (id = new.id, pc = new.pc, cad_date = new.cad_date, used = new.used)
+                return jsonify({'result': 'success','data' : result})     
+
+@app.route ('/coupon/use',methods=['POST'])
+def useCoupon():
+    error = False
+    id = request.json['id']
+    new = Coupon ()
+    new.id = id
+    try:
+        new.get()
+        new.use()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):       
+            return jsonify({'result': 'success'})   
 
 @app.route ('/shipping/add',methods=['POST'])
 def addShipping():
     error = False
+    id = request.json['id']
     address = request.json['address']
     zip = request.json['zip']
     name = request.json['name']
     surname = request.json['surname']
     dni = request.json['dni']
-    track_code = request.json['track_code']
     province = request.json['province']
-    new = Shipping (address,zip,name,surname,dni,track_code,province)
+    new = Shipping (address,zip,name,surname,dni,province,id)
     try:
         new.add()
     except (Exception) as err:
@@ -633,8 +665,9 @@ def getShipping():
     error = False
     id = request.json['id']
     new = Shipping ()
+    new.id = id
     try:
-        new.get(id)
+        new.get()
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -671,10 +704,26 @@ def modPurchase():
     state = request.json['state']
     id_user = request.json['id_user']
     id_coupon = request.json['id_coupon']
-    id_shipping = request.json['id_shipping']
-    new = Purchase (price,date,state,id_user,id_coupon,id_shipping,id)
+    new = Purchase (price,date,state,id_user,id_coupon,id)
     try:
         new.mod()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success'})
+
+@app.route ('/purchase/setState',methods=['POST'])
+def setStatePurchase():
+    error = False
+    id = request.json['id']
+    state = request.json['state']
+    new = Purchase ()
+    new.id = id
+    new.state = state
+    try:
+        new.setState()
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -697,20 +746,46 @@ def deletePurchase():
         if not (error):
             return jsonify({'result' : 'success'})
 
-@app.route ('/purchase/get',methods=['POST'])
-def getPurchase():
+@app.route ('/purchase/getInfo',methods=['POST'])
+def getPurchaseInfo():
     error = False
+    result = {}
     id = request.json['id']
-    new = Purchase ()
+    purch = Purchase ()
+    purch.id = id
     try:
-        new.get(id)
+        purch.get()
+        result['purchase'] = (dict (id = purch.id,price = purch.price,date = purch.date,state = purch.state)) 
+        ship = Shipping ()
+        ship.id = id
+        ship.get()
+        if (ship.id != None):
+            result['shipping'] = (dict (id = ship.id, address = ship.address, zip = ship.zip, name = ship.name, surname = ship.surname, dni = ship.dni, track_code = ship.track_code, province = ship.province))
+        if (purch.id_coupon != None):
+            coup = Coupon ()
+            coup.id = purch.id_coupon
+            coup.get()
+            result['coupon'] = (dict (id = coup.id, pc = coup.pc, cad_date = coup.cad_date, used = coup.used))
     except (Exception) as err:
         error = True
         return handleError (err)
     finally:
         if not (error):
-            result = dict (id = new.id, price = new.price, date = new.date, state = new.state, id_user = new.id_user, id_coupon = new.id_coupon ,id_shipping = new.id_shipping)
             return jsonify({'result': 'success','data' : result})
+
+@app.route ('/purchase/listItems',methods=['POST'])
+def listUserPurchaseItems():
+    result = []
+    error = False
+    id = request.json['id']
+    try:
+        result = listPurchaseItems (id)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data' : result})
 
 @app.route ('/purchase/item',methods=['POST'])
 def getPurchItem():
@@ -729,7 +804,21 @@ def getPurchItem():
         if not (error):
             return jsonify({'result' : 'success','data' : result})
 
-@app.route ('/purchxitem/add',methods=['POST'])
+@app.route ('/purchase/list',methods=['POST'])
+def listUserPurchase():
+    result = []
+    error = False
+    id_user = request.json['id_user']
+    try:
+        result = listPurchases (id_user)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data' : result})
+
+@app.route ('/cart/add',methods=['POST'])
 def addPurchxitem():
     error = False
     id_purchase = request.json['id_purchase']
@@ -745,6 +834,73 @@ def addPurchxitem():
         if not (error):
             return jsonify({'result' : 'success'})
 
+@app.route ('/cart/delete',methods=['POST'])
+def deleteCartItem():
+    error = False
+    id_purchase = request.json['id_purchase']
+    id_color_size = request.json['id_color_size']
+    new = Purchxitem (id_purchase,id_color_size)
+    try:
+        new.delete()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success'})
+
+@app.route ('/cart/listItems',methods=['POST'])
+def listUserCartItems():
+    result = []
+    error = False
+    user_id = request.json['user_id']
+    try:
+        result = listCartItems (user_id)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data' : result})
+
+@app.route ('/cart/getInfo',methods=['POST'])
+def getUserCartInfo():
+    result = []
+    error = False
+    user_id = request.json['user_id']
+    try:
+        result = getCartInfo (user_id)
+        if len (result) == 0:
+            new = Purchase ()
+            new.id_user = user_id
+            new.add ()
+            result = getCartInfo (user_id)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data' : result})
+
+"""
+@app.route ('/purchxitem/add',methods=['POST'])
+def addPurchxitem():
+    error = False
+    id_purchase = request.json['id_purchase']
+    id_color_size = request.json['id_color_size']
+    stock = request.json['stock']
+    new = Purchxitem (id_purchase,id_color_size,stock)
+    try:
+        new.add()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success'})
+"""
+
+"""
 @app.route ('/purchxitem/delete',methods=['POST'])
 def deletePurchxitem():
     error = False
@@ -759,6 +915,7 @@ def deletePurchxitem():
     finally:
         if not (error):
             return jsonify({'result' : 'success'})
+"""
 
 @app.route ('/purchxitem/get',methods=['POST'])
 def getPurchxitem():
@@ -779,12 +936,10 @@ def getPurchxitem():
 @app.route ('/reservation/add',methods=['POST'])
 def addReservation():
     error = False
-    date = request.json['date']
     stock = request.json['stock']
     id_user = request.json['id_user']
     id_color_size = request.json['id_color_size']
-    state = request.json['state']
-    new = Reservation (date,stock,id_user,id_color_size,state)
+    new = Reservation (None,stock,id_user,id_color_size,None,None)
     try:
         new.add()
     except (Exception) as err:
@@ -806,6 +961,21 @@ def modReservation():
     new = Reservation (date,stock,id_user,id_color_size,state,id)
     try:
         new.mod()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success'})
+
+@app.route ('/reservation/cancel',methods=['POST'])
+def cancelReservation():
+    error = False
+    id = request.json['id']
+    new = Reservation ()
+    new.id = id
+    try:
+        new.cancel ()
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -842,6 +1012,35 @@ def getReservation():
         if not (error):
             result = dict (id = new.id, date = new.date, stock = new.stock, id_user = new.id_user, id_color_size = new.id_color_size, state = new.state)
             return jsonify({'result': 'success','data' : result})
+
+@app.route ('/reservation/item',methods=['POST'])
+def getUserReservationItem():
+    result = []
+    error = False
+    id_user = request.json['id_user']
+    id_color_size = request.json['id_color_size']
+    try:
+        result = getReservationItem (id_user,id_color_size)    
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result': 'success','data' : result})
+
+@app.route ('/reservation/list',methods=['POST'])
+def listUserReservations():
+    result = []
+    error = False
+    id_user = request.json['id_user']
+    try:
+        result = listReservations (id_user)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data' : result})
 
 @app.route ('/wishlist/add',methods=['POST'])
 def addWishlist():

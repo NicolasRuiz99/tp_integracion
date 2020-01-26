@@ -2,21 +2,27 @@ import React, { Fragment,useEffect,useState } from 'react';
 import CustomerSection from './CustomerSection';
 import './../../../css/default.css';
 import BreadCrumbs from '../../BreadCrumbs';
-import {getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo} from './utils/CustomerFunctions'
+import {getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo, getUserInfo} from './utils/CustomerFunctions'
+import Error from '../../messages/Error';
+import Success from '../../messages/Success';
+import { validarEmail, validarPsw, validarCustomer} from '../../../validacion/validate';
+import DeleteAccountModal from '../../modals/DeleteAccountModal';
 
 const CustomerAccount = ({user_id, handleDrop}) => {
-
+  
     //confirmacion email y contraseña
     const [psw,setPsw] = useState ('');
     const [psw2,setPsw2] = useState ('');
-    const [errorMail,setErrorMail] = useState (false);
-    const [errorMail2,setErrorMail2] = useState (false);
-    const [successMail,setSuccessMail] = useState (false);
     const [email,setEmail] = useState ('');
     const [email2,setEmail2] = useState ('');
-    const [errorPSW,setErrorPSW] = useState (false);
-    const [errorPSW2,setErrorPSW2] = useState (false);
-    const [successPSW,setSuccessPSW] = useState (false);
+    
+    //States para validar formularios
+    const [errorMails,setErrorMails] = useState({});
+    const [successMail,setSuccessMail] = useState(false);
+    const [errorPSWS, setErrorPSWS] = useState({});
+    const [successPSW,setSuccessPSW] = useState(false);
+    const [errorCustomer, setErrorCustomer] = useState({});
+    const [success,setSuccess] = useState (false);
 
     //datos customer
     const [customer_id,setCustomer_id] = useState (null);    
@@ -28,15 +34,28 @@ const CustomerAccount = ({user_id, handleDrop}) => {
     const [shoe_size,setShoe_size] = useState ('');
     const [phone_no,setPhone_no] = useState ('');
     const [serverError,setServerError] = useState (false);
-    const [success,setSuccess] = useState (false);
 
+    //Eliminar cuenta
+    const [modalOpen, setModalOpen] = useState(false);
+  
+    const handleModalOpen = () => {
+      setModalOpen(!modalOpen);
+    }
+    
     useEffect (()=>{
+          getUserInfo (user_id)
+          .then (res=>{
+            setEmail (res.e_mail);
+            setPsw (res.psw);
+          })
+          .catch (err=>{
+            setServerError (true);
+            return;
+          })
           getCustomerInfo (user_id)
           .then (res => {        
             if (res.length > 0){
               res = res[0];
-              setEmail (res.e_mail);
-              setPsw (res.psw);
               setDni (res.dni);
               setName (res.name);
               setSurnname (res.surname);
@@ -56,7 +75,14 @@ const CustomerAccount = ({user_id, handleDrop}) => {
 
     const handleSubmitCustomer = async(e) => {
       e.preventDefault();    
-  
+      const err = validarCustomer(name, surname, phone_no, dni);
+      console.log(err);
+      if (err.name || err.surname || err.tel || err.dni) {
+        setErrorCustomer(err);
+        setSuccess(false);
+        return;
+      }
+      else {
       if (customer_id != null){
           const customer = {
             id: customer_id,
@@ -96,73 +122,62 @@ const CustomerAccount = ({user_id, handleDrop}) => {
           setSuccess (false);
         });
       }
-
+    }
+      setErrorCustomer({});
       setServerError (false);
     }
 
     const handleSubmitEmail = async(e) => {
       e.preventDefault();    
-  
-      if (email === '' || email2 === ''){
-          setErrorMail (true);
-          setSuccessMail (false);
-          return;
-      }else{
-        if (email !== email2){
-          setErrorMail2 (true);
-          setSuccessMail (false);
-          return;
+      const err = validarEmail(email, email2);
+      if (err.diferente || err.formato || err.obligatorio) {  
+        setErrorMails(err);
+        setSuccessMail(false);
+        return;
+      } else{
+        const userInfo = {
+          id: user_id,
+          e_mail: email,
+          psw
         }
-      }   
-
-      const userInfo = {
-        id: user_id,
-        e_mail: email,
-        psw
+        modUserInfo (userInfo)
+        .then (res => {
+          setSuccessMail(true);
+        })
+        .catch (err => {
+          setSuccessMail(false);
+        })
       }
-      modUserInfo (userInfo)
-      .then (res => {
-          setSuccessMail (true);
-      })
-      .catch (err => {
-          setSuccessMail (false);
-      })
-
-      setErrorMail (false);
-      setErrorMail2 (false);
-
+      setErrorMails({});
     }
+
+    
 
     const handleSubmitPSW = async(e) => {
       e.preventDefault();    
-  
-      if (psw === '' || psw2 === ''){
-          setErrorPSW (true);
-          setSuccessPSW (false);
+      const err = validarPsw(psw, psw2);
+      if (err.obligatorio || err.diferente || err.incorrect){
+          setErrorPSWS(err);
+          setSuccessPSW(false);
           return;
-      }else{
-        if (psw !== psw2){
-          setErrorPSW2 (true);
-          setSuccessPSW (false);
-          return;
+      } else{  
+        const userInfo = {
+          id: user_id,
+          e_mail: email,
+          psw
         }
-      }   
-
-      const userInfo = {
-        id: user_id,
-        e_mail: email,
-        psw
+        modUserInfo (userInfo)
+        .then (res => {
+            setSuccessPSW (true);
+        })
+        .catch (err => {
+            setSuccessPSW (false);
+        })
       }
-      modUserInfo (userInfo)
-      .then (res => {
-          setSuccessPSW (true);
-      })
-      .catch (err => {
-          setSuccessPSW (false);
-      })
+      setErrorPSWS({});
+    }
 
-      setErrorPSW (false);
-      setErrorPSW2 (false);
+    const handleDelete = () => {
 
     }
 
@@ -172,7 +187,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
         name={"Mi cuenta"}
       />
         <div id="content">
-        { (serverError) ? <div className="alert alert-danger mt-2 mb-5 text-center">Error interno del servidor</div> : null}
+        { (serverError) ? <Error texto="Error interno del servidor"/> : null}
         <div className="container">
           <div className="row bar">
             <div id="customer-account" className="col-lg-9 clearfix">
@@ -182,9 +197,10 @@ const CustomerAccount = ({user_id, handleDrop}) => {
                 <div className="heading">
                   <h4 className="text-uppercase">Cambiar e-mail</h4>
                 </div>
-                { (errorMail) ? <div className="alert alert-danger mt-2 mb-5 text-center">Todos los campos son obligatorios</div> : null}
-                { (errorMail2) ? <div className="alert alert-danger mt-2 mb-5 text-center">Ambos Email deben coincidir</div> : null}
-                { (successMail) ? <div className="alert alert-success mt-2 mb-5 text-center">Cambios realizados con éxito</div> : null}
+                {errorMails.obligatorio && <Error texto={errorMails.obligatorio}/>}
+                {errorMails.diferente && <Error texto={errorMails.diferente}/>}
+                {errorMails.formato && <Error texto={errorMails.formato}/>}
+                {successMail && <Success texto="Cambios realizados con éxito"/> }
                 <form onSubmit = {handleSubmitEmail}>
                   <div className="row">
                     <div className="col-md-6">
@@ -207,9 +223,10 @@ const CustomerAccount = ({user_id, handleDrop}) => {
                 <div className="heading">
                   <h4 className="text-uppercase">Cambiar contraseña</h4>
                 </div>
-                { (errorPSW) ? <div className="alert alert-danger mt-2 mb-5 text-center">Todos los campos son obligatorios</div> : null}
-                { (errorPSW2) ? <div className="alert alert-danger mt-2 mb-5 text-center">Ambas contraseñas deben coincidir</div> : null}
-                { (successPSW) ? <div className="alert alert-success mt-2 mb-5 text-center">Cambios realizados con éxito</div> : null}
+                { errorPSWS.obligatorio && <Error texto={errorPSWS.obligatorio} />}
+                { errorPSWS.diferente && <Error texto={errorPSWS.diferente} />}
+                { errorPSWS.incorrect && <Error texto={errorPSWS.incorrect} />}
+                { successPSW && <Success texto="Cambios realizados con éxito" />}
                 <form onSubmit = {handleSubmitPSW}>
                   <div className="row">
                     <div className="col-md-6">
@@ -234,7 +251,11 @@ const CustomerAccount = ({user_id, handleDrop}) => {
                 <div className="heading">
                   <h3 className="text-uppercase">Detalles personales</h3>
                 </div>
-                { (success) ? <div className="alert alert-success mt-2 mb-5 text-center">Cambios realizados con éxito</div> : null}
+                {errorCustomer.name && <Error texto={errorCustomer.name}/>}
+                {errorCustomer.surname && <Error texto={errorCustomer.surname}/>}
+                {errorCustomer.tel && <Error texto={errorCustomer.tel}/>} 
+                {errorCustomer.dni && <Error texto={errorCustomer.dni}/>}
+                { (success) ? <Success texto="Cambios realizados con éxito"/> : null}
                 <form onSubmit = {handleSubmitCustomer}>
                   <div className="row">
                     <div className="col-md-6">
@@ -327,7 +348,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
                 </div>
                 <form>
                     <div className="text-center">
-                      <button type="submit" className="btn btn-danger"><i class="fas fa-minus-circle"></i> Eliminar cuenta :(</button>
+                      <button type="button" className="btn btn-danger" onClick={handleModalOpen}><i class="fas fa-minus-circle"></i> Eliminar cuenta :(</button>
                     </div>
                   </form>
               </div>
@@ -336,6 +357,12 @@ const CustomerAccount = ({user_id, handleDrop}) => {
           </div>
         </div>
       </div>
+      <DeleteAccountModal
+        modalOpen={modalOpen}
+        handleModalOpen={handleModalOpen}
+        id_user={user_id}
+        handleDrop = {handleDrop}
+     />
       </Fragment>
     );
 }

@@ -62,7 +62,88 @@ const createCountxCategoria = (list) => {
         listWomen: list.filter(item => item.genre === 'F').length,
         listUni: list.filter(item => item.genre === 'U').length,
     };
+};
+
+const countColors = (vector) => {
+      //Variables de colores
+      let yellow = 0;
+      let blue = 0;
+      let red = 0;
+      let green = 0;
+      let white = 0;
+      let purple = 0;
+      let orange = 0;
+      let magenta = 0;
+      vector.forEach(item => {
+          let colores = item.colors;
+          colores.forEach(value => {
+              if (value === 'amarillo') {
+                  return yellow = yellow + 1;
+              }
+              if (value === 'azul') {
+                  return blue = blue + 1;
+              }
+              if (value === 'verde') {
+                  return green = green + 1;
+              }
+              if (value === 'blanco') {
+                  return white = white + 1;
+              }
+              if (value === 'rojo') {
+                  return red = red + 1;
+              }
+              if (value === 'purpura') {
+                  return purple = purple + 1;
+              }
+              if (value === 'naranja') {
+                  return orange = orange + 1;
+              }
+              if (value === 'magenta') {
+                  return magenta = magenta + 1;
+              }
+          });
+      });
+      return {yellow, blue, green, red, white, purple, orange, magenta};
+}
+
+//Metodos de ordenamiento
+const ordenarAlfabeticamente = (metodo, lista) => {
+    let listado;
+    if(metodo  === 'descendente') {
+        listado = lista.sort((a,b) => {
+            if (a.name < b.name) {
+                return -1;
+              }
+              else if (a.name > b.name) {
+                return 1;
+              }
+              // si a es igual que b
+              return 0;
+        });
+    }else if (metodo === 'ascendente'){
+        listado = lista.sort((a,b) => {
+            if (a.name > b.name) {
+                return -1;
+              }
+              if (a.name < b.name) {
+                return 1;
+              }
+              // si a es igual que b
+              return 0;
+        });
+    }
+    return listado;
+};
+
+const ordenarxPrecio = (metodo, lista) => {
+    let listado;
+    if (metodo === 'mayor') {
+        listado = lista.sort((a,b) => a.price - b.price);
+    }else if (metodo === 'menor') {
+        listado = lista.sort((a,b) => b.price - a.price);
+    }
+    return listado;
 }
 
 
-export {changeCategories, unselectCategories, unselectCategories2, createCountxCategoria};
+export {changeCategories, unselectCategories, unselectCategories2, createCountxCategoria, countColors, ordenarAlfabeticamente, ordenarxPrecio};

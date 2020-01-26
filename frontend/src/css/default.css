@@ -1033,7 +1033,7 @@ a.text-primary:focus, a.text-primary:hover {
   }
 
   p.lead {
-    margin-bottom: 40px;
+    margin-bottom: 38px;
   }
 
   /* Para textos en mayusculas */
@@ -1668,6 +1668,16 @@ Estilo para customer */
   background: #ffc107;
 }
 
+.panel-body span.colour.purple {
+  background: #7d2181;
+}
+
+.panel-body span.colour.magenta {
+  background: #FF00FF;
+}
+.panel-body span.colour.orange {
+  background: #ff8000;
+}
 .heading, .panel-heading {
   margin-bottom: 1rem;
 }
@@ -1746,12 +1756,14 @@ Estilos del producto */
 .product img {
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
-}
+} 
 
 .product:hover img {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
+
+
 
 
 

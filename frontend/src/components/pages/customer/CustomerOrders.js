@@ -1,10 +1,38 @@
-import React, { Fragment } from 'react';
+import React, { Fragment,useEffect,useState } from 'react';
 import './../../../css/default.css';
 import BreadCrumbs from './../../BreadCrumbs';
 import CustomerSection from './CustomerSection';
+import {getPurchaseList} from '../customer/utils/CustomerFunctions';
+import PurchaseList from '../../lists/PurchaseList';
 import {Link} from 'react-router-dom';
+import Spinner from 'react-bootstrap/Spinner';
 
-const CustomerOrders = ({setUser, handleDrop}) => {
+const CustomerOrders = ({setUser, handleDrop,user_id}) => {
+
+    const [list,setList] = useState ([]);
+    const [error,setError] = useState (false);
+    const [serverError,setServerError] = useState (false);
+    const [loading,setLoading] = useState (false);
+
+    useEffect( () => {
+      
+      setLoading(true);
+      getPurchaseList ({user_id})
+      .then (res => {
+          setLoading (false);
+          setList (res)
+      })
+      .catch (err => {
+          setServerError(true);
+          return;
+      });
+      if (list.length === 0){
+          setError(true);
+      }
+      setServerError (false);
+      setError (false);        
+  }, [user_id] );
+
     return (
         <Fragment>
         <BreadCrumbs 
@@ -16,61 +44,30 @@ const CustomerOrders = ({setUser, handleDrop}) => {
             <div id="customer-orders" className="col-md-9">
             <hr />
             <p className="text-muted">Si tenés alguna duda, por favor <Link to="/contact">contáctanos</Link>, nuestro servicio de atención al cliente trabaja 24/7.</p>
-              
-              {/* Estas compras son a modo de ejemplo, en el futuro tendremos que hacer un componente a parte que mapee la base de datos */}
-              
-              <div className="box mt-0 mb-lg-0">
-                <div className="table-responsive">
-                  <table className="table table-hover">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Fecha</th>
-                        <th>Total</th>
-                        <th>Estado</th>
-                        <th>Acción</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th>#123</th>
-                        <td>22/06/2019</td>
-                        <td>$ 150.00</td>
-                        <td><span className="badge badge-info">Reservado</span></td>
-                        <td><Link to="/customer-order" className="btn btn-outlined btn-sm">Ver</Link></td>
-                      </tr>
-                      <tr>
-                        <th># 1735</th>
-                        <td>22/08/2019</td>
-                        <td>$ 750.00</td>
-                        <td><span className="badge badge-info">Reservado</span></td>
-                        <td><Link to="/customer-order" class="btn btn-outlined btn-sm">Ver</Link></td>
-                      </tr>
-                      <tr>
-                        <th># 18</th>
-                        <td>25/10/2019</td>
-                        <td>$ 550.00</td>
-                        <td><span className="badge badge-success">Recibido</span></td>
-                        <td><Link to="/customer-order" class="btn btn-outlined btn-sm">Ver</Link></td>
-                      </tr>
-                      <tr>
-                        <th># 256</th>
-                        <td>05/11/2019</td>
-                        <td>$ 1250.00</td>
-                        <td><span className="badge badge-danger">Cancelado</span></td>
-                        <td><Link to="/customer-order" class="btn btn-outlined btn-sm">Ver</Link></td>
-                      </tr>
-                      <tr>
-                        <th># 562</th>
-                        <td>01/12/2019</td>
-                        <td>$ 5150.00</td>
-                        <td><span className="badge badge-warning">En camino</span></td>
-                        <td><Link to="/customer-order" className="btn btn-outlined btn-sm">Ver</Link></td>
-                      </tr>
-                    </tbody>
-                  </table>
+            {(loading) ? 
+                <div className="col-md-9 text-center"> 
+                <Spinner animation="border" variant="info" size="lg"  />
+                </div> 
+                :
+                <div>
+                    { (serverError)?
+                    <div className="alert alert-danger mt-2 mb-5 text-center">
+                      Hubo un error al recuperar los datos
+                    </div>
+                    :
+                    <div>
+                      { (error) ?
+                      <div className="alert alert-danger mt-2 mb-5 text-center">
+                        No hay compras para mostrar
+                      </div>
+                      :
+                      <PurchaseList list={list}/>
+                      }
+                    </div>
+                    }
                 </div>
-              </div>
+            }
+            
             </div>
             <CustomerSection setUser={setUser} handleDrop={handleDrop}/>
           </div>

@@ -51,6 +51,15 @@ const getTopSellers = async() => {
     .catch(err => {throw err})
 }
 
+const listProvinces = async() => {
+    return axios
+    .get("https://apis.datos.gob.ar/georef/api/provincias")
+    .then(res => {
+        return res.data.provincias
+    })
+    .catch(err => {throw err})
+}
+
 //Obtener tipos
 /*const getProductType = async() => {
     return axios
@@ -61,4 +70,4 @@ const getTopSellers = async() => {
     .catch(err => {throw err})
 }*/
 
-export {getProducts,getProductInfo,getProductColor_size,getProductReview,getTopSellers};
+export {getProducts,getProductInfo,getProductColor_size,getProductReview,getTopSellers,listProvinces};

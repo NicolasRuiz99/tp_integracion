@@ -26,7 +26,7 @@ const ProductList = ({list, isEditable, handleModalOpen}) => {
                             key = {item.id}
                             item = {item}
                         />
-                    ))}
+                ))}
             </div>
             )}
             

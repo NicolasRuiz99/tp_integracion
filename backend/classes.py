@@ -1,4 +1,4 @@
-from ddbb_connect import addToTable,listTable,updateTable,deleteFromTable,searchID,deleteFromTable2,searchID2,query
+from ddbb_connect import addToTable,listTable,updateTable,deleteFromTable,searchID,deleteFromTable2,searchID2,query,callFun
 
 class User:
     def __init__ (self,e_mail = None,psw = None,id_role = None,_id = None):
@@ -210,29 +210,32 @@ class Color_size:
         self.prod_id = res[4]
 
 class Coupon:
-    def __init__ (self,pc=None,cad_date=None,_id=None):
+    def __init__ (self,pc=None,cad_date=None,used=False,_id=None):
         self.id = _id
         self.pc = pc
         self.cad_date = cad_date
+        self.used = used
 
     def add (self):
-        new_record = (self.pc, self.cad_date )
-        addToTable ('coupon (pc, cad_date)',new_record,'(%s,%s)')
+        new_record = (self.pc, self.cad_date, self.used )
+        addToTable ('coupon (pc, cad_date, used)',new_record,'(%s,%s,%s)')
 
-    def mod (self):
-        updateTable ('coupon',(self.pc, self.cad_date),'pc = %s, cad_date = %s')
+    def use (self):
+        self.used = True
+        updateTable ('coupon',(self.used),'used = %s')
 
     def delete (self):
         deleteFromTable ('coupon',self.id)
 
-    def get (self,_id):
-        res = searchID ('coupon',_id)  
+    def get (self):
+        res = searchID ('coupon',self.id)  
         self.id = res[0]
         self.pc = res[1]
         self.cad_date = res[2]
+        self.used = res[3]
 
 class Shipping:
-    def __init__ (self,address=None,zip=None,name=None,surname=None,dni=None,track_code=None,province=None,_id=None):
+    def __init__ (self,address=None,zip=None,name=None,surname=None,dni=None,province=None,_id=None,track_code=None):
         self.id = _id
         self.address = address
         self.zip = zip
@@ -243,8 +246,8 @@ class Shipping:
         self.province = province
 
     def add (self):
-        new_record = (self.address, self.zip, self.name, self.surname, self.dni, self.track_code, self.province )
-        addToTable ('shipping (address, zip, name, surname, dni, track_code, province)',new_record,'(%s,%s,%s,%s,%s,%s,%s)')
+        new_record = (self.id,self.address, self.zip, self.name, self.surname, self.dni, self.track_code, self.province )
+        addToTable ('shipping (id,address, zip, name, surname, dni, track_code, province)',new_record,'(%s,%s,%s,%s,%s,%s,%s,%s)')
 
     def mod (self):
         updateTable ('shipping',(self.address, self.zip, self.name, self.surname, self.dni, self.track_code, self.province, self.id),'address = %s, zip = %s, name = %s, surname = %s, dni = %s, track_code = %s, province = %s')
@@ -252,65 +255,70 @@ class Shipping:
     def delete (self):
         deleteFromTable ('shipping',self.id)
 
-    def get (self,_id):
-        res = searchID ('shipping',_id)  
-        self.id = res[0]
-        self.address = res[1]
-        self.zip = res[2]
-        self.name = res[3]
-        self.surname = res[4]
-        self.dni = res[5]
-        self.track_code = res[6]
-        self.province = res[7]
+    def get (self):
+        res = searchID ('shipping',self.id)  
+        if (res == None):
+            self.id = None
+        else:
+            self.id = res[0]
+            self.address = res[1]
+            self.zip = res[2]
+            self.name = res[3]
+            self.surname = res[4]
+            self.dni = res[5]
+            self.track_code = res[6]
+            self.province = res[7]
 
 class Purchase:
-    def __init__ (self,price=None,date=None,state=None,id_user=None,id_coupon=None,id_shipping=None,_id=None):
+    def __init__ (self,price=None,date=None,state='cart',id_user=None,id_coupon=None,_id=None):
         self.id = _id
         self.price = price 
         self.date = date
         self.state = state
         self.id_user = id_user
         self.id_coupon = id_coupon
-        self.id_shipping = id_shipping
 
     def add (self):
-        new_record = (self.price,self.date,self.state,self.id_user,self.id_coupon,self.id_shipping )
-        addToTable ('purchase (price, date, state, id_user, id_coupon, id_shipping)',new_record,'(%s,%s,%s,%s,%s,%s)')
+        new_record = (self.id_user,self.id_coupon,self.state)
+        addToTable ('purchase (id_user, id_coupon, state)',new_record,'(%s,%s,%s)')
 
     def mod (self):
-        updateTable ('purchase',(self.price,self.date,self.state,self.id_user,self.id_coupon,self.id_shipping, self.id),'price = %s, date = %s, state = %s, id_user = %s, id_coupon = %s, id_shipping = %s')
+        updateTable ('purchase',(self.price,self.date,self.state,self.id_user,self.id_coupon, self.id),'price = %s, date = %s, state = %s, id_user = %s, id_coupon = %s')
+
+    def setState (self):
+        updateTable ('purchase',(self.state, self.id),'state = %s')
 
     def delete (self):
         deleteFromTable ('purchase',self.id)
 
-    def get (self,_id):
-        res = searchID ('purchase',_id)  
-        self.id = res[0]
+    def get (self):
+        res = searchID ('purchase',self.id)  
         self.price = res[1]
         self.date = res[2]
         self.state = res[3]
         self.id_user = res[4]
         self.id_coupon = res[5]
-        self.id_shipping = res[6]
 
 class Purchxitem:
-    def __init__ (self,id_purchase=None,id_color_size=None,stock=None):
+    def __init__ (self,id_purchase=None,id_color_size=None,stock=None,purch_price=None):
         self.id_purchase = id_purchase
         self.id_color_size = id_color_size
         self.stock = stock
+        self.purch_price = purch_price
 
     def add (self):
         new_record = (self.id_purchase, self.id_color_size,self.stock )
         addToTable ('purchxitem (id_purchase, id_color_size, stock)',new_record,'(%s,%s,%s)')
 
     def delete (self):
-        deleteFromTable2 ('purchxitem',(self.id_purchase,self.id_color_size,self.stock),'id_purchase = %s and id_color_size = %s')
+        deleteFromTable2 ('purchxitem',(self.id_purchase,self.id_color_size),'id_purchase = %s and id_color_size = %s')
 
     def get (self):
         res = searchID2 ('purchxitem',(self.id_purchase,self.id_color_size),'id_purchase = %s and id_color_size = %s')  
         self.id_purchase = res[0]
         self.id_color_size = res[1]
         self.stock = res[2]
+        self.purch_price = res [3]
 
 class Reservation:
     def __init__ (self,date=None,stock=None,id_user=None,id_color_size=None,state=None,_id=None):
@@ -322,11 +330,13 @@ class Reservation:
         self.state = state
 
     def add (self):
-        new_record = (self.date, self.stock, self.id_user, self.id_color_size, self.state )
-        addToTable ('reservations (date, stock, id_user, id_color_size, state)',new_record,'(%s,%s,%s,%s,%s)')
+        callFun ('create_reservation',[self.stock,self.id_user,self.id_color_size,])
 
     def mod (self):
         updateTable ('reservations',(self.date, self.stock, self.id_user, self.id_color_size, self.state, self.id),'date = %s, stock = %s, id_user = %s, id_color_size = %s, state = %s')
+
+    def cancel (self):
+        updateTable ('reservations',('cancelled',self.id),'state = %s')
 
     def delete (self):
         deleteFromTable ('reservations',self.id)

@@ -21,6 +21,9 @@ def getUserCustomer (id):
 def listProducts ():
     return listTable ('ProductsList')
 
+def listPurchases (id_user):
+    return query ('select * from PurchaseList where id_user = ' + str(id_user))
+
 def listRecomendedProducts (type_id):
     return query ('select * from products where type = ' + str(type_id))
 
@@ -41,3 +44,18 @@ def getPurchaseItem (user_id,prod_id):
 
 def listProductosMasVendidos ():
     return listTable ('ProductosMasVendidos()')
+
+def listPurchaseItems (id):
+    return query ('select prod_id,name,color,size,stock,purch_price from PurchaseItems where id_purchase = ' + str(id))
+
+def listCartItems (user_id):
+    return query ('select prod_id,name,id_color_size,color,size,stock,price,discount from CartItems where id_user = ' + str(user_id))
+
+def getCartInfo (user_id):
+    return query ('select id,price,date,state,id_user,id_coupon from CartInfo where id_user = ' + str(user_id))
+
+def listReservations (user_id):
+    return query ('select id,prod_id,name,color,size,stock,price,discount,date,state from ReservationsList where id_user = ' + str(user_id))
+
+def getReservationItem (user_id,id_color_size):
+    return query ('select id from ActiveReservations where id_user = ' + str (user_id) + 'and id_color_size = ' + str(id_color_size))

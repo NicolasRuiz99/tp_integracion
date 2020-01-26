@@ -2,7 +2,8 @@
 
 CREATE VIEW ProductoStockPrecio
 AS
-SELECT purch.id purch_id,p.id prod_id,sum (pitem.stock) stock,(sum (pitem.stock)*p.price) price FROM purchxitem pitem, purchase purch, color_size c, products p
+SELECT purch.id purch_id,p.id prod_id,sum (pitem.stock) stock,(sum (pitem.stock)*(p.price-((p.discount*p.price)/100))) price 
+FROM purchxitem pitem, purchase purch, color_size c, products p
 WHERE pitem.id_purchase = purch.id AND pitem.id_color_size = c.id AND c.prod_id = p.id
 GROUP BY purch.id,p.id ORDER BY stock DESC;
 
@@ -12,12 +13,17 @@ CREATE OR REPLACE FUNCTION precio_compra() RETURNS TRIGGER AS $funcemp$
 DECLARE
 precio t_price;
 BEGIN
-precio := (SELECT SUM(price) FROM ProductoStockPrecio WHERE purch_id = NEW.id_purchase);
-UPDATE "purchase" SET price = precio WHERE id = NEW.id_purchase;
+IF (TG_OP = 'INSERT') THEN
+	precio := (SELECT SUM(price) FROM ProductoStockPrecio WHERE purch_id = NEW.id_purchase);
+	UPDATE "purchase" SET price = precio WHERE id = NEW.id_purchase;
+ELSE
+	precio := (SELECT SUM(price) FROM ProductoStockPrecio WHERE purch_id = OLD.id_purchase);
+	UPDATE "purchase" SET price = precio WHERE id = OLD.id_purchase;
+END IF;
 RETURN NEW;
 END; $funcemp$ LANGUAGE plpgsql;
 
-CREATE TRIGGER set_precio AFTER INSERT OR UPDATE ON purchxitem
+CREATE TRIGGER set_precio AFTER INSERT OR DELETE ON purchxitem
 FOR EACH ROW EXECUTE PROCEDURE precio_compra();
 
 --trigger para checkear cambios de estado de la compra
@@ -39,7 +45,7 @@ END; $funcemp$ LANGUAGE plpgsql;
 CREATE TRIGGER check_state_purch BEFORE INSERT OR UPDATE ON purchase
 FOR EACH ROW EXECUTE PROCEDURE check_state_purch();
 
---trigger para restar o sumar stock cuando cambia el estado de la compra
+--trigger para restar o sumar stock cuando cambia el estado de la compra (y ademas para setear los precios a los que se compra cada item)
 
 CREATE OR REPLACE FUNCTION update_stock_purch() RETURNS TRIGGER AS $funcemp$
 BEGIN
@@ -47,11 +53,19 @@ IF (NEW.state = 'pending') OR (NEW.state = 'success' AND OLD.state != 'pending')
 	UPDATE "color_size" 
 	SET stock = stock - (SELECT pitem.stock FROM purchxitem pitem WHERE id_purchase = NEW.id AND pitem.id_color_size = id) 
 	WHERE id IN (SELECT id_color_size FROM purchxitem WHERE id_purchase = NEW.id);
+
+	UPDATE "purchxitem"
+	SET purch_price = (SELECT (p.price-((p.discount*p.price)/100)) FROM products p, color_size cz WHERE id_color_size = cz.id and cz.prod_id = p.id)
+	WHERE id_purchase = NEW.id;
+
+	UPDATE "coupon" SET used = true WHERE id = NEW.id_coupon;
 ELSE
 	IF (NEW.state = 'cancelled' AND OLD.state = 'pending') THEN
 		UPDATE "color_size" 
 		SET stock = stock + (SELECT pitem.stock FROM purchxitem pitem WHERE id_purchase = NEW.id AND pitem.id_color_size = id) 
 		WHERE id IN (SELECT id_color_size FROM purchxitem WHERE id_purchase = NEW.id);
+		
+		UPDATE "coupon" SET used = false WHERE id = NEW.id_coupon;
 	END IF;
 END IF;
 RETURN NEW;
@@ -67,7 +81,7 @@ BEGIN
 IF (TG_OP = 'DELETE') AND (OLD.state != 'cart') THEN
 	RAISE EXCEPTION 'delete no permitido';
 ELSE
-	IF (OLD.state != 'cart') AND ((OLD.price != NEW.price) OR  (OLD.date != NEW.date) OR (OLD.id_user != NEW.id_user) OR (OLD.id_coupon != NEW.id_coupon) OR (OLD.id_shipping != NEW.id_shipping)) THEN
+	IF (OLD.state != 'cart') AND ((OLD.price != NEW.price) OR  (OLD.date != NEW.date) OR (OLD.id_user != NEW.id_user) OR (OLD.id_coupon != NEW.id_coupon)) THEN
 		RAISE EXCEPTION 'update de atributo no permitido';
 	END IF;
 END IF;

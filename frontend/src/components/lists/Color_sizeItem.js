@@ -1,6 +1,5 @@
-import React, { Fragment,useEffect,useState } from "react";
+import React, { Fragment } from "react";
 import './../../css/default.css';
-import { stringify } from "query-string";
 
 const Color_sizeItem = ({item,type}) => {
 
@@ -11,14 +10,12 @@ const Color_sizeItem = ({item,type}) => {
                     <option value={item.size}>{item.size}</option>
                 </Fragment>    
             );
-            break;
         case 2:
             return (
                 <Fragment>
                     <option value={item}>{item}</option>
                 </Fragment>    
             );
-            break;
     }
 
     

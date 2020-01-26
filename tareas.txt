@@ -1,10 +1,10 @@
 --frontend
 mapear listado de productos que faltan
-hacer lógica de colores (filtros).
+login con redes sociales
 completar breadCrumbs
 hacer lista de reservas del usuario
 hacer lista de reviews del usuario
-mapear lista de compras y carrito del usuario
+mapear  carrito del usuario
 funcionalidad de agregar al carrito y de reservar
 mapear secciones de confirmacion de compra
 
@@ -15,6 +15,6 @@ notificaciones
 --backend
 optimizar consultas y ordenar codigo
 hacer lógica de colores del producto
-
+login con redes sociales
 (para el final)
 tabla de notificaciones?
