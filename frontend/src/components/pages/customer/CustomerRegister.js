@@ -80,7 +80,8 @@ const CustomerRegister = ({history,setUser}) => {
     setErrorMails({});
     setErrorServer(false);
     setErrorPSWS({});
-    history.push ('/customer-account')
+    
+    history.push ('/customer-account');
   }
 
   const handleSubmitLogin = async (e) => {

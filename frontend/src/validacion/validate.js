@@ -1,11 +1,10 @@
-const CARACTERES ="abcdefghyjklmnñopqrstuvwxyzABCDEFGHYJKLMNÑOPQRSTUVWXYZáéíóúÁÉÍÓÚ.°',_{}´`*-!?¿%&$#¡<>[]^~¨+/|¬@:;=";
 const LETRAS = "abcdefghyjklmnñopqrstuvwxyzABCDEFGHYJKLMNÑOPQRSTUVWXYZáéíóúÁÉÍÓÚ";
 const SIMBOLOS = ".°',_{}´`*-!?¿%&$#¡<>[]^~¨+/|¬@:;=";
 const NUMEROS = "0123456789";
 //Funciones de ayuda
 const hayLetra = (cad) => {
     for(let i=0; i < cad.length; i++){
-        if (CARACTERES.indexOf(cad.charAt(i),0)!=-1){
+        if (LETRAS.indexOf(cad.charAt(i),0)!=-1 || SIMBOLOS.indexOf(cad.charAt(i),0)!=-1 ){
            return true;
         }
     }
@@ -91,9 +90,6 @@ const validarPsw = (psw1, psw2) => {
 }
 
 const validarCustomer = (name, surname, tel, dni) => {
-    name = name.toLowerCase();
-    surname = surname.toLowerCase();
-    tel = tel.toString();
     console.log("tel:", tel,"dni:", dni, "name:", name);
     const errors = {};
     if (obligatorio(dni)) {

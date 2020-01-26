@@ -24,6 +24,9 @@ const ShopCheckout2 = ({route,coupon,setCoupon,cartInfo,shipInfo,setShipInfo,his
 
     const handleSubmit = (e) => {
         e.preventDefault ();
+        setName(name.toLocaleLowerCase());
+        setSurname(surname.toLocaleLowerCase());
+        setDNI(dni.trim());
         const err = validarCarrito(name, surname, address, dni, zip, province);
         if (err.name || err.surname || err.obligatorio || err.dni || err.zip || err.address){
             setErrorCarrito(err);

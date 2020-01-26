@@ -2,7 +2,7 @@ import React, { Fragment,useEffect,useState } from 'react';
 import CustomerSection from './CustomerSection';
 import './../../../css/default.css';
 import BreadCrumbs from '../../BreadCrumbs';
-import {getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo} from './utils/CustomerFunctions'
+import {getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo, getUser} from './utils/CustomerFunctions'
 import Error from '../../messages/Error';
 import Success from '../../messages/Success';
 import { validarEmail, validarPsw, validarCustomer} from '../../../validacion/validate';
@@ -41,33 +41,55 @@ const CustomerAccount = ({user_id, handleDrop}) => {
     const handleModalOpen = () => {
       setModalOpen(!modalOpen);
     }
-    
     useEffect (()=>{
-          getCustomerInfo (user_id)
-          .then (res => {        
-            if (res.length > 0){
-              res = res[0];
-              setEmail (res.e_mail);
-              setPsw (res.psw);
-              setDni (res.dni);
-              setName (res.name);
-              setSurnname (res.surname);
-              setGenre (res.genre);
-              setC_size (res.c_size);
-              setShoe_size (res.shoe_size);
-              setPhone_no (res.phone_no);
-              setCustomer_id (res.id);
-            }
-          })
-          .catch (err => {
-              setServerError (true);
-              return;
-          });
-          setServerError (false);
+      console.log(user_id);
+      if(user_id !== null){
+      getUser(user_id)
+      .then(res => {
+        setEmail(res.e_mail);
+        setServerError(false);
+      })
+      .catch(err => {
+        setServerError(true);
+        return;
+    })
+  }
+  }, [])
+
+    useEffect (()=>{
+      
+      getCustomerInfo (user_id)
+      .then (res => {        
+        if (res.length > 0){
+          res = res[0];
+          setPsw (res.psw);
+          setDni (res.dni);
+          setName (res.name);
+          setSurnname (res.surname);
+          setGenre (res.genre);
+          setC_size (res.c_size);
+          setShoe_size (res.shoe_size);
+          setPhone_no (res.phone_no);
+          setCustomer_id(res.id);
+        }
+      })
+      .catch (err => {
+          setServerError (true);
+          return;
+      });
+      
+      setServerError (false);
     },[user_id]);
 
+   
+
     const handleSubmitCustomer = async(e) => {
-      e.preventDefault();    
+      e.preventDefault();
+      setPhone_no(phone_no.toString());
+      setPhone_no(phone_no.trim());
+      setDni(dni.trim());
+      setName(name.toLocaleLowerCase());
+      setSurnname(surname.toLocaleLowerCase());    
       const err = validarCustomer(name, surname, phone_no, dni);
       console.log(err);
       if (err.name || err.surname || err.tel || err.dni) {
@@ -170,9 +192,6 @@ const CustomerAccount = ({user_id, handleDrop}) => {
       setErrorPSWS({});
     }
 
-    const handleDelete = () => {
-
-    }
 
     return (
       <Fragment >
@@ -248,7 +267,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
                 {errorCustomer.surname && <Error texto={errorCustomer.surname}/>}
                 {errorCustomer.tel && <Error texto={errorCustomer.tel}/>} 
                 {errorCustomer.dni && <Error texto={errorCustomer.dni}/>}
-                { (success) ? <Success texto="Cambios realizados con éxito"/> : null}
+                { success && <Success texto="Cambios realizados con éxito"/>}
                 <form onSubmit = {handleSubmitCustomer}>
                   <div className="row">
                     <div className="col-md-6">
