@@ -13,7 +13,7 @@ CREATE domain all_size AS varchar
 CHECK (value IN ('35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','XXS','XS','S','M','L','XL','XXL'));
 
 CREATE domain t_color AS varchar 
-CHECK (value IN ('rojo','verde','azul','cian','magenta','amarillo','naranja','purpura'));
+CHECK (value IN ('rojo','verde','azul','magenta','amarillo','naranja','purpura','marron','blanco','negro','celeste','gris','rosado'));
 
 CREATE domain percent AS int 
 CHECK (value >= 0 AND value <= 100);

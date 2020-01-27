@@ -60,13 +60,30 @@ const listProvinces = async() => {
     .catch(err => {throw err})
 }
 
-const listRecomendedProducts = type => {
-    console.log(type);
-    
+const listRecomendedProducts = (type,id) => {
     return axios
     .post("/product/getRecomended",{
-        type
+        type,
+        id
     })
+    .then(res => {
+        return res.data.data;
+    })
+    .catch(err => {throw err})
+}
+
+const listNewProducts = () => {
+    return axios
+    .get("/product/listNew",)
+    .then(res => {
+        return res.data.data;
+    })
+    .catch(err => {throw err})
+}
+
+const listHighRatedProducts = () => {
+    return axios
+    .get("/product/listHighRated",)
     .then(res => {
         return res.data.data;
     })
@@ -83,4 +100,14 @@ const listRecomendedProducts = type => {
     .catch(err => {throw err})
 }*/
 
-export {getProducts,getProductInfo,getProductColor_size,getProductReview,getTopSellers,listProvinces,listRecomendedProducts};
+export {
+    getProducts,
+    getProductInfo,
+    getProductColor_size,
+    getProductReview,
+    getTopSellers,
+    listProvinces,
+    listRecomendedProducts,
+    listNewProducts,
+    listHighRatedProducts
+};
