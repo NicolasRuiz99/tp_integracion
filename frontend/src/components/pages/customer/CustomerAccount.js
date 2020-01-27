@@ -43,8 +43,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
     }
     
     useEffect (()=>{
-      let id = user_id;
-          getUserInfo (id)
+      getUserInfo (user_id)
           .then (res=>{
             setEmail (res.e_mail);
             setPsw (res.psw);
