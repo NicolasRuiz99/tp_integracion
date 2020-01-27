@@ -41,6 +41,10 @@ const CustomerAccount = ({user_id, handleDrop}) => {
     const handleModalOpen = () => {
       setModalOpen(!modalOpen);
     }
+
+    const capitalize = (cadena) => {
+      return (cadena.charAt(0).toUpperCase() + cadena.slice(1));
+    }
     
     useEffect (()=>{
       getUserInfo (user_id)
@@ -57,8 +61,8 @@ const CustomerAccount = ({user_id, handleDrop}) => {
             if (res.length > 0){
               res = res[0];
               setDni (res.dni);
-              setName (res.name);
-              setSurnname (res.surname);
+              setName (capitalize(res.name));
+              setSurnname (capitalize(res.surname));
               setGenre (res.genre);
               setC_size (res.c_size);
               setShoe_size (res.shoe_size);
@@ -85,7 +89,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
       else {
       if (customer_id != null){
           const customer = {
-            id_user: customer_id,
+            id: customer_id,
             dni,
             name,
             surname,
@@ -279,8 +283,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
                     <div className="form-group">
                         <label for="phone">Teléfono</label>
                         <input id="phone" type="text" className="form-control" defaultValue = {phone_no} onChange = {e => {
-                          let valor = e.target.value.toString();
-                          valor = valor.replace(/ /g, "")
+                          let valor = e.target.value.replace(/ /g, "");
                           setPhone_no(valor)}}/>
                       </div>
                     </div>

@@ -48,7 +48,7 @@ const isDni = (dni) => {
     return false;
  }
 const isTel = (tel) => {
-    if ( tel.length != 9 && tel.length != 10 && tel.length != 12 && tel.length != 11){
+    if (tel.length != 9 && tel.length != 10 && tel.length != 12 && tel.length != 11){
         return true;
     }
     if (hayLetra(tel)){
