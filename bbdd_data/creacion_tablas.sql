@@ -64,7 +64,7 @@ CREATE TABLE customers (
     genre gen,
     c_size t_size,
     shoe_size sh_size,
-    phone_no numeric (15),
+    phone_no varchar (12),
 	id_user int not null unique,
     PRIMARY KEY (id),
 	FOREIGN KEY (id_user) REFERENCES users (id)
