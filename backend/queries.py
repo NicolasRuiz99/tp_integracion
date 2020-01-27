@@ -61,4 +61,4 @@ def getReservationItem (user_id,id_color_size):
     return query ('select id from ActiveReservations where id_user = ' + str (user_id) + 'and id_color_size = ' + str(id_color_size))
 
 def listReviews (user_id):
-    return query ('select id,date,stars,title,id_product,name from ReviewProduct where id_user = ' + str(user_id))
+    return query ('select id,date,stars,id_product,name from ReviewProduct where id_user = ' + str(user_id))

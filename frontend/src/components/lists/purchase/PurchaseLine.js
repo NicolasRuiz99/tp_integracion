@@ -1,7 +1,7 @@
 import React, { Fragment,useEffect,useState } from "react";
-import img1 from "./../../assets/detailsquare.jpg";
+import img1 from "./../../../assets/detailsquare.jpg";
 import {Link} from 'react-router-dom';
-import './../../css/default.css';
+import './../../../css/default.css';
 
 const PurchaseLine = ({item}) => {
 

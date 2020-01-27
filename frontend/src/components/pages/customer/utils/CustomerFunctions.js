@@ -180,6 +180,25 @@ const addReviewItem = ({user_id,prod_id,stars,title,commentary}) => {
     .catch(err => {throw err})
 }
 
+const deleteReview = id => {
+    return axios
+    .post("/review/delete", {
+        id
+    })
+    .then(res => { return res.data})
+    .catch(err => {throw err})
+}
+
+const listUserReviews = (id) => {
+    return axios
+    .post("/review/list",{
+        id_user: id
+    })
+    .then(res => {return res.data.data
+    })
+    .catch(err => {throw err})
+}
+
 const getPurchaseList = ({user_id}) => {
     return axios
     .post("/purchase/list",{
@@ -422,5 +441,7 @@ export {
     payMP,
     setPurchaseState,
     modPurchase,
-    getUserInfo
+    getUserInfo,
+    listUserReviews,
+    deleteReview
 };

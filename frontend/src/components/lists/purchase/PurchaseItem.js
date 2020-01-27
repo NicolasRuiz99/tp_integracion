@@ -1,7 +1,7 @@
 import React, { Fragment,useEffect,useState } from "react";
-import product1 from "./../../assets/product1.jpg";
 import {Link} from 'react-router-dom';
-import './../../css/default.css';
+import './../../../css/default.css';
+import './purchase.css';
 import moment from 'moment';
 
 const PurchaseItem = ({item, handleModalOpen}) => {
@@ -42,7 +42,7 @@ const PurchaseItem = ({item, handleModalOpen}) => {
                     {(estado === 'en proceso') ? 
                     (<Link 
                     className="cancelar" 
-                    style={{float: 'right', marginRight:'45px', display:'inline-block'}} 
+                    style={{float: 'right', marginRight:'25px', display:'inline-block'}} 
                     title="Cancelar"
                     onClick={() => handleModalOpen(item)}
                     >

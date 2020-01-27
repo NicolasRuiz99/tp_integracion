@@ -39,6 +39,7 @@ const Rating = ({stars,change,setStars}) => {
             numberOfStars={6}
             name='rating'
             starDimension={'22px'}
+            isSelectable={false}
         />
         );
     }

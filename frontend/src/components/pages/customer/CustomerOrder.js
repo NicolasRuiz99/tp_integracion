@@ -4,7 +4,7 @@ import BreadCrumbs from '../../BreadCrumbs';
 import './../../../css/default.css';
 import {Link} from 'react-router-dom';
 import {getPurchaseInfo,listPurchaseItems} from'./utils/CustomerFunctions';
-import PurchaseLine from '../../lists/PurchaseLine';
+import PurchaseLine from '../../lists/purchase/PurchaseLine';
 import uuid from 'uuid';
 import moment from 'moment';
 import Spinner from 'react-bootstrap/Spinner';
