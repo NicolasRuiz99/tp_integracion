@@ -44,3 +44,11 @@ CREATE VIEW ActiveReservations
 AS
 SELECT id,id_user,id_color_size FROM reservations 
 WHERE state = 'reserved';
+
+CREATE VIEW ReviewProduct
+AS
+SELECT r.id,r.date,r.stars,r.title,r.id_product,r.id_user,p.name FROM products p,review r
+WHERE r.id_product = p.id;
+
+
+

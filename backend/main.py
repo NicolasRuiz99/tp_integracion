@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, json
-from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases,listPurchaseItems,listCartItems,getCartInfo,listReservations,getReservationItem
+from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases,listPurchaseItems,listCartItems,getCartInfo,listReservations,getReservationItem,listReviews
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser
 from mp_api import pagar
@@ -60,9 +60,18 @@ def listproducts():
 
 @app.route ('/product/getRecomended',methods=['POST'])
 def listproductsRecomended():
+    results = []
+    error = False
     type_id = request.json ['type']
-    results = listRecomendedProducts (type_id)
-    return jsonify({'results' : results})
+    print (type_id)
+    try:
+        results = listRecomendedProducts (type_id)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data': results})
 
 @app.route ('/customer/listall',methods=['GET'])
 def listcustomerall():
@@ -1155,6 +1164,20 @@ def deleteReview():
     finally:
         if not (error):
             return jsonify({'result' : 'success'})
+
+@app.route ('/review/list',methods=['POST'])
+def listUserReview():
+    result = []
+    error = False
+    id_user = request.json['id_user']
+    try:
+        result = listReviews (id_user)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data' : result})
 
 """
 @app.route ('/review/get',methods=['POST'])

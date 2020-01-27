@@ -60,6 +60,19 @@ const listProvinces = async() => {
     .catch(err => {throw err})
 }
 
+const listRecomendedProducts = type => {
+    console.log(type);
+    
+    return axios
+    .post("/product/getRecomended",{
+        type
+    })
+    .then(res => {
+        return res.data.data;
+    })
+    .catch(err => {throw err})
+}
+
 //Obtener tipos
 /*const getProductType = async() => {
     return axios
@@ -70,4 +83,4 @@ const listProvinces = async() => {
     .catch(err => {throw err})
 }*/
 
-export {getProducts,getProductInfo,getProductColor_size,getProductReview,getTopSellers,listProvinces};
+export {getProducts,getProductInfo,getProductColor_size,getProductReview,getTopSellers,listProvinces,listRecomendedProducts};
