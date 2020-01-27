@@ -94,13 +94,13 @@ const ShopCheckout2 = ({route,coupon,setCoupon,cartInfo,shipInfo,setShipInfo,his
                             <div className="col-sm-6">
                                 <div className="form-group">
                                 <label for="firstname">Nombre</label>
-                                <input id="firstname" type="text" className="form-control" defaultValue={name} onChange={e => setName(e.target.value)}/>
+                                <input id="firstname" type="text" className="form-control" defaultValue={name} onChange={e => setName(e.target.value.toLowerCase())}/>
                                 </div>
                             </div>
                             <div className="col-sm-6">
                                 <div className="form-group">
                                 <label for="lastname">Apellido</label>
-                                <input id="lastname" type="text" className="form-control" defaultValue={surname} onChange={e => setSurname(e.target.value)}/>
+                                <input id="lastname" type="text" className="form-control" defaultValue={surname} onChange={e => setSurname(e.target.value.toLowerCase())}/>
                                 </div>
                             </div>
                             </div>
@@ -114,7 +114,7 @@ const ShopCheckout2 = ({route,coupon,setCoupon,cartInfo,shipInfo,setShipInfo,his
                             <div className="col-sm-6">
                                 <div className="form-group">
                                 <label for="dni">DNI</label>
-                                <input id="dni" type="text" className="form-control" defaultValue={dni} onChange={e => setDNI(e.target.value)}/>
+                                <input id="dni" type="text" className="form-control" defaultValue={dni} onChange={e => setDNI(e.target.value.replace(/ /g, ""))}/>
                                 </div>
                             </div>
                             </div>

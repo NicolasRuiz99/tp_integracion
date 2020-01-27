@@ -66,7 +66,8 @@ const CustomerRegister = ({history,setUser}) => {
 
     register(newCustomer)
     .then (res=>{
-        setUser(res.user_id);
+      history.push ('/');
+      setUser(res.user_id);
     })
     .catch (err => {
       setErrorServer(true);
@@ -83,12 +84,7 @@ const CustomerRegister = ({history,setUser}) => {
     setErrorMails({});
     setErrorServer(false);
     setErrorPSWS({});
-<<<<<<< HEAD
-    
-    history.push ('/customer-account');
-=======
-    history.push ('/');
->>>>>>> a9b0ba8b099712c3f3c4acea73b215fee48cea05
+   
   }
 
   const handleSubmitLogin = async (e) => {

@@ -152,3 +152,6 @@ const validarCarrito = (name, surname, address, dni, zip, province) => {
 }
 
 export {validarEmail, validarPsw, validarCustomer, validarLogin, validarCarrito};
+
+
+

@@ -2,11 +2,7 @@ import React, { Fragment,useEffect,useState } from 'react';
 import CustomerSection from './CustomerSection';
 import './../../../css/default.css';
 import BreadCrumbs from '../../BreadCrumbs';
-<<<<<<< HEAD
-import {getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo, getUser} from './utils/CustomerFunctions'
-=======
 import {getCustomerInfo,addCustomerInfo,modCustomerInfo,modUserInfo, getUserInfo} from './utils/CustomerFunctions'
->>>>>>> a9b0ba8b099712c3f3c4acea73b215fee48cea05
 import Error from '../../messages/Error';
 import Success from '../../messages/Success';
 import { validarEmail, validarPsw, validarCustomer} from '../../../validacion/validate';
@@ -45,47 +41,10 @@ const CustomerAccount = ({user_id, handleDrop}) => {
     const handleModalOpen = () => {
       setModalOpen(!modalOpen);
     }
+    
     useEffect (()=>{
-<<<<<<< HEAD
-      console.log(user_id);
-      if(user_id !== null){
-      getUser(user_id)
-      .then(res => {
-        setEmail(res.e_mail);
-        setServerError(false);
-      })
-      .catch(err => {
-        setServerError(true);
-        return;
-    })
-  }
-  }, [])
-
-    useEffect (()=>{
-      
-      getCustomerInfo (user_id)
-      .then (res => {        
-        if (res.length > 0){
-          res = res[0];
-          setPsw (res.psw);
-          setDni (res.dni);
-          setName (res.name);
-          setSurnname (res.surname);
-          setGenre (res.genre);
-          setC_size (res.c_size);
-          setShoe_size (res.shoe_size);
-          setPhone_no (res.phone_no);
-          setCustomer_id(res.id);
-        }
-      })
-      .catch (err => {
-          setServerError (true);
-          return;
-      });
-      
-      setServerError (false);
-=======
-          getUserInfo (user_id)
+      let id = user_id;
+          getUserInfo (id)
           .then (res=>{
             setEmail (res.e_mail);
             setPsw (res.psw);
@@ -113,18 +72,10 @@ const CustomerAccount = ({user_id, handleDrop}) => {
               return;
           });
           setServerError (false);
->>>>>>> a9b0ba8b099712c3f3c4acea73b215fee48cea05
     },[user_id]);
 
-   
-
     const handleSubmitCustomer = async(e) => {
-      e.preventDefault();
-      setPhone_no(phone_no.toString());
-      setPhone_no(phone_no.trim());
-      setDni(dni.trim());
-      setName(name.toLocaleLowerCase());
-      setSurnname(surname.toLocaleLowerCase());    
+      e.preventDefault(); 
       const err = validarCustomer(name, surname, phone_no, dni);
       console.log(err);
       if (err.name || err.surname || err.tel || err.dni) {
@@ -135,7 +86,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
       else {
       if (customer_id != null){
           const customer = {
-            id: customer_id,
+            id_user: customer_id,
             dni,
             name,
             surname,
@@ -176,7 +127,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
       setErrorCustomer({});
       setServerError (false);
     }
-
+  
     const handleSubmitEmail = async(e) => {
       e.preventDefault();    
       const err = validarEmail(email, email2);
@@ -200,9 +151,9 @@ const CustomerAccount = ({user_id, handleDrop}) => {
       }
       setErrorMails({});
     }
-
+  
     
-
+  
     const handleSubmitPSW = async(e) => {
       e.preventDefault();    
       const err = validarPsw(psw, psw2);
@@ -226,8 +177,8 @@ const CustomerAccount = ({user_id, handleDrop}) => {
       }
       setErrorPSWS({});
     }
-
-
+  
+  
     return (
       <Fragment >
       <BreadCrumbs 
@@ -308,13 +259,13 @@ const CustomerAccount = ({user_id, handleDrop}) => {
                     <div className="col-md-6">
                       <div className="form-group">
                         <label for="nombre">Nombre</label>
-                        <input id="nombre" type="text" className="form-control" defaultValue = {name} onChange = {e => setName(e.target.value)}/>
+                        <input id="nombre" type="text" className="form-control" defaultValue = {name} onChange = {e => setName(e.target.value.toLowerCase())}/>
                       </div>
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
                         <label for="apellido">Apellido</label>
-                        <input id="apellido" type="text" className="form-control" defaultValue = {surname} onChange = {e => setSurnname(e.target.value)}/>
+                        <input id="apellido" type="text" className="form-control" defaultValue = {surname} onChange = {e => setSurnname(e.target.value.toLowerCase())}/>
                       </div>
                     </div>
                   </div>
@@ -322,13 +273,16 @@ const CustomerAccount = ({user_id, handleDrop}) => {
                     <div className="col-md-6">
                       <div className="form-group">
                         <label for="provincia">DNI</label>
-                        <input id="provincia" type="text" className="form-control" defaultValue = {dni} onChange = {e => setDni(e.target.value)}/>
+                        <input id="provincia" type="text" className="form-control" defaultValue = {dni} onChange = {e => setDni(e.target.value.replace(/ /g, ""))}/>
                       </div>
                     </div>
                     <div className="col-md-6">
                     <div className="form-group">
                         <label for="phone">Teléfono</label>
-                        <input id="phone" type="text" className="form-control" defaultValue = {phone_no} onChange = {e => setPhone_no(e.target.value)}/>
+                        <input id="phone" type="text" className="form-control" defaultValue = {phone_no} onChange = {e => {
+                          let valor = e.target.value.toString();
+                          valor = valor.replace(/ /g, "")
+                          setPhone_no(valor)}}/>
                       </div>
                     </div>
                   </div>
@@ -412,6 +366,6 @@ const CustomerAccount = ({user_id, handleDrop}) => {
      />
       </Fragment>
     );
-}
-
-export default CustomerAccount;
+  }
+  
+  export default CustomerAccount;

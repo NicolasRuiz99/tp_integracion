@@ -87,14 +87,14 @@ const modCustomerInfo = ({id,dni,name,surname,genre,c_size,shoe_size,phone_no}) 
     .catch(err => {throw err})
 }
 
-const getUser = user_id => {
-    return axios
-    .post("/user/get",{
-        id: user_id
-    })
-    .then(res => {return res.data.data})
-    .catch(err => {throw err})
-}
+// const getUser = user_id => {
+//     return axios
+//     .post("/user/get",{
+//         id: user_id
+//     })
+//     .then(res => {return res.data.data})
+//     .catch(err => {throw err})
+// }
 
 const modUserInfo = ({id,e_mail,psw}) => {
     return axios
@@ -396,7 +396,6 @@ export {
     getCustomerInfo,
     addCustomerInfo,
     modCustomerInfo,
-    getUser,
     modUserInfo,
     getUserWishlist,
     getWishlistItem,
