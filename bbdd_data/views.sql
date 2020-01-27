@@ -47,7 +47,7 @@ WHERE state = 'reserved';
 
 CREATE VIEW ReviewProduct
 AS
-SELECT r.id,r.date,r.stars,r.title,r.id_product,r.id_user,p.name FROM products p,review r
+SELECT r.id,r.date,r.stars,r.id_product,r.id_user,p.name FROM products p,review r
 WHERE r.id_product = p.id;
 
 

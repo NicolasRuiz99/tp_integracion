@@ -52,6 +52,25 @@ SELECT id_product, valoracion
 FROM ProductosValorados
 WHERE valoracion = (SELECT MAX(valoracion) 
 					FROM ProductosValorados);
+					
+--Productos mas valorados
+
+CREATE OR REPLACE FUNCTION ProductosMejorValorados ()
+RETURNS table (
+		id int,
+		name varchar,
+		discount percent,
+		price t_price
+		)
+AS $body$
+BEGIN
+	RETURN QUERY
+	SELECT p.id,p.name,p.discount,p.price
+	FROM ProductosValorados pv, products p
+	WHERE (p.id = pv.id_product) ORDER BY pv.valoracion DESC LIMIT 5;
+END;
+$body$
+LANGUAGE plpgsql;
 
 --Listar los mas vendidos
 

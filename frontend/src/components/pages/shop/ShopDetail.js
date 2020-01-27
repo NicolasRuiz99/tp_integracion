@@ -150,13 +150,14 @@ const ShopDetail = ({props,user_id,history}) => {
 
     //use effect inicial
     useEffect (()=>{
+      window.scrollTo(0, 0);
       setLoading (true);
       const product_id = props.match.params.id;
       
       getProductInfo (product_id)
       .then(res =>{
           setProdInfo (res);
-          listRecomendedProducts (res.type)
+          listRecomendedProducts (res.type,product_id)
           .then (res=>{
             setList (res);
           })
@@ -209,7 +210,7 @@ const ShopDetail = ({props,user_id,history}) => {
       
       setError (false);
       
-    },[user_id,isReviewed])
+    },[user_id,isReviewed,props])
 
     // use effect para cuando se actualiza el item seleccionado
     useEffect (()=>{
@@ -275,8 +276,7 @@ const ShopDetail = ({props,user_id,history}) => {
               </div>
               {/* Reseñas */}
               <ReviewList list = {reviews} />
-              <div className="row">
-                <div className="col-lg-3 col-md-6">
+                <div className="col-lg-10 col-md-6">
                   <div className="box text-uppercase mt-0 mb-small">
                     <h3>Productos que te podrían interesar</h3>
                   </div>
@@ -287,8 +287,6 @@ const ShopDetail = ({props,user_id,history}) => {
                       Hubo un error al recuperar los datos
                   </div>
                 }
-              </div>
-             
             </div>
           </div>
         </div>
@@ -371,8 +369,7 @@ const ShopDetail = ({props,user_id,history}) => {
               <h4 className="heading-light">Compra el producto para opinar!</h4>
               }
               <ReviewList list = {reviews} />
-              <div className="row">
-                <div className="col-lg-3 col-md-6">
+                <div className="col-lg-10 col-md-6">
                   <div className="box text-uppercase mt-0 mb-small">
                     <h3>Productos que te podrían interesar</h3>
                   </div>
@@ -383,7 +380,6 @@ const ShopDetail = ({props,user_id,history}) => {
                       Hubo un error al recuperar los datos
                   </div>
                 }
-              </div>
              
             </div>
           </div>
