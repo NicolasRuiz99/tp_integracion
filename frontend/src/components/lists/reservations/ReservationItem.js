@@ -52,7 +52,7 @@ const ReservationItem = ({item, handleModalOpen}) => {
                     <i class="fas fa-times-circle"></i>
                     </Link>)
                     : null}
-                    </td>
+                </td>
             </tr>
         </Fragment>    
     );

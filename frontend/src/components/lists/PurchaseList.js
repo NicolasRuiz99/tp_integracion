@@ -4,7 +4,7 @@ import {withRouter} from 'react-router-dom';
 import './../../css/default.css';
 import PurchaseItem from "./PurchaseItem";
 
-const PurchaseList = ({list}) => {
+const PurchaseList = ({list, handleModalOpen}) => {
     return (
         <Fragment>
             <div className="box mt-0 mb-lg-0">
@@ -16,7 +16,7 @@ const PurchaseList = ({list}) => {
                         <th>Fecha</th>
                         <th>Total</th>
                         <th>Estado</th>
-                        <th>Acción</th>
+                        <th>Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -24,6 +24,7 @@ const PurchaseList = ({list}) => {
                         <PurchaseItem 
                             key = {item.id}
                             item = {item}
+                            handleModalOpen= {handleModalOpen}
                         />
                     ))}
                     </tbody>
