@@ -243,7 +243,7 @@ const ShopDetail = ({props,user_id,history}) => {
                 <ImageGallery items={images} />
                 </div>
                 <div className="col-sm-5">
-                  <div className="box mb-4 mt-4">
+                  <div className="mb-4 mt-4">
                     <form>
                       <Color_sizeList list = {color_size} setSelectedItem = {setSelectedItem} setSelectedStock = {setSelectedStock} selectedStock = {selectedStock} />
                       <div className="col-sm-11">
@@ -255,7 +255,7 @@ const ShopDetail = ({props,user_id,history}) => {
                   </div>
                 </div>
               </div>
-              <div id="details" className="box mb-4 mt-4">
+              <div id="details" className="mb-4 mt-4">
                 <p></p>
                 <h4>Detalles del producto</h4>
                 <blockquote className="blockquote">
@@ -370,7 +370,7 @@ const ShopDetail = ({props,user_id,history}) => {
               }
               <ReviewList list = {reviews} />
                 <div className="col-lg-10 col-md-6">
-                  <div className="box text-uppercase mt-0 mb-small">
+                  <div className="heading text-uppercase mt-0 mb-small">
                     <h3>Productos que te podrían interesar</h3>
                   </div>
                 </div>

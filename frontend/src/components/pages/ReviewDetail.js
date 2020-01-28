@@ -4,10 +4,9 @@ import BreadCrumbs from './../BreadCrumbs';
 import Error from './../messages/Error';
 import './../../css/default.css';
 import {Link} from 'react-router-dom';
-import {getReview} from'./customer/utils/CustomerFunctions';
-import uuid from 'uuid';
 import Spinner from 'react-bootstrap/Spinner';
 import ReviewMod from './ReviewMod';
+import { getReview } from './customer/utils/CustomerFunctions';
 
 const ReviewDetail = ({props,user_id, handleDrop}) => {
     const [id, setId] = useState('');
@@ -56,7 +55,7 @@ const ReviewDetail = ({props,user_id, handleDrop}) => {
             :
             <div id="customer-order" className="col-lg-12">
             <p className="text-muted">Si tenés alguna duda, por favor <Link to="/contact">contáctanos</Link>, nuestro servicio de atención al cliente trabaja 24/7.</p>
-              <div className="box">
+              <div>
                 <ReviewMod title={title} user_id={user_id} commentary={commentary} setStars={setStars} stars={stars} setRefresh={setRefresh} id_product={id_product} id={id} />
               
               </div>

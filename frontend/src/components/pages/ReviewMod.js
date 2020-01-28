@@ -2,26 +2,24 @@ import React,{useState} from 'react';
 import './../../css/default.css';
 import Rating from './shop/Rating';
 import {modReview} from './customer/utils/CustomerFunctions';
+import { validarReview } from '../../validacion/validate';
+import Error from '../messages/Error';
 
 const ReviewMod = ({user_id,title, commentary, setStars, stars, setRefresh, id_product, id}) => {
 
     const [titulo,setTitulo] = useState (title);
     const [comentario,setComentario] = useState(commentary);
-    const [error,setError] = useState (false);
+    const [error,setError] = useState ({});
+    const [serverError, setServerError] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault ()
-
-        // if (titulo === '' || stars === 0){
-        //     setError (true);
-        //     console.log('das');
-        //     return;
-        // }else{
-        //     if (comentario === ''){
-        //         console.log('asd');
-        //         setComentario (null);
-        //     }
-        // }
+        const err = validarReview(titulo);
+        if (err.obligatorio) {
+            setError(err);
+            return;
+        }
+    
         const review = {
             stars,
             title: titulo,
@@ -32,33 +30,32 @@ const ReviewMod = ({user_id,title, commentary, setStars, stars, setRefresh, id_p
         }
         modReview(review)
         .then(res =>{
-            setRefresh(true);
+            setRefresh(true);  
         })
         .catch (err => {
-            console.log("asd", err);
-            setError(true);
+            setServerError(true);
             return;
         })
-
-        setError(false);
-        
+        setServerError(false);
+        setError({});
     }
 
     return (
         <div className="box mb-4 mt-4">
-            { (error) ? <div className="alert alert-danger mt-2 mb-5 text-center">Todos los campos son obligatorios</div> : null}
+           { error.obligatorio && <Error texto={error.obligatorio}/>}
+           { serverError && <Error texto="Ha ocurrido un error en el servidor"/>}
             <form onSubmit = {handleSubmit}>
             <div className="row">
                 <div className="col-md-6">
                     <div className="form-group">
-                        <h3>Edita la reseña del producto</h3>
-                        <label for="firstname">Titulo</label>
-                        <input id="firstname" type="text" defaultValue={title} className="form-control" style={{width:'130%'}} onChange = {e => setTitulo(e.target.value)}
+                        <h3>Edita la reseña del producto aquí</h3>
+                        <h5 for="firstname">Titulo</h5>
+                        <input id="firstname" type="text" defaultValue={title} className="form-control" style={{width:'130%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}} onChange = {e => setTitulo(e.target.value)}
                         />
                     </div>
                     <div className="form-group">
-                        <label for="reseña">Reseña</label>
-                        <textarea id="reseña" className="form-control" cols="30" rows="9" style={{width: '185%'}} placeholder='(opcional)' defaultValue={commentary} onChange= {e => setComentario (e.target.value)}></textarea>
+                        <h5 for="reseña">Reseña</h5>
+                        <textarea id="reseña" className="form-control" cols="30" rows="9" style={{width: '185%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif'}} placeholder='(opcional)' defaultValue={commentary} onChange= {e => setComentario (e.target.value)}></textarea>
                         <span>Valoración: <Rating change = {true} stars ={stars} setStars={setStars}/></span>
                     </div>
                 </div>

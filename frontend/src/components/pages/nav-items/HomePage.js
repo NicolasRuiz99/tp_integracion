@@ -50,28 +50,33 @@ const HomePage = ({user_id}) => {
             <Spinner animation="border" variant="info" size="lg"  />
             </div>
         :
-        <section class="bar background-white">
-        <div class="heading text-center">
-                <h2>Novedades</h2>
-        </div>
-        <div className="row">
+        
+        <div className="box row">
+            <div className="col-md-6">
+            <div class="heading text-center">
+            <h2>Novedades</h2>
+            </div>
             {(error)?
             <Error texto={'Hubo un error al recuperar los datos'}/>
             :
             <ProductList list={list1}/>
             }
-        </div>
+            </div>
+       
+      
+ 
+        <div className="col-md-6" style={{borderLeft: '1px solid #cccccc'}}>
         <div class="heading text-center">
-                <h2>Mejor valorados</h2>
+            <h2>Mejor valorados</h2>
         </div>
-        <div className="row">
             {(error)?
             <Error texto={'Hubo un error al recuperar los datos'}/>
             :
-            <ProductList list={list2}/>
+            <ProductList list={list2} />
             }
+            </div>
         </div>
-        </section>
+      
         }
         </Fragment>
         

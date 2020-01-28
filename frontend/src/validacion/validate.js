@@ -151,7 +151,21 @@ const validarCarrito = (name, surname, address, dni, zip, province) => {
     return errors;
 }
 
-export {validarEmail, validarPsw, validarCustomer, validarLogin, validarCarrito};
+//Validar reseña
+const validarReview = (title, stars) => {
+    const errors = {}
+    if (obligatorio(title)) {
+        errors.obligatorio = "El título es obligatorio";
+    }
+    else if (stars !== null) {
+        if (stars === 0) {
+            errors.stars = "Es necesario valorar el producto";
+        }
+    }
+    return errors;
+}
+
+export {validarEmail, validarPsw, validarCustomer, validarLogin, validarCarrito, validarReview};
 
 
 
