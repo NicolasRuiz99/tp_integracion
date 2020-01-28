@@ -3,9 +3,16 @@ import React, {useState,useEffect} from 'react'
  
 //Page de npm https://www.npmjs.com/package/react-star-ratings
 
-const Rating = ({stars,change,setStars}) => {
-    
-    const [rating, setRating] = useState(0); //Por default
+const Rating = ({stars,change,setStars, isDefault}) => {
+   let star; 
+    if (isDefault !== null) {
+      star = stars;
+    }
+    else {
+      star = 0
+    }
+
+    const [rating, setRating] = useState(star); //Por default
     
     const handleRating = ( newRating, name ) => {
       setRating(newRating);
@@ -16,7 +23,7 @@ const Rating = ({stars,change,setStars}) => {
       if (!change){
         setRating (stars);
       }else{
-        setStars (0);
+        setStars(0);
       }
     },[change, stars])
 
@@ -39,6 +46,7 @@ const Rating = ({stars,change,setStars}) => {
             numberOfStars={6}
             name='rating'
             starDimension={'22px'}
+            isSelectable={false}
         />
         );
     }

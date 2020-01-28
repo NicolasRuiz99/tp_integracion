@@ -1,0 +1,21 @@
+.cancelar i {
+    color: #dc3545;
+}
+
+.reserve span.color {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-top: 10px;
+    margin-left: 5px;
+    border: 1px solid #555;
+  }
+
+.reserve label {
+    font-size: 0.8rem;
+    font-weight: 400 !important;
+    color: #777;
+    opacity: 0.9;
+    display: inline-block;
+    cursor: pointer;
+}

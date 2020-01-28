@@ -1,7 +1,6 @@
 import React,{Fragment} from "react";
 import {withRouter} from 'react-router-dom';
-//Ésta lista tiene el boton close
-import './../../css/default.css';
+import './../../../css/default.css';
 import PurchaseItem from "./PurchaseItem";
 
 const PurchaseList = ({list, handleModalOpen}) => {

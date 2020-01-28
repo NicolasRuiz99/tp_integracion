@@ -3,7 +3,7 @@ import './../../../css/default.css';
 import BreadCrumbs from './../../BreadCrumbs';
 import CustomerSection from './CustomerSection';
 import {getPurchaseList,setPurchaseState} from '../customer/utils/CustomerFunctions';
-import PurchaseList from '../../lists/PurchaseList';
+import PurchaseList from '../../lists/purchase/PurchaseList';
 import {Link} from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
 import CancelPurchaseModal from '../../modals/CancelPurchaseModal';
