@@ -1170,17 +1170,17 @@ def addReview():
 def modReview():
     error = False
     id = request.json['id']
-    date = request.json['date']
     stars = request.json['stars']
     title = request.json['title']
     commentary = request.json['commentary']
     id_product = request.json['id_product']
     id_user = request.json['id_user']
-    new = Review (date,stars,title,commentary,id_product,id_user,id)
+    new = Review (stars,title,commentary,id_product,id_user,id)
     try:
         new.mod()
     except (Exception) as err:
         error = True
+        print(err)
         return handleError (err)
     finally:
         if not (error):
