@@ -23,6 +23,10 @@ const PurchaseItem = ({item, handleModalOpen}) => {
                 setEstado ('en proceso')
                 setClase ('badge badge-info')
                 break;
+            case 'pending-pay': 
+                setEstado ('pendiente de pago')
+                setClase ('badge badge-warning')
+                break;
             case 'cancelled': 
                 setEstado ('cancelada')
                 setClase ('badge badge-danger')
@@ -36,10 +40,10 @@ const PurchaseItem = ({item, handleModalOpen}) => {
                 <th>#{item.id}</th>
                 <td>{date}</td>
                 <td>$ {item.price}</td>
-                <td><span className={clase}>{estado}</span></td>
+                <td><span className={clase} style={{color:"white"}}>{estado}</span></td>
                 <td>
                 <Link to={link} className="btn btn-outlined btn-sm">Ver</Link>
-                    {(estado === 'en proceso') ? 
+                    { (estado === 'pendiente de pago') ? 
                     (<Link 
                     className="cancelar" 
                     style={{float: 'right', marginRight:'25px', display:'inline-block'}} 

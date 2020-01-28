@@ -52,7 +52,7 @@ INSERT INTO "message" (msg, date, id_user, id_chat) VALUES
 (':)', '05/10/1982', 10, 9), 
 ('Hola, tenes stock?', '17/12/2019', 11, 10);
 
-INSERT INTO "type" (name) VALUES ('calzado'), ('remera'), ('pantalon'), ('medias'), ('ropa interior'), ('accesorios'), ('abrigos');
+INSERT INTO "type" (name) VALUES ('calzado'), ('remeras'), ('pantalon'), ('medias'), ('ropa interior'), ('accesorios'), ('abrigos'),('trajes'),('trajes de baño'),('polleras'),('blusas'),('vestidos'),('calzas');
 
 INSERT INTO "products" (name, dsc, material, genre, brand, type, discount, price) VALUES 
 ('jean', 'jean azul talle 40', 'denim', 'U', 'levis', 3, 10, 800 ), 

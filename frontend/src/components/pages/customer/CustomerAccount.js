@@ -105,6 +105,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
           .catch (err => {
             setServerError (true);
             setSuccess (false);
+            return;
           });
       }else{
         const customer = {
@@ -124,6 +125,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
         .catch (err => {
           setServerError (true);
           setSuccess (false);
+          return;
         });
       }
     }
@@ -150,6 +152,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
         })
         .catch (err => {
           setSuccessMail(false);
+          return;
         })
       }
       setErrorMails({});
@@ -176,6 +179,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
         })
         .catch (err => {
             setSuccessPSW (false);
+            return;
         })
       }
       setErrorPSWS({});

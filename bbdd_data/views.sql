@@ -20,7 +20,7 @@ SELECT id,price,date,state,id_user FROM purchase WHERE state != 'cart';
 
 CREATE VIEW PurchaseItems
 AS 
-SELECT p.id prod_id,p.name,cz.color,cz.size,pitem.stock,pitem.purch_price,pitem.id_purchase
+SELECT p.id prod_id,p.name,cz.color,cz.size,pitem.stock,pitem.price,pitem.id_purchase
 FROM purchxitem pitem, products p,color_size cz 
 WHERE pitem.id_color_size = cz.id and cz.prod_id = p.id;
 

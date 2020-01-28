@@ -13,7 +13,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import ProductList from '../../lists/ProductList';
 import Error from '../../messages/Error';
 
-const HomePage = () => {
+const HomePage = ({user_id}) => {
 
     const [list1,setList1] = useState ([]);
     const [list2,setList2] = useState ([]);
@@ -40,7 +40,7 @@ const HomePage = () => {
             return;
         })
         setError (false);
-    },[])
+    },[user_id])
 
     return (
         <Fragment>

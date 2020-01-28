@@ -24,7 +24,7 @@ const ShopCheckout4 = ({route,coupon,setCoupon,cartInfo,ship,list,shipInfo,histo
         })
       }
       let info = cartInfo;
-      info.state = 'pending';
+      info.state = 'pending-pay';
 
       let pc = null;
       if (coupon !== ''){
@@ -38,8 +38,7 @@ const ShopCheckout4 = ({route,coupon,setCoupon,cartInfo,ship,list,shipInfo,histo
         return;
       })
       
-      
-      payMP (list,cartInfo.id,pc)
+      payMP (list,cartInfo.id,pc,true)
       .then (res=>{
           window.location.replace(res);
       })

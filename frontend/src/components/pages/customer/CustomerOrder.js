@@ -3,13 +3,13 @@ import CustomerSection from './CustomerSection';
 import BreadCrumbs from '../../BreadCrumbs';
 import './../../../css/default.css';
 import {Link} from 'react-router-dom';
-import {getPurchaseInfo,listPurchaseItems} from'./utils/CustomerFunctions';
+import {getPurchaseInfo,listPurchaseItems,payMP} from'./utils/CustomerFunctions';
 import PurchaseLine from '../../lists/purchase/PurchaseLine';
 import uuid from 'uuid';
 import moment from 'moment';
 import Spinner from 'react-bootstrap/Spinner';
 
-const CustomerOrder = ({props,user_id}) => {
+const CustomerOrder = ({props,user_id,handleDrop}) => {
 
     const [purchInfo,setPurchInfo] = useState ('');
     const [shipInfo,setShipInfo] = useState ('');
@@ -18,6 +18,23 @@ const CustomerOrder = ({props,user_id}) => {
     const [items,setItems] = useState ([]);
     const [error,setError] = useState (false);
     const [loading,setLoading] = useState (false);
+    const [pay,setPay] = useState (false);
+
+    const handleBuy = () => {
+      let pc = null;
+      if (coupInfo !== ''){
+        pc = coupInfo.pc
+      }
+      payMP (items,purchInfo.id,pc,false)
+      .then (res=>{
+          window.location.replace(res);
+      })
+      .catch (err=>{
+          setError(true);
+          return;
+      })
+      setError (false);
+    }
 
     useEffect (()=>{
         setLoading (true);
@@ -32,6 +49,10 @@ const CustomerOrder = ({props,user_id}) => {
               case 'pending':
                   setState ('Está en proceso');
                   break;
+              case 'pending-pay':
+                  setState ('Está pendiente de pago');
+                  setPay (true);
+                  break;  
               case 'cancelled':
                   setState ('Está cancelada');
                   break;
@@ -80,7 +101,13 @@ const CustomerOrder = ({props,user_id}) => {
             <div id="customer-order" className="col-lg-12">
             <hr />
             <p className="lead">La compra #{purchInfo.id} fue solicitada el <strong>{moment(purchInfo.date).utc().format('DD/MM/YYYY')}</strong> y en este momento <strong>{state}</strong>.</p>
-            <p className="text-muted">Si tenés alguna duda, por favor <Link to="/contact">contáctanos</Link>, nuestro servicio de atención al cliente trabaja 24/7.</p>
+            {(pay)?
+                <div className="right-col">
+                <button type="submit" className="btn btn-main" style={{float:"right"}}  onClick = {handleBuy} >Proceder al pago<i className="fa fa-chevron-right"></i></button>
+                </div>
+                :
+                null
+              } 
               <div className="box">
                 <div className="table-responsive">
                   <table className="table">
@@ -128,11 +155,12 @@ const CustomerOrder = ({props,user_id}) => {
                 null
                 }
               </div>
+              
             </div>
             }
             </div>
             }
-            <CustomerSection />
+            <CustomerSection handleDrop={handleDrop}/>
           </div>
         </div>
       </div>

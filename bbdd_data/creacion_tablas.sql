@@ -22,7 +22,7 @@ CREATE domain t_price AS float
 CHECK (value >= 0 AND value <= 9999999);
 
 CREATE domain purch_state AS varchar 
-CHECK (value IN ('success','pending','cancelled','cart'));
+CHECK (value IN ('success','pending','pending-pay','cancelled','cart'));
 
 CREATE domain res_state AS varchar
 CHECK (value IN ('reserved','cancelled'));
@@ -157,7 +157,7 @@ CREATE TABLE purchxitem (
     id_purchase int not null,
     id_color_size int,
     stock t_stock,
-    purch_price t_price default 0,
+    price t_price default 0,
     PRIMARY KEY (id_purchase,id_color_size),
 	FOREIGN KEY (id_purchase) REFERENCES purchase (id)
 );
