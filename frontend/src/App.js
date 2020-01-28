@@ -10,6 +10,7 @@ import Footer from './components/layouts/Footer';
 import Contact from './components/pages/nav-items/Contact';
 import TopVentas from './components/pages/nav-items/TopVentas';
 import RouteError from './components/pages/RouteError';
+import ReviewDetail from './components/pages/ReviewDetail';
 import HomePage from './components/pages/nav-items/HomePage';
 //Pages customer
 import CustomerAccount from './components/pages/customer/CustomerAccount';
@@ -70,6 +71,14 @@ const App = () => {
                   user_id = {user_id}
                 />
               )}/>
+            <Route  path="/review-detail/:id" 
+              render={(props)=>(
+              <ReviewDetail
+                props = {props}
+                user_id = {user_id}
+                handleDrop = {handleDrop}
+            />
+            )}/>
             <Route  path='/shop-checkout' render={() =>(<ShopCheckout user_id = {user_id}/>)} />
             <Route  path="/registro"
               render={()=>(

@@ -3,7 +3,7 @@ import './../../css/default.css';
 import Rating from './shop/Rating';
 import {addReviewItem} from './customer/utils/CustomerFunctions';
 
-const Review = ({setReviewed,user_id,prod_id}) => {
+const ReviewMod = ({setReviewed,user_id,prod_id}) => {
 
     const [title,setTitle] = useState ('');
     const [stars,setStars] = useState (0);
@@ -62,4 +62,4 @@ const Review = ({setReviewed,user_id,prod_id}) => {
     );
 }
 
-export default Review;
+export default ReviewMod;

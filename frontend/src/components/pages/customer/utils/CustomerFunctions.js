@@ -180,6 +180,30 @@ const addReviewItem = ({user_id,prod_id,stars,title,commentary}) => {
     .catch(err => {throw err})
 }
 
+const getReview = id => {
+    return axios
+    .post("/review/get",{
+        id
+    })
+    .then(res => {return res.data.data})
+    .catch(err => {throw err})
+}
+
+
+const modReview = ({stars,title,commentary,id_product,id_user,id}) => {
+    return axios
+    .post("/review/mod",{
+        stars,
+        title,
+        commentary,
+        id_product,
+        id_user,
+        id
+    })
+    .then(res => {return res.data})
+    .catch(err => {throw err})
+}
+
 const deleteReview = id => {
     return axios
     .post("/review/delete", {
@@ -443,5 +467,7 @@ export {
     modPurchase,
     getUserInfo,
     listUserReviews,
-    deleteReview
+    deleteReview,
+    getReview,
+    modReview
 };
