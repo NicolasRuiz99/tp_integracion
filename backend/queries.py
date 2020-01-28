@@ -46,7 +46,7 @@ def listProductosMasVendidos ():
     return listTable ('ProductosMasVendidos()')
 
 def listPurchaseItems (id):
-    return query ('select prod_id,name,color,size,stock,purch_price from PurchaseItems where id_purchase = ' + str(id))
+    return query ('select prod_id,name,color,size,stock,price from PurchaseItems where id_purchase = ' + str(id))
 
 def listCartItems (user_id):
     return query ('select prod_id,name,id_color_size,color,size,stock,price,discount from CartItems where id_user = ' + str(user_id))

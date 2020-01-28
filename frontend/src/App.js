@@ -55,7 +55,7 @@ const App = () => {
       <div className="fragment" >      
           <Header user_id = {user_id} setUser = {setUser} handleDrop={handleDrop} isLogged={isLogged} setIsLogged={setIsLogged} setSearch={setSearch} search={search} isOferta={isOferta} />
           <Switch>
-            <Route exact path="/" component={HomePage} />
+            <Route exact path="/" render={()=><HomePage user_id = {user_id} />} />
             <Route  path="/contact" component={Contact} />
             <Route  path="/top-ten" component={TopVentas} />
             <Route  path="/shop-category" render={() => (
@@ -87,7 +87,7 @@ const App = () => {
                 />
             )}/>
             <Route  path="/customer-orders" render={() =>(<CustomerOrders handleDrop={handleDrop} user_id={user_id} />)} />
-            <Route  path="/customer-order/:id" render={(props) =>(<CustomerOrder props = {props} user_id={user_id} />)} />
+            <Route  path="/customer-order/:id" render={(props) =>(<CustomerOrder handleDrop={handleDrop} props = {props} user_id={user_id} />)} />
             <Route  path="/success/:id" render={(props) =>(<PurchResult props = {props} type = {1}/>)} />
             <Route  path="/pending/:id" render={(props) =>(<PurchResult props = {props} type = {2}/>)} />
             <Route  path="/failure/:id" render={(props) =>(<PurchResult props = {props} type = {3}/>)} />

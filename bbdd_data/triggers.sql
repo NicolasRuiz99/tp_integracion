@@ -49,18 +49,18 @@ FOR EACH ROW EXECUTE PROCEDURE check_state_purch();
 
 CREATE OR REPLACE FUNCTION update_stock_purch() RETURNS TRIGGER AS $funcemp$
 BEGIN
-IF (NEW.state = 'pending') OR (NEW.state = 'success' AND OLD.state != 'pending') THEN
+IF (NEW.state = 'pending') OR (NEW.state = 'success' AND OLD.state != 'pending') OR (NEW.state = 'pending-pay') THEN
 	UPDATE "color_size" 
 	SET stock = stock - (SELECT pitem.stock FROM purchxitem pitem WHERE id_purchase = NEW.id AND pitem.id_color_size = id) 
 	WHERE id IN (SELECT id_color_size FROM purchxitem WHERE id_purchase = NEW.id);
 
 	UPDATE "purchxitem"
-	SET purch_price = (SELECT (p.price-((p.discount*p.price)/100)) FROM products p, color_size cz WHERE id_color_size = cz.id and cz.prod_id = p.id)
+	SET price = (SELECT (p.price-((p.discount*p.price)/100)) FROM products p, color_size cz WHERE id_color_size = cz.id and cz.prod_id = p.id)
 	WHERE id_purchase = NEW.id;
 
 	UPDATE "coupon" SET used = true WHERE id = NEW.id_coupon;
 ELSE
-	IF (NEW.state = 'cancelled' AND OLD.state = 'pending') THEN
+	IF (NEW.state = 'cancelled' AND OLD.state = 'pending') OR (NEW.state = 'cancelled' AND OLD.state = 'pending-pay') THEN
 		UPDATE "color_size" 
 		SET stock = stock + (SELECT pitem.stock FROM purchxitem pitem WHERE id_purchase = NEW.id AND pitem.id_color_size = id) 
 		WHERE id IN (SELECT id_color_size FROM purchxitem WHERE id_purchase = NEW.id);
@@ -197,9 +197,6 @@ FOR EACH ROW EXECUTE PROCEDURE set_date();
 
 CREATE TRIGGER date_rev BEFORE INSERT OR UPDATE ON review
 FOR EACH ROW EXECUTE PROCEDURE set_date();
-
-
-
 
 
 

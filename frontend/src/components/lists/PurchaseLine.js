@@ -18,8 +18,8 @@ const PurchaseLine = ({item}) => {
                 <td><Link to={link}><img src={img1} alt="billetera" className="img-fluid"/></Link></td>
                 <td><Link to={link}>{item.name} color {item.color} talle {item.size}</Link></td>
                 <td>{item.stock}</td>
-                <td>${item.purch_price}</td>
-                <td>${item.purch_price*item.stock}</td>
+                <td>${item.price}</td>
+                <td>${item.price*item.stock}</td>
             </tr>
         </Fragment>    
     );

@@ -19,8 +19,12 @@ def mercadopago():
     lista = request.json['list']
     id = request.json['id']
     coupon  = request.json['coupon']
+    cart = request.json['cart']
     for i in lista:
-        precio = i['price'] - ((i['discount']*i['price'])/100)
+        if (cart):
+            precio = i['price'] - ((i['discount']*i['price'])/100)
+        else:
+            precio = i['price']
         if (coupon != None):
             precio = precio - ((coupon*precio)/100)
         items.append ({
@@ -72,8 +76,6 @@ def listproductsRecomended():
     finally:
         if not (error):
             return jsonify({'result' : 'success','data': results})
-
-
 
 @app.route ('/customer/listall',methods=['GET'])
 def listcustomerall():

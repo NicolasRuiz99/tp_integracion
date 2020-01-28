@@ -377,12 +377,13 @@ const getReservationItem = (id_user,id_color_size) => {
     .catch(err => {throw err})
 }
 
-const payMP = (list,id,coupon) => {
+const payMP = (list,id,coupon,cart) => {
     return axios
     .post("/mercadopago",{
         list,
         id,
-        coupon
+        coupon,
+        cart
     })
     .then(res => {return res.data.data})
     .catch(err => {throw err})
