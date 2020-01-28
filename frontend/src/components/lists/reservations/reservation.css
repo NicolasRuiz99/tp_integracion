@@ -46,6 +46,24 @@
   .reserve span.color.naranja {
     background: #ff8000;
   }
+  .reserve span.color.marron {
+    background: brown;
+  }
+  
+  .reserve span.color.negro {
+    background: black;
+  }
+  
+  .reserve span.color.gris {
+    background: gray;
+  }
+  
+  .reserve span.color.celeste {
+    background: lightblue;
+  }
+  .reserve span.color.rosado {
+    background: pink;
+  }
 
 .cancelar i {
     color: #dc3545;

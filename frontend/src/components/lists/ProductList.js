@@ -20,7 +20,7 @@ const ProductList = ({list, isEditable, handleModalOpen}) => {
                     ))}
             </div>
             ) : (
-                <div className="row products products-big" style={{'padding-left': '32px'}}>
+                <div className="row products products-big " style={{'padding-left': '32px'}}>
                 {list.map(item => (
                         <ProductItem 
                             key = {item.id}

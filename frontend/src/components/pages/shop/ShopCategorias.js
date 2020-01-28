@@ -38,17 +38,23 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
         isActiveAbrigos: false,
         isActiveAccesorios: false,
         isActiveCalzado: false,
-        isActiveCamisas: false,
+        isActiveMedias: false,
+        isActiveTrajes: false, 
+        isActiveTrajesBaño: false, 
+        isActiveBlusa: false, 
+        isActiveVestido: false,
+        isActiveCalza: false
     });
 
     const [colors, setColors] = useState({});
 
+
     //UseEffect inicial
     useEffect( () => {
-      
         setLoading(true);
         getProducts ()
         .then (res => {
+            console.log(res);
             if (isOferta) {
               res = res.filter(product => {
                 if(product.discount > 0) {
@@ -78,6 +84,7 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
         if (list.length === 0){
             setError(true);
         }
+       
         setError (false);    
     }, [isOferta] );
 

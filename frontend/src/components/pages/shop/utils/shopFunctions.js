@@ -90,15 +90,7 @@ const listHighRatedProducts = () => {
     .catch(err => {throw err})
 }
 
-//Obtener tipos
-/*const getProductType = async() => {
-    return axios
-    .get("/type/listall")
-    .then(res => {
-        return res.data.results
-    })
-    .catch(err => {throw err})
-}*/
+
 
 export {
     getProducts,
@@ -110,4 +102,5 @@ export {
     listRecomendedProducts,
     listNewProducts,
     listHighRatedProducts
+
 };

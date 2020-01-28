@@ -46,13 +46,13 @@ const HomePage = ({user_id}) => {
         <Fragment>
         <Slider />
         {(loading)?
-            <div className="col-md-13 text-center"> 
+            <div className="col-md-12 text-center"> 
             <Spinner animation="border" variant="info" size="lg"  />
             </div>
         :
         
-        <div className="box row">
-            <div className="col-md-6">
+        <div className="box row bar">
+            <div className="col-sm-6">
             <div class="heading text-center">
             <h2>Novedades</h2>
             </div>
@@ -65,7 +65,7 @@ const HomePage = ({user_id}) => {
        
       
  
-        <div className="col-md-6" style={{borderLeft: '1px solid #cccccc'}}>
+        <div className="col-sm-6" style={{borderLeft: '1px solid #cccccc'}}>
         <div class="heading text-center">
             <h2>Mejor valorados</h2>
         </div>

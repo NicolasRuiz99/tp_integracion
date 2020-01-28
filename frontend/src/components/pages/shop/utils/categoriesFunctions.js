@@ -1,8 +1,10 @@
 
-const changeCategories = (isActive2, list, setIsActive, setCopyList ) => {
-    const {isActiveAbrigos, isActiveAccesorios, isActiveCalzado, isActiveCamisas,
-        isActivePantalon, isActivePollera, isActiveRemera, isActiveRopaInterior} = isActive2;
 
+const changeCategories = (isActive2, list, setIsActive, setCopyList ) => {
+    const {isActiveAbrigos, isActiveAccesorios, isActiveCalzado, 
+        isActivePantalon, isActivePollera, isActiveRemera, isActiveRopaInterior, isActiveMedias,
+        isActiveTrajes, isActiveTrajesBaño, isActiveBlusa, isActiveVestido, isActiveCalza} = isActive2;
+        
     if (isActiveAbrigos) {
         setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: false});
         setCopyList(list.filter(product => product.type === 7 ))} 
@@ -12,19 +14,34 @@ const changeCategories = (isActive2, list, setIsActive, setCopyList ) => {
     if (isActiveCalzado) {
         setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: false});
         setCopyList(list.filter(product => product.type === 1 ))} 
-    if (isActiveCamisas) {
-        setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: false});
-        setCopyList(list.filter(product => product.type === 2 ))} 
     if (isActivePantalon) {
         setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: false});
         setCopyList(list.filter(product => product.type === 3 ))} 
-    if (isActivePollera) {setCopyList(list.filter(product => product.type === 3 ))} 
+    if (isActivePollera) {setCopyList(list.filter(product => product.type === 10 ))} 
     if (isActiveRemera) {
         setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: false});
         setCopyList(list.filter(product => product.type === 2 ))} 
     if (isActiveRopaInterior) {
         setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: false});
         setCopyList(list.filter(product => product.type === 5 ))} 
+    if (isActiveMedias) {
+        setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: false});
+        setCopyList(list.filter(product => product.type === 4 ))} 
+    if (isActiveTrajes) {
+        setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: false});
+        setCopyList(list.filter(product => product.type === 8 ))} 
+    if (isActiveTrajesBaño) {
+        setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: false});
+        setCopyList(list.filter(product => product.type === 9 ))} 
+    if (isActiveBlusa) {
+        setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: false});
+        setCopyList(list.filter(product => product.type === 11 ))} 
+    if (isActiveVestido) {
+        setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: false});
+        setCopyList(list.filter(product => product.type === 12 ))} 
+    if (isActiveCalza) {
+        setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: false});
+        setCopyList(list.filter(product => product.type === 13 ))} 
 }
 
 const unselectCategories = (categories, setCopyList, list, setIsActive2) => {
@@ -32,12 +49,14 @@ const unselectCategories = (categories, setCopyList, list, setIsActive2) => {
         setCopyList(list.filter(product => {
             return product.genre.includes(categories); 
         }));
-        setIsActive2({isActiveAbrigos: false, isActiveAccesorios: false, isActiveCalzado: false, isActiveCamisas: false,
-            isActivePantalon: false, isActivePollera: false, isActiveRemera: false, isActiveRopaInterior: false});
+        setIsActive2({isActiveAbrigos: false, isActiveAccesorios: false, isActiveCalzado: false, 
+            isActivePantalon: false, isActivePollera: false, isActiveRemera: false, isActiveRopaInterior: false,isActiveMedias: false,
+            isActiveTrajes: false, isActiveTrajesBaño: false, isActiveBlusa: false, isActiveVestido: false, isActiveCalza: false });
     }else{
         setCopyList(list);
-        setIsActive2({isActiveAbrigos: false, isActiveAccesorios: false, isActiveCalzado: false, isActiveCamisas: false,
-            isActivePantalon: false, isActivePollera: false, isActiveRemera: false, isActiveRopaInterior: false});
+        setIsActive2({isActiveAbrigos: false, isActiveAccesorios: false, isActiveCalzado: false, 
+            isActivePantalon: false, isActivePollera: false, isActiveRemera: false, isActiveRopaInterior: false,isActiveMedias: false,
+            isActiveTrajes: false, isActiveTrajesBaño: false, isActiveBlusa: false, isActiveVestido: false, isActiveCalza: false});
     }
 }
 
@@ -47,8 +66,9 @@ const unselectCategories2 = (search, setCopyList, list, setIsActive, setIsActive
             return (product.name.toLowerCase().includes(search.toLowerCase()) || product.brand.toLowerCase().includes(search.toLowerCase()));
         }));
         setIsActive({isActiveM: false, isActiveF: false, isActiveT: false, isActiveU: false});
-        setIsActive2({isActiveAbrigos: false, isActiveAccesorios: false, isActiveCalzado: false, isActiveCamisas: false,
-                     isActivePantalon: false, isActivePollera: false, isActiveRemera: false, isActiveRopaInterior: false});
+        setIsActive2({isActiveAbrigos: false, isActiveAccesorios: false, isActiveCalzado: false, 
+                     isActivePantalon: false, isActivePollera: false, isActiveRemera: false, isActiveRopaInterior: false,isActiveMedias: false,
+                     isActiveTrajes: false, isActiveTrajesBaño: false, isActiveBlusa: false, isActiveVestido: false, isActiveCalza: false});
     }else{
         setCopyList(list);
         setIsActive({isActiveM: false, isActiveF: false, isActiveT: true, isActiveU: false});
@@ -74,6 +94,11 @@ const countColors = (vector) => {
       let purple = 0;
       let orange = 0;
       let magenta = 0;
+      let brown = 0;
+      let black = 0;
+      let lightBlue = 0;
+      let gray = 0;
+      let pink = 0;
       vector.forEach(item => {
           let colores = item.colors;
           colores.forEach(value => {
@@ -101,9 +126,24 @@ const countColors = (vector) => {
               if (value === 'magenta') {
                   return magenta = magenta + 1;
               }
+              if (value === 'marron') {
+                return brown = brown + 1;
+              }
+              if (value === 'negro') {
+                return black = black + 1;
+              }
+              if (value === 'celeste') {
+                return lightBlue = lightBlue + 1;
+              }
+              if (value === 'gris') {
+                return gray = gray + 1;
+              }
+              if (value === 'rosado') {
+                return pink = pink + 1;
+              }
           });
       });
-      return {yellow, blue, green, red, white, purple, orange, magenta};
+      return {yellow, blue, green, red, white, purple, orange, magenta, brown, black, gray, lightBlue, pink};
 }
 
 //Metodos de ordenamiento
@@ -144,6 +184,7 @@ const ordenarxPrecio = (metodo, lista) => {
     }
     return listado;
 }
+
 
 
 export {changeCategories, unselectCategories, unselectCategories2, createCountxCategoria, countColors, ordenarAlfabeticamente, ordenarxPrecio};
