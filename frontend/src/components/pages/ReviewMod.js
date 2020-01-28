@@ -6,7 +6,6 @@ import {modReview} from './customer/utils/CustomerFunctions';
 const ReviewMod = ({user_id,title, commentary, setStars, stars, setRefresh, id_product, id}) => {
 
     const [titulo,setTitulo] = useState (title);
-    const [starss,setStarss] = useState (stars);
     const [comentario,setComentario] = useState(commentary);
     const [error,setError] = useState (false);
 
@@ -24,7 +23,7 @@ const ReviewMod = ({user_id,title, commentary, setStars, stars, setRefresh, id_p
         //     }
         // }
         const review = {
-            stars: starss,
+            stars,
             title: titulo,
             commentary: comentario,
             id_product,
@@ -60,7 +59,7 @@ const ReviewMod = ({user_id,title, commentary, setStars, stars, setRefresh, id_p
                     <div className="form-group">
                         <label for="reseña">Reseña</label>
                         <textarea id="reseña" className="form-control" cols="30" rows="9" style={{width: '185%'}} placeholder='(opcional)' defaultValue={commentary} onChange= {e => setComentario (e.target.value)}></textarea>
-                        <span>Valoración: <Rating change = {true} stars ={stars} setStars={setStars} isDefault={true}/></span>
+                        <span>Valoración: <Rating change = {true} stars ={stars} setStars={setStars}/></span>
                     </div>
                 </div>
             </div>
