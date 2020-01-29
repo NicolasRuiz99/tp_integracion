@@ -64,7 +64,7 @@ def listReviews (user_id):
     return query ('select id,date,stars,id_product,name from ReviewProduct where id_user = ' + str(user_id))
 
 def listNewProducts ():
-    return query ('select * from products ORDER BY id DESC LIMIT 5')
+    return query ('select * from products ORDER BY id DESC LIMIT 6')
 
 def listHighRatedProducts ():
     return query ('select * from ProductosMejorValorados()')

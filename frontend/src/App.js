@@ -41,7 +41,7 @@ const App = () => {
       }else{
         let id = localStorage.getItem ('user_id')
         if (id !== "null"){
-          setUser (id);
+          setUser (parseInt(id));
         }
       }
     },[user_id])

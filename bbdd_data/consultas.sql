@@ -67,7 +67,7 @@ BEGIN
 	RETURN QUERY
 	SELECT p.id,p.name,p.discount,p.price
 	FROM ProductosValorados pv, products p
-	WHERE (p.id = pv.id_product) ORDER BY pv.valoracion DESC LIMIT 5;
+	WHERE (p.id = pv.id_product) ORDER BY pv.valoracion DESC LIMIT 6;
 END;
 $body$
 LANGUAGE plpgsql;
