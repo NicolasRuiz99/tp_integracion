@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request, json
 from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases,listPurchaseItems,listCartItems,getCartInfo,listReservations,getReservationItem,listReviews,listNewProducts,listHighRatedProducts
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
-from ddbb_connect import logInUser
+from ddbb_connect import logInUser,logInUser2
 from mp_api import pagar
 
 def handleError (error):
@@ -109,6 +109,19 @@ def loginUser ():
         if not (error):
             return jsonify({'result' : 'success','user_id': user_id})
 
+@app.route ('/user/loginExt',methods=['POST'])
+def loginUserExt ():
+    error = False
+    id = request.json['id']
+    try:
+        user_id = logInUser2 (id)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','user_id': user_id})
+
 @app.route ('/user/register',methods=['POST'])
 def registerUser():
     error = False
@@ -126,13 +139,35 @@ def registerUser():
         if not (error):
             return jsonify({'result' : 'success','user_id': user_id})
 
+@app.route ('/user/registerExt',methods=['POST'])
+def registerUserExt():
+    error = False
+    id = request.json['id']
+    new = User ()
+    new.external_id = id
+    new.id_role = 2
+    try:
+        new.register2()
+        user_id = logInUser2 (id)
+    except (Exception) as err:
+        error = True
+        print (err)
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','user_id': user_id})
+
 @app.route ('/user/mod',methods=['POST'])
 def modUser():
     error = False
+    print (request.json)
     id = request.json['id']
     e_mail = request.json['e_mail']
     psw = request.json['psw']
-    new = User (e_mail,psw,None,id)
+    new = User ()
+    new.id = id
+    new.e_mail = e_mail
+    new.psw = psw
     try:
         new.mod()
     except (Exception) as err:

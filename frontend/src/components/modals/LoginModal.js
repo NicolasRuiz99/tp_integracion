@@ -4,9 +4,10 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import './../../css/default.css';
 import './../../css/modal.css';
-import {login, getCustomerInfo} from '../pages/customer/utils/CustomerFunctions'
+import {login, getCustomerInfo, login2} from '../pages/customer/utils/CustomerFunctions'
 import { validarLogin } from '../../validacion/validate';
 import Error from '../messages/Error';
+import { googleLogin } from '../pages/customer/utils/firebaseLogin';
 
 const LoginModal = ({modalOpen,handleModalOpen,setUser,history}) => { 
 
@@ -15,6 +16,24 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history}) => {
   const [error, setError] = useState(false);
   //State de validacion
   const [errorCustomer, setErrorCustomer] = useState({});
+
+  const handleGoogleLogin = () => {
+    googleLogin ()
+    .then (res=> {
+      login2 (res)
+      .then (res =>{
+        setUser (res.user_id);
+        handleModalOpen();
+        history.push('/');
+      })
+      .catch (err => {
+        setErrorCustomer (true);
+        return;
+      })
+    })
+    .catch (err => console.log(err))
+    setErrorCustomer (false);
+  }
 
   const handleAction = async (e) => {
     e.preventDefault()
@@ -46,9 +65,7 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history}) => {
     setErrorCustomer({});
     handleModalOpen ();
 
-    history.push('/customer-orders')
-
-    
+    history.push('/');
   }
     return (
         <>
@@ -71,6 +88,7 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history}) => {
                 </div>
                 <p className="text-center">
                   <button className="btn btn-outlined"><i className="fa fa-sign-in"></i> Acceder</button>
+                  <button className="btn btn-outlined" type="button" onClick={handleGoogleLogin} ><i className="fa fa-sign-in"></i> Acceder con Google</button>
                 </p>
               </form>
               <p className="text-center text-muted">Aún no estás registrado?</p>

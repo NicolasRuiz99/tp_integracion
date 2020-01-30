@@ -51,6 +51,7 @@ CREATE TABLE users (
     id serial,
     e_mail varchar (45) unique,
     psw varchar (40),
+    external_id varchar (60) unique,
     id_role int,
     PRIMARY KEY (id),
     FOREIGN KEY (id_role) REFERENCES roles (id)

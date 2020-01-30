@@ -10,12 +10,30 @@ const login = user => {
     .catch(err => {throw err})
 }
 
+const login2 = id => {
+    return axios
+    .post("/user/loginExt", {
+        id
+    })
+    .then(res => {return res.data})
+    .catch(err => {throw err})
+}
+
 const register = user => {
     return axios
     .post("/user/register", {
         e_mail: user.email,
         psw: user.contraseña,
         id_role: 2
+    })
+    .then(res => {return res.data})
+    .catch(err => {throw err})
+}
+
+const register2 = id => {
+    return axios
+    .post("/user/registerExt", {
+        id
     })
     .then(res => {return res.data})
     .catch(err => {throw err})
@@ -434,7 +452,9 @@ const payMP = (list,id,coupon,cart) => {
 
 export {
     login, 
+    login2,
     register,
+    register2,
     getEMails,
     deleteCustomer,
     getCustomerInfo,
