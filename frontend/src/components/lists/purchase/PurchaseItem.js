@@ -1,10 +1,10 @@
 import React, { Fragment,useEffect,useState } from "react";
-import product1 from "./../../assets/product1.jpg";
 import {Link} from 'react-router-dom';
-import './../../css/default.css';
+import './../../../css/default.css';
+import './purchase.css';
 import moment from 'moment';
 
-const PurchaseItem = ({item}) => {
+const PurchaseItem = ({item, handleModalOpen}) => {
 
     const [link,setLink] = useState ('');
     const [estado,setEstado] = useState ('');
@@ -23,12 +23,16 @@ const PurchaseItem = ({item}) => {
                 setEstado ('en proceso')
                 setClase ('badge badge-info')
                 break;
+            case 'pending-pay': 
+                setEstado ('pendiente de pago')
+                setClase ('badge badge-warning')
+                break;
             case 'cancelled': 
                 setEstado ('cancelada')
                 setClase ('badge badge-danger')
                 break;
         }
-    } ,[]);
+    } ,[item.state]);
 
     return (
         <Fragment>
@@ -36,8 +40,20 @@ const PurchaseItem = ({item}) => {
                 <th>#{item.id}</th>
                 <td>{date}</td>
                 <td>$ {item.price}</td>
-                <td><span className={clase}>{estado}</span></td>
-                <td><Link to={link} className="btn btn-outlined btn-sm">Ver</Link></td>
+                <td><span className={clase} style={{color:"white"}}>{estado}</span></td>
+                <td>
+                <Link to={link} className="btn btn-outlined btn-sm">Ver</Link>
+                    { (estado === 'pendiente de pago') ? 
+                    (<Link 
+                    className="cancelar" 
+                    style={{float: 'right', marginRight:'25px', display:'inline-block'}} 
+                    title="Cancelar"
+                    onClick={() => handleModalOpen(item)}
+                    >
+                    <i class="fas fa-times-circle"></i>
+                    </Link>)
+                    : null}
+                </td>
             </tr>
         </Fragment>    
     );

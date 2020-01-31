@@ -20,7 +20,7 @@ SELECT id,price,date,state,id_user FROM purchase WHERE state != 'cart';
 
 CREATE VIEW PurchaseItems
 AS 
-SELECT p.id prod_id,p.name,cz.color,cz.size,pitem.stock,pitem.purch_price,pitem.id_purchase
+SELECT p.id prod_id,p.name,cz.color,cz.size,pitem.stock,pitem.price,pitem.id_purchase
 FROM purchxitem pitem, products p,color_size cz 
 WHERE pitem.id_color_size = cz.id and cz.prod_id = p.id;
 
@@ -44,3 +44,11 @@ CREATE VIEW ActiveReservations
 AS
 SELECT id,id_user,id_color_size FROM reservations 
 WHERE state = 'reserved';
+
+CREATE VIEW ReviewProduct
+AS
+SELECT r.id,r.date,r.stars,r.id_product,r.id_user,p.name FROM products p,review r
+WHERE r.id_product = p.id;
+
+
+

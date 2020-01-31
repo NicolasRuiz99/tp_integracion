@@ -41,9 +41,13 @@ const CustomerAccount = ({user_id, handleDrop}) => {
     const handleModalOpen = () => {
       setModalOpen(!modalOpen);
     }
+
+    const capitalize = (cadena) => {
+      return (cadena.charAt(0).toUpperCase() + cadena.slice(1));
+    }
     
     useEffect (()=>{
-          getUserInfo (user_id)
+      getUserInfo (user_id)
           .then (res=>{
             setEmail (res.e_mail);
             setPsw (res.psw);
@@ -57,8 +61,8 @@ const CustomerAccount = ({user_id, handleDrop}) => {
             if (res.length > 0){
               res = res[0];
               setDni (res.dni);
-              setName (res.name);
-              setSurnname (res.surname);
+              setName (capitalize(res.name));
+              setSurnname (capitalize(res.surname));
               setGenre (res.genre);
               setC_size (res.c_size);
               setShoe_size (res.shoe_size);
@@ -74,7 +78,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
     },[user_id]);
 
     const handleSubmitCustomer = async(e) => {
-      e.preventDefault();    
+      e.preventDefault(); 
       const err = validarCustomer(name, surname, phone_no, dni);
       console.log(err);
       if (err.name || err.surname || err.tel || err.dni) {
@@ -101,6 +105,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
           .catch (err => {
             setServerError (true);
             setSuccess (false);
+            return;
           });
       }else{
         const customer = {
@@ -120,13 +125,14 @@ const CustomerAccount = ({user_id, handleDrop}) => {
         .catch (err => {
           setServerError (true);
           setSuccess (false);
+          return;
         });
       }
     }
       setErrorCustomer({});
       setServerError (false);
     }
-
+  
     const handleSubmitEmail = async(e) => {
       e.preventDefault();    
       const err = validarEmail(email, email2);
@@ -146,13 +152,14 @@ const CustomerAccount = ({user_id, handleDrop}) => {
         })
         .catch (err => {
           setSuccessMail(false);
+          return;
         })
       }
       setErrorMails({});
     }
-
+  
     
-
+  
     const handleSubmitPSW = async(e) => {
       e.preventDefault();    
       const err = validarPsw(psw, psw2);
@@ -172,15 +179,13 @@ const CustomerAccount = ({user_id, handleDrop}) => {
         })
         .catch (err => {
             setSuccessPSW (false);
+            return;
         })
       }
       setErrorPSWS({});
     }
-
-    const handleDelete = () => {
-
-    }
-
+  
+  
     return (
       <Fragment >
       <BreadCrumbs 
@@ -255,19 +260,19 @@ const CustomerAccount = ({user_id, handleDrop}) => {
                 {errorCustomer.surname && <Error texto={errorCustomer.surname}/>}
                 {errorCustomer.tel && <Error texto={errorCustomer.tel}/>} 
                 {errorCustomer.dni && <Error texto={errorCustomer.dni}/>}
-                { (success) ? <Success texto="Cambios realizados con éxito"/> : null}
+                { success && <Success texto="Cambios realizados con éxito"/>}
                 <form onSubmit = {handleSubmitCustomer}>
                   <div className="row">
                     <div className="col-md-6">
                       <div className="form-group">
                         <label for="nombre">Nombre</label>
-                        <input id="nombre" type="text" className="form-control" defaultValue = {name} onChange = {e => setName(e.target.value)}/>
+                        <input id="nombre" type="text" className="form-control" defaultValue = {name} onChange = {e => setName(e.target.value.toLowerCase())}/>
                       </div>
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
                         <label for="apellido">Apellido</label>
-                        <input id="apellido" type="text" className="form-control" defaultValue = {surname} onChange = {e => setSurnname(e.target.value)}/>
+                        <input id="apellido" type="text" className="form-control" defaultValue = {surname} onChange = {e => setSurnname(e.target.value.toLowerCase())}/>
                       </div>
                     </div>
                   </div>
@@ -275,13 +280,15 @@ const CustomerAccount = ({user_id, handleDrop}) => {
                     <div className="col-md-6">
                       <div className="form-group">
                         <label for="provincia">DNI</label>
-                        <input id="provincia" type="text" className="form-control" defaultValue = {dni} onChange = {e => setDni(e.target.value)}/>
+                        <input id="provincia" type="text" className="form-control" defaultValue = {dni} onChange = {e => setDni(e.target.value.replace(/ /g, ""))}/>
                       </div>
                     </div>
                     <div className="col-md-6">
                     <div className="form-group">
                         <label for="phone">Teléfono</label>
-                        <input id="phone" type="text" className="form-control" defaultValue = {phone_no} onChange = {e => setPhone_no(e.target.value)}/>
+                        <input id="phone" type="text" className="form-control" defaultValue = {phone_no} onChange = {e => {
+                          let valor = e.target.value.replace(/ /g, "");
+                          setPhone_no(valor)}}/>
                       </div>
                     </div>
                   </div>
@@ -365,6 +372,6 @@ const CustomerAccount = ({user_id, handleDrop}) => {
      />
       </Fragment>
     );
-}
-
-export default CustomerAccount;
+  }
+  
+  export default CustomerAccount;

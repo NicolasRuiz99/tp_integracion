@@ -1678,6 +1678,26 @@ Estilo para customer */
 .panel-body span.colour.orange {
   background: #ff8000;
 }
+
+.panel-body span.colour.brown {
+  background: brown;
+}
+
+.panel-body span.colour.black {
+  background: black;
+}
+
+.panel-body span.colour.gray {
+  background: gray;
+}
+
+.panel-body span.colour.lightBlue {
+  background: lightblue;
+}
+.panel-body span.colour.pink {
+  background: pink;
+}
+
 .heading, .panel-heading {
   margin-bottom: 1rem;
 }

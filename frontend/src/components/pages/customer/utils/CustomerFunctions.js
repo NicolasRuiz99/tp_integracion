@@ -10,12 +10,30 @@ const login = user => {
     .catch(err => {throw err})
 }
 
+const login2 = id => {
+    return axios
+    .post("/user/loginExt", {
+        id
+    })
+    .then(res => {return res.data})
+    .catch(err => {throw err})
+}
+
 const register = user => {
     return axios
     .post("/user/register", {
         e_mail: user.email,
         psw: user.contraseña,
         id_role: 2
+    })
+    .then(res => {return res.data})
+    .catch(err => {throw err})
+}
+
+const register2 = id => {
+    return axios
+    .post("/user/registerExt", {
+        id
     })
     .then(res => {return res.data})
     .catch(err => {throw err})
@@ -86,6 +104,15 @@ const modCustomerInfo = ({id,dni,name,surname,genre,c_size,shoe_size,phone_no}) 
     .then(res => {return res.data})
     .catch(err => {throw err})
 }
+
+// const getUser = user_id => {
+//     return axios
+//     .post("/user/get",{
+//         id: user_id
+//     })
+//     .then(res => {return res.data.data})
+//     .catch(err => {throw err})
+// }
 
 const modUserInfo = ({id,e_mail,psw}) => {
     return axios
@@ -167,6 +194,49 @@ const addReviewItem = ({user_id,prod_id,stars,title,commentary}) => {
         commentary
     })
     .then(res => {return res.data
+    })
+    .catch(err => {throw err})
+}
+
+const getReview = id => {
+    return axios
+    .post("/review/get",{
+        id
+    })
+    .then(res => {return res.data.data})
+    .catch(err => {throw err})
+}
+
+
+const modReview = ({stars,title,commentary,id_product,id_user,id}) => {
+    return axios
+    .post("/review/mod",{
+        stars,
+        title,
+        commentary,
+        id_product,
+        id_user,
+        id
+    })
+    .then(res => {return res.data})
+    .catch(err => {throw err})
+}
+
+const deleteReview = id => {
+    return axios
+    .post("/review/delete", {
+        id
+    })
+    .then(res => { return res.data})
+    .catch(err => {throw err})
+}
+
+const listUserReviews = (id) => {
+    return axios
+    .post("/review/list",{
+        id_user: id
+    })
+    .then(res => {return res.data.data
     })
     .catch(err => {throw err})
 }
@@ -368,12 +438,13 @@ const getReservationItem = (id_user,id_color_size) => {
     .catch(err => {throw err})
 }
 
-const payMP = (list,id,coupon) => {
+const payMP = (list,id,coupon,cart) => {
     return axios
     .post("/mercadopago",{
         list,
         id,
-        coupon
+        coupon,
+        cart
     })
     .then(res => {return res.data.data})
     .catch(err => {throw err})
@@ -381,7 +452,9 @@ const payMP = (list,id,coupon) => {
 
 export {
     login, 
+    login2,
     register,
+    register2,
     getEMails,
     deleteCustomer,
     getCustomerInfo,
@@ -413,5 +486,9 @@ export {
     payMP,
     setPurchaseState,
     modPurchase,
-    getUserInfo
+    getUserInfo,
+    listUserReviews,
+    deleteReview,
+    getReview,
+    modReview
 };

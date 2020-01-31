@@ -17,21 +17,31 @@ const CATEGORIAS = {
     remeras: 'remeras',
     pantalones: 'pantalones',
     pollera: 'pollera',
-    camisas: 'camisas',
-    ropaInterior: 'ropaInterior'
+    ropaInterior: 'ropaInterior',
+    medias: 'medias',
+    trajes: 'trajes',
+    trajesBaño: 'trajesBaño',
+    blusa: 'blusa',
+    vestido: 'vestido',
+    calzas: 'calzas'
 }
 
 const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isActive2, lista, setCopyList, colors}) => {
     //States inputs del precio 
     const [priceMin, setPriceMin] = useState('');
     const [priceMax, setPriceMax] = useState('');
-
+    
     //States radios de colores
     const [colorBlanco, setColorBlanco] = useState(false);
     const [colorAzul, setColorAzul] = useState(false);
     const [colorVerde, setColorVerde] = useState(false);
     const [colorAmarillo, setColorAmarillo] = useState(false);
     const [colorRojo, setColorRojo] = useState(false);
+    const [colorMarron, setColorMarron] = useState(false);
+    const [colorNegro, setColorNegro] = useState(false);
+    const [colorCeleste, setColorCeleste] = useState(false);
+    const [colorGris, setColorGris] = useState(false);
+    const [colorRosado, setColorRosado] = useState(false);
     const [colorPurpura, setColorPurpura] = useState(false);
     const [colorNaranja, setColorNaranja ] = useState(false);
     const [colorMagenta, setColorMagenta ] = useState(false);
@@ -40,7 +50,7 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
     //obtenemos estados de activacion 
     const {isActiveF, isActiveM, isActiveT, isActiveU} = isActive;
     const {isActiveRemera, isActivePantalon, isActivePollera, isActiveRopaInterior, isActiveAbrigos,
-           isActiveAccesorios, isActiveCalzado, isActiveCamisas} = isActive2;
+           isActiveAccesorios, isActiveCalzado, isActiveMedias, isActiveTrajes, isActiveTrajesBaño, isActiveBlusa, isActiveVestido, isActiveCalza} = isActive2;
     
 
     //Metodos para activacion categórica
@@ -60,14 +70,16 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
         setPriceMin('');
         setPriceMax('');
     };
-
+    
    const activarColor = (color) => {
-    colorsLogic(color, setColorNaranja, setColorAmarillo, setColorBlanco, setColorMagenta, setColorVerde, setColorAzul, setColorRojo, setColorPurpura);
+    colorsLogic(color, setColorNaranja, setColorAmarillo, setColorBlanco, setColorMagenta, setColorVerde, setColorAzul, setColorRojo, setColorPurpura,
+        setColorMarron, setColorNegro, setColorCeleste, setColorGris, setColorRosado);
    };
    
    const handleSearchColor = (e) => {
        e.preventDefault();
-       showListLogic(setCopyList, lista, colorNaranja, colorAmarillo, colorBlanco, colorMagenta, colorVerde, colorAzul, colorRojo, colorPurpura);
+       showListLogic(setCopyList, lista, colorNaranja, colorAmarillo, colorBlanco, colorMagenta, colorVerde, colorAzul, colorRojo, colorPurpura,
+        colorMarron, colorNegro, colorCeleste, colorGris, colorRosado);
    }
 
    const handlePrice = (e) => {
@@ -173,12 +185,6 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
                             >Calzado </Link>
                         </li>
                         <li className="nav-item">
-                            <Link 
-                            onClick={() => handleClick2(CATEGORIAS.camisas)}
-                            className={`nav-link ${(isActiveCamisas) ? 'active' : null}`}
-                            >Camisas </Link>
-                        </li>
-                        <li className="nav-item">
                             <Link  
                             onClick={() => handleClick2(CATEGORIAS.pantalones)}
                             className={`nav-link ${(isActivePantalon) ? 'active' : null}`}
@@ -201,6 +207,42 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
                             onClick={() => handleClick2(CATEGORIAS.ropaInterior)}
                             className={`nav-link ${(isActiveRopaInterior) ? 'active' : null}`}
                             >Ropa interior </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link  
+                            onClick={() => handleClick2(CATEGORIAS.medias)}
+                            className={`nav-link ${(isActiveMedias) ? 'active' : null}`}
+                            >Medias </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link  
+                            onClick={() => handleClick2(CATEGORIAS.trajes)}
+                            className={`nav-link ${(isActiveTrajes) ? 'active' : null}`}
+                            >Trajes </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link  
+                            onClick={() => handleClick2(CATEGORIAS.trajesBaño)}
+                            className={`nav-link ${(isActiveTrajesBaño) ? 'active' : null}`}
+                            >Trajes de baño </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link  
+                            onClick={() => handleClick2(CATEGORIAS.blusa)}
+                            className={`nav-link ${(isActiveBlusa) ? 'active' : null}`}
+                            >Blusas </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link  
+                            onClick={() => handleClick2(CATEGORIAS.vestido)}
+                            className={`nav-link ${(isActiveVestido) ? 'active' : null}`}
+                            >Vestidos </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link  
+                            onClick={() => handleClick2(CATEGORIAS.calzas)}
+                            className={`nav-link ${(isActiveCalza) ? 'active' : null}`}
+                            >Calzas </Link>
                         </li>
                     </ul>
                 </ul>
@@ -327,6 +369,56 @@ const Filtros = ({setCategories, list, setIsActive, isActive, setIsActive2, isAc
                                 onChange={() => activarColor('magenta')}
                                 />
                                 <span className="colour magenta"></span> Magenta ({colors.magenta})
+                                </label>
+                            </div>
+                            <div className="checkbox">
+                                <label>
+                                <input style={{width:'20px'}}
+                                type="radio"
+                                checked={colorMarron}
+                                onChange={() => activarColor('marron')}
+                                />
+                                <span className="colour brown"></span> Marrón ({colors.brown})
+                                </label>
+                            </div>
+                            <div className="checkbox">
+                                <label>
+                                <input style={{width:'20px'}}
+                                type="radio"
+                                checked={colorNegro}
+                                onChange={() => activarColor('negro')}
+                                />
+                                <span className="colour black"></span> Negro ({colors.black})
+                                </label>
+                            </div>
+                            <div className="checkbox">
+                                <label>
+                                <input style={{width:'20px'}}
+                                type="radio"
+                                checked={colorGris}
+                                onChange={() => activarColor('gris')}
+                                />
+                                <span className="colour gray"></span> Gris ({colors.gray})
+                                </label>
+                            </div>
+                            <div className="checkbox">
+                                <label>
+                                <input style={{width:'20px'}}
+                                type="radio"
+                                checked={colorRosado}
+                                onChange={() => activarColor('rosado')}
+                                />
+                                <span className="colour pink"></span> Rosa ({colors.pink})
+                                </label>
+                            </div>
+                            <div className="checkbox">
+                                <label>
+                                <input style={{width:'20px'}}
+                                type="radio"
+                                checked={colorCeleste}
+                                onChange={() => activarColor('celeste')}
+                                />
+                                <span className="colour lightBlue"></span> Celeste ({colors.lightBlue})
                                 </label>
                             </div>
                         </div>

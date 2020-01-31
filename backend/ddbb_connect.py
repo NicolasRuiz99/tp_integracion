@@ -126,6 +126,23 @@ def logInUser (e_mail,psw):
     finally:
         disconnect_ddbb (con,cur)
 
+def logInUser2 (id):
+    try:
+        con, cur = connect_ddbb ()
+        query = 'select id from users where external_id = %s' 
+        cur.execute (query,(id,))  
+        res = cur.fetchone()
+        if (res == None):
+            raise Exception ('Invalid external id')
+        else:
+            user_id = res [0]
+            return user_id
+    except (Exception,Error) as error:
+        if (con):
+            raise Exception ('OperationFailed', error.args[0])
+    finally:
+        disconnect_ddbb (con,cur)
+
 def query (query):
     results = []
     try:

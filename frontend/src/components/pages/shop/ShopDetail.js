@@ -4,24 +4,20 @@ import {Link,withRouter} from 'react-router-dom';
 import Review from './../Review';
 import Rating from './Rating';
 import './../../../css/default.css';
-import {getProductInfo,getProductColor_size,getProductReview} from './utils/shopFunctions';
+import {getProductInfo,getProductColor_size,getProductReview,listRecomendedProducts} from './utils/shopFunctions';
 import {getWishlistItem,addWishlistItem,deleteWishlistItem,getUserPurchaseItem,addCartItem,getCartInfo,
         addReservation,getReservationItem, cancelReservation} from '../customer/utils/CustomerFunctions';
 //React image gallery
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from 'react-image-gallery';
 //Imagenes
-import product1 from "./../../../assets/product1.jpg";
-import product2 from "./../../../assets/product2.jpg";
-import product3 from "./../../../assets/product3.jpg";
-import product4 from "./../../../assets/product4.jpg";
-import product5 from "./../../../assets/product5.jpg" ;
 import img from "./../../../assets/detailsquareBig.jpg";
 import img2 from "./../../../assets/detailsquare.jpg";
 import ReviewList from '../../lists/ReviewList';
 import Color_sizeList from '../../lists/Color_sizeList';
 import Spinner from 'react-bootstrap/Spinner';
 import Error from '../../messages/Error';
+import ProductList from '../../lists/ProductList';
 
 const ShopDetail = ({props,user_id,history}) => {
     const images = [
@@ -50,6 +46,7 @@ const ShopDetail = ({props,user_id,history}) => {
     const [isReserved,setIsReserved] = useState (false);
     const [resID,setResID] = useState (null);
     const [stockError,setStockError] = useState (false);
+    const [list,setList] = useState ([]);
 
     const getAverage = (list) => {
       let total = 0;
@@ -153,18 +150,26 @@ const ShopDetail = ({props,user_id,history}) => {
 
     //use effect inicial
     useEffect (()=>{
+      window.scrollTo(0, 0);
       setLoading (true);
       const product_id = props.match.params.id;
       
       getProductInfo (product_id)
       .then(res =>{
           setProdInfo (res);
+          listRecomendedProducts (res.type,product_id)
+          .then (res=>{
+            setList (res);
+          })
+          .catch (err =>{
+            setError (true);
+            return;
+          })
       })
       .catch (err =>{
           setError (true);
           return;
       })
-
       getProductColor_size (product_id)
       .then(res =>{
         setColor_size (res);
@@ -202,9 +207,10 @@ const ShopDetail = ({props,user_id,history}) => {
         setError (true);
         return;
       })
+      
       setError (false);
       
-    },[user_id,isReviewed])
+    },[user_id,isReviewed,props])
 
     // use effect para cuando se actualiza el item seleccionado
     useEffect (()=>{
@@ -237,7 +243,7 @@ const ShopDetail = ({props,user_id,history}) => {
                 <ImageGallery items={images} />
                 </div>
                 <div className="col-sm-5">
-                  <div className="box mb-4 mt-4">
+                  <div className="mb-4 mt-4">
                     <form>
                       <Color_sizeList list = {color_size} setSelectedItem = {setSelectedItem} setSelectedStock = {setSelectedStock} selectedStock = {selectedStock} />
                       <div className="col-sm-11">
@@ -249,7 +255,7 @@ const ShopDetail = ({props,user_id,history}) => {
                   </div>
                 </div>
               </div>
-              <div id="details" className="box mb-4 mt-4">
+              <div id="details" className="mb-4 mt-4">
                 <p></p>
                 <h4>Detalles del producto</h4>
                 <blockquote className="blockquote">
@@ -270,41 +276,17 @@ const ShopDetail = ({props,user_id,history}) => {
               </div>
               {/* Reseñas */}
               <ReviewList list = {reviews} />
-              <div className="row">
-                <div className="col-lg-3 col-md-6">
+                <div className="col-lg-10 col-md-6">
                   <div className="box text-uppercase mt-0 mb-small">
                     <h3>Productos que te podrían interesar</h3>
                   </div>
                 </div>
-                <div className="col-lg-3 col-md-6">
-                  <div className="product">
-                    <div className="image"><Link to="#"><img src={product2} alt="" className="img-fluid image1"/></Link></div>
-                    <div className="text">
-                      <h3 className="h5"><Link to="/shop-detail">Camiseta deportiva</Link></h3>
-                      <p className="price">$980</p>
-                    </div>
+                { (!error) ? 
+                  <ProductList list = {list} /> : 
+                  <div className="alert alert-danger mt-2 mb-5 text-center">
+                      Hubo un error al recuperar los datos
                   </div>
-                </div>
-                <div className="col-lg-3 col-md-6">
-                  <div className="product">
-                    <div className="image"><Link to="#"><img src={product3} alt="" className="img-fluid image1"/></Link></div>
-                    <div className="text">
-                      <h3 className="h5"><Link to="/shop-detail">Pantalon soldado Ibera</Link></h3>
-                      <p className="price">$2300</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-lg-3 col-md-6">
-                  <div className="product">
-                    <div className="image"><Link to="#"><img src={product1} alt="" className="img-fluid image1"/></Link></div>
-                    <div className="text">
-                      <h3 className="h5"><Link to="/shop-detail">Zapatillas azules deportivas Adidas</Link></h3>
-                      <p className="price">$2143</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-             
+                }
             </div>
           </div>
         </div>
@@ -387,40 +369,17 @@ const ShopDetail = ({props,user_id,history}) => {
               <h4 className="heading-light">Compra el producto para opinar!</h4>
               }
               <ReviewList list = {reviews} />
-              <div className="row">
-                <div className="col-lg-3 col-md-6">
-                  <div className="box text-uppercase mt-0 mb-small">
+                <div className="col-lg-10 col-md-6">
+                  <div className="heading text-uppercase mt-0 mb-small">
                     <h3>Productos que te podrían interesar</h3>
                   </div>
                 </div>
-                <div className="col-lg-3 col-md-6">
-                  <div className="product">
-                    <div className="image"><Link to="#"><img src={product2} alt="" className="img-fluid image1"/></Link></div>
-                    <div className="text">
-                      <h3 className="h5"><Link to="/shop-detail">Camiseta deportiva</Link></h3>
-                      <p className="price">$980</p>
-                    </div>
+                { (!error) ? 
+                  <ProductList list = {list} /> : 
+                  <div className="alert alert-danger mt-2 mb-5 text-center">
+                      Hubo un error al recuperar los datos
                   </div>
-                </div>
-                <div className="col-lg-3 col-md-6">
-                  <div className="product">
-                    <div className="image"><Link to="#"><img src={product3} alt="" className="img-fluid image1"/></Link></div>
-                    <div className="text">
-                      <h3 className="h5"><Link to="/shop-detail">Pantalon soldado Ibera</Link></h3>
-                      <p className="price">$2300</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-lg-3 col-md-6">
-                  <div className="product">
-                    <div className="image"><Link to="#"><img src={product1} alt="" className="img-fluid image1"/></Link></div>
-                    <div className="text">
-                      <h3 className="h5"><Link to="/shop-detail">Zapatillas azules deportivas Adidas</Link></h3>
-                      <p className="price">$2143</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                }
              
             </div>
           </div>

@@ -13,7 +13,7 @@ CREATE domain all_size AS varchar
 CHECK (value IN ('35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','XXS','XS','S','M','L','XL','XXL'));
 
 CREATE domain t_color AS varchar 
-CHECK (value IN ('rojo','verde','azul','cian','magenta','amarillo','naranja','purpura'));
+CHECK (value IN ('rojo','verde','azul','magenta','amarillo','naranja','purpura','marron','blanco','negro','celeste','gris','rosado'));
 
 CREATE domain percent AS int 
 CHECK (value >= 0 AND value <= 100);
@@ -22,7 +22,7 @@ CREATE domain t_price AS float
 CHECK (value >= 0 AND value <= 9999999);
 
 CREATE domain purch_state AS varchar 
-CHECK (value IN ('success','pending','cancelled','cart'));
+CHECK (value IN ('success','pending','pending-pay','cancelled','cart'));
 
 CREATE domain res_state AS varchar
 CHECK (value IN ('reserved','cancelled'));
@@ -51,6 +51,7 @@ CREATE TABLE users (
     id serial,
     e_mail varchar (45) unique,
     psw varchar (40),
+    external_id varchar (60) unique,
     id_role int,
     PRIMARY KEY (id),
     FOREIGN KEY (id_role) REFERENCES roles (id)
@@ -64,7 +65,7 @@ CREATE TABLE customers (
     genre gen,
     c_size t_size,
     shoe_size sh_size,
-    phone_no numeric (15),
+    phone_no varchar (12),
 	id_user int not null unique,
     PRIMARY KEY (id),
 	FOREIGN KEY (id_user) REFERENCES users (id)
@@ -157,7 +158,7 @@ CREATE TABLE purchxitem (
     id_purchase int not null,
     id_color_size int,
     stock t_stock,
-    purch_price t_price default 0,
+    price t_price default 0,
     PRIMARY KEY (id_purchase,id_color_size),
 	FOREIGN KEY (id_purchase) REFERENCES purchase (id)
 );

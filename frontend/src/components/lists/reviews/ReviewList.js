@@ -1,9 +1,10 @@
 import React,{Fragment} from "react";
 import {withRouter} from 'react-router-dom';
+//Ésta lista tiene el boton close
 import './../../../css/default.css';
-import ReservationItem from "./ReservationItem";
+import ReviewItem from "./ReviewItem";
 
-const ReservationList = ({list, handleModalOpen}) => {
+const ReviewList = ({list, handleModalOpen}) => {
     return (
         <Fragment>
             <div className="box mt-0 mb-lg-0">
@@ -13,17 +14,13 @@ const ReservationList = ({list, handleModalOpen}) => {
                       <tr>
                         <th>Producto</th>
                         <th>Fecha</th>
-                        <th>Cantidad</th>
-                        <th>Talle</th>
-                        <th>Color</th>
-                        <th>Precio</th>
-                        <th>Estado</th>
+                        <th>     Valoración</th>
                         <th>Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
                     {list.map(item => (
-                        <ReservationItem 
+                        <ReviewItem 
                             key = {item.id}
                             item = {item}
                             handleModalOpen={handleModalOpen}
@@ -37,4 +34,4 @@ const ReservationList = ({list, handleModalOpen}) => {
     );
 };
 
-export default withRouter(ReservationList);
+export default withRouter(ReviewList);

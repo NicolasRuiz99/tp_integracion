@@ -60,14 +60,57 @@ const listProvinces = async() => {
     .catch(err => {throw err})
 }
 
-//Obtener tipos
-/*const getProductType = async() => {
+const listRecomendedProducts = (type,id) => {
     return axios
-    .get("/type/listall")
+    .post("/product/getRecomended",{
+        type,
+        id
+    })
     .then(res => {
-        return res.data.results
+        return res.data.data;
     })
     .catch(err => {throw err})
-}*/
+}
 
-export {getProducts,getProductInfo,getProductColor_size,getProductReview,getTopSellers,listProvinces};
+const listNewProducts = () => {
+    return axios
+    .get("/product/listNew")
+    .then(res => {
+        return res.data.data;
+    })
+    .catch(err => {throw err})
+}
+
+const listHighRatedProducts = () => {
+    return axios
+    .get("/product/listHighRated")
+    .then(res => {
+        return res.data.data;
+    })
+    .catch(err => {throw err})
+}
+
+const getImage = (name) => {
+    name = encodeURI (name);
+    let link = `https://pixabay.com/api/?key=15066963-0c8a54b7403825fa339127ab5&q=${name}&lang=es&per_page=3&category=fashion`;
+    return axios
+    .get(link)
+    .then(res => {
+        res = JSON.parse (res.request.response)
+        return res.hits[0].webformatURL;
+    })
+    .catch(err => {throw err})
+}
+
+export {
+    getProducts,
+    getProductInfo,
+    getProductColor_size,
+    getProductReview,
+    getTopSellers,
+    listProvinces,
+    listRecomendedProducts,
+    listNewProducts,
+    listHighRatedProducts,
+    getImage
+};

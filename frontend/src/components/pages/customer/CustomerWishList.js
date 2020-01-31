@@ -67,7 +67,8 @@ const CustomerWishList = ({setUser, handleDrop,user_id}) => {
           <div className="row bar">
             <div className="col-lg-9">
                 <hr />
-              <p className="lead">Esta es tu lista de tus productos deseados.</p>
+              {(tamañoList !== 0) ? (<p className="lead">Esta es tu lista de tus productos deseados.</p>) : 
+              (<span className="lead">Actualmente no tienes deseos en tu lista.</span>)}
               {(loading) ? 
                 <div className="col-md-9 text-center"> 
                   <Spinner animation="border" variant="info" size="lg"  />
@@ -82,13 +83,16 @@ const CustomerWishList = ({setUser, handleDrop,user_id}) => {
         </div>
       </div>
       <div style={{paddingRight: '270px'}}>
-      <Paginacion 
+      {(tamañoList !== 0) ? 
+      (
+        <Paginacion 
         listPerPage={listPerPage} 
         totalList={list.length} 
         paginate={paginate} 
         setCurrentPage={setCurrentPage} 
         currentPage={currentPage}
         />
+      ) : null}
       </div>  
       <DeleteProductModal 
         modalOpen={modalOpen}

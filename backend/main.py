@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request, json
-from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases,listPurchaseItems,listCartItems,getCartInfo,listReservations,getReservationItem
+from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases,listPurchaseItems,listCartItems,getCartInfo,listReservations,getReservationItem,listReviews,listNewProducts,listHighRatedProducts
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
-from ddbb_connect import logInUser
+from ddbb_connect import logInUser,logInUser2
 from mp_api import pagar
 
 def handleError (error):
@@ -19,8 +19,12 @@ def mercadopago():
     lista = request.json['list']
     id = request.json['id']
     coupon  = request.json['coupon']
+    cart = request.json['cart']
     for i in lista:
-        precio = i['price'] - ((i['discount']*i['price'])/100)
+        if (cart):
+            precio = i['price'] - ((i['discount']*i['price'])/100)
+        else:
+            precio = i['price']
         if (coupon != None):
             precio = precio - ((coupon*precio)/100)
         items.append ({
@@ -60,9 +64,18 @@ def listproducts():
 
 @app.route ('/product/getRecomended',methods=['POST'])
 def listproductsRecomended():
+    results = []
+    error = False
     type_id = request.json ['type']
-    results = listRecomendedProducts (type_id)
-    return jsonify({'results' : results})
+    id = request.json ['id']
+    try:
+        results = listRecomendedProducts (type_id,id)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data': results})
 
 @app.route ('/customer/listall',methods=['GET'])
 def listcustomerall():
@@ -96,6 +109,19 @@ def loginUser ():
         if not (error):
             return jsonify({'result' : 'success','user_id': user_id})
 
+@app.route ('/user/loginExt',methods=['POST'])
+def loginUserExt ():
+    error = False
+    id = request.json['id']
+    try:
+        user_id = logInUser2 (id)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','user_id': user_id})
+
 @app.route ('/user/register',methods=['POST'])
 def registerUser():
     error = False
@@ -113,13 +139,35 @@ def registerUser():
         if not (error):
             return jsonify({'result' : 'success','user_id': user_id})
 
+@app.route ('/user/registerExt',methods=['POST'])
+def registerUserExt():
+    error = False
+    id = request.json['id']
+    new = User ()
+    new.external_id = id
+    new.id_role = 2
+    try:
+        new.register2()
+        user_id = logInUser2 (id)
+    except (Exception) as err:
+        error = True
+        print (err)
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','user_id': user_id})
+
 @app.route ('/user/mod',methods=['POST'])
 def modUser():
     error = False
+    print (request.json)
     id = request.json['id']
     e_mail = request.json['e_mail']
     psw = request.json['psw']
-    new = User (e_mail,psw,None,id)
+    new = User ()
+    new.id = id
+    new.e_mail = e_mail
+    new.psw = psw
     try:
         new.mod()
     except (Exception) as err:
@@ -232,8 +280,16 @@ def addType():
 
 @app.route ('/type/listall',methods=['GET'])
 def listAllTypes():
-    results = listTypes()
-    return jsonify({'results' : results})
+    result = []
+    error = False
+    try:
+        result = listTypes()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result': 'success','data' : result})
 
 @app.route ('/type/mod',methods=['POST'])
 def modType():
@@ -452,6 +508,32 @@ def getProductColor_size():
     id = request.json['id']
     try:
         result = getColor_size (id)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result': 'success','data' : result})
+
+@app.route ('/product/listNew',methods=['GET'])
+def getNewProducts():
+    result = []
+    error = False
+    try:
+        result = listNewProducts ()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result': 'success','data' : result})
+
+@app.route ('/product/listHighRated',methods=['GET'])
+def getHighRatedProducts():
+    result = []
+    error = False
+    try:
+        result = listHighRatedProducts ()
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -1125,17 +1207,17 @@ def addReview():
 def modReview():
     error = False
     id = request.json['id']
-    date = request.json['date']
     stars = request.json['stars']
     title = request.json['title']
     commentary = request.json['commentary']
     id_product = request.json['id_product']
     id_user = request.json['id_user']
-    new = Review (date,stars,title,commentary,id_product,id_user,id)
+    new = Review (stars,title,commentary,id_product,id_user,id)
     try:
         new.mod()
     except (Exception) as err:
         error = True
+        print(err)
         return handleError (err)
     finally:
         if not (error):
@@ -1156,9 +1238,23 @@ def deleteReview():
         if not (error):
             return jsonify({'result' : 'success'})
 
-"""
+@app.route ('/review/list',methods=['POST'])
+def listUserReview():
+    result = []
+    error = False
+    id_user = request.json['id_user']
+    try:
+        result = listReviews (id_user)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data' : result})
+
+
 @app.route ('/review/get',methods=['POST'])
-def getReview():
+def getReviewInfo():
     error = False
     id = request.json['id']
     new = Review ()
@@ -1171,7 +1267,7 @@ def getReview():
         if not (error):
             result = dict (id = new.id, date = new.date, stars = new.stars, title = new.title, commentary = new.commentary, id_product = new.id_product)
             return jsonify({'result': 'success','data' : result})
-"""
+
 
 if __name__ == '__main__':
     app.run(debug=True)

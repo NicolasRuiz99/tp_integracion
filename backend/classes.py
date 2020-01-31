@@ -1,15 +1,20 @@
 from ddbb_connect import addToTable,listTable,updateTable,deleteFromTable,searchID,deleteFromTable2,searchID2,query,callFun
 
 class User:
-    def __init__ (self,e_mail = None,psw = None,id_role = None,_id = None):
+    def __init__ (self,e_mail = None,psw = None,id_role = None,external_id=None,_id = None):
         self.id = _id
         self.e_mail = e_mail
         self.psw = psw
+        self.external_id = external_id
         self.id_role = id_role 
 
     def register (self):
         new_record = (self.e_mail,self.psw,self.id_role)
         addToTable ('users (e_mail,psw,id_role)',new_record,'(%s,%s,%s)')
+
+    def register2 (self):
+        new_record = (self.external_id,self.id_role)
+        addToTable ('users (external_id,id_role)',new_record,'(%s,%s)')
 
     def mod (self):
         new_record = (self.e_mail,self.psw,self.id)

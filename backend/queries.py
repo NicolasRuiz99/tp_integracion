@@ -24,8 +24,8 @@ def listProducts ():
 def listPurchases (id_user):
     return query ('select * from PurchaseList where id_user = ' + str(id_user))
 
-def listRecomendedProducts (type_id):
-    return query ('select * from products where type = ' + str(type_id))
+def listRecomendedProducts (type_id,id):
+    return query ('select * from products where type = ' + str(type_id) + ' and id != ' + str(id) + ' LIMIT 3')
 
 def getColor_size (prod_id):
     return query ('select c.id,c.color,c.size,c.stock from color_size c where prod_id = ' + str(prod_id) + ' order by c.size')
@@ -46,7 +46,7 @@ def listProductosMasVendidos ():
     return listTable ('ProductosMasVendidos()')
 
 def listPurchaseItems (id):
-    return query ('select prod_id,name,color,size,stock,purch_price from PurchaseItems where id_purchase = ' + str(id))
+    return query ('select prod_id,name,color,size,stock,price from PurchaseItems where id_purchase = ' + str(id))
 
 def listCartItems (user_id):
     return query ('select prod_id,name,id_color_size,color,size,stock,price,discount from CartItems where id_user = ' + str(user_id))
@@ -59,3 +59,12 @@ def listReservations (user_id):
 
 def getReservationItem (user_id,id_color_size):
     return query ('select id from ActiveReservations where id_user = ' + str (user_id) + 'and id_color_size = ' + str(id_color_size))
+
+def listReviews (user_id):
+    return query ('select id,date,stars,id_product,name from ReviewProduct where id_user = ' + str(user_id))
+
+def listNewProducts ():
+    return query ('select * from products ORDER BY id DESC LIMIT 6')
+
+def listHighRatedProducts ():
+    return query ('select * from ProductosMejorValorados()')

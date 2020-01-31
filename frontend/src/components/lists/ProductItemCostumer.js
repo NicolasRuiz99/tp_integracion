@@ -2,15 +2,21 @@ import React, { Fragment,useEffect,useState } from "react";
 import product1 from "./../../assets/product1.jpg";
 import {Link, withRouter} from 'react-router-dom';
 import './../../css/default.css';
-
+import { getImage } from "../pages/shop/utils/shopFunctions";
 
 const ProductItemCostumer = ({item, handleModalOpen}) => {
     const [link,setLink] = useState ('');
     const [isHovering, setIsHovering] = useState(false);
     const [id] = useState(item.id);
+    const [img,setImage] = useState(product1);
 
-
-    useEffect (()=> setLink (`/shop-detail/${id}`) ,[]);
+    useEffect (()=> {
+        setLink (`/shop-detail/${id}`);
+        //getImage (item.name)
+        //.then (res=>{
+        //    setImage (res);
+        //})
+    },[]);
 
     return (
         <Fragment>
@@ -39,7 +45,7 @@ const ProductItemCostumer = ({item, handleModalOpen}) => {
                        <span aria-hidden="true">&times;</span>
                     </div>
                 ) : null}
-            <div className="image" style={{'border-radius': '100%'}} ><Link to={link}><img src={product1} alt="" className="img-fluid image1" style={{position: 'relative', 'z-index': '-1', display: 'inline-block' }}/></Link></div>
+            <div className="image" style={{'border-radius': '100%'}} ><Link to={link}><img src={img} alt="" className="img-fluid image1" style={{position: 'relative', 'z-index': '-1', display: 'inline-block' }}/></Link></div>
                 <div className="text">
                     <h3 className="h5"><Link to={link}>{item.name}</Link></h3>
                     <p className="price"> {(item.discount !== 0)?<del> ${item.price} </del> : null} ${item.price-((item.discount*item.price)/100)}</p> 

@@ -2,9 +2,10 @@ import React, {Fragment, useState} from 'react';
 import {Link,withRouter} from 'react-router-dom';
 import './../../../css/default.css';
 import BreadCrumbs from './../../BreadCrumbs';
-import {register, login,getEMails} from './utils/CustomerFunctions';
+import {register, login,getEMails, login2, register2} from './utils/CustomerFunctions';
 import { validarLogin, validarEmail, validarPsw } from '../../../validacion/validate';
 import Error from '../../messages/Error';
+import { googleLogin, facebookLogin } from './utils/firebaseLogin';
 
 const CustomerRegister = ({history,setUser}) => {
 
@@ -27,6 +28,79 @@ const CustomerRegister = ({history,setUser}) => {
 
   const [mailList, setMailList] = useState([]);
   const [error2, setError2] = useState(false);
+
+  const handleGoogleLogin = () => {
+    googleLogin ()
+    .then (res=> {
+      login2 (res)
+      .then (res =>{
+        setUser (res.user_id);
+        history.push('/');
+      })
+      .catch (err => {
+        setErrorLogin (true);
+        return;
+      })
+    })
+    .catch (err => console.log(err))
+    setErrorLogin (false);
+  }
+
+  const handleGoogleRegister = () => {
+    googleLogin ()
+    .then (res=> {
+      register2 (res)
+      .then (res =>{
+        setUser (res.user_id);
+        history.push('/');
+      })
+      .catch (err => {
+        setErrorServer (true);
+        return;
+      })
+    })
+    .catch (err => console.log(err))
+    setErrorServer (false);
+  }
+
+  const handleFacebookLogin = () => {
+    facebookLogin ()
+    .then (res=> {
+      console.log(res);
+      
+      //login2 (res)
+      //.then (res =>{
+      //  setUser (res.user_id);
+      //  history.push('/');
+      //})
+      //.catch (err => {
+      //  setErrorLogin (true);
+      //  return;
+      //})
+    })
+    .catch (err => console.log(err))
+    setErrorLogin (false);
+  }
+
+  const handleFacebookRegister = () => {
+    facebookLogin ()
+    .then (res=> {
+      console.log(res);
+      
+      //register2 (res)
+      //.then (res =>{
+
+        //setUser (res.user_id);
+        //history.push('/');
+      //})
+      //.catch (err => {
+      //  setErrorServer (true);
+      //  return;
+      //})
+    })
+    .catch (err => console.log(err))
+    setErrorServer (false);
+  }
 
   const handleSubmitRegister = (e) => {
     e.preventDefault();    
@@ -66,7 +140,7 @@ const CustomerRegister = ({history,setUser}) => {
 
     register(newCustomer)
     .then (res=>{
-        setUser(res.user_id);
+      setUser(res.user_id);
     })
     .catch (err => {
       setErrorServer(true);
@@ -83,7 +157,7 @@ const CustomerRegister = ({history,setUser}) => {
     setErrorMails({});
     setErrorServer(false);
     setErrorPSWS({});
-    history.push ('/');
+   history.push('/');
   }
 
   const handleSubmitLogin = async (e) => {
@@ -151,6 +225,8 @@ const CustomerRegister = ({history,setUser}) => {
                   </div>
                   <div className="text-center">
                     <button type="submit" className="btn btn-outlined"><i className="fa fa-user-md"></i> Registrarse</button>
+                    <button type="button" className="btn btn-outlined" onClick={handleGoogleRegister}><i className="fa fa-user-md"></i>Ingresar con Google</button>
+                    <button type="button" className="btn btn-outlined" onClick={handleFacebookRegister}><i className="fa fa-user-md"></i>Ingresar con Facebook</button>
                   </div>
                 </form>
               </div>
@@ -174,6 +250,8 @@ const CustomerRegister = ({history,setUser}) => {
                   </div>
                   <div className="text-center">
                     <button type="submit" className="btn btn-outlined"><i className="fa fa-sign-in"></i> Ingresar</button>
+                    <button type="button" className="btn btn-outlined" onClick={handleGoogleLogin}><i className="fa fa-user-md"></i>Logearse con Google</button>
+                    <button type="button" className="btn btn-outlined" onClick={handleFacebookLogin}><i className="fa fa-user-md"></i>Logearse con Facebook</button>
                   </div>
                 </form>
               </div>

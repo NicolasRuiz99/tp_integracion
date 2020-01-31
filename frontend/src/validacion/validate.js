@@ -1,11 +1,10 @@
-const CARACTERES ="abcdefghyjklmnñopqrstuvwxyzABCDEFGHYJKLMNÑOPQRSTUVWXYZáéíóúÁÉÍÓÚ.°',_{}´`*-!?¿%&$#¡<>[]^~¨+/|¬@:;=";
 const LETRAS = "abcdefghyjklmnñopqrstuvwxyzABCDEFGHYJKLMNÑOPQRSTUVWXYZáéíóúÁÉÍÓÚ";
 const SIMBOLOS = ".°',_{}´`*-!?¿%&$#¡<>[]^~¨+/|¬@:;=";
 const NUMEROS = "0123456789";
 //Funciones de ayuda
 const hayLetra = (cad) => {
     for(let i=0; i < cad.length; i++){
-        if (CARACTERES.indexOf(cad.charAt(i),0)!=-1){
+        if (LETRAS.indexOf(cad.charAt(i),0)!=-1 || SIMBOLOS.indexOf(cad.charAt(i),0)!=-1 ){
            return true;
         }
     }
@@ -49,7 +48,7 @@ const isDni = (dni) => {
     return false;
  }
 const isTel = (tel) => {
-    if ( tel.length != 9 && tel.length != 10 && tel.length != 12 && tel.length != 11){
+    if (tel.length != 9 && tel.length != 10 && tel.length != 12 && tel.length != 11){
         return true;
     }
     if (hayLetra(tel)){
@@ -91,9 +90,6 @@ const validarPsw = (psw1, psw2) => {
 }
 
 const validarCustomer = (name, surname, tel, dni) => {
-    name = name.toLowerCase();
-    surname = surname.toLowerCase();
-    tel = tel.toString();
     console.log("tel:", tel,"dni:", dni, "name:", name);
     const errors = {};
     if (obligatorio(dni)) {
@@ -155,4 +151,21 @@ const validarCarrito = (name, surname, address, dni, zip, province) => {
     return errors;
 }
 
-export {validarEmail, validarPsw, validarCustomer, validarLogin, validarCarrito};
+//Validar reseña
+const validarReview = (title, stars) => {
+    const errors = {}
+    if (obligatorio(title)) {
+        errors.obligatorio = "El título es obligatorio";
+    }
+    else if (stars !== null) {
+        if (stars === 0) {
+            errors.stars = "Es necesario valorar el producto";
+        }
+    }
+    return errors;
+}
+
+export {validarEmail, validarPsw, validarCustomer, validarLogin, validarCarrito, validarReview};
+
+
+

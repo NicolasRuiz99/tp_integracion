@@ -2,10 +2,11 @@ import React, { Fragment,useEffect,useState } from 'react';
 import './../../../css/default.css';
 import BreadCrumbs from './../../BreadCrumbs';
 import CustomerSection from './CustomerSection';
-import {getPurchaseList} from '../customer/utils/CustomerFunctions';
-import PurchaseList from '../../lists/PurchaseList';
+import {getPurchaseList,setPurchaseState} from '../customer/utils/CustomerFunctions';
+import PurchaseList from '../../lists/purchase/PurchaseList';
 import {Link} from 'react-router-dom';
 import Spinner from 'react-bootstrap/Spinner';
+import CancelPurchaseModal from '../../modals/CancelPurchaseModal';
 
 const CustomerOrders = ({setUser, handleDrop,user_id}) => {
 
@@ -13,6 +14,9 @@ const CustomerOrders = ({setUser, handleDrop,user_id}) => {
     const [error,setError] = useState (false);
     const [serverError,setServerError] = useState (false);
     const [loading,setLoading] = useState (false);
+    const [purchase, setPurchase] = useState(null);
+    const [refresh,setRefresh] = useState (false);
+    const [modalOpen, setModalOpen] = useState(false);
 
     useEffect( () => {
       
@@ -31,7 +35,33 @@ const CustomerOrders = ({setUser, handleDrop,user_id}) => {
       }
       setServerError (false);
       setError (false);        
-  }, [user_id] );
+  }, [user_id, refresh] );
+
+    const handleModalOpen = (purchase) => {
+      
+      if (purchase != null) {
+      setModalOpen(!modalOpen);
+      setPurchase(purchase);
+    }else{
+      setModalOpen(!modalOpen);
+      setPurchase(null);
+    }
+    setError(false);  
+  };
+
+  const cancelarCompra = () => {
+    const {id} = purchase;
+    let state = "cancelled";
+    setPurchaseState(id,state)
+    .then(res => {
+      setRefresh(true);
+    })
+    .catch (err => {
+      setServerError(true);
+    });
+    setServerError(false);
+    setPurchase(null);
+  }
 
     return (
         <Fragment>
@@ -61,7 +91,7 @@ const CustomerOrders = ({setUser, handleDrop,user_id}) => {
                         No hay compras para mostrar
                       </div>
                       :
-                      <PurchaseList list={list}/>
+                      <PurchaseList list={list} handleModalOpen={handleModalOpen}/>
                       }
                     </div>
                     }
@@ -73,6 +103,12 @@ const CustomerOrders = ({setUser, handleDrop,user_id}) => {
           </div>
         </div>
       </div>
+      <CancelPurchaseModal
+        modalOpen={modalOpen}
+        handleModalOpen={handleModalOpen}
+        cancelarCompra={cancelarCompra}
+        user_id={user_id} 
+  />
       </Fragment>
     );
 }
