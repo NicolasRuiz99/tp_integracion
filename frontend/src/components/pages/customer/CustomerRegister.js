@@ -6,7 +6,7 @@ import {register, login,getEMails, login2, register2} from './utils/CustomerFunc
 import { validarLogin, validarEmail, validarPsw } from '../../../validacion/validate';
 import Error from '../../messages/Error';
 import { googleLogin, facebookLogin } from './utils/firebaseLogin';
-
+import 'bootstrap-social';
 const CustomerRegister = ({history,setUser}) => {
 
   //states del Registro
@@ -223,11 +223,11 @@ const CustomerRegister = ({history,setUser}) => {
                     <label for="password-login">Confirmar Contraseña</label>
                     <input id="password-login" type="password" className="form-control" onChange={e => setContraseña2(e.target.value)} />
                   </div>
-                  <div className="text-center">
-                    <button type="submit" className="btn btn-outlined"><i className="fa fa-user-md"></i> Registrarse</button>
-                    <button type="button" className="btn btn-outlined" onClick={handleGoogleRegister}><i className="fa fa-user-md"></i>Ingresar con Google</button>
-                    <button type="button" className="btn btn-outlined" onClick={handleFacebookRegister}><i className="fa fa-user-md"></i>Ingresar con Facebook</button>
-                  </div>
+                  <ul className="text-center list-group list-group-flush">
+                    <li className="list-group-item" ><button type="submit" className="btn btn-outlined"><i className="fa fa-user-md"></i> Registrarse</button></li>
+                    <li className="list-group-item"><button type='button' className="btn btn-outlined btn-social btn-google"  onClick={() => handleGoogleRegister} ><i className="fab fa-google-plus-g"></i>Registrarse con Google</button></li>
+                    <li className="list-group-item" ><button type='button' className="btn btn-outlined btn-social btn-facebook"  onClick={() => handleFacebookRegister }><i className="fab fa-facebook-square"></i>Registrarse con Facebook</button></li> 
+                  </ul>
                 </form>
               </div>
             </div>
@@ -248,11 +248,11 @@ const CustomerRegister = ({history,setUser}) => {
                     <label for="password">Contraseña</label>
                     <input id="password" type="password" className="form-control" onChange={e => setPass(e.target.value)} />
                   </div>
-                  <div className="text-center">
-                    <button type="submit" className="btn btn-outlined"><i className="fa fa-sign-in"></i> Ingresar</button>
-                    <button type="button" className="btn btn-outlined" onClick={handleGoogleLogin}><i className="fa fa-user-md"></i>Logearse con Google</button>
-                    <button type="button" className="btn btn-outlined" onClick={handleFacebookLogin}><i className="fa fa-user-md"></i>Logearse con Facebook</button>
-                  </div>
+                  <ul className="text-center list-group list-group-flush">
+                    <li className="list-group-item"><button type="submit" className="btn btn-outlined"><i className="fa fa-sign-in"></i> Ingresar</button></li>
+                    <li className="list-group-item"><button type='button' className="btn btn-outlined btn-social btn-google"  onClick={() => handleGoogleLogin} ><i className="fab fa-google-plus-g"></i>Ingresar con Google</button></li>
+                    <li className="list-group-item" ><button type='button' className="btn btn-outlined btn-social btn-facebook"  onClick={() => handleFacebookLogin }><i className="fab fa-facebook-square"></i>Ingresar con Facebook</button></li>
+                  </ul>
                 </form>
               </div>
             </div>

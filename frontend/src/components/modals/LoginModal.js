@@ -7,7 +7,8 @@ import './../../css/modal.css';
 import {login, getCustomerInfo, login2} from '../pages/customer/utils/CustomerFunctions'
 import { validarLogin } from '../../validacion/validate';
 import Error from '../messages/Error';
-import { googleLogin } from '../pages/customer/utils/firebaseLogin';
+import { googleLogin, facebookLogin } from '../pages/customer/utils/firebaseLogin';
+import 'bootstrap-social';
 
 const LoginModal = ({modalOpen,handleModalOpen,setUser,history}) => { 
 
@@ -30,6 +31,25 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history}) => {
         setErrorCustomer (true);
         return;
       })
+    })
+    .catch (err => console.log(err))
+    setErrorCustomer (false);
+  }
+
+  const handleFacebookLogin = () => {
+    facebookLogin ()
+    .then (res=> {
+      console.log(res);
+      
+      //login2 (res)
+      //.then (res =>{
+      //  setUser (res.user_id);
+      //  history.push('/');
+      //})
+      //.catch (err => {
+      //  setErrorLogin (true);
+      //  return;
+      //})
     })
     .catch (err => console.log(err))
     setErrorCustomer (false);
@@ -86,10 +106,11 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history}) => {
                 <div class="form-group">
                   <input id="password_modal" type="password" placeholder="Contraseña" className="form-control" onChange={e => setPass(e.target.value)}/>
                 </div>
-                <p className="text-center">
-                  <button className="btn btn-outlined"><i className="fa fa-sign-in"></i> Acceder</button>
-                  <button className="btn btn-outlined" type="button" onClick={handleGoogleLogin} ><i className="fa fa-sign-in"></i> Acceder con Google</button>
-                </p>
+                <ul className="text-center list-group list-group-flush">
+                    <li className="list-group-item"><button type="submit" className="btn btn-outlined"><i className="fa fa-sign-in"></i> Ingresar</button></li>
+                    <li className="list-group-item"><button type='button' className="btn btn-outlined btn-social btn-google"  onClick={() => handleGoogleLogin} ><i className="fab fa-google-plus-g"></i>Ingresar con Google</button></li>
+                    <li className="list-group-item" ><button type='button' className="btn btn-outlined btn-social btn-facebook"  onClick={() => handleFacebookLogin }><i className="fab fa-facebook-square"></i>Ingresar con Facebook</button></li>
+                  </ul>
               </form>
               <p className="text-center text-muted">Aún no estás registrado?</p>
               <p className="text-center text-muted"><Link to="/registro"><strong>Registráte ahora</strong></Link>! Es fácil y en menos de un minuto tendrás acceso a descuentos fantásticos y mucho más!</p>

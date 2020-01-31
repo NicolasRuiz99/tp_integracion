@@ -61,14 +61,7 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history}) =
                                     <i className="fa fa-sign-in"></i>
                                     <span class="d-none d-md-inline-block">Acceder</span>
                                 </Link>
-                                
                                 </div>
-                                
-                                <ul className="social-custom list-inline">
-                                {/* {Implementar lógica de redes sociales} */}
-                                <li className="list-inline-item"><Link to="#"><i className="fab fa-facebook"></i></Link></li>
-                                <li className="list-inline-item"><Link to="#"><i className="fab fa-google-plus"></i></Link></li>
-                                </ul>
                                 </Fragment>
                                 ) : 
                                 (<Fragment> 
