@@ -314,3 +314,4 @@
 [1223/161040.050:ERROR:process_memory_win.cc(73)] ReadMemory at 0x7fff4785f978 of 48 bytes failed: Solo se completó una parte de una solicitud ReadProcessMemory o WriteProcessMemory. (0x12B)
 [1223/161040.050:ERROR:process_memory_win.cc(73)] ReadMemory at 0x7fff478653c0 of 64 bytes failed: Solo se completó una parte de una solicitud ReadProcessMemory o WriteProcessMemory. (0x12B)
 [1223/161040.062:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: Se intentó obtener acceso a un proceso que está cerrándose. (0xc000010a)
+[0126/161350.330:ERROR:settings.cc(320)] Settings magic is not 1129342067

@@ -27,6 +27,7 @@ import ShopDetail from './components/pages/shop/ShopDetail';
 import TopSellers from './components/pages/nav-items/TopSellers';
 import ShopCheckout from './components/pages/shop/ShopCheckout';
 import PurchResult from './components/pages/customer/purch_states/PurchResult';
+import Admin from './components/admin/Admin';
 
 const App = () => {
 
@@ -60,6 +61,7 @@ const App = () => {
             <Route exact path="/" render={()=><HomePage user_id = {user_id} />} />
             <Route  path="/contact" component={Contact} />
             <Route  path="/top-ten" component={TopVentas} />
+            <Route  path="/admin-page" component={Admin} />
             <Route  path="/shop-category" render={() => (
               <Categorias search={search} setIsOferta={setIsOferta} isOferta={false}/>
             )} />

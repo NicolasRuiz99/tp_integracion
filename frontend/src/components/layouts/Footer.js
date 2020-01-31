@@ -28,6 +28,8 @@ const Footer = () => {
                 <br/>
                 <li className="list-inline-item"><Link to="/customer-reservations"><p>Mis reservas</p></Link></li>
                 <br/>
+                <li className="list-inline-item"><Link to="/customer-reviewlist"><p>Mis reseñas</p></Link></li>
+                <br/>
                 <li className="list-inline-item"><Link to="/customer-account"><p>Mi perfil</p></Link></li>
               </ul>
             </div>
