@@ -99,6 +99,7 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history}) => {
                   {/* Esto te lleva a la seccion compras del cliente */}
               {error && <Error texto="Datos incorrectos" />}
               {errorCustomer.obligatorio && <Error texto={errorCustomer.obligatorio} />}
+           
               <form onSubmit={handleAction}>
                 <div className="form-group">
                   <input id="email_modal" type="text" placeholder="Email" className="form-control" onChange={e => setMail(e.target.value)}/>
