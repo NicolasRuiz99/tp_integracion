@@ -24,6 +24,8 @@ export default function CustomerList({copyList, setSearch}) {
                 <table className="table table-bordered table table-hover" width="100%" cellspacing="0">
                   <thead>
                     <tr>
+                      <th>ID</th>
+                      <th>Correo</th>
                       <th>DNI</th>
                       <th>Nombre</th>
                       <th>Apellido</th>
@@ -33,6 +35,8 @@ export default function CustomerList({copyList, setSearch}) {
                   </thead>
                   <tfoot>
                     <tr>
+                      <th>ID</th>
+                      <th>Correo</th>
                       <th>DNI</th>
                       <th>Nombre</th>
                       <th>Apellido</th>

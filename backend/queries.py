@@ -7,13 +7,22 @@ def listUsersE_Mails ():
     return query ('select e_mail from users')
 
 def listCustomers ():
-    return listTable ('customers')
+    return listTable ('UserCustomer')
 
 def listTypes ():
     return listTable ('type')
 
 def listRoles ():
     return listTable ('roles')
+
+def listAllPurchases ():
+    return listTable ('purchase')
+
+def listAllReviews ():
+    return listTable ('ReviewProduct')
+
+def listAllReservations ():
+    return listTable ('reservationsList')
 
 def getUserCustomer (id):
     return query ('select * from UserCustomer where id_user = ' + str(id))

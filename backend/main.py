@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, json
-from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases,listPurchaseItems,listCartItems,getCartInfo,listReservations,getReservationItem,listReviews,listNewProducts,listHighRatedProducts
+from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases,listPurchaseItems,listCartItems,getCartInfo,listReservations,getReservationItem,listReviews,listNewProducts,listHighRatedProducts,listAllPurchases,listAllReviews,listAllReservations
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser,logInUser2
 from mp_api import pagar
@@ -60,6 +60,21 @@ def listall():
 @app.route ('/product/listall',methods=['GET'])
 def listproducts():
     results = listProducts()
+    return jsonify({'results' : results})
+
+@app.route ('/purchase/listall',methods=['GET'])
+def listallpurchases():
+    results = listAllPurchases()
+    return jsonify({'results' : results})
+
+@app.route ('/review/listall',methods=['GET'])
+def listallreviews():
+    results = listAllReviews()
+    return jsonify({'results' : results})
+
+@app.route ('/reservation/listall',methods=['GET'])
+def listallreservations():
+    results = listAllReservations()
     return jsonify({'results' : results})
 
 @app.route ('/product/getRecomended',methods=['POST'])

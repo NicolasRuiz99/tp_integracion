@@ -4,6 +4,8 @@ export default function CustomerItem({item}) {
     return (
         <Fragment>
             <tr>
+            <td>{item.id_user}</td>
+            <td>{item.e_mail}</td>
             <td>{item.dni}</td>
             <td>{item.name}</td>
             <td>{item.surname}</td>
