@@ -151,11 +151,13 @@ const CustomerAccount = ({user_id, handleDrop}) => {
           setSuccessMail(true);
         })
         .catch (err => {
+          setServerError (true);
           setSuccessMail(false);
           return;
         })
       }
       setErrorMails({});
+      setServerError (false);
     }
   
     

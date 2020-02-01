@@ -39,17 +39,16 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history}) => {
   const handleFacebookLogin = () => {
     facebookLogin ()
     .then (res=> {
-      console.log(res);
-      
-      //login2 (res)
-      //.then (res =>{
-      //  setUser (res.user_id);
-      //  history.push('/');
-      //})
-      //.catch (err => {
-      //  setErrorLogin (true);
-      //  return;
-      //})
+      login2 (res)
+      .then (res =>{
+        setUser (res.user_id);
+        handleModalOpen();
+        history.push('/');
+      })
+      .catch (err => {
+        setErrorCustomer (true);
+        return;
+      })
     })
     .catch (err => console.log(err))
     setErrorCustomer (false);

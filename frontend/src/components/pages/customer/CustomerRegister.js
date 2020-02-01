@@ -66,17 +66,15 @@ const CustomerRegister = ({history,setUser}) => {
   const handleFacebookLogin = () => {
     facebookLogin ()
     .then (res=> {
-      console.log(res);
-      
-      //login2 (res)
-      //.then (res =>{
-      //  setUser (res.user_id);
-      //  history.push('/');
-      //})
-      //.catch (err => {
-      //  setErrorLogin (true);
-      //  return;
-      //})
+      login2 (res)
+      .then (res =>{
+        setUser (res.user_id);
+        history.push('/');
+      })
+      .catch (err => {
+        setErrorLogin (true);
+        return;
+      })
     })
     .catch (err => console.log(err))
     setErrorLogin (false);
@@ -85,18 +83,15 @@ const CustomerRegister = ({history,setUser}) => {
   const handleFacebookRegister = () => {
     facebookLogin ()
     .then (res=> {
-      console.log(res);
-      
-      //register2 (res)
-      //.then (res =>{
-
-        //setUser (res.user_id);
-        //history.push('/');
-      //})
-      //.catch (err => {
-      //  setErrorServer (true);
-      //  return;
-      //})
+      register2 (res)
+      .then (res =>{
+        setUser (res.user_id);
+        history.push('/');
+      })
+      .catch (err => {
+        setErrorServer (true);
+        return;
+      })
     })
     .catch (err => console.log(err))
     setErrorServer (false);

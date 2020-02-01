@@ -187,6 +187,7 @@ def modUser():
         new.mod()
     except (Exception) as err:
         error = True
+        print (err)
         return handleError (err)
     finally:
         if not (error):
