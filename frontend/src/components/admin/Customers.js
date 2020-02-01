@@ -1,17 +1,17 @@
 import React, { useState, useEffect, Fragment } from 'react'
-import ProductList from './list/product/ProductList';
-import {getProducts} from './../pages/shop/utils/shopFunctions';
+import CustomerList from './list/customer/CustomerList';
+import {getCustomers} from './../pages/customer/utils/CustomerFunctions';
 import Error from './../messages/Error';
 
 
-export default function Products() {
+export default function Customers() {
     const [list, setList] = useState([]);
     const [error, setError] = useState(false);
     const [copyList, setCopyList] = useState([]);
     const [search, setSearch] = useState('');
 
     useEffect(() => {
-        getProducts()
+        getCustomers()
         .then(res => {
             console.log(res);
             setList(res);
@@ -27,8 +27,8 @@ export default function Products() {
     //UseEffect de busqueda
     useEffect( () => {
         if(search !== '') {
-            setCopyList(list.filter(product => {
-                return (product.name.toLowerCase().includes(search.toLowerCase()) || product.brand.toLowerCase().includes(search.toLowerCase()));
+            setCopyList(list.filter(customer => {
+                return (customer.name.toLowerCase().includes(search.toLowerCase()) || customer.surname.toLowerCase().includes(search.toLowerCase()));
             }));
        }else{
             setCopyList(list);
@@ -38,8 +38,7 @@ export default function Products() {
 
     return (
         <Fragment>
-        {(error) ? <Error texto="ha ocurrido un error" /> : <ProductList copyList={copyList} setSearch={setSearch} />}
-        
+        {(error) ? <Error texto="ha ocurrido un error" /> : <CustomerList copyList={copyList} setSearch={setSearch} />}
         </Fragment>
     )
 }

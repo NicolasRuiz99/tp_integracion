@@ -8,6 +8,7 @@ import {getUserWishlist} from './utils/CustomerFunctions';
 import ProductList from '../../lists/ProductList';
 import DeleteProductModal from '../../modals/DeleteProductModal'
 import Paginacion from './../shop/Paginacion';
+import Info from '../../messages/Info';
 
 const CustomerWishList = ({setUser, handleDrop,user_id}) => {
 
@@ -68,7 +69,7 @@ const CustomerWishList = ({setUser, handleDrop,user_id}) => {
             <div className="col-lg-9">
                 <hr />
               {(tamañoList !== 0) ? (<p className="lead">Esta es tu lista de tus productos deseados.</p>) : 
-              (<span className="lead">Actualmente no tienes deseos en tu lista.</span>)}
+              (<Info className="lead" texto="Actualmente no tienes deseos en tu lista" />)}
               {(loading) ? 
                 <div className="col-md-9 text-center"> 
                   <Spinner animation="border" variant="info" size="lg"  />

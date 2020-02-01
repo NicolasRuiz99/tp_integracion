@@ -44,7 +44,7 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history}) =
                         <p>Contactános en <i className="fas fa-phone"></i>   +54 3442 425688 </p>
                     </div>
                     <div className="col-md-6">
-                        <div className="d-flex justify-content-md-end justify-content-end">
+                        <div className="d-flex justify-content-md-end justify-content-end" >
                             
                                 {(!isLogged) ? (
                                     <Fragment>

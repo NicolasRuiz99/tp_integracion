@@ -1,11 +1,11 @@
 import React, {useState} from 'react'
 import './../../../../css/default.css';
-import ProductItem from './ProductItem';
+import CustomerItem from './CustomerItem';
 import Search from './../Search';
 import Paginacion from './../../../pages/shop/Paginacion';
 
 //Cada tabla tendrá su propia barra de búsqueda
-export default function ProductList({copyList, setSearch}) {
+export default function CustomerList({copyList, setSearch}) {
   const [currentPage, setCurrentPage] = useState(1);
   const [listPerPage] = useState(6);
   //Obtener lista de productos actual
@@ -24,25 +24,25 @@ export default function ProductList({copyList, setSearch}) {
                 <table className="table table-bordered table table-hover" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>ID</th>
+                      <th>DNI</th>
                       <th>Nombre</th>
+                      <th>Apellido</th>
                       <th>Género</th>
-                      <th>Material</th>
-                      <th>Precio</th>
+                      <th>Teléfono</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                      <th>ID</th>
+                      <th>DNI</th>
                       <th>Nombre</th>
+                      <th>Apellido</th>
                       <th>Género</th>
-                      <th>Material</th>
-                      <th>Precio</th>
+                      <th>Teléfono</th>
                     </tr>
                   </tfoot>
                   <tbody>
                   {currentList.map(item => (
-                        <ProductItem 
+                        <CustomerItem 
                             key = {item.id}
                             item = {item}
                         />

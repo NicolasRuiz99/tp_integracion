@@ -450,6 +450,15 @@ const payMP = (list,id,coupon,cart) => {
     .catch(err => {throw err})
 }
 
+const getCustomers = async() => {
+    return axios
+    .get("/customer/listall")
+    .then(res => {
+        return res.data.results
+    })
+    .catch(err => {throw err})
+}
+
 export {
     login, 
     login2,
@@ -490,5 +499,6 @@ export {
     listUserReviews,
     deleteReview,
     getReview,
-    modReview
+    modReview,
+    getCustomers
 };
