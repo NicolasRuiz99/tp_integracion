@@ -2,7 +2,7 @@ import React, { Fragment,useEffect,useState } from "react";
 import product1 from "./../../../assets/product1.jpg";
 import {Link} from 'react-router-dom';
 import './../../../css/default.css';
-import './review.css';
+import './../../../css/review.css';
 import moment from 'moment';
 import Rating from "../../pages/shop/Rating";
 

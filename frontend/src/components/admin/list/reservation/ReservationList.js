@@ -1,11 +1,11 @@
 import React, {useState} from 'react'
 import './../../../../css/default.css';
-import CustomerItem from './CustomerItem';
+import ReservationItem from './ReservationItem';
 import Search from './../Search';
 import Paginacion from './../../../pages/shop/Paginacion';
 
 //Cada tabla tendrá su propia barra de búsqueda
-export default function CustomerList({copyList, setSearch}) {
+export default function ReservationList({copyList, setSearch}) {
   const [currentPage, setCurrentPage] = useState(1);
   const [listPerPage] = useState(8);
   //Obtener lista de productos actual
@@ -26,28 +26,32 @@ export default function CustomerList({copyList, setSearch}) {
                   <thead>
                     <tr>
                       <th style={{textAlign:'center'}}>ID</th>
-                      <th style={{textAlign:'center'}}>Correo</th>
-                      <th style={{textAlign:'center'}}>DNI</th>
-                      <th style={{textAlign:'center'}}>Nombre</th>
-                      <th style={{textAlign:'center'}}>Apellido</th>
-                      <th style={{textAlign:'center'}}>Género</th>
-                      <th style={{textAlign:'center'}}>Teléfono</th>
+                      <th style={{textAlign:'center'}}>Fecha</th>
+                      <th style={{textAlign:'center'}}>Producto</th>
+                      <th style={{textAlign:'center'}}>Color</th>
+                      <th style={{textAlign:'center'}}>Talle</th>
+                      <th style={{textAlign:'center'}}>Stock</th>
+                      <th style={{textAlign:'center'}}>Precio</th>
+                      <th style={{textAlign:'center'}}>Estado</th>
+                      <th style={{textAlign:'center'}}>Acciones</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                    <th style={{textAlign:'center'}}>ID</th>
-                      <th style={{textAlign:'center'}}>Correo</th>
-                      <th style={{textAlign:'center'}}>DNI</th>
-                      <th style={{textAlign:'center'}}>Nombre</th>
-                      <th style={{textAlign:'center'}}>Apellido</th>
-                      <th style={{textAlign:'center'}}>Género</th>
-                      <th style={{textAlign:'center'}}>Teléfono</th>
+                      <th style={{textAlign:'center'}}>ID</th>
+                      <th style={{textAlign:'center'}}>Fecha</th>
+                      <th style={{textAlign:'center'}}>Producto</th>
+                      <th style={{textAlign:'center'}}>Color</th>
+                      <th style={{textAlign:'center'}}>Talle</th>
+                      <th style={{textAlign:'center'}}>Stock</th>
+                      <th style={{textAlign:'center'}}>Precio</th>
+                      <th style={{textAlign:'center'}}>Estado</th>
+                      <th style={{textAlign:'center'}}>Acciones</th>
                     </tr>
                   </tfoot>
                   <tbody>
                   {currentList.map(item => (
-                        <CustomerItem 
+                        <ReservationItem 
                             key = {item.id}
                             item = {item}
                         />

@@ -1,16 +1,17 @@
-import React, {Fragment} from 'react'
+import React, {Fragment} from 'react';
+import {capitalize} from './../../utils/adminFunctions';
 
 export default function CustomerItem({item}) {
     return (
         <Fragment>
             <tr>
-            <td>{item.id_user}</td>
-            <td>{item.e_mail}</td>
-            <td>{item.dni}</td>
-            <td>{item.name}</td>
-            <td>{item.surname}</td>
-            <td>{item.genre}</td>
-            <td>{item.phone_no}</td>
+            <td style={{textAlign:'center'}}>{item.id_user}</td>
+            <td style={{textAlign:'center'}}>{item.e_mail}</td>
+            <td style={{textAlign:'center'}}>{item.dni}</td>
+            <td style={{textAlign:'center'}}>{capitalize(item.name)}</td>
+            <td style={{textAlign:'center'}}>{capitalize(item.surname)}</td>
+            <td style={{textAlign:'center'}}><span>{item.genre}</span></td>
+            <td style={{textAlign:'center'}}>{item.phone_no}</td>
             </tr>
         </Fragment>
     )

@@ -2,7 +2,7 @@ import React, { Fragment,useEffect,useState } from "react";
 import product1 from "./../../../assets/product1.jpg";
 import {Link} from 'react-router-dom';
 import './../../../css/default.css';
-import './reservation.css';
+import './../../../css/reservation.css';
 import moment from 'moment';
 
 const ReservationItem = ({item, handleModalOpen}) => {

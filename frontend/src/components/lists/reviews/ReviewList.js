@@ -14,7 +14,7 @@ const ReviewList = ({list, handleModalOpen}) => {
                       <tr>
                         <th>Producto</th>
                         <th>Fecha</th>
-                        <th>     Valoración</th>
+                        <th>Valoración</th>
                         <th>Acciones</th>
                       </tr>
                     </thead>

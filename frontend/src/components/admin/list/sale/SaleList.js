@@ -1,11 +1,11 @@
 import React, {useState} from 'react'
 import './../../../../css/default.css';
-import CustomerItem from './CustomerItem';
+import SaleItem from './SaleItem';
 import Search from './../Search';
 import Paginacion from './../../../pages/shop/Paginacion';
 
 //Cada tabla tendrá su propia barra de búsqueda
-export default function CustomerList({copyList, setSearch}) {
+export default function SaleList({copyList, setSearch}) {
   const [currentPage, setCurrentPage] = useState(1);
   const [listPerPage] = useState(8);
   //Obtener lista de productos actual
@@ -26,28 +26,24 @@ export default function CustomerList({copyList, setSearch}) {
                   <thead>
                     <tr>
                       <th style={{textAlign:'center'}}>ID</th>
-                      <th style={{textAlign:'center'}}>Correo</th>
-                      <th style={{textAlign:'center'}}>DNI</th>
-                      <th style={{textAlign:'center'}}>Nombre</th>
-                      <th style={{textAlign:'center'}}>Apellido</th>
-                      <th style={{textAlign:'center'}}>Género</th>
-                      <th style={{textAlign:'center'}}>Teléfono</th>
+                      <th style={{textAlign:'center'}}>Fecha</th>
+                      <th style={{textAlign:'center'}}>Total</th>
+                      <th style={{textAlign:'center'}}>Estado</th>
+                      <th style={{textAlign:'center'}}>Acciones</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                    <th style={{textAlign:'center'}}>ID</th>
-                      <th style={{textAlign:'center'}}>Correo</th>
-                      <th style={{textAlign:'center'}}>DNI</th>
-                      <th style={{textAlign:'center'}}>Nombre</th>
-                      <th style={{textAlign:'center'}}>Apellido</th>
-                      <th style={{textAlign:'center'}}>Género</th>
-                      <th style={{textAlign:'center'}}>Teléfono</th>
+                      <th style={{textAlign:'center'}}>ID</th>
+                      <th style={{textAlign:'center'}}>Fecha</th>
+                      <th style={{textAlign:'center'}}>Total</th>
+                      <th style={{textAlign:'center'}}>Estado</th>
+                      <th style={{textAlign:'center'}}>Acciones</th>
                     </tr>
                   </tfoot>
                   <tbody>
                   {currentList.map(item => (
-                        <CustomerItem 
+                        <SaleItem 
                             key = {item.id}
                             item = {item}
                         />
