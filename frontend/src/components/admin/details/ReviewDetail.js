@@ -1,0 +1,80 @@
+import React, {useEffect, useState} from 'react'
+import './../../../css/default.css';
+import { getReview, deleteReview } from '../../pages/customer/utils/CustomerFunctions';
+import Spinner from 'react-bootstrap/Spinner';
+import Rating from '../../pages/shop/Rating';
+import Button from 'react-bootstrap/Button';
+import { withRouter } from 'react-router-dom';
+
+function ReviewDetail({props, history}) {
+    const [review, setReview] = useState({});
+    const [error, setError] = useState(false);
+    const [loading,setLoading] = useState (false);
+    const [id] = useState(props.match.params.id);
+
+    useEffect(() => {    
+        setLoading(true);
+        getReview(id)
+        .then(res => {
+            //console.log(res);
+            setReview(res);
+            setLoading(false);
+        })
+        .catch(err => {
+            setError(true);
+            return;
+        })
+        setError(false)
+    }, []);
+
+    const handleClick = () => {
+        deleteReview(id)
+        .then(res => {
+            history.push('/admin-page/reviews');
+        })
+        .catch (err => {
+            setError(true);
+            return;
+        }); 
+        setError(false);  
+    }
+
+    return (
+        <div className="row addresses" >
+            {(loading) ? (
+                <div className="col-md-12 text-center" style={{top:'50%',left:'5%', position: 'fixed'}}> 
+                    <Spinner animation="border" variant="dark" size="lg" role="status" />
+                </div> 
+            ): (
+                <div className="card shadow" style={{left:'40%', bottom: '35%', position: 'fixed', width:'30%'}}>
+                    <div className="card-header">
+                        <h3 className="text-uppercase text-center">
+                            {<label>
+                                <span><Rating change={false} stars={review.stars} /></span>
+                            </label>}
+                        </h3>
+                    </div>
+                    <div className="card-body">
+                        <div className="col-md-12 text-center">
+                            <div className="card-title text-uppercase">
+                                <h4>{review.title} </h4>
+                            </div>
+                            <div className="card-subtitle">
+                                <p className="text-muted"><br />{(review.commentary === null) ? ('Sin comentarios') : (review.commentary)} <br /> </p>
+                            </div>
+                            <div className="card-text" style={{float: 'right'}}>
+                            <Button variant="danger" onClick={handleClick} className="btn btn-danger">
+                                Eliminar
+                            </Button>
+                            </div>  
+                        </div>
+                        
+                    </div>
+                </div>
+            )}
+            
+        </div>
+    )
+}
+
+export default withRouter(ReviewDetail);

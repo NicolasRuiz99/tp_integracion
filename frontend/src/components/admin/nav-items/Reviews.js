@@ -3,8 +3,8 @@ import ReviewList from './../list/review/ReviewList';
 import Error from './../../messages/Error';
 import Spinner from 'react-bootstrap/Spinner';
 import {getReviews} from './../utils/adminFunctions';
+import {DeleteReviewsModal} from './../utils/modals';
 import { deleteReview } from '../../pages/customer/utils/CustomerFunctions';
-import DeleteReviewModal from '../../modals/DeleteReviewModal';
 
 export default function Reviews() {
     const [list, setList] = useState([]);
@@ -23,7 +23,7 @@ export default function Reviews() {
       setError(false);  
      };
 
-    const limpiarChecks = (e) => {
+    const limpiarChecks = () => {
       setToDelete([]);
       setClean(true);
     }
@@ -47,13 +47,11 @@ export default function Reviews() {
         if (!checked) {
             setClean(false); 
             setToDelete([...toDelete, id]);
-            console.log(toDelete)
         }
          else {
             setClean(false); 
              let lista = toDelete.filter(item => item !== id)
              setToDelete(lista);
-             console.log(toDelete)
          }
          
     }
@@ -107,7 +105,7 @@ export default function Reviews() {
                     clean={clean}
                     handleModalOpen={handleModalOpen}
                     />)))}
-        <DeleteReviewModal
+        <DeleteReviewsModal
         modalOpen={modalOpen}
         handleModalOpen={handleModalOpen}
         eliminarReview={eliminarReview}

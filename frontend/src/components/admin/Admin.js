@@ -7,6 +7,7 @@ import Customers from './nav-items/Customers';
 import Reservations from './nav-items/Reservations';
 import Sales from './nav-items/Sales';
 import Reviews from './nav-items/Reviews';
+import ReviewDetail from './details/ReviewDetail';
 
 export default function Admin() {
     return (
@@ -20,6 +21,7 @@ export default function Admin() {
                     <Route path="/admin-page/reservations" component={Reservations} />
                     <Route path="/admin-page/sales" component={Sales} />
                     <Route path="/admin-page/reviews" component={Reviews} />
+                    <Route  path="/admin-page/review-detail/:id" render={(props) => <ReviewDetail props={props}/>}/>
                 </Switch>
             </div>
             </div>

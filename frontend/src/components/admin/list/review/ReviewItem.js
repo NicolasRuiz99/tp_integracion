@@ -8,14 +8,17 @@ import Rating from "../../../pages/shop/Rating";
 
 const ReviewItem = ({item, changeList, clean}) => {
 
-    //const [link,setLink] = useState ('');
+    const [link,setLink] = useState ('');
     const date = moment(item.date).utc().format('DD/MM/YYYY');
     const [stars] = useState (item.stars);
     const [checked, setChecked] = useState(false);
 
+    useEffect(() => {
+        setLink (`/admin-page/review-detail/${item.id}`);
+    }, []);
+    
     //UseEffect de limpieza de los checkboxes
     useEffect (()=> {
-        //setLink (`/review-detail/${item.id}`);
         if(clean) {
             setChecked(false);
         }
@@ -51,7 +54,7 @@ const ReviewItem = ({item, changeList, clean}) => {
                     </div>
                 </td>
                 <td style={{textAlign:'center'}}>
-                    <Link to="" className="btn btn-outlined btn-sm" >Ver</Link>
+                    <Link to={link} className="btn btn-outlined btn-sm" >Ver</Link>
                 </td>
             </tr>
         </Fragment>    
