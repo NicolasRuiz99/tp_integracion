@@ -1279,14 +1279,15 @@ def getReviewInfo():
     error = False
     id = request.json['id']
     new = Review ()
+    new.id = id
     try:
-        new.get(id)
+        new.get()
     except (Exception) as err:
         error = True
         return handleError (err)
     finally:
         if not (error):
-            result = dict (id = new.id, date = new.date, stars = new.stars, title = new.title, commentary = new.commentary, id_product = new.id_product)
+            result = dict (id = new.id, date = new.date, stars = new.stars, title = new.title, commentary = new.commentary, id_product = new.id_product, id_user = new.id_user)
             return jsonify({'result': 'success','data' : result})
 
 

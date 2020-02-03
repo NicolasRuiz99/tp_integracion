@@ -401,8 +401,8 @@ class Review:
     def delete (self):
         deleteFromTable ('review',self.id)
 
-    def get (self,_id):
-        res = searchID ('review',_id)  
+    def get (self):
+        res = searchID ('review',self.id)  
         self.id = res[0]
         self.date = res[1]
         self.stars = res[2]
