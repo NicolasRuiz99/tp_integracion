@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request, json
-from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases,listPurchaseItems,listCartItems,getCartInfo,listReservations,getReservationItem,listReviews,listNewProducts,listHighRatedProducts,listAllPurchases,listAllReviews,listAllReservations
+from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases,listPurchaseItems,listCartItems,getCartInfo,listReservations,getReservationItem,listReviews,listNewProducts,listHighRatedProducts,listAllPurchases,listAllReviews,listAllReservations,listCoupons
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser,logInUser2
 from mp_api import pagar
@@ -75,6 +75,11 @@ def listallreviews():
 @app.route ('/reservation/listall',methods=['GET'])
 def listallreservations():
     results = listAllReservations()
+    return jsonify({'results' : results})
+
+@app.route ('/coupon/listall',methods=['GET'])
+def listallcoupons():
+    results = listCoupons ()
     return jsonify({'results' : results})
 
 @app.route ('/product/getRecomended',methods=['POST'])
@@ -853,7 +858,7 @@ def getPurchaseInfo():
     purch.id = id
     try:
         purch.get()
-        result['purchase'] = (dict (id = purch.id,price = purch.price,date = purch.date,state = purch.state)) 
+        result['purchase'] = (dict (id = purch.id,price = purch.price,date = purch.date,state = purch.state,id_user = purch.id_user)) 
         ship = Shipping ()
         ship.id = id
         ship.get()

@@ -3,6 +3,9 @@ from ddbb_connect import listTable,query
 def listUsers ():
     return listTable ('users')
 
+def listCoupons ():
+    return listTable ('coupon')
+
 def listUsersE_Mails ():
     return query ('select e_mail from users')
 
