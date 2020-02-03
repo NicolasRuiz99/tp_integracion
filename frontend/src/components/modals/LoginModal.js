@@ -10,7 +10,7 @@ import Error from '../messages/Error';
 import { googleLogin, facebookLogin } from '../pages/customer/utils/firebaseLogin';
 import 'bootstrap-social';
 
-const LoginModal = ({modalOpen,handleModalOpen,setUser,history}) => { 
+const LoginModal = ({modalOpen,handleModalOpen,setUser,history, setRole}) => { 
 
   const [mail, setMail] = useState('');
   const [pass, setPass] = useState('');
@@ -69,26 +69,30 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history}) => {
     try{
     const resp = await login (customer);
     console.log(resp);
+    if (resp.role === 'admin') {
+      setRole(true);
+      setUser (resp.user_id);
+      history.push('/admin-page/products');
+    }
+    else {
     const res = await getCustomerInfo(resp.user_id);
     console.log(res[0]);
     setUser (resp.user_id);
-
-
+    history.push('/');
+    }
     }catch{
       setError(true);
       setErrorCustomer({});
       return;
     }
-
     setError(false);
     setErrorCustomer({});
     handleModalOpen ();
-
-    history.push('/');
   }
+
     return (
         <>
-          <Modal show={modalOpen} onHide={handleModalOpen}>
+          <Modal show={modalOpen} onHide={handleModalOpen} style={{top: '1.5%', left:'-1%'}}>
               <Modal.Header className="modal-header" closeButton>
                  <Modal.Title >
                     <h4 className="modal-title">Acceder</h4>

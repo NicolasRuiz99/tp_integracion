@@ -13,7 +13,7 @@ function LogoutModal({modalOpen, handleModalOpen, history, handleDrop}) {
     }
     return (
         <>
-        <Modal show={modalOpen} onHide={handleModalOpen}>
+        <Modal show={modalOpen} onHide={handleModalOpen} style={{top: '13%', left:'-1%'}}>
             <Modal.Header className="modal-header" closeButton>
                <Modal.Title >
                   <h4 className="modal-title">Cerrar sesión</h4>

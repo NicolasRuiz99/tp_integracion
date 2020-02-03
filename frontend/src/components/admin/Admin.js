@@ -9,11 +9,11 @@ import Sales from './nav-items/Sales';
 import Reviews from './nav-items/Reviews';
 import ReviewDetail from './details/ReviewDetail';
 
-export default function Admin() {
+export default function Admin({handleDrop}) {
     return (
         <Fragment>
             <div className="row">
-                <Sidebar />
+                <Sidebar handleDrop={handleDrop}/>
             <div className="col-sm-10">
                 <Switch>
                     <Route path="/admin-page/products" component={Products} />

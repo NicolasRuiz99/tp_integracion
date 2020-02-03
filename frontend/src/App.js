@@ -35,33 +35,46 @@ const App = () => {
   const [isLogged, setIsLogged] = useState(false);
   const [search, setSearch] = useState('');
   const [isOferta, setIsOferta] = useState(false);
+  const [role, setRole] = useState(false);
 
     useEffect (()=>{
       if (user_id !== null){
-        localStorage.setItem ('user_id', user_id)
+        localStorage.setItem ('user_id', user_id);
+        localStorage.setItem('role', role);
       }else{
-        let id = localStorage.getItem ('user_id')
+        let id = localStorage.getItem ('user_id');
+        let role = localStorage.getItem('role');
         if (id !== "null"){
           setUser (parseInt(id));
+          if (role !== 'false') {
+            setRole(true);
+          }else{
+            setRole(false);
+          }
         }
+       
       }
     },[user_id])
 
     const handleDrop = () => {
       setIsLogged(!isLogged);
       setUser (null);
+      setRole(false);
       localStorage.setItem ('user_id', null);
+      localStorage.setItem ('role', role);
     }
     
   
     return (
       <div className="fragment" >      
-          <Header user_id = {user_id} setUser = {setUser} handleDrop={handleDrop} isLogged={isLogged} setIsLogged={setIsLogged} setSearch={setSearch} search={search} isOferta={isOferta} />
+          <Header user_id = {user_id} setUser = {setUser} role={role} handleDrop={handleDrop} setRole={setRole} isLogged={isLogged} setIsLogged={setIsLogged} setSearch={setSearch} search={search} isOferta={isOferta} />
           <Switch>
             <Route exact path="/" render={()=><HomePage user_id = {user_id} />} />
             <Route  path="/contact" component={Contact} />
             <Route  path="/top-ten" component={TopVentas} />
-            <Route  path="/admin-page" component={Admin} />
+            <Route  path="/admin-page" render={() => (
+              <Admin handleDrop={handleDrop} />
+            )} />
             <Route  path="/shop-category" render={() => (
               <Categorias search={search} setIsOferta={setIsOferta} isOferta={false}/>
             )} />

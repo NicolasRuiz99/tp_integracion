@@ -5,12 +5,20 @@ import Spinner from 'react-bootstrap/Spinner';
 import Rating from '../../pages/shop/Rating';
 import Button from 'react-bootstrap/Button';
 import { withRouter } from 'react-router-dom';
+import DeleteReviewModal from './../../modals/DeleteReviewModal';
+import Error from '../../messages/Error';
 
 function ReviewDetail({props, history}) {
     const [review, setReview] = useState({});
+    const [modalOpen, setModalOpen] = useState(false);
     const [error, setError] = useState(false);
     const [loading,setLoading] = useState (false);
     const [id] = useState(props.match.params.id);
+
+    const handleModalOpen = () => {
+        setModalOpen(!modalOpen);
+        setError(false);  
+       };
 
     useEffect(() => {    
         setLoading(true);
@@ -27,7 +35,7 @@ function ReviewDetail({props, history}) {
         setError(false)
     }, []);
 
-    const handleClick = () => {
+    const handleDelete = () => {
         deleteReview(id)
         .then(res => {
             history.push('/admin-page/reviews');
@@ -45,7 +53,7 @@ function ReviewDetail({props, history}) {
                 <div className="col-md-12 text-center" style={{top:'50%',left:'5%', position: 'fixed'}}> 
                     <Spinner animation="border" variant="dark" size="lg" role="status" />
                 </div> 
-            ): (
+            ): ( (error) ? (<Error texto="Ha ocurrido un error interno en el servidor" />) : (
                 <div className="card shadow" style={{left:'40%', bottom: '35%', position: 'fixed', width:'30%'}}>
                     <div className="card-header">
                         <h3 className="text-uppercase text-center">
@@ -63,7 +71,7 @@ function ReviewDetail({props, history}) {
                                 <p className="text-muted"><br />{(review.commentary === null) ? ('Sin comentarios') : (review.commentary)} <br /> </p>
                             </div>
                             <div className="card-text" style={{float: 'right'}}>
-                            <Button variant="danger" onClick={handleClick} className="btn btn-danger">
+                            <Button variant="danger" onClick={handleModalOpen} className="btn btn-danger">
                                 Eliminar
                             </Button>
                             </div>  
@@ -71,8 +79,12 @@ function ReviewDetail({props, history}) {
                         
                     </div>
                 </div>
-            )}
-            
+            ))}
+                <DeleteReviewModal 
+                modalOpen={modalOpen}
+                handleModalOpen={handleModalOpen}
+                eliminarReview={handleDelete}
+                />
         </div>
     )
 }
