@@ -122,7 +122,7 @@ const App = () => {
             <Route  path='/customer-chat' render={() =>(<Chat user_name={'cliente'} />)} />
             <Route component={RouteError}/>
           </Switch>
-          <Footer isLogged={isLogged} />
+          <Footer isLogged={isLogged} role={role}/>
           <TopButton />
       </div>
     )

@@ -4,12 +4,12 @@ import Spinner from 'react-bootstrap/Spinner';
 import {withRouter} from 'react-router-dom';
 import Error from '../../messages/Error';
 import SaleLine from './../list/sale/SaleLine';
-import { getPurchaseInfo, listPurchaseItems } from '../../pages/customer/utils/CustomerFunctions';
+import { getPurchaseInfo, listPurchaseItems, modPurchase } from '../../pages/customer/utils/CustomerFunctions';
 import moment from 'moment';
 import uuid from 'uuid';
+import { ModifySale } from '../utils/modals';
 
 const SaleDetail = ({props}) => {
-
     const [purchInfo,setPurchInfo] = useState ('');
     const [shipInfo,setShipInfo] = useState ('');
     const [coupInfo,setCoupInfo] = useState ('');
@@ -18,6 +18,13 @@ const SaleDetail = ({props}) => {
     const [error,setError] = useState (false);
     const [loading,setLoading] = useState (false);
     const [buttonMsj, setButtonMsj] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [refresh, setRefresh] = useState(false);
+
+    const handleModalOpen = () => {
+        setModalOpen(!modalOpen);
+        setError(false);  
+    };
 
     useEffect (()=>{
         setLoading (true);
@@ -60,10 +67,30 @@ const SaleDetail = ({props}) => {
             setError (true);
         })
         setError (false);  
-    },[])
+    },[refresh])
 
     const handleClick = () => {
         setButtonMsj(!buttonMsj);
+    }
+
+    const changeState = (state) => {
+
+        const date = moment(purchInfo.date).utc().format('DD/MM/YYYY');
+        let id_coupon = coupInfo.id;
+        if (id_coupon === undefined) {
+            id_coupon = null;
+        }
+        const {id,price,id_user} = purchInfo; 
+        modPurchase({id,price,date,state,id_user,id_coupon})
+        .then(res => {
+            console.log(res)
+            setRefresh(true);
+        })
+        .catch(err => {
+            setError(true);
+            return;
+        })
+        setError(false);
     }
 
     return (
@@ -81,9 +108,9 @@ const SaleDetail = ({props}) => {
             <Error texto="Hubo un error al recuperar los datos" />
             :
             <div id="customer-order" className="col-lg-12" style={{left:'38%'}}>
-                {(state === 'Está pendiente de pago') ? (
+                {(state === 'Está pendiente de pago' || state === 'Está en proceso') ? (
                     <div className="col-sm-8 col-md-4" style={{float: 'left', paddingBottom:'0rem', paddingTop: '0rem', padding: '0.4rem'}}>
-                    <button className="btn btn-warning"  type="button" >
+                    <button className="btn btn-warning" onClick={handleModalOpen} type="button" >
                         Actualizar estado 
                      </button>
                     </div>
@@ -156,6 +183,10 @@ const SaleDetail = ({props}) => {
           </div>
         </div>
       </div>
+      <ModifySale
+      modalOpen={modalOpen}
+      handleModalOpen={handleModalOpen}
+      changeState={changeState} />
       </Fragment>
     );
 }

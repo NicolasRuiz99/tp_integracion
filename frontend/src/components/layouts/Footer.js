@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import './../../css/default.css';
 
 
-const Footer = ({isLogged}) => {
+const Footer = ({isLogged, role}) => {
     return (
       <footer className="main-footer">
         <div className="container ">
@@ -20,7 +20,8 @@ const Footer = ({isLogged}) => {
               <hr className="d-block d-lg-none" />
             </div>
             {(isLogged) ? (
-              <div className="col-lg-3">
+              (role) ? null :
+              (<div className="col-lg-3">
               <h4 className="h6">Mi Cuenta</h4>
                 <ul className="list-inline">
                   <li className="list-inline-item"><Link to="/customer-orders"><p>Mis compras</p></Link></li>
@@ -33,7 +34,7 @@ const Footer = ({isLogged}) => {
                   <br/>
                   <li className="list-inline-item"><Link to="/customer-account"><p>Mi perfil</p></Link></li>
                 </ul>
-              </div>
+              </div>)
             ) : null}
           </div>
         </div>
