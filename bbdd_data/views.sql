@@ -50,5 +50,10 @@ AS
 SELECT r.id,r.date,r.stars,r.id_product,r.id_user,p.name FROM products p,review r
 WHERE r.id_product = p.id;
 
+CREATE VIEW UserRole
+AS
+SELECT u.id,u.e_mail,u.psw,u.external_id,r.name rol FROM users u,roles r 
+WHERE u.id_role = r.id;
+
 
 

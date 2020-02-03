@@ -116,26 +116,26 @@ def loginUser ():
     e_mail = request.json['e_mail']
     psw = request.json['psw']
     try:
-        user_id = logInUser (e_mail,psw)
+        user_id,role = logInUser (e_mail,psw)
     except (Exception) as err:
         error = True
         return handleError (err)
     finally:
         if not (error):
-            return jsonify({'result' : 'success','user_id': user_id})
+            return jsonify({'result' : 'success','user_id': user_id,'role': role})
 
 @app.route ('/user/loginExt',methods=['POST'])
 def loginUserExt ():
     error = False
     id = request.json['id']
     try:
-        user_id = logInUser2 (id)
+        user_id,role = logInUser2 (id)
     except (Exception) as err:
         error = True
         return handleError (err)
     finally:
         if not (error):
-            return jsonify({'result' : 'success','user_id': user_id})
+            return jsonify({'result' : 'success','user_id': user_id,'role': role})
 
 @app.route ('/user/register',methods=['POST'])
 def registerUser():
@@ -146,13 +146,13 @@ def registerUser():
     new = User (e_mail,psw,id_role)
     try:
         new.register()
-        user_id = logInUser (e_mail,psw)
+        user_id,role = logInUser (e_mail,psw)
     except (Exception) as err:
         error = True
         return handleError (err)
     finally:
         if not (error):
-            return jsonify({'result' : 'success','user_id': user_id})
+            return jsonify({'result' : 'success','user_id': user_id,'role': role})
 
 @app.route ('/user/registerExt',methods=['POST'])
 def registerUserExt():
@@ -163,14 +163,14 @@ def registerUserExt():
     new.id_role = 2
     try:
         new.register2()
-        user_id = logInUser2 (id)
+        user_id,role = logInUser2 (id)
     except (Exception) as err:
         error = True
         print (err)
         return handleError (err)
     finally:
         if not (error):
-            return jsonify({'result' : 'success','user_id': user_id})
+            return jsonify({'result' : 'success','user_id': user_id,'role': role})
 
 @app.route ('/user/mod',methods=['POST'])
 def modUser():

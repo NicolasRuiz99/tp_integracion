@@ -16,8 +16,6 @@ export default function Sales() {
         setLoading(true);
         getSells()
         .then(res => {
-            console.log(res);
-            res = res.filter(item => item.state !== 'cart')
             setList(res);
             setCopyList(res);
             setLoading(false);

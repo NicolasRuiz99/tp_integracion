@@ -112,14 +112,15 @@ def searchID2 (table,values,qValues):
 def logInUser (e_mail,psw):
     try:
         con, cur = connect_ddbb ()
-        query = 'select id from users where e_mail = %s and psw = %s' 
+        query = 'select id,rol from UserRole where e_mail = %s and psw = %s' 
         cur.execute (query,(e_mail,psw,))  
         res = cur.fetchone()
         if (res == None):
             raise Exception ('Invalid e_mail and password')
         else:
             user_id = res [0]
-            return user_id
+            rol = res[1]
+            return user_id,rol
     except (Exception,Error) as error:
         if (con):
             raise Exception ('OperationFailed', error.args[0])
@@ -129,14 +130,15 @@ def logInUser (e_mail,psw):
 def logInUser2 (id):
     try:
         con, cur = connect_ddbb ()
-        query = 'select id from users where external_id = %s' 
+        query = 'select id,rol from UserRole where external_id = %s' 
         cur.execute (query,(id,))  
         res = cur.fetchone()
         if (res == None):
             raise Exception ('Invalid external id')
         else:
             user_id = res [0]
-            return user_id
+            rol = res [1]
+            return user_id,rol
     except (Exception,Error) as error:
         if (con):
             raise Exception ('OperationFailed', error.args[0])
