@@ -7,13 +7,13 @@ import moment from 'moment';
 
 const SaleItem = ({item}) => {
 
-    //const [link,setLink] = useState ('');
+    const [link,setLink] = useState ('');
     const [estado,setEstado] = useState ('');
     const [clase,setClase] = useState ('');
     const date = moment(item.date).utc().format('DD/MM/YYYY');
 
     useEffect (()=> {
-        //setLink (`/sale-detail/${item.id}`);
+        setLink (`/admin-page/sale-detail/${item.id}`);
         switch (item.state) {
             case 'success':
                 setEstado ('exitosa')
@@ -45,7 +45,7 @@ const SaleItem = ({item}) => {
                 <td style={{textAlign:'center'}}>$ {item.price}</td>
                 <td style={{textAlign:'center'}}><span className={clase} style={{color:"white"}}>{estado}</span></td>
                 <td style={{textAlign:'center'}}>
-                    <Link to="" className="btn btn-outlined btn-sm" >Ver</Link>
+                    <Link to={link} className="btn btn-outlined btn-sm" >Ver</Link>
                 </td>
             </tr>
         </Fragment>    

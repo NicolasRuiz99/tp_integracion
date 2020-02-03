@@ -8,6 +8,7 @@ import Reservations from './nav-items/Reservations';
 import Sales from './nav-items/Sales';
 import Reviews from './nav-items/Reviews';
 import ReviewDetail from './details/ReviewDetail';
+import SaleDetail from './details/SaleDetail';
 
 export default function Admin({handleDrop}) {
     return (
@@ -22,6 +23,7 @@ export default function Admin({handleDrop}) {
                     <Route path="/admin-page/sales" component={Sales} />
                     <Route path="/admin-page/reviews" component={Reviews} />
                     <Route  path="/admin-page/review-detail/:id" render={(props) => <ReviewDetail props={props}/>}/>
+                    <Route  path="/admin-page/sale-detail/:id" render={(props) => <SaleDetail props={props}/>}/>
                 </Switch>
             </div>
             </div>
