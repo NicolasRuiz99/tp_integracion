@@ -16,7 +16,7 @@ def listRoles ():
     return listTable ('roles')
 
 def listAllPurchases ():
-    return listTable ('purchase')
+    return listTable ('PurchaseList')
 
 def listAllReviews ():
     return listTable ('ReviewProduct')
