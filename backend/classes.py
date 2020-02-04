@@ -23,8 +23,8 @@ class User:
     def delete (self):
         deleteFromTable ('users',self.id)
 
-    def get (self,_id):
-        res = searchID ('users',_id)  
+    def get (self):
+        res = searchID ('users',self.id)  
         self.id = res[0]
         self.e_mail = res[1]
         self.psw = res[2]
@@ -53,17 +53,35 @@ class Customer:
     def delete (self):
         deleteFromTable ('customers',self.id)
 
-    def get (self,_id):
-        res = searchID ('customers',_id)  
-        self.id = res[0]
-        self.dni = res[1]
-        self.name = res[2]
-        self.surname = res[3]
-        self.genre = res[4]
-        self.c_size = res[5]
-        self.shoe_size = res[6]
-        self.phone_no = res[7]
-        self.id_user = res[8] 
+    def get (self):
+        res = searchID ('customers',self.id)  
+        if (res == None):
+            self.id = None
+        else:
+            self.id = res[0]
+            self.dni = res[1]
+            self.name = res[2]
+            self.surname = res[3]
+            self.genre = res[4]
+            self.c_size = res[5]
+            self.shoe_size = res[6]
+            self.phone_no = res[7]
+            self.id_user = res[8] 
+
+    def getUser (self):
+        res = searchID2 ('customers',self.id_user,'id_user = %s')  
+        if (res == None):
+            self.id = None
+        else:
+            self.id = res[0]
+            self.dni = res[1]
+            self.name = res[2]
+            self.surname = res[3]
+            self.genre = res[4]
+            self.c_size = res[5]
+            self.shoe_size = res[6]
+            self.phone_no = res[7]
+            self.id_user = res[8] 
 
 class Type:
     def __init__ (self,name = None,_id=None):

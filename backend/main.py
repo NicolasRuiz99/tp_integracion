@@ -218,14 +218,37 @@ def getUser():
     error = False
     id = request.json['id']
     new = User ()
+    new.id = id
     try:
-        new.get(id)
+        new.get()
     except (Exception) as err:
         error = True
         return handleError (err)
     finally:
         if not (error):
             result = dict (id = new.id, e_mail = new.e_mail, psw = new.psw, id_role = new.id_role)
+            return jsonify({'result': 'success','data' : result})
+
+@app.route ('/user/getInfo',methods=['POST'])
+def getUserInfo():
+    error = False
+    result = {}
+    id = request.json['id']
+    user = User ()
+    user.id = id
+    try:
+        user.get ()
+        result['user'] = (dict (id = user.id, e_mail = user.e_mail, psw = user.psw)) 
+        cust = Customer ()
+        cust.id_user = id
+        cust.getUser ()
+        if (cust.id != None):
+            result['customer'] = (dict (id = cust.id, dni = cust.dni, name = cust.name, surname = cust.surname, genre = cust.genre, c_size = cust.c_size, shoe_size = cust.shoe_size, phone_no = cust.phone_no))
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
             return jsonify({'result': 'success','data' : result})
             
 @app.route ('/customer/add',methods=['POST'])
@@ -275,8 +298,9 @@ def getCustomer():
     error = False
     id = request.json['id']
     new = Customer ()
+    new.id = id
     try:
-        new.get(id)
+        new.get()
     except (Exception) as err:
         error = True
         return handleError (err)

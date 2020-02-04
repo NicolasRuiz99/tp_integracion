@@ -100,7 +100,7 @@ def searchID2 (table,values,qValues):
     try:
         con, cur = connect_ddbb ()
         query = 'select * from ' + table + ' where ' + qValues
-        cur.execute (query,values)  
+        cur.execute (query,(values,))  
         res = cur.fetchone()
     except (Exception,Error) as error:
         if (con):
