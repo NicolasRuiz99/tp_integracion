@@ -257,6 +257,9 @@ class Shipping:
     def mod (self):
         updateTable ('shipping',(self.address, self.zip, self.name, self.surname, self.dni, self.track_code, self.province, self.id),'address = %s, zip = %s, name = %s, surname = %s, dni = %s, track_code = %s, province = %s')
 
+    def setTrackCode (self):
+        updateTable ('shipping',(self.track_code,self.id),'track_code = %s')
+
     def delete (self):
         deleteFromTable ('shipping',self.id)
 
@@ -288,7 +291,7 @@ class Purchase:
         addToTable ('purchase (id_user, id_coupon, state)',new_record,'(%s,%s,%s)')
 
     def mod (self):
-        updateTable ('purchase',(self.price,self.date,self.state,self.id_user,self.id_coupon, self.id),'price = %s, date = %s, state = %s, id_user = %s, id_coupon = %s')
+        updateTable ('purchase',(self.price,self.state,self.id_user,self.id_coupon, self.id),'price = %s, state = %s, id_user = %s, id_coupon = %s')
 
     def setState (self):
         updateTable ('purchase',(self.state, self.id),'state = %s')

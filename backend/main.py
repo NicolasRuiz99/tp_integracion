@@ -748,6 +748,24 @@ def modShipping():
         if not (error):
             return jsonify({'result' : 'success'})
 
+@app.route ('/shipping/setTrackCode',methods=['POST'])
+def setShippingTrackCode():
+    error = False
+    print (request.json)
+    id = request.json['id']
+    track_code = request.json['track_code']
+    new = Shipping ()
+    new.id = id
+    new.track_code = track_code
+    try:
+        new.setTrackCode()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success'})
+
 @app.route ('/shipping/delete',methods=['POST'])
 def deleteShipping():
     error = False
@@ -801,17 +819,18 @@ def addPurchase():
 @app.route ('/purchase/mod',methods=['POST'])
 def modPurchase():
     error = False
+    print (request.json)
     id = request.json['id']
     price = request.json['price']
-    date = request.json['date']
     state = request.json['state']
     id_user = request.json['id_user']
     id_coupon = request.json['id_coupon']
-    new = Purchase (price,date,state,id_user,id_coupon,id)
+    new = Purchase (price,None,state,id_user,id_coupon,id)
     try:
         new.mod()
     except (Exception) as err:
         error = True
+        print (err)
         return handleError (err)
     finally:
         if not (error):

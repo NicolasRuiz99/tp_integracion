@@ -251,12 +251,11 @@ const getPurchaseList = ({user_id}) => {
     .catch(err => {throw err})
 }
 
-const modPurchase = ({id,price,date,state,id_user,id_coupon}) => {
+const modPurchase = ({id,price,state,id_user,id_coupon}) => {
     return axios
     .post("/purchase/mod",{
         id,
         price,
-        date,
         state,
         id_user,
         id_coupon
@@ -369,6 +368,16 @@ const addShipping = ({id,address,zip,name,surname,dni,province}) => {
         surname,
         dni,
         province
+    })
+    .then(res => {return res.data})
+    .catch(err => {throw err})
+}
+
+const setShippingTrackCode = (id,track_code) => {
+    return axios
+    .post("/shipping/setTrackCode",{
+        id,
+        track_code
     })
     .then(res => {return res.data})
     .catch(err => {throw err})
@@ -500,5 +509,6 @@ export {
     deleteReview,
     getReview,
     modReview,
-    getCustomers
+    getCustomers,
+    setShippingTrackCode
 };

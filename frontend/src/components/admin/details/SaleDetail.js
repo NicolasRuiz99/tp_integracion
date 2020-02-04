@@ -4,7 +4,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import {withRouter} from 'react-router-dom';
 import Error from '../../messages/Error';
 import SaleLine from './../list/sale/SaleLine';
-import { getPurchaseInfo, listPurchaseItems, modPurchase } from '../../pages/customer/utils/CustomerFunctions';
+import { getPurchaseInfo, listPurchaseItems, setPurchaseState, setShippingTrackCode } from '../../pages/customer/utils/CustomerFunctions';
 import moment from 'moment';
 import uuid from 'uuid';
 import { ModifySale } from '../utils/modals';
@@ -16,10 +16,12 @@ const SaleDetail = ({props}) => {
     const [state,setState] = useState ('');
     const [items,setItems] = useState ([]);
     const [error,setError] = useState (false);
+    const [codeError,setCodeError] = useState (false);
     const [loading,setLoading] = useState (false);
     const [buttonMsj, setButtonMsj] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
     const [refresh, setRefresh] = useState(false);
+    const [trackCode,setTrackCode] = useState ("");
 
     const handleModalOpen = () => {
         setModalOpen(!modalOpen);
@@ -75,15 +77,13 @@ const SaleDetail = ({props}) => {
 
     const changeState = (state) => {
 
-        const date = moment(purchInfo.date).utc().format('DD/MM/YYYY');
         let id_coupon = coupInfo.id;
         if (id_coupon === undefined) {
             id_coupon = null;
         }
-        const {id,price,id_user} = purchInfo; 
-        modPurchase({id,price,date,state,id_user,id_coupon})
+        const {id} = purchInfo; 
+        setPurchaseState(id,state)
         .then(res => {
-            console.log(res)
             setRefresh(true);
         })
         .catch(err => {
@@ -91,6 +91,24 @@ const SaleDetail = ({props}) => {
             return;
         })
         setError(false);
+    }
+
+    const handleTC = () => {
+      setCodeError (false);
+      if (trackCode === ""){
+        setCodeError (true);
+        return;
+      }
+      const {id} = shipInfo;
+      setShippingTrackCode (id,trackCode)
+      .then (res=>{
+        setRefresh (true);
+      })
+      .catch (err=>{
+        setError(true);
+        return;
+      })
+      setCodeError (false);
     }
 
     return (
@@ -165,13 +183,16 @@ const SaleDetail = ({props}) => {
                  <div className="row addresses">
                    <div className="col-md-12 text-center" >
                      <h3 className="text-uppercase">Datos de envío</h3>
-                     <p>Recibe: {`${shipInfo.name} ${shipInfo.surname}`}<br />DNI: {shipInfo.dni}<br />Provincia: {shipInfo.province}<br />Codigo postal: {shipInfo.zip}<br />Dirección:	{shipInfo.address}<br />Código de seguimiento: {(shipInfo.track_code)!=null? shipInfo.track_code : (
-                         <div >
-                            <button className="btn btn-secondary" type="button" >
-                                Añadir código de seguimiento 
+                     <p>Recibe: {`${shipInfo.name} ${shipInfo.surname}`}<br />DNI: {shipInfo.dni}<br />Provincia: {shipInfo.province}<br />Codigo postal: {shipInfo.zip}<br />Dirección:	{shipInfo.address}<br /> Código de seguimiento:
+                         <div>
+                            <input type="number" class="form-control" defaultValue={(shipInfo.track_code == null)?"":shipInfo.track_code} onChange={e=>setTrackCode(e.target.value)}></input>
+                            <br />
+                            <button className="btn btn-secondary" type="button" onClick={handleTC} >
+                                  {(shipInfo.track_code == null)?"Añadir":"Cambiar"}
                             </button>
+                            {(codeError)?<Error texto="Valor no permitido" />:null}
                         </div>
-                     )}<br /> </p>
+                      <br /> </p>
                    </div>
                  </div>
                 </div>
