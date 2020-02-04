@@ -95,7 +95,7 @@ const addCustomerInfo = ({dni,name,surname,genre,c_size,shoe_size,phone_no,id_us
         phone_no,
         id_user
     })
-    .then(res => {return res.data.results})
+    .then(res => {return res.data})
     .catch(err => {throw err})
 }
 

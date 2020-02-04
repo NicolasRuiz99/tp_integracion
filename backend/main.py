@@ -265,12 +265,13 @@ def addCustomer():
     new = Customer (dni,name,surname,genre,c_size,shoe_size,phone_no,id_user)
     try:
         new.add()
+        info = getUserCustomer (id_user)
     except (Exception) as err:
         error = True
         return handleError (err)
     finally:
         if not (error):
-            return jsonify({'result' : 'success'})
+            return jsonify({'result' : 'success','id':info[0]['id']})
 
 @app.route ('/customer/mod',methods=['POST'])
 def modCustomer():

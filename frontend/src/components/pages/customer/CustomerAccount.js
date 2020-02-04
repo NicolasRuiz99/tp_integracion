@@ -80,6 +80,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
     },[user_id]);
 
     const handleSubmitCustomer = async(e) => {
+      setSuccess (false);
       e.preventDefault(); 
       const err = validarCustomer(name, surname, phone_no, dni);
       console.log(err);
@@ -123,6 +124,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
         }
         addCustomerInfo (customer)
         .then (res => {
+          setCustomer_id (res.id);
           setSuccess (true);
         })
         .catch (err => {
