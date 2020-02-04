@@ -17,6 +17,7 @@ export default function Customers() {
         getCustomers()
         .then(res => {
             console.log(res);
+            res = res.filter(item => item.id_role !== 1 );
             setList(res);
             setCopyList(res);
             setLoading(false);

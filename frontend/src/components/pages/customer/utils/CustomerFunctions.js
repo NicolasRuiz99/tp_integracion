@@ -64,6 +64,16 @@ const getUserInfo = id => {
     .catch(err => {throw err})
 }
 
+const userGetInfo = id => {
+    return axios
+    .post("/user/getInfo",{
+        id
+    })
+    .then(res => {return res.data.data})
+    .catch(err => {throw err})
+}
+
+
 const deleteCustomer = id => {
     return axios
     .post("/user/delete", {
@@ -461,7 +471,7 @@ const payMP = (list,id,coupon,cart) => {
 
 const getCustomers = async() => {
     return axios
-    .get("/customer/listall")
+    .get("/user/listall")
     .then(res => {
         return res.data.results
     })
@@ -510,5 +520,6 @@ export {
     getReview,
     modReview,
     getCustomers,
-    setShippingTrackCode
+    setShippingTrackCode,
+    userGetInfo
 };

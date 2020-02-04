@@ -27,22 +27,16 @@ export default function CustomerList({copyList, setSearch}) {
                     <tr>
                       <th style={{textAlign:'center'}}>ID</th>
                       <th style={{textAlign:'center'}}>Correo</th>
-                      <th style={{textAlign:'center'}}>DNI</th>
-                      <th style={{textAlign:'center'}}>Nombre</th>
-                      <th style={{textAlign:'center'}}>Apellido</th>
-                      <th style={{textAlign:'center'}}>Género</th>
-                      <th style={{textAlign:'center'}}>Teléfono</th>
+                      <th style={{textAlign:'center'}}>Contraseña</th>
+                      <th style={{textAlign:'center'}}>Acciones</th>
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                    <th style={{textAlign:'center'}}>ID</th>
+                      <th style={{textAlign:'center'}}>ID</th>
                       <th style={{textAlign:'center'}}>Correo</th>
-                      <th style={{textAlign:'center'}}>DNI</th>
-                      <th style={{textAlign:'center'}}>Nombre</th>
-                      <th style={{textAlign:'center'}}>Apellido</th>
-                      <th style={{textAlign:'center'}}>Género</th>
-                      <th style={{textAlign:'center'}}>Teléfono</th>
+                      <th style={{textAlign:'center'}}>Contraseña</th>
+                      <th style={{textAlign:'center'}}>Acciones</th>
                     </tr>
                   </tfoot>
                   <tbody>

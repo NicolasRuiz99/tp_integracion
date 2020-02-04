@@ -51,6 +51,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
           .then (res=>{
             setEmail (res.e_mail);
             setPsw (res.psw);
+            setServerError(false);
           })
           .catch (err=>{
             setServerError (true);
@@ -68,13 +69,14 @@ const CustomerAccount = ({user_id, handleDrop}) => {
               setShoe_size (res.shoe_size);
               setPhone_no (res.phone_no);
               setCustomer_id (res.id);
+              setServerError(false);
             }
           })
           .catch (err => {
               setServerError (true);
               return;
           });
-          setServerError (false);
+      setServerError (false);
     },[user_id]);
 
     const handleSubmitCustomer = async(e) => {
@@ -101,6 +103,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
           modCustomerInfo (customer)
           .then (res => {
               setSuccess (true);
+              setServerError(false);
           })
           .catch (err => {
             setServerError (true);
@@ -181,10 +184,12 @@ const CustomerAccount = ({user_id, handleDrop}) => {
         })
         .catch (err => {
             setSuccessPSW (false);
+            setServerError(true);
             return;
         })
       }
       setErrorPSWS({});
+      setServerError(false);
     }
   
   

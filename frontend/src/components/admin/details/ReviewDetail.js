@@ -8,6 +8,7 @@ import { withRouter } from 'react-router-dom';
 import DeleteReviewModal from './../../modals/DeleteReviewModal';
 import Error from '../../messages/Error';
 
+
 function ReviewDetail({props, history}) {
     const [review, setReview] = useState({});
     const [modalOpen, setModalOpen] = useState(false);
@@ -50,11 +51,11 @@ function ReviewDetail({props, history}) {
     return (
         <div className="row addresses" >
             {(loading) ? (
-                <div className="col-md-12 text-center" style={{top:'50%',left:'5%', position: 'fixed'}}> 
+                <div className="col-md-12 text-center" style={{top:'50%',left:'5%', position:'absolute'}}> 
                     <Spinner animation="border" variant="dark" size="lg" role="status" />
                 </div> 
             ): ( (error) ? (<Error texto="Ha ocurrido un error interno en el servidor" />) : (
-                <div className="card shadow" style={{left:'40%', bottom: '35%', position: 'fixed', width:'30%'}}>
+                <div className="card shadow" style={{left:'35%',position:'absolute',bottom:'40%', width:'30%'}}>
                     <div className="card-header">
                         <h3 className="text-uppercase text-center">
                             {<label>
