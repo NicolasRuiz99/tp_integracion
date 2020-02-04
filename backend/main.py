@@ -682,6 +682,23 @@ def addCoupon():
         if not (error):
             return jsonify({'result' : 'success'})
 
+@app.route ('/coupon/mod',methods=['POST'])
+def modShipping():
+    error = False
+    id = request.json['id']
+    pc = request.json['pc']
+    cad_date = request.json['cad_date']
+    used = request.json['used']
+    new = Coupon (pc,cad_date,used,id)
+    try:
+        new.mod()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success'})
+
 @app.route ('/coupon/delete',methods=['POST'])
 def deleteCoupon():
     error = False
@@ -745,27 +762,6 @@ def addShipping():
     new = Shipping (address,zip,name,surname,dni,province,id)
     try:
         new.add()
-    except (Exception) as err:
-        error = True
-        return handleError (err)
-    finally:
-        if not (error):
-            return jsonify({'result' : 'success'})
-
-@app.route ('/coupon/mod',methods=['POST'])
-def modShipping():
-    error = False
-    id = request.json['id']
-    address = request.json['address']
-    zip = request.json['zip']
-    name = request.json['name']
-    surname = request.json['surname']
-    dni = request.json['dni']
-    track_code = request.json['track_code']
-    province = request.json['province']
-    new = Shipping (address,zip,name,surname,dni,track_code,province,id)
-    try:
-        new.mod()
     except (Exception) as err:
         error = True
         return handleError (err)

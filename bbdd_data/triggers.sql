@@ -155,7 +155,7 @@ END IF;
 RETURN NEW;
 END; $funcemp$ LANGUAGE plpgsql;
 
-CREATE TRIGGER check_coupon_date BEFORE INSERT ON coupon
+CREATE TRIGGER check_coupon_date BEFORE INSERT OR UPDATE ON coupon
 FOR EACH ROW EXECUTE PROCEDURE check_coupon_date();
 
 --TRIGGERS SHIPPING
