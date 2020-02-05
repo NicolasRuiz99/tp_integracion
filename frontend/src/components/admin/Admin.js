@@ -9,7 +9,9 @@ import Sales from './nav-items/Sales';
 import Reviews from './nav-items/Reviews';
 import ReviewDetail from './details/ReviewDetail';
 import SaleDetail from './details/SaleDetail';
+import CouponDetail from './details/CouponDetail';
 import CustomerDetail from './details/CustomerDetail';
+import Coupons from './nav-items/Coupons';
 
 export default function Admin({handleDrop}) {
     return (
@@ -23,9 +25,11 @@ export default function Admin({handleDrop}) {
                     <Route path="/admin-page/reservations" component={Reservations} />
                     <Route path="/admin-page/sales" component={Sales} />
                     <Route path="/admin-page/reviews" component={Reviews} />
+                    <Route path="/admin-page/coupons" component={Coupons} />
                     <Route  path="/admin-page/review-detail/:id" render={(props) => <ReviewDetail props={props}/>}/>
                     <Route  path="/admin-page/sale-detail/:id" render={(props) => <SaleDetail props={props}/>}/>
                     <Route  path="/admin-page/customer-detail/:id" render={(props) => <CustomerDetail props={props}/>}/>
+                    <Route  path="/admin-page/coupon-detail/:id" render={(props) => <CouponDetail props={props}/>}/>
                 </Switch>
             </div>
             </div>

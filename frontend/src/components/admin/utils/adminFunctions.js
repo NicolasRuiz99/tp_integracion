@@ -27,14 +27,33 @@ const getReviews = async() => {
     .catch(err => {throw err})
 }
 
+const getCoupons = async() => {
+    return axios
+    .get("/coupon/listall")
+    .then(res => {
+        return res.data.results
+    })
+    .catch(err => {throw err})
+}
+
 const capitalize = (cadena) => {
     return (cadena.charAt(0).toUpperCase() + cadena.slice(1));
 }
 
+const deleteCoupon = (id) => {
+    return axios
+    .post("/coupon/delete", {
+        id
+    })
+    .then(res => { return res.data})
+    .catch(err => {throw err})
+}
 
 export {
     getReservations,
     capitalize,
     getSells,
-    getReviews
+    getReviews,
+    getCoupons,
+    deleteCoupon
 };
