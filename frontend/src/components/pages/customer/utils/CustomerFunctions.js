@@ -355,7 +355,7 @@ const getCoupon = id => {
     .post("/coupon/get",{
         id
     })
-    .then(res => {return res.data})
+    .then(res => {return res.data.data})
     .catch(err => {throw err})
 }
 

@@ -25,16 +25,17 @@ function CouponDetail({props}) {
     };
 
     useEffect(() => {    
+        setRefresh (false);
         setLoading(true);
         getCoupon(id)
         .then(res => {
             console.log(res);
-            if (res === 'used') {
-                setCoupon(null);
-            }
-            setCoupon(res.data);
-            setPorc(res.data.pc);
-            setDate(res.cad_date);
+            //if (res === 'used') {
+            //    setCoupon(null);
+            //}
+            setCoupon(res);
+            setPorc(res.pc);
+            setDate(moment(res.cad_date).utc().format('YYYY-MM-DD'));
             setLoading(false);
         })
         .catch(err => {
@@ -42,7 +43,7 @@ function CouponDetail({props}) {
             return;
         })
         setError(false)
-    }, [refresh]);
+    },[refresh]);
 
     const editarCupon = (date, pc) => {
         let cad_date = moment(date).format('MM/DD/YYYY');
@@ -118,7 +119,7 @@ function CouponDetail({props}) {
         <EditCouponModal 
         modalOpen={modalOpen}
         handleModalOpen={handleModalOpen}
-        fecha={moment(date).utc().format('YYYY-MM-DD')}
+        fecha={date}
         porc={coupon.pc}
         editarCupon={editarCupon}
         />

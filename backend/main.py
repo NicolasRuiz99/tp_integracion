@@ -727,11 +727,8 @@ def getCoupon():
         return handleError (err)
     finally:
         if not (error):       
-            if (new.used == True):
-                return jsonify({'result': 'used'})
-            else:
-                result = dict (id = new.id, pc = new.pc, cad_date = new.cad_date, used = new.used)
-                return jsonify({'result': 'success','data' : result})     
+            result = dict (id = new.id, pc = new.pc, cad_date = new.cad_date, used = new.used)
+            return jsonify({'result': 'success','data' : result})     
 
 @app.route ('/coupon/use',methods=['POST'])
 def useCoupon():
