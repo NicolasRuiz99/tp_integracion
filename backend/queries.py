@@ -1,10 +1,10 @@
 from ddbb_connect import listTable,query
 
 def listUsers ():
-    return listTable ('users')
+    return query ('select * from users order by id')
 
 def listCoupons ():
-    return listTable ('coupon')
+    return query('select * from coupon order by id')
 
 def listUsersE_Mails ():
     return query ('select e_mail from users')
@@ -19,10 +19,10 @@ def listRoles ():
     return listTable ('roles')
 
 def listAllPurchases ():
-    return listTable ('PurchaseList')
+    return query ('select * from PurchaseList order by id')
 
 def listAllReviews ():
-    return listTable ('ReviewProduct')
+    return query ('select * from ReviewProduct order by id')
 
 def listAllReservations ():
     return listTable ('reservationsList')
@@ -31,7 +31,7 @@ def getUserCustomer (id):
     return query ('select * from UserCustomer where id_user = ' + str(id))
 
 def listProducts ():
-    return listTable ('ProductsList')
+    return query ('select * from ProductsList order by id')
 
 def listPurchases (id_user):
     return query ('select * from PurchaseList where id_user = ' + str(id_user))

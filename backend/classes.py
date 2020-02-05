@@ -243,6 +243,9 @@ class Coupon:
         new_record = (self.pc, self.cad_date, self.used )
         addToTable ('coupon (pc, cad_date, used)',new_record,'(%s,%s,%s)')
 
+    def mod (self):
+        updateTable ('coupon',(self.pc,self.cad_date,self.used,self.id),'pc = %s, cad_date = %s, used = %s')
+
     def use (self):
         self.used = True
         updateTable ('coupon',(self.used),'used = %s')
