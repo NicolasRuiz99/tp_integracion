@@ -73,7 +73,7 @@ const App = () => {
             <Route  path="/contact" component={Contact} />
             <Route  path="/top-ten" component={TopVentas} />
             <Route  path="/admin-page" render={() => (
-              <Admin handleDrop={handleDrop} />
+              <Admin handleDrop={handleDrop} user_id = {user_id} />
             )} />
             <Route  path="/shop-category" render={() => (
               <Categorias search={search} setIsOferta={setIsOferta} isOferta={false}/>

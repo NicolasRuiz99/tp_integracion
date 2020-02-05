@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import './../../../css/default.css';
@@ -45,12 +45,17 @@ const EditCouponModal = ({modalOpen, handleModalOpen, editarCupon, porc, fecha})
    const [pc, setPc] = useState('');
    const [date, setDate] = useState('');
 
+   useEffect (()=>{
+      setPc (porc);
+      setDate (fecha);
+   },[porc,fecha])
+
    const handleClick = () => {
       if (pc === '' || date === '') {
          return;
       }
+      editarCupon(date,pc);
       handleModalOpen(null);
-      editarCupon(pc,date);
    }
 
     return (

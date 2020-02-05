@@ -45,6 +45,7 @@ const TopBarAdmin = ({user_id,setUser, isLogged, setIsLogged, handleDrop, histor
                                 e.preventDefault()
                                 }} data-toggle="dropdown" className="dropdown-toggle signup-btn" style={{color: "#fff"}}><span className="d-none d-md-inline-block">{`Opciones`}</span></Link>
                                     <ul class="dropdown-menu">
+                                        <li className="dropdown-item"><Link to="/admin-page/account" class="nav-link" style={{color: "#fff"}}>Cuenta</Link></li>
                                         <li className="dropdown-item"><Link to="/admin-page/products" class="nav-link" style={{color: "#fff"}}>Productos</Link></li>
                                         <li className="dropdown-item"><Link to="/admin-page/customers" class="nav-link" style={{color: "#fff"}}>Clientes</Link></li>
                                         <li className="dropdown-item"><Link to="/admin-page/sales" class="nav-link" style={{color: "#fff"}}>Ventas</Link></li>

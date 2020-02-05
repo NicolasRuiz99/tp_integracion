@@ -16,13 +16,15 @@ const CouponBox = ({setCoupon}) => {
         }
         getCoupon (id)
         .then (res =>{
-            if (res.result === 'used'){
+            console.log(res);
+            
+            if (res.used === true){
                 setError (true);
                 setSuccess (false);
                 return;
             }else{
                 setSuccess (true);
-                setCoupon (res.data);
+                setCoupon (res);
             }
         })
         .catch (err =>{
