@@ -47,7 +47,7 @@ const modCoupon = ({id,pc,cad_date,used}) => {
         id,
         pc,
         cad_date,
-        used,
+        used
     })
     .then(res => {return res.data})
     .catch(err => {throw err})

@@ -47,8 +47,13 @@ function CouponDetail({props}) {
     const editarCupon = (date, pc) => {
         let cad_date = moment(date).format('MM/DD/YYYY');
         let used = false;
-        let id = coupon.id;
-        modCoupon({id,pc,cad_date,used})
+        const cupon = {
+            id: coupon.id,
+            pc,
+            cad_date,
+            used
+        }
+        modCoupon(cupon)
         .then(res => {
             console.log(res);
             setRefresh(true);
