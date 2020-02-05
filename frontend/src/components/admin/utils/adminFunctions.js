@@ -40,12 +40,16 @@ const capitalize = (cadena) => {
     return (cadena.charAt(0).toUpperCase() + cadena.slice(1));
 }
 
-const deleteCoupon = (id) => {
+
+const modCoupon = ({id,pc,cad_date,used}) => {
     return axios
-    .post("/coupon/delete", {
-        id
+    .post("/coupon/mod",{
+        id,
+        pc,
+        cad_date,
+        used,
     })
-    .then(res => { return res.data})
+    .then(res => {return res.data})
     .catch(err => {throw err})
 }
 
@@ -55,5 +59,5 @@ export {
     getSells,
     getReviews,
     getCoupons,
-    deleteCoupon
+    modCoupon
 };

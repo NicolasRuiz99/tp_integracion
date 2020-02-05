@@ -7,6 +7,7 @@ import { withRouter, Link } from 'react-router-dom';
 import Error from '../../messages/Error';
 import moment from 'moment';
 import { EditCouponModal } from '../utils/modals';
+import { modCoupon } from '../utils/adminFunctions';
 
 function CouponDetail({props}) {
     const [coupon, setCoupon] = useState({});
@@ -44,8 +45,19 @@ function CouponDetail({props}) {
     }, [refresh]);
 
     const editarCupon = (date, pc) => {
-        console.log("fecha:",date,"desc:", pc);
-
+        let cad_date = moment(date).format('MM/DD/YYYY');
+        let used = false;
+        let id = coupon.id;
+        modCoupon({id,pc,cad_date,used})
+        .then(res => {
+            console.log(res);
+            setRefresh(true);
+        })
+        .catch(err => {
+            setError(true);
+            return;
+        })
+        setError(false);
     }
 
     return (
