@@ -6,7 +6,7 @@ import './../../../../css/reservation.css';
 import {capitalize} from './../../utils/adminFunctions';
 import moment from 'moment';
 
-const ReservationItem = ({item}) => {
+const ReservationItem = ({item, handleModalOpen}) => {
 
     //const [link,setLink] = useState ('');
     const [estado,setEstado] = useState ('');
@@ -14,8 +14,6 @@ const ReservationItem = ({item}) => {
     const date = moment(item.date).utc().format('DD/MM/YYYY');
 
     useEffect (()=> {
-        //Futuro reservation-detail
-        //setLink (`/reservation-detail/${item.id}`);
         switch (item.state) {
             case 'reserved':
                 setEstado ('reservada');
@@ -43,7 +41,7 @@ const ReservationItem = ({item}) => {
                 <td style={{textAlign:'center'}}>$ {item.price}</td>
                 <td style={{textAlign:'center'}}><span className={clase}>{estado}</span></td>
                 <td style={{textAlign:'center'}}>
-                    <Link to="" className="btn btn-outlined btn-sm" style={{width: '40%'}} >Ver</Link>
+                    <Link onClick={() => handleModalOpen(item)} className="btn btn-outlined btn-sm" style={{width: '40%'}} >Ver</Link>
                 </td>
             </tr>
         </Fragment>    

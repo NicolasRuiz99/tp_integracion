@@ -23,7 +23,7 @@ export default function ReviewList({copyList, setSearch, changeList, toDelete, i
     return (
         <div>
           {(list.length === 0) ? (
-          <Info texto="Actualmente no hay reviews" />) 
+          <Info texto="Actualmente no hay reseñas" />) 
           : ( 
             <div className="table-responsive">
               <div className="col-sm-8 col-md-4" style={{float: 'left', paddingBottom:'0rem', paddingTop: '0rem', padding: '0.4rem'}}>

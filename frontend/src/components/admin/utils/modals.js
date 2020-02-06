@@ -1,4 +1,5 @@
-import React, {useState,useEffect} from 'react'
+import React, {useState,useEffect} from 'react';
+import {Link} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import './../../../css/default.css';
@@ -297,8 +298,42 @@ const ModifySale = ({modalOpen, handleModalOpen, changeState}) => {
     )
 }
 
+const ReservationDetailModal = ({modalOpen, handleModalOpen, reserva}) => {
+
+   return (
+        <>
+        <Modal show={modalOpen} onHide={() => handleModalOpen(null)} style={{'vertical-align': 'middle', top: '25%',
+        bottom: '20%',
+        left: '6%',
+        transform: 'translate(-50%, -50%) !important'}}>
+            <Modal.Header className="modal-header" closeButton>
+               <Modal.Title >
+                  <h4 className="modal-title">Detalles de la reserva #{reserva.id}</h4>
+               </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                 <h5 className="text-center">
+                    El producto {reserva.name} de color {reserva.color} fue reservado por el 
+                    &nbsp; <Link to={`/admin-page/customer-detail/${reserva.id_user}`}>
+                    cliente #{reserva.id_user}</Link> el  {moment(reserva.date).utc().format('DD/MM/YYYY')}&nbsp; 
+                    con un stock de {reserva.stock} y precio total de ${reserva.price}.
+                  </h5>
+            </Modal.Body>
+            <Modal.Footer>
+               <div style={{'padding-right': '6px'}}>
+               <Button variant="primary" onClick={() => handleModalOpen(null)} className="btn btn-success" >
+                  Cerrar
+               </Button>
+               </div>
+            </Modal.Footer>
+        </Modal>
+      </>
+    )
+}
+
 export {DeleteReviewsModal,
        ModifySale,
        EditCouponModal,
-       AddCouponModal
+       AddCouponModal,
+       ReservationDetailModal
       };

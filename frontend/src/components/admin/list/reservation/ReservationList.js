@@ -3,9 +3,10 @@ import './../../../../css/default.css';
 import ReservationItem from './ReservationItem';
 import Search from './../Search';
 import Paginacion from './../../../pages/shop/Paginacion';
+import Info from './../../../messages/Info';
 
 //Cada tabla tendrá su propia barra de búsqueda
-export default function ReservationList({copyList, setSearch}) {
+export default function ReservationList({copyList, setSearch, list, handleModalOpen}) {
   const [currentPage, setCurrentPage] = useState(1);
   const [listPerPage] = useState(8);
   //Obtener lista de productos actual
@@ -20,8 +21,14 @@ export default function ReservationList({copyList, setSearch}) {
   };
     return (
         <div>
+          {(list.length === 0) ? (
+          <Info texto="Actualmente no hay reservas" />) 
+          : ( 
               <div className="table-responsive">
                 <Search setSearch={setSearch} />
+                {currentList.length === 0 ? (
+                <p className="lead" style={{padding:'8rem', textAlign:'center'}}>No se encontraron resultados...</p>) : (
+                  <div>
                 <table className="table table-bordered table table-hover" width="100%" cellspacing="0">
                   <thead>
                     <tr>
@@ -54,6 +61,7 @@ export default function ReservationList({copyList, setSearch}) {
                         <ReservationItem 
                             key = {item.id}
                             item = {item}
+                            handleModalOpen={handleModalOpen}
                         />
                     ))}
                   </tbody>
@@ -65,7 +73,9 @@ export default function ReservationList({copyList, setSearch}) {
             setCurrentPage={setCurrentPage} 
             currentPage={currentPage}
             />  
-              </div>
+            </div>)}
             </div>
+          )} 
+        </div>
     )
 }
