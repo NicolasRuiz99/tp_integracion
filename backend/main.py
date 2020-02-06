@@ -929,14 +929,11 @@ def listUserPurchaseItems():
 
 @app.route ('/purchase/item',methods=['POST'])
 def getPurchItem():
-    result = False
     error = False
     id_user = request.json['id_user']
     id_prod = request.json['id_prod']
     try:
-        item = getPurchaseItem (id_user,id_prod)
-        if (item != []):
-            result = True
+        result = getPurchaseItem (id_user,id_prod)
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -1229,14 +1226,11 @@ def getWishlist():
 
 @app.route ('/wishlist/item',methods=['POST'])
 def getWishItem():
-    result = False
     error = False
     id_user = request.json['id_user']
     id_prod = request.json['id_prod']
     try:
-        item = getWishlistItem (id_user,id_prod)
-        if (item != []):
-            result = True
+        result = getWishlistItem (id_user,id_prod)
     except (Exception) as err:
         error = True
         return handleError (err)

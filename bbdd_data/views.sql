@@ -60,5 +60,6 @@ AS
 SELECT p.id,p.name,p.discount,p.price,w.id_user 
 FROM wishlist w,products p WHERE w.id_prod = p.id ORDER BY w.date;
 
-
-
+CREATE VIEW NewProducts
+AS
+SELECT * FROM products ORDER BY id DESC LIMIT 6;

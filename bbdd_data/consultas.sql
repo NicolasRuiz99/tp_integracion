@@ -106,6 +106,147 @@ END;
 $body$
 LANGUAGE plpgsql;
 
+--devuelve los items de la compra dado el id de la misma
+
+CREATE OR REPLACE FUNCTION PurchaseItemsByID (id_p int)
+RETURNS table (
+		prod_id int,
+		name varchar,
+		color t_color,
+		size all_size,
+		stock t_stock,
+		price t_price
+		)
+AS $body$
+BEGIN
+	RETURN QUERY
+	SELECT p.prod_id,p.name,p.color,p.size,p.stock,p.price FROM PurchaseItems p WHERE p.id_purchase = id_p;
+END;
+$body$
+LANGUAGE plpgsql;
+
+--devuelve los items del carrito dado el id del usuario
+
+CREATE OR REPLACE FUNCTION CartItemsByID (id_u int)
+RETURNS table (
+		prod_id int,
+		name varchar,
+		id_color_size int,
+		color t_color,
+		size all_size,
+		stock t_stock,
+		price t_price,
+		discount percent
+		)
+AS $body$
+BEGIN
+	RETURN QUERY
+	SELECT c.prod_id,c.name,c.id_color_size,c.color,c.size,c.stock,c.price,c.discount FROM CartItems c WHERE c.id_user = id_u;
+END;
+$body$
+LANGUAGE plpgsql;
+
+--devuelve la info del carrito dado el id del usuario
+
+CREATE OR REPLACE FUNCTION CartInfoByID (id_u int)
+RETURNS table (
+		id int,
+		price t_price,
+		date date,
+		state purch_state,
+		id_user int,
+		id_coupon int
+		)
+AS $body$
+BEGIN
+	RETURN QUERY
+	SELECT c.id,c.price,c.date,c.state,c.id_user,c.id_coupon FROM CartInfo c WHERE c.id_user = id_u;
+END;
+$body$
+LANGUAGE plpgsql;
+
+--devuelve lista de reservas dado el id del usuario
+
+CREATE OR REPLACE FUNCTION ReservationsListByID (id_u int)
+RETURNS table (
+		id int,
+		prod_id int,
+		name varchar,
+		color t_color,
+		size all_size,
+		stock t_stock,
+		price double precision,
+		date date,
+		state res_state
+		)
+AS $body$
+BEGIN
+	RETURN QUERY
+	SELECT r.id,r.prod_id,r.name,r.color,r.size,r.stock,r.price,r.date,r.state FROM ReservationsList r WHERE r.id_user = id_u;
+END;
+$body$
+LANGUAGE plpgsql;
+
+--devuelve lista de reviews dado el id del usuario
+
+CREATE OR REPLACE FUNCTION ReviewProductByID (id_u int)
+RETURNS table (
+		id int,
+		date date,
+		stars t_stars,
+		id_product int,
+		name varchar
+		)
+AS $body$
+BEGIN
+	RETURN QUERY
+	SELECT r.id,r.date,r.stars,r.id_product,r.name FROM ReviewProduct r WHERE r.id_user = id_u;
+END;
+$body$
+LANGUAGE plpgsql;
+
+--busca si existe el item dado en la wishlist del usuario
+
+CREATE OR REPLACE FUNCTION UserWishlistItem (id_u int, id_p int)
+RETURNS boolean 
+AS $body$
+BEGIN
+	IF (EXISTS (SELECT * FROM wishlist WHERE id_user = id_u AND id_prod = id_p)) THEN
+		RETURN true;
+	ELSE
+		RETURN false;
+	END IF;
+END;
+$body$
+LANGUAGE plpgsql;
+
+--devuelve el id de la reserva activa si existe
+
+CREATE OR REPLACE FUNCTION ActiveReservationsItem (id_u int, id_cz int)
+RETURNS table (id int)
+AS $body$
+BEGIN
+	RETURN QUERY
+	SELECT a.id FROM ActiveReservations a WHERE a.id_user = id_u AND a.id_color_size = id_cz;
+END;
+$body$
+LANGUAGE plpgsql;
+
+--busca si existe el item dado en la lista de compras del usuario
+
+CREATE OR REPLACE FUNCTION UserPurchaseItem (id_u int, id_p int)
+RETURNS boolean 
+AS $body$
+BEGIN
+	IF (EXISTS (SELECT * FROM UserPurchase WHERE id_user = id_u AND prod_id = id_p)) THEN
+		RETURN true;
+	ELSE
+		RETURN false;
+	END IF;
+END;
+$body$
+LANGUAGE plpgsql;
+
 --Producto con sus respectivas valoraciones
 
 CREATE VIEW ProductosValorados
@@ -125,7 +266,7 @@ WHERE valoracion = (SELECT MAX(valoracion)
 					
 --Productos mas valorados
 
-CREATE OR REPLACE FUNCTION ProductosMejorValorados ()
+CREATE OR REPLACE FUNCTION HighRatedProducts ()
 RETURNS table (
 		id int,
 		name varchar,
@@ -150,19 +291,17 @@ SELECT c.prod_id,sum (pitem.stock) stock FROM purchxitem pitem, purchase purch, 
 WHERE pitem.id_purchase = purch.id AND purch.state = 'success' AND pitem.id_color_size = c.id
 GROUP BY c.prod_id ORDER BY stock DESC;
 
-
-CREATE OR REPLACE FUNCTION ProductosMasVendidos ()
+CREATE OR REPLACE FUNCTION TopSellersProducts ()
 RETURNS table (
 		id int,
 		name varchar,
-		stock bigint,
 		discount percent,
 		price t_price
 		)
 AS $body$
 BEGIN
 	RETURN QUERY
-	SELECT p.id,p.name,psv.stock,p.discount,p.price
+	SELECT p.id,p.name,p.discount,p.price
 	FROM ProductoStockVendido psv, products p
 	WHERE (p.id = psv.prod_id) ORDER BY psv.stock DESC LIMIT 10;
 END;

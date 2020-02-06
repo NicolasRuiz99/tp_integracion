@@ -78,7 +78,7 @@ const CustomerOrder = ({props,user_id,handleDrop}) => {
             setError (true);
         })
         setError (false);  
-    },[user_id])
+    },[user_id,props])
 
     return (
         <Fragment>

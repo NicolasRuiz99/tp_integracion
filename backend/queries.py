@@ -49,34 +49,36 @@ def getUserWishlist (user_id):
     return callFunReturn ('WishlistByID',[user_id])
 
 def getWishlistItem (user_id,prod_id):
-    return query ('select * from wishlist where id_user = ' + str(user_id) + ' and id_prod = ' + str(prod_id))
+    result = callFunReturn ('UserWishlistItem',[user_id,prod_id,])
+    return result[0]['userwishlistitem']
 
 def getPurchaseItem (user_id,prod_id):
-    return query ('select * from UserPurchase where id_user = ' + str(user_id) + ' and prod_id = ' + str(prod_id))
+    result = callFunReturn ('UserPurchaseItem',[user_id,prod_id,])
+    return result[0]['userpurchaseitem']
 
 def listProductosMasVendidos ():
-    return listTable ('ProductosMasVendidos()')
+    return callFunReturn ('TopSellersProducts',[])
 
 def listPurchaseItems (id):
-    return query ('select prod_id,name,color,size,stock,price from PurchaseItems where id_purchase = ' + str(id))
+    return callFunReturn ('PurchaseItemsByID',[id])
 
 def listCartItems (user_id):
-    return query ('select prod_id,name,id_color_size,color,size,stock,price,discount from CartItems where id_user = ' + str(user_id))
+    return callFunReturn ('CartItemsByID',[user_id])
 
 def getCartInfo (user_id):
-    return query ('select id,price,date,state,id_user,id_coupon from CartInfo where id_user = ' + str(user_id))
+    return callFunReturn ('CartInfoByID',[user_id])
 
 def listReservations (user_id):
-    return query ('select id,prod_id,name,color,size,stock,price,date,state from ReservationsList where id_user = ' + str(user_id))
+    return callFunReturn ('ReservationsListByID',[user_id])
 
 def getReservationItem (user_id,id_color_size):
-    return query ('select id from ActiveReservations where id_user = ' + str (user_id) + 'and id_color_size = ' + str(id_color_size))
+    return callFunReturn ('ActiveReservationsItem',[user_id,id_color_size,])
 
 def listReviews (user_id):
-    return query ('select id,date,stars,id_product,name from ReviewProduct where id_user = ' + str(user_id))
+    return callFunReturn ('ReviewProductByID',[user_id])
 
 def listNewProducts ():
-    return query ('select * from products ORDER BY id DESC LIMIT 6')
+    return listTable ('NewProducts')
 
 def listHighRatedProducts ():
-    return query ('select * from ProductosMejorValorados()')
+    return callFunReturn ('HighRatedProducts',[])
