@@ -102,7 +102,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
     return (
       <Fragment >
       <BreadCrumbs 
-        name={"Cuenta administrador"}
+        name={"Cuenta administrador"} isAdmin={true}
       />
         <div id="content">
         { (serverError) ? <Error texto="Error interno del servidor"/> : null}
@@ -164,16 +164,6 @@ const CustomerAccount = ({user_id, handleDrop}) => {
                     <button type="submit" className="btn btn-outlined"><i className="fa fa-save"></i> Guardar nueva contraseña</button>
                   </div>
                 </form>
-              </div>
-              <div className="bo3">
-                <div className="heading">
-                  <h3 className="text-uppercase">Eliminar cuenta</h3>
-                </div>
-                <form>
-                    <div className="text-center">
-                      <button type="button" className="btn btn-danger" onClick={handleModalOpen}><i class="fas fa-minus-circle"></i> Eliminar cuenta :(</button>
-                    </div>
-                  </form>
               </div>
             </div>
           </div>

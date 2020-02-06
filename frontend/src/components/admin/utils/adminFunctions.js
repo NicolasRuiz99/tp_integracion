@@ -53,11 +53,22 @@ const modCoupon = ({id,pc,cad_date,used}) => {
     .catch(err => {throw err})
 }
 
+const addCoupon = ({pc, cad_date}) => {
+    return axios
+    .post("/coupon/add",{
+        pc,
+        cad_date
+    })
+    .then(res => {return res.data})
+    .catch(err => {throw err})
+}
+
 export {
     getReservations,
     capitalize,
     getSells,
     getReviews,
     getCoupons,
-    modCoupon
+    modCoupon,
+    addCoupon
 };

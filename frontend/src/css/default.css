@@ -1,10 +1,19 @@
 /* Estilos para headings breadcrumbs */
 
 #heading-breadcrumbs {
-  padding: 2rem 0;
+  padding: 2rem 0 ;
   border-top: none !important;
   border-bottom: none !important;
 }
+
+#heading-breadcrumbs2 {
+  padding: 2rem 0;
+  margin-left: -0.75rem;
+  margin-right: -3.25rem;
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
 html {
   font-family: sans-serif;
   line-height: 1.15;
@@ -65,20 +74,38 @@ body {
   background: none;
   font-size: 0.9rem;
 }
+#heading-breadcrumbs2 .breadcrumb {
+  margin-bottom: 0;
+  background: none;
+  font-size: 0.9rem;
+}
 
 #heading-breadcrumbs h1 {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-bottom: 0;
 }
-
+#heading-breadcrumbs2 h1 {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0;
+}
 #heading-breadcrumbs li {
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
-
+#heading-breadcrumbs2 li {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
 .background-pentagon, #heading-breadcrumbs {
   background: url("./../assets/patron.png") center center repeat;
+  border-top: 1px solid #999;
+  border-bottom: 1px solid #999;
+}
+
+.background-pentagon, #heading-breadcrumbs2 {
+  background: url("./../assets/patronAdmin.jpg") center center repeat;
   border-top: 1px solid #999;
   border-bottom: 1px solid #999;
 }

@@ -2,7 +2,6 @@ import React, {useState, Fragment} from 'react'
 import './../../../../css/default.css';
 import CouponItem from './CouponItem';
 import Paginacion from './../../../pages/shop/Paginacion';
-import { Link } from 'react-router-dom';
 import Info from './../../../messages/Info';
 import Search from '../Search';
 
@@ -28,7 +27,7 @@ export default function ReviewList({copyList, list, handleModalOpen, setSearch})
             <div className="table-responsive">
                 <Search setSearch={setSearch} />
                 <div className="col-sm-6 col-md-2" style={{float: 'left', paddingRight:'4rem', padding:'0.75rem'}}>
-                <div type="button" className="btn btn-warning">
+                <div type="button" onClick={handleModalOpen} className="btn btn-warning">
                     Nuevo cupón
                 </div>
                 </div>

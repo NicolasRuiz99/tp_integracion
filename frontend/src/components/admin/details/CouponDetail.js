@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, Fragment} from 'react'
 import './../../../css/default.css';
 import { getCoupon } from '../../pages/customer/utils/CustomerFunctions';
 import Spinner from 'react-bootstrap/Spinner';
@@ -8,6 +8,7 @@ import Error from '../../messages/Error';
 import moment from 'moment';
 import { EditCouponModal } from '../utils/modals';
 import { modCoupon } from '../utils/adminFunctions';
+import BreadCrumbs from '../../BreadCrumbs';
 
 function CouponDetail({props}) {
     const [coupon, setCoupon] = useState({});
@@ -45,9 +46,8 @@ function CouponDetail({props}) {
         setError(false)
     },[refresh]);
 
-    const editarCupon = (date, pc) => {
+    const editarCupon = (date, pc, used) => {
         let cad_date = moment(date).format('MM/DD/YYYY');
-        let used = false;
         const cupon = {
             id: coupon.id,
             pc,
@@ -67,48 +67,52 @@ function CouponDetail({props}) {
     }
 
     return (
+        <Fragment>
+
+            <BreadCrumbs name={`Detalles del cupón #${id}`} isAdmin={true}/>
+
         <div className="row addresses" >
             {(loading) ? (
-                <div className="col-md-12 text-center" style={{top:'50%',left:'5%', position:'absolute'}}> 
+                <div className="col-md-12 text-center" style={{top:'40%',left:'5%', position:'absolute'}}> 
                     <Spinner animation="border" variant="dark" size="lg" role="status" />
                 </div> 
             ): ( (error) ? (<Error texto="Ha ocurrido un error interno en el servidor" />) : (
-                (!coupon) ?
-                (<div className="card shadow" style={{left:'35%',position:'absolute',bottom:'55%', width:'30%'}}>
+                (coupon.used) ?
+                (<div className="card shadow" style={{left:'32%',position:'absolute',bottom:'48%', width:'35%'}}>
                     <div className="card-header">
                         <h3 className="text-center">
                             <label>
-                                <span>Cupón inhabilitado</span>
+                                <span>Cupón #{id}</span>
                             </label>
                         </h3>
                     </div>
                     <div className="card-body">
                         <div className="col-md-12 text-center">
-                            <div className="card-title text-uppercase">
-                                <h4>Fecha de vencimiento: {moment(date).utc().format('DD/MM/YYYY')} </h4>
+                            <div className="card-title text-uppercase row">
+                                <label>
+                                <h5>Obtuvo un descuento de un {coupon.pc}% </h5>
+                                <h5>con fecha de vencimiento: {moment(date).utc().format('DD/MM/YYYY')}.</h5>
+                                <p className="text-muted float-right" style={{margin:'0'}}>Actualmente no se encuentra disponible</p>
+                                </label>
                             </div>
-                            <div className="card-subtitle">
-                                
-                            </div>
-                            <div className="card-text" style={{float: 'right'}}>
-                          
-                            </div>  
-                        </div>
-                        
+                        </div>   
                     </div>
                 </div>) : (
-                    <div className="card shadow" style={{left:'35%',position:'absolute',bottom:'55%', width:'30%'}}>
+                    <div className="card shadow" style={{left:'32%',position:'absolute',bottom:'48%', width:'32%'}}>
                     <div className="card-header">
                         <h3 className="text-center">
                             <label>
-                                <span>{coupon.pc}% de descuento</span>
+                                <span>Cupón #{id}</span>
                             </label>
                         </h3>
                     </div>
                     <div className="card-body">
                         <div className="col-md-12 text-center">
                             <div className="card-title text-uppercase">
-                                <h4>Fecha de vencimiento: {moment(date).utc().format('DD/MM/YYYY')} </h4>
+                                <label>
+                                    <h5>Tiene un descuento de un {coupon.pc}% </h5>
+                                    <h5>y vence el: {moment(date).utc().format('DD/MM/YYYY')}.</h5>
+                                </label>
                             </div>
                             <div className="card-text" style={{float: 'right'}}>
                                 <Button variant="warning" onClick={handleModalOpen} className="btn btn-warning">
@@ -116,11 +120,11 @@ function CouponDetail({props}) {
                                 </Button> 
                             </div>  
                         </div>
-                        
                     </div>
                 </div>
                 )
             ))}
+        </div>
         <EditCouponModal 
         modalOpen={modalOpen}
         handleModalOpen={handleModalOpen}
@@ -128,7 +132,7 @@ function CouponDetail({props}) {
         porc={coupon.pc}
         editarCupon={editarCupon}
         />
-        </div>
+        </Fragment>
     )
 }
 

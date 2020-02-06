@@ -44,6 +44,7 @@ const DeleteReviewsModal = ({modalOpen, handleModalOpen, eliminarReview}) => {
 const EditCouponModal = ({modalOpen, handleModalOpen, editarCupon, porc, fecha}) => {
    const [pc, setPc] = useState('');
    const [date, setDate] = useState('');
+   const [used, setUsed] = useState(false);
 
    useEffect (()=>{
       setPc (porc);
@@ -51,10 +52,7 @@ const EditCouponModal = ({modalOpen, handleModalOpen, editarCupon, porc, fecha})
    },[porc,fecha])
 
    const handleClick = () => {
-      if (pc === '' || date === '') {
-         return;
-      }
-      editarCupon(date,pc);
+      editarCupon(date,pc, used);
       handleModalOpen(null);
    }
 
@@ -97,6 +95,22 @@ const EditCouponModal = ({modalOpen, handleModalOpen, editarCupon, porc, fecha})
                      />
                 </div>
             </div>
+            <div className="form-group row">
+            <div className="col-sm-1 col-lg-2" style={{marginLeft:'-2.5rem', marginTop:'0.1rem'}}> 
+                     <input
+                     style={{background:'#2af'}}
+                     type="checkbox"
+                     checked={used}
+                     onChange={() => setUsed(!used)}
+                     />
+               </div>
+               <div className="col-sm-4 col-lg-5">
+                  <label>Inhabilitar</label>
+               </div>
+               <div className="col-sm-2 col-md-5">
+               {(used) ? <p className="text-danger">Una vez inhabilitado el cupón, éste no puede volver a habilitarse.</p> : null}
+               </div>
+            </div>
             </Modal.Body>
             <Modal.Footer>
                 <div className="col-9" style={{'padding-left': '0'}}>
@@ -107,6 +121,77 @@ const EditCouponModal = ({modalOpen, handleModalOpen, editarCupon, porc, fecha})
                <div style={{'padding-right': '6px'}}>
                <Button variant="primary" onClick={handleClick} className="btn btn-success" >
                   Aceptar
+               </Button>
+               </div>
+            </Modal.Footer>
+        </Modal>
+      </>
+    )
+}
+
+const AddCouponModal = ({modalOpen, handleModalOpen, agregarCupon}) => {
+   const [pc, setPc] = useState('');
+   const [cad_date, setCad_date] = useState('');
+
+   const handleClick = () => {
+      agregarCupon(pc,cad_date);
+      handleModalOpen(null);
+   }
+
+   useEffect (()=>{
+      setPc (0);
+      setCad_date (moment().format('YYYY-MM-DD'));
+   },[]);
+
+   return (
+        <>
+        <Modal show={modalOpen} onHide={() => handleModalOpen(null)} style={{'vertical-align': 'middle', top: '25%',
+        bottom: '20%',
+        left: '6%',
+        transform: 'translate(-50%, -50%) !important'}}>
+            <Modal.Header className="modal-header" closeButton>
+               <Modal.Title >
+                  <h4 className="modal-title">Agregar cupón</h4>
+               </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+            <div className="form-group row">
+               <label  className="col-sm-4 col-lg-2 col-form-label">
+                  Porcentaje:
+               </label>
+               <div className="col-sm-8 col-lg-7">
+                  <input type="number" class="form-control"
+                  defaultValue={pc} 
+                  min="0"
+                  max="100" 
+                  onChange={e => setPc(e.target.value)}/>
+               </div>
+            </div>
+            <div className="form-group row">
+               <label  className="col-sm-4 col-lg-3 col-form-label">
+                  Fecha límite:
+               </label>
+               <div className="col-sm-8 col-lg-6" style={{marginLeft:'-1.8rem'}}>
+                    <input 
+                     type="date" 
+                     className="form-control"
+                     defaultValue={cad_date}
+                     min={moment().format('YYYY-MM-DD')}
+                     max={moment('01/01/2021').format('YYYY-MM-DD')}
+                     onChange={e => setCad_date(e.target.value)}
+                     />
+                </div>
+            </div>
+            </Modal.Body>
+            <Modal.Footer>
+                <div className="col-9" style={{'padding-left': '0'}}>
+               <Button variant="danger" onClick={() => handleModalOpen(null)} className="btn btn-danger">
+                  Cancelar
+               </Button>
+               </div>
+               <div style={{'padding-right': '6px'}}>
+               <Button variant="primary" onClick={handleClick} className="btn btn-success" >
+                  Agregar
                </Button>
                </div>
             </Modal.Footer>
@@ -214,5 +299,6 @@ const ModifySale = ({modalOpen, handleModalOpen, changeState}) => {
 
 export {DeleteReviewsModal,
        ModifySale,
-       EditCouponModal
+       EditCouponModal,
+       AddCouponModal
       };

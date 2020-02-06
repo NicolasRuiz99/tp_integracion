@@ -2,8 +2,9 @@ import React, { useState, useEffect, Fragment } from 'react'
 import CouponList from './../list/coupon/CouponList';
 import Error from './../../messages/Error';
 import Spinner from 'react-bootstrap/Spinner';
-import {getCoupons, deleteCoupon} from './../utils/adminFunctions';
-import {DeleteCouponsModal} from './../utils/modals';
+import {getCoupons, deleteCoupon, addCoupon} from './../utils/adminFunctions';
+import {AddCouponModal} from './../utils/modals';
+import moment from 'moment';
 
 export default function Coupons() {
     const [list, setList] = useState([]);
@@ -48,6 +49,19 @@ export default function Coupons() {
         }     
    },[search]);
 
+   const agregarCupon = (pc, date) => {
+       let cad_date = moment(date).format('DD/MM/YYYY');
+       addCoupon({pc, cad_date})
+       .then(res => {
+           setRefresh(true);
+       })
+       .catch(err => {
+        setError(true);   
+        return;
+       });
+       setError(false);
+   }
+
     return (
         <Fragment>
          {(loading) ? (
@@ -64,6 +78,10 @@ export default function Coupons() {
                     list={list}
                     handleModalOpen={handleModalOpen}
                     />)))}
+            <AddCouponModal 
+            modalOpen={modalOpen}
+            handleModalOpen={handleModalOpen}
+            agregarCupon={agregarCupon} />
         </Fragment>
     )
 }
