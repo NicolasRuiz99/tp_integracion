@@ -12,6 +12,7 @@ import SaleDetail from './details/SaleDetail';
 import CouponDetail from './details/CouponDetail';
 import CustomerDetail from './details/CustomerDetail';
 import Coupons from './nav-items/Coupons';
+import Chats from './nav-items/Chats';
 import AdminAccount from './AdminAccount';
 
 export default function Admin({handleDrop,user_id}) {
@@ -27,6 +28,7 @@ export default function Admin({handleDrop,user_id}) {
                     <Route path="/admin-page/sales" component={Sales} />
                     <Route path="/admin-page/reviews" component={Reviews} />
                     <Route path="/admin-page/coupons" component={Coupons} />
+                    <Route path="/admin-page/chats" component={Chats} />
                     <Route  path="/admin-page/account" render={() => <AdminAccount user_id = {user_id}/>}/>
                     <Route  path="/admin-page/review-detail/:id" render={(props) => <ReviewDetail props={props}/>}/>
                     <Route  path="/admin-page/sale-detail/:id" render={(props) => <SaleDetail props={props}/>}/>

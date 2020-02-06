@@ -31,7 +31,7 @@ export default function Sales() {
       useEffect( () => {
           if(search !== '') {
              setCopyList(list.filter(sale => {
-                 return (sale.id.toString().includes(search));
+                 return (sale.id.toString().includes(search) || sale.price.toString().includes(search));
              }));
         }else{
         setCopyList(list);
@@ -45,7 +45,7 @@ export default function Sales() {
                     <Spinner animation="border" variant="dark" size="lg" role="status" />
                 </div> 
             ) : ((error) ? 
-                <Error texto="ha ocurrido un error" /> : <SaleList copyList={copyList} setSearch={setSearch}/>)}
+                <Error texto="ha ocurrido un error" /> : <SaleList copyList={copyList} setSearch={setSearch} list={list} />)}
         </Fragment>
     )
 }

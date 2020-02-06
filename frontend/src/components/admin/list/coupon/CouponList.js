@@ -5,7 +5,7 @@ import Paginacion from './../../../pages/shop/Paginacion';
 import Info from './../../../messages/Info';
 import Search from '../Search';
 
-export default function ReviewList({copyList, list, handleModalOpen, setSearch}) {
+export default function CouponList({copyList, list, handleModalOpen, setSearch}) {
   const [currentPage, setCurrentPage] = useState(1);
   const [listPerPage] = useState(8);
   //Obtener lista de productos actual

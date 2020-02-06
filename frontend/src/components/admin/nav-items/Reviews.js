@@ -104,6 +104,7 @@ export default function Reviews() {
                     toDelete={toDelete} 
                     clean={clean}
                     handleModalOpen={handleModalOpen}
+                    list={list}
                     />)))}
         <DeleteReviewsModal
         modalOpen={modalOpen}

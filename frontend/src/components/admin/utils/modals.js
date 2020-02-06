@@ -253,22 +253,22 @@ const ModifySale = ({modalOpen, handleModalOpen, changeState}) => {
             </Modal.Header>
             <Modal.Body style={{textAlign: 'center'}}>
                <div className="checkbox">
-                     <input  
+                     <input style={{marginLeft:'-0.3rem'}} 
                      type="radio"
                      value='cancelled'
                      checked={cancelar}
                      onChange={handleChange}
                      />
-                     <span>Cancelada</span>
+                     <span style={{marginLeft:'-1.1rem'}}>Cancelada</span>
                </div>
                <div className="checkbox">
-                     <input  
+                     <input  style={{marginRight:'-0.5rem', marginLeft:'1rem'}}
                      type="radio"
                      value='success'
                      checked={completado}
                      onChange={handleChange}
                      />
-                     <span>Completada</span>
+                     <span style={{marginRight:'1rem',  marginLeft:'-1rem'}}>Completada</span>
                </div>
                <div className="checkbox">
                      <input  
@@ -277,7 +277,7 @@ const ModifySale = ({modalOpen, handleModalOpen, changeState}) => {
                      checked={pendiente}
                      onChange={handleChange}
                      />
-                     <span>En proceso</span>
+                     <span style={{marginLeft:'-1rem'}}>En proceso</span>
                </div>
             </Modal.Body>
             <Modal.Footer>

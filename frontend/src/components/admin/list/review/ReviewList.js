@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import Info from './../../../messages/Info';
 
 //Cada tabla tendrá su propia barra de búsqueda
-export default function ReviewList({copyList, setSearch, changeList, toDelete, isCheck, clean, handleModalOpen}) {
+export default function ReviewList({copyList, setSearch, changeList, toDelete, isCheck, clean, handleModalOpen, list}) {
   const [currentPage, setCurrentPage] = useState(1);
   const [listPerPage] = useState(8);
   //Obtener lista de productos actual
@@ -22,7 +22,7 @@ export default function ReviewList({copyList, setSearch, changeList, toDelete, i
   };
     return (
         <div>
-          {(currentList.length === 0) ? (
+          {(list.length === 0) ? (
           <Info texto="Actualmente no hay reviews" />) 
           : ( 
             <div className="table-responsive">
@@ -40,9 +40,11 @@ export default function ReviewList({copyList, setSearch, changeList, toDelete, i
                     
                   ))
                 ) : null}
-                
                 </div>
                 <Search setSearch={setSearch} />
+                {currentList.length === 0 ? (
+                <p className="lead" style={{padding:'8rem', textAlign:'center'}}>No se encontraron resultados...</p>) : (
+                  <div>
                 <table className="table table-bordered table table-hover" width="100%" cellspacing="0">
                   <thead>
                     <tr>
@@ -66,11 +68,13 @@ export default function ReviewList({copyList, setSearch, changeList, toDelete, i
                     <tr>
                       <th style={{
                         textAlign:'center', 
-                        padding: '5px',
                         borderTop: '0px',
                         borderRight: '0px',
                         borderBottom: '0px',
                         borderLeft: '0px'}}>
+                          {(toDelete.length > 0) ? (
+                            <Link onClick={handleModalOpen}><i className="fa fa-trash-o" title="Eliminar elementos"></i></Link>
+                          ): null}
                       </th>
                       <th style={{textAlign:'center'}}>ID</th>
                       <th style={{textAlign:'center'}}>Fecha</th>
@@ -97,7 +101,8 @@ export default function ReviewList({copyList, setSearch, changeList, toDelete, i
             paginate={paginate} 
             setCurrentPage={setCurrentPage} 
             currentPage={currentPage}
-            />  
+            /> 
+             </div>)} 
             </div>
           )}
       </div>
