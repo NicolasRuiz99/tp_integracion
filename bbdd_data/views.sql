@@ -12,11 +12,11 @@ CREATE VIEW ProductsList
 AS
 SELECT p.id,p.name,p.dsc,p.material,p.genre,p.brand,p.type,p.discount,p.price, 
 (SELECT array(SELECT DISTINCT color FROM color_size WHERE prod_id = p.id)) colors
-FROM products p;
+FROM products p ORDER BY p.id;
 
 CREATE VIEW PurchaseList
 AS 
-SELECT id,price,date,state,id_user FROM purchase WHERE state != 'cart';
+SELECT id,price,date,state,id_user FROM purchase WHERE state != 'cart' ORDER BY id;
 
 CREATE VIEW PurchaseItems
 AS 
@@ -36,7 +36,7 @@ SELECT * FROM purchase WHERE state = 'cart';
 
 CREATE VIEW ReservationsList
 AS
-SELECT r.id,p.id prod_id,p.name,cz.color,cz.size,r.stock,p.price,p.discount,r.date,r.state,r.id_user
+SELECT r.id,p.id prod_id,p.name,cz.color,cz.size,r.stock,((p.price-((p.discount*p.price)/100))*r.stock) price,r.date,r.state,r.id_user
 FROM products p,color_size cz,reservations r
 WHERE r.id_color_size = cz.id and cz.prod_id = p.id ORDER BY r.id;
 
@@ -48,12 +48,17 @@ WHERE state = 'reserved';
 CREATE VIEW ReviewProduct
 AS
 SELECT r.id,r.date,r.stars,r.id_product,r.id_user,p.name FROM products p,review r
-WHERE r.id_product = p.id;
+WHERE r.id_product = p.id ORDER BY r.id;
 
 CREATE VIEW UserRole
 AS
 SELECT u.id,u.e_mail,u.psw,u.external_id,r.name rol FROM users u,roles r 
 WHERE u.id_role = r.id;
+
+CREATE VIEW WishlistProducts
+AS
+SELECT p.id,p.name,p.discount,p.price,w.id_user 
+FROM wishlist w,products p WHERE w.id_prod = p.id ORDER BY w.date;
 
 
 

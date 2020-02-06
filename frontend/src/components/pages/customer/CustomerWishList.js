@@ -37,18 +37,15 @@ const CustomerWishList = ({setUser, handleDrop,user_id}) => {
       setLoading(true);
       getUserWishlist (user_id)
       .then (res => {
-          setList(res);
-          setLoading(false);
+        setTamañoList(res.length);
+        setList(res);
+        setLoading(false);
       })
       .catch (err=>{
           setError (true);
           return;
       });
-      if (list.length === 0){
-          setError (true);
-      }
       setError (false);
-      setTamañoList(list.length);
             
   }, [user_id, tamañoList] );
 

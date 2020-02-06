@@ -38,7 +38,7 @@ const ReservationItem = ({item, handleModalOpen}) => {
                 <td>{item.stock}</td>
                 <td>{item.size}</td>
                 <td><div className="reserve"><label title={capitalize(item.color)}><span className={`color ${item.color}`} ></span></label></div></td>
-                <td>$ {item.price-((item.discount*item.price)/100)}</td>
+                <td>$ {item.price}</td>
                 <td><span className={clase}>{estado}</span></td>
                 <td>
                     <Link to={link} className="btn btn-outlined btn-sm">Ver</Link>

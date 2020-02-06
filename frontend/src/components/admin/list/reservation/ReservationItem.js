@@ -40,7 +40,7 @@ const ReservationItem = ({item}) => {
                 <td style={{textAlign:'center'}}><div className="reserve"><label title={capitalize(item.color)}><span className={`color ${item.color}`} ></span></label></div></td>
                 <td style={{textAlign:'center'}}>{item.size}</td>
                 <td style={{textAlign:'center'}}>{item.stock}</td>
-                <td style={{textAlign:'center'}}>$ {item.price-((item.discount*item.price)/100)}</td>
+                <td style={{textAlign:'center'}}>$ {item.price}</td>
                 <td style={{textAlign:'center'}}><span className={clase}>{estado}</span></td>
                 <td style={{textAlign:'center'}}>
                     <Link to="" className="btn btn-outlined btn-sm" style={{width: '40%'}} >Ver</Link>

@@ -170,3 +170,19 @@ def callFun (name,values):
             raise Exception ('OperationFailed', error.args[0])
     finally:
         disconnect_ddbb (con,cur)
+
+def callFunReturn (name,values):
+    results = []
+    try:
+        con, cur = connect_ddbb ()
+        cur.callproc (name,values)  
+        con.commit ()
+        columns = list(map(lambda x: x[0], cur.description))
+        for row in cur.fetchall():
+            results.append(dict(zip(columns, row)))
+    except (Exception,Error) as error:
+        if (con):
+            raise Exception ('OperationFailed', error.args[0])
+    finally:
+        disconnect_ddbb (con,cur)
+        return results
