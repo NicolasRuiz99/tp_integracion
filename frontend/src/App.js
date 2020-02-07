@@ -68,8 +68,8 @@ const App = () => {
     //Componente auxiliar para que el admin no pueda ir a "/"
     const Inicio = () => {
       if (isLogged && role) {
-        return (<Admin handleDrop={handleDrop} user_id = {user_id} isLogged={isLogged} 
-          role={role}/>)
+        return (
+          <Admin handleDrop={handleDrop} user_id = {user_id} isLogged={isLogged} role={role}/>)
       }else{
         return (<HomePage user_id = {user_id} />)
       }
@@ -91,6 +91,31 @@ const App = () => {
             <Route  path="/shop-category" render={() => (
               <Categorias search={search} setIsOferta={setIsOferta} isOferta={false}/>
             )} />
+            <Route  path='/shop-checkout' component={() =>(<ShopCheckout user_id = {user_id} />)} />
+            <Route  path="/ofertas" render={() => (
+              <Categorias search={search} setIsOferta={setIsOferta} isOferta={true}  />
+            )} />
+            <Route  path="/registro"
+              render={()=>(
+                <Registro
+                  setUser = {setUser}
+                />
+              )}/>
+            <Route  
+            path="/success/:id"
+            render={(props)=>(
+              <PurchResult props = {props} type = {1}/>
+            )}/>
+            <Route  
+            path="/pending/:id"
+            render={(props)=>(
+              <PurchResult props = {props} type = {2}/>
+            )}/>
+            <Route  
+             path="/failure/:id"
+            render={(props)=>(
+              <PurchResult props = {props} type = {3}/>
+            )}/>
             <Route path="/top-sellers" component={TopSellers}/>
             <Route  path="/shop-detail/:id" 
               render={(props)=>(
@@ -99,9 +124,16 @@ const App = () => {
                   user_id = {user_id}
                 />
               )}/>
+
+
           //Lógica para protección de rutas 
             {(isLogged && !role) ? (
               <Fragment>
+                <Route  
+              path="/customer-wishlist"
+              component={()=>(
+                <WishList handleDrop={handleDrop} user_id={user_id}/>
+              )}/>
               <Route  
               path="/review-detail/:id" 
               component={(props)=>(
@@ -128,11 +160,7 @@ const App = () => {
               component={()=>(
                 <CustomerOrders handleDrop={handleDrop} user_id={user_id} />
               )}/>
-              <Route  
-              path="/customer-wishlist"
-              component={()=>(
-                <WishList handleDrop={handleDrop} user_id={user_id}/>
-              )}/>
+              
               <Route  
               path="/customer-reservations"
               component={()=>(
@@ -148,34 +176,10 @@ const App = () => {
               component={()=>(
                 <Chat user_name={'cliente'} />
               )}/>
+              
               </Fragment>
             ) : (<Redirect to="/" />)}
-            <Route  path='/shop-checkout' render={() =>(<ShopCheckout user_id = {user_id}/>)} />
-            <Route  path="/registro"
-              render={()=>(
-                <Registro
-                  setUser = {setUser}
-                />
-              )}/>
-            <Route  path="/ofertas" render={() => (
-              <Categorias search={search} setIsOferta={setIsOferta} isOferta={true}  />
-            )} />
-            <Route  
-            path="/success/:id"
-            render={(props)=>(
-              <PurchResult props = {props} type = {1}/>
-            )}/>
-            <Route  
-            path="/pending/:id"
-            render={(props)=>(
-              <PurchResult props = {props} type = {2}/>
-            )}/>
-            <Route  
-             path="/failure/:id"
-            render={(props)=>(
-              <PurchResult props = {props} type = {3}/>
-            )}/>
-            <Route component={RouteError}/>
+          <Route component={RouteError}/>    
           </Switch>
           <Footer isLogged={isLogged} role={role}/>
           <TopButton />

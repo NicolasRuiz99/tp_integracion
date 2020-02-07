@@ -7,6 +7,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import {listUserReviews, deleteReview} from './utils/CustomerFunctions';
 import DeleteReviewModal from '../../modals/DeleteReviewModal'
 import ReviewList from '../../lists/reviews/ReviewList';
+import Info from '../../messages/Info';
 
 const CustomerReviews = ({ handleDrop,user_id}) => {
 
@@ -50,7 +51,6 @@ const CustomerReviews = ({ handleDrop,user_id}) => {
       listUserReviews(id)
       .then (res => {
           if (res.length !== 0)setList(res)
-          
           setLoading(false);
       })
       .catch (err=>{
@@ -76,7 +76,8 @@ const CustomerReviews = ({ handleDrop,user_id}) => {
         <div className="row bar mb-0">
           <div id="customer-orders" className="col-md-9">
           <hr />
-          <p className="text-muted">Si tenés alguna duda, por favor <Link to="/contact">contáctanos</Link>, nuestro servicio de atención al cliente trabaja 24/7.</p>
+          <div>
+          
           {(loading) ? 
               <div className="col-md-9 text-center"> 
               <Spinner animation="border" variant="info" size="lg"  />
@@ -90,16 +91,14 @@ const CustomerReviews = ({ handleDrop,user_id}) => {
                   :
                   <div>
                     { (error) ?
-                    <div className="alert alert-danger mt-2 mb-5 text-center">
-                      No hay reseñas para mostrar
-                    </div>
+                    <Info className="lead" texto="Actualmente no tienes reseñas en tu lista" />
                     :
                     <ReviewList list={list} handleModalOpen={handleModalOpen} />
                     }
                   </div>
                   }
-              </div>
-          }
+              </div>}
+            </div>
           </div>
           <CustomerSection handleDrop={handleDrop}/>
         </div>
