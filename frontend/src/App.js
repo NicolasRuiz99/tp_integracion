@@ -124,9 +124,6 @@ const App = () => {
                   user_id = {user_id}
                 />
               )}/>
-
-
-          //Lógica para protección de rutas 
             {(isLogged && !role) ? (
               <Fragment>
                 <Route  
@@ -179,7 +176,8 @@ const App = () => {
               
               </Fragment>
             ) : (<Redirect to="/" />)}
-          <Route component={RouteError}/>    
+
+            <Route component={RouteError}/>
           </Switch>
           <Footer isLogged={isLogged} role={role}/>
           <TopButton />
