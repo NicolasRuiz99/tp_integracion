@@ -315,7 +315,7 @@ const ReservationDetailModal = ({modalOpen, handleModalOpen, reserva}) => {
                  <h5 className="text-center">
                     El producto {reserva.name} de color {reserva.color} fue reservado por el 
                     &nbsp; <Link to={`/admin-page/customer-detail/${reserva.id_user}`}>
-                    cliente #{reserva.id_user}</Link> el  {moment(reserva.date).utc().format('DD/MM/YYYY')}&nbsp; 
+                    cliente #{reserva.id_user}</Link> el {moment(reserva.date).utc().format('DD/MM/YYYY')}&nbsp; 
                     con un stock de {reserva.stock} y precio total de ${reserva.price}.
                   </h5>
             </Modal.Body>

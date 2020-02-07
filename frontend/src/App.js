@@ -28,6 +28,8 @@ import TopSellers from './components/pages/nav-items/TopSellers';
 import ShopCheckout from './components/pages/shop/ShopCheckout';
 import PurchResult from './components/pages/customer/purch_states/PurchResult';
 import Admin from './components/admin/Admin';
+//Ruta protegida 
+import {ProtectedRoute, ProtectedRoute2} from './components/ProtectedRoute';
 
 const App = () => {
 
@@ -72,9 +74,12 @@ const App = () => {
             <Route exact path="/" render={()=><HomePage user_id = {user_id} />} />
             <Route  path="/contact" component={Contact} />
             <Route  path="/top-ten" component={TopVentas} />
-            <Route  path="/admin-page" render={() => (
-              <Admin handleDrop={handleDrop} user_id = {user_id} />
-            )} />
+            <Route
+            path="/admin-page" 
+            render={()=>(
+              <Admin handleDrop={handleDrop} user_id = {user_id} isLogged={isLogged} 
+              role={role}/>
+            )}/>
             <Route  path="/shop-category" render={() => (
               <Categorias search={search} setIsOferta={setIsOferta} isOferta={false}/>
             )} />
@@ -85,15 +90,19 @@ const App = () => {
                   props = {props}
                   user_id = {user_id}
                 />
-              )}/>
-            <Route  path="/review-detail/:id" 
-              render={(props)=>(
+              )}/>        
+            <ProtectedRoute  
+            path="/review-detail/:id" 
+            isLogged={isLogged} 
+            role={role}
+            component={(props)=>(
               <ReviewDetail
-                props = {props}
-                user_id = {user_id}
-                handleDrop = {handleDrop}
+              props = {props}
+              user_id = {user_id}
+              handleDrop = {handleDrop}
             />
             )}/>
+    
             <Route  path='/shop-checkout' render={() =>(<ShopCheckout user_id = {user_id}/>)} />
             <Route  path="/registro"
               render={()=>(
@@ -104,22 +113,73 @@ const App = () => {
             <Route  path="/ofertas" render={() => (
               <Categorias search={search} setIsOferta={setIsOferta} isOferta={true}  />
             )} />
-            <Route  path="/customer-account" 
-            render={()=>(
+            <ProtectedRoute  
+            path="/customer-account"
+            isLogged={isLogged} 
+            role={role}
+            component={()=>(
                 <CustomerAccount
                   user_id = {user_id}
                   handleDrop={handleDrop}
                 />
             )}/>
-            <Route  path="/customer-orders" render={() =>(<CustomerOrders handleDrop={handleDrop} user_id={user_id} />)} />
-            <Route  path="/customer-order/:id" render={(props) =>(<CustomerOrder handleDrop={handleDrop} props = {props} user_id={user_id} />)} />
-            <Route  path="/success/:id" render={(props) =>(<PurchResult props = {props} type = {1}/>)} />
-            <Route  path="/pending/:id" render={(props) =>(<PurchResult props = {props} type = {2}/>)} />
-            <Route  path="/failure/:id" render={(props) =>(<PurchResult props = {props} type = {3}/>)} />
-            <Route  path="/customer-wishlist" render={() =>(<WishList handleDrop={handleDrop} user_id={user_id}/>)} />
-            <Route  path="/customer-reservations" render={() =>(<Reservations handleDrop={handleDrop} user_id={user_id}/>)} />
-            <Route path="/customer-reviewlist" render={() =>(<CustomerReviews handleDrop={handleDrop} user_id={user_id}/>)} />
-            <Route  path='/customer-chat' render={() =>(<Chat user_name={'cliente'} />)} />
+            <ProtectedRoute  
+            path="/customer-orders"
+            isLogged={isLogged} 
+            role={role}
+            component={()=>(
+              <CustomerOrders handleDrop={handleDrop} user_id={user_id} />
+            )}/>
+            <ProtectedRoute  
+            path="/customer-order/:id"
+            isLogged={isLogged} 
+            role={role}
+            component={(props)=>(
+              <CustomerOrder handleDrop={handleDrop} props = {props} user_id={user_id} />
+            )}/>
+            <Route  
+            path="/success/:id"
+            render={(props)=>(
+              <PurchResult props = {props} type = {1}/>
+            )}/>
+            <Route  
+            path="/pending/:id"
+            render={(props)=>(
+              <PurchResult props = {props} type = {2}/>
+            )}/>
+            <Route  
+             path="/failure/:id"
+            render={(props)=>(
+              <PurchResult props = {props} type = {3}/>
+            )}/>
+            <ProtectedRoute  
+             path="/customer-wishlist"
+            isLogged={isLogged} 
+            role={role}
+            component={()=>(
+              <WishList handleDrop={handleDrop} user_id={user_id}/>
+            )}/>
+            <ProtectedRoute  
+             path="/customer-reservations"
+            isLogged={isLogged} 
+            role={role}
+            component={()=>(
+              <Reservations handleDrop={handleDrop} user_id={user_id}/>
+            )}/>
+            <ProtectedRoute  
+             path="/customer-reviewlist"
+            isLogged={isLogged} 
+            role={role}
+            component={()=>(
+              <CustomerReviews handleDrop={handleDrop} user_id={user_id}/>
+            )}/>
+            <ProtectedRoute  
+             path='/customer-chat'
+            isLogged={isLogged} 
+            role={role}
+            component={()=>(
+              <Chat user_name={'cliente'} />
+            )}/>
             <Route component={RouteError}/>
           </Switch>
           <Footer isLogged={isLogged} role={role}/>

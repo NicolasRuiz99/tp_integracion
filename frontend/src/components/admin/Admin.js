@@ -14,26 +14,64 @@ import CustomerDetail from './details/CustomerDetail';
 import Coupons from './nav-items/Coupons';
 import Chats from './nav-items/Chats';
 import AdminAccount from './AdminAccount';
+import { ProtectedRoute2 } from '../ProtectedRoute';
 
-export default function Admin({handleDrop,user_id}) {
+export default function Admin({handleDrop,user_id, isLogged, role}) {
     return (
         <Fragment>
             <div className="row">
                 <Sidebar handleDrop={handleDrop}/>
             <div className="col-sm-10">
                 <Switch>
-                    <Route path="/admin-page/products" component={Products} />
-                    <Route path="/admin-page/customers" component={Customers} />
-                    <Route path="/admin-page/reservations" component={Reservations} />
-                    <Route path="/admin-page/sales" component={Sales} />
-                    <Route path="/admin-page/reviews" component={Reviews} />
-                    <Route path="/admin-page/coupons" component={Coupons} />
-                    <Route path="/admin-page/chats" component={Chats} />
-                    <Route  path="/admin-page/account" render={() => <AdminAccount user_id = {user_id}/>}/>
-                    <Route  path="/admin-page/review-detail/:id" render={(props) => <ReviewDetail props={props}/>}/>
-                    <Route  path="/admin-page/sale-detail/:id" render={(props) => <SaleDetail props={props}/>}/>
-                    <Route  path="/admin-page/customer-detail/:id" render={(props) => <CustomerDetail props={props}/>}/>
-                    <Route  path="/admin-page/coupon-detail/:id" render={(props) => <CouponDetail props={props}/>}/>
+                    <ProtectedRoute2
+                    path="/admin-page/products"
+                    isLogged={isLogged}
+                    role={role}
+                    component={Products} />
+                    <ProtectedRoute2 path="/admin-page/customers" 
+                    isLogged={isLogged}
+                    role={role}
+                    component={Customers} />
+                    <ProtectedRoute2 path="/admin-page/reservations" 
+                    isLogged={isLogged}
+                    role={role}
+                    component={Reservations} />
+                    <ProtectedRoute2 path="/admin-page/sales" 
+                    isLogged={isLogged}
+                    role={role}
+                    component={Sales} />
+                    <ProtectedRoute2 path="/admin-page/reviews" 
+                    isLogged={isLogged}
+                    role={role}
+                    component={Reviews} />
+                    <ProtectedRoute2 path="/admin-page/coupons"
+                    isLogged={isLogged}
+                    role={role}
+                    component={Coupons} />
+                    <ProtectedRoute2 path="/admin-page/chats" 
+                    isLogged={isLogged}
+                    role={role}
+                    component={Chats} />
+                    <ProtectedRoute2  path="/admin-page/account" 
+                    isLogged={isLogged}
+                    role={role}
+                    component={() => <AdminAccount user_id = {user_id}/>}/>
+                    <ProtectedRoute2  path="/admin-page/review-detail/:id" 
+                    isLogged={isLogged}
+                    role={role}
+                    component={(props) => <ReviewDetail props={props}/>}/>
+                    <ProtectedRoute2  path="/admin-page/sale-detail/:id" 
+                    isLogged={isLogged}
+                    role={role}
+                    component={(props) => <SaleDetail props={props}/>}/>
+                    <ProtectedRoute2  path="/admin-page/customer-detail/:id" 
+                    isLogged={isLogged}
+                    role={role}
+                    component={(props) => <CustomerDetail props={props}/>}/>
+                    <ProtectedRoute2  path="/admin-page/coupon-detail/:id" 
+                    isLogged={isLogged}
+                    role={role}
+                    component={(props) => <CouponDetail props={props}/>}/>
                 </Switch>
             </div>
             </div>
