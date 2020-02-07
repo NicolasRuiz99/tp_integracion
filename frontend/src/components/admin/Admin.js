@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react'
 import './../../css/default.css';
-import {Link, Switch, Route} from 'react-router-dom';
+import {Link, Switch, Route, Redirect} from 'react-router-dom';
 import Sidebar from './sidebar/Sidebar';
 import Products from './nav-items/Products';
 import Customers from './nav-items/Customers';
@@ -17,6 +17,8 @@ import AdminAccount from './AdminAccount';
 import { ProtectedRoute2 } from '../ProtectedRoute';
 
 export default function Admin({handleDrop,user_id, isLogged, role}) {
+    
+
     return (
         <Fragment>
             <div className="row">
@@ -56,22 +58,20 @@ export default function Admin({handleDrop,user_id, isLogged, role}) {
                     isLogged={isLogged}
                     role={role}
                     component={() => <AdminAccount user_id = {user_id}/>}/>
-                    <ProtectedRoute2  path="/admin-page/review-detail/:id" 
-                    isLogged={isLogged}
-                    role={role}
-                    component={(props) => <ReviewDetail props={props}/>}/>
-                    <ProtectedRoute2  path="/admin-page/sale-detail/:id" 
-                    isLogged={isLogged}
-                    role={role}
-                    component={(props) => <SaleDetail props={props}/>}/>
-                    <ProtectedRoute2  path="/admin-page/customer-detail/:id" 
-                    isLogged={isLogged}
-                    role={role}
-                    component={(props) => <CustomerDetail props={props}/>}/>
-                    <ProtectedRoute2  path="/admin-page/coupon-detail/:id" 
-                    isLogged={isLogged}
-                    role={role}
-                    component={(props) => <CouponDetail props={props}/>}/>
+                    
+                    //Logica de protección para rutas con :id
+                    {(isLogged && role) ? (
+                        <Fragment>
+                        <Route  path="/admin-page/review-detail/:id" 
+                        component={(props) => <ReviewDetail props={props}/>}/>
+                        <Route  path="/admin-page/sale-detail/:id" 
+                        component={(props) => <SaleDetail props={props}/>}/>
+                        <Route  path="/admin-page/customer-detail/:id" 
+                        component={(props) => <CustomerDetail props={props}/>}/>
+                        <Route path="/admin-page/coupon-detail/:id" 
+                        component={(props) => <CouponDetail props={props}/>}/>
+                        </Fragment>
+                    ) : (<Redirect to="/" />)}  
                 </Switch>
             </div>
             </div>

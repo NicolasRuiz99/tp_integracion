@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, Fragment} from 'react'
 import './../../../css/default.css';
 import {userGetInfo } from '../../pages/customer/utils/CustomerFunctions';
 import Spinner from 'react-bootstrap/Spinner';
 import { withRouter } from 'react-router-dom';
 import Error from '../../messages/Error';
 import Info from '../../messages/Info';
+import BreadCrumbs from '../../BreadCrumbs';
 
 function CustomerDetail({props}) {
     const [customer, setCustomer] = useState(null);
@@ -33,6 +34,8 @@ function CustomerDetail({props}) {
     }, []);
 
     return (
+        <Fragment>
+            <BreadCrumbs name={`Detalles del cliente #${id}`} isAdmin={true} />
         <div className="row addresses" >
             {(loading) ? (
                 <div className="col-md-12 text-center" style={{top:'50%',left:'5%', position: 'absolute'}}> 
@@ -40,13 +43,13 @@ function CustomerDetail({props}) {
                 </div> 
             ): ( (error) ? (<Error texto="Ha ocurrido un error interno en el servidor" />) : (
                 (!user.e_mail && !user.psw && !customer ) ? (
-                    <div style={{left:'25%',position:'absolute',bottom:'50%', width:'50%'}}>
+                    <div style={{left:'25%',position:'absolute',bottom:'40%', width:'50%'}}>
                         <Info texto="El usuario aún no ha cargado los datos" />     
                     </div>
                 ) :
                 (
                 (!customer) ? (
-                    <div className="card shadow" style={{left:'25%',position:'absolute',bottom:'50%', width:'55%'}}>
+                    <div className="card shadow" style={{left:'25%',position:'absolute',bottom:'40%', width:'55%'}}>
                     <div className="card-header">
                         <h3 className=" card-title text-uppercase text-center">
                             {(user.e_mail) ? user.e_mail : <span className='badge badge-dark' style={{color:"white"}}>Dato no disponible</span>}
@@ -60,7 +63,7 @@ function CustomerDetail({props}) {
                         </div>
                     </div>
                 </div>) : 
-                (<div className="card shadow" style={{left:'25%',position:'absolute',bottom:'50%', width:'55%'}}>
+                (<div className="card shadow" style={{left:'25%',position:'absolute',bottom:'40%', width:'55%'}}>
                     <div className="card-header">
                         <h3 className="text-uppercase text-center">
                             {((!customer.name && !customer.surname) && (!customer.name || !customer.surname) ) ? 
@@ -93,6 +96,7 @@ function CustomerDetail({props}) {
                 </div>))
             ))}
         </div>
+        </Fragment>
     )
 }
 

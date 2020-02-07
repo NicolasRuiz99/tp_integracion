@@ -1,5 +1,5 @@
 import React, {Fragment,useState,useEffect} from 'react';
-import { Route, Switch} from 'react-router-dom';
+import { Route, Switch, Redirect} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
 import TopButton from './components/top-button/GoTopButton'
@@ -28,8 +28,7 @@ import TopSellers from './components/pages/nav-items/TopSellers';
 import ShopCheckout from './components/pages/shop/ShopCheckout';
 import PurchResult from './components/pages/customer/purch_states/PurchResult';
 import Admin from './components/admin/Admin';
-//Ruta protegida 
-import {ProtectedRoute, ProtectedRoute2} from './components/ProtectedRoute';
+
 
 const App = () => {
 
@@ -66,19 +65,28 @@ const App = () => {
       localStorage.setItem ('role', role);
     }
     
+    //Componente auxiliar para que el admin no pueda ir a "/"
+    const Inicio = () => {
+      if (isLogged && role) {
+        return (<Admin handleDrop={handleDrop} user_id = {user_id} isLogged={isLogged} 
+          role={role}/>)
+      }else{
+        return (<HomePage user_id = {user_id} />)
+      }
+    }
   
     return (
       <div className="fragment" >      
           <Header user_id = {user_id} setUser = {setUser} role={role} handleDrop={handleDrop} setRole={setRole} isLogged={isLogged} setIsLogged={setIsLogged} setSearch={setSearch} search={search} isOferta={isOferta} />
           <Switch>
-            <Route exact path="/" render={()=><HomePage user_id = {user_id} />} />
+            <Route exact path="/" render={Inicio} />
             <Route  path="/contact" component={Contact} />
             <Route  path="/top-ten" component={TopVentas} />
             <Route
-            path="/admin-page" 
-            render={()=>(
-              <Admin handleDrop={handleDrop} user_id = {user_id} isLogged={isLogged} 
-              role={role}/>
+              path="/admin-page" 
+              component={()=>(
+                <Admin handleDrop={handleDrop} user_id = {user_id} isLogged={isLogged} 
+                role={role}/>
             )}/>
             <Route  path="/shop-category" render={() => (
               <Categorias search={search} setIsOferta={setIsOferta} isOferta={false}/>
@@ -90,19 +98,58 @@ const App = () => {
                   props = {props}
                   user_id = {user_id}
                 />
-              )}/>        
-            <ProtectedRoute  
-            path="/review-detail/:id" 
-            isLogged={isLogged} 
-            role={role}
-            component={(props)=>(
-              <ReviewDetail
-              props = {props}
-              user_id = {user_id}
-              handleDrop = {handleDrop}
-            />
-            )}/>
-    
+              )}/>
+          //Lógica para protección de rutas 
+            {(isLogged && !role) ? (
+              <Fragment>
+              <Route  
+              path="/review-detail/:id" 
+              component={(props)=>(
+                <ReviewDetail
+                props = {props}
+                user_id = {user_id}
+                handleDrop = {handleDrop}
+              />)}/>
+              <Route  
+              path="/customer-order/:id"
+              component={(props)=>(
+                <CustomerOrder handleDrop={handleDrop} props = {props} user_id={user_id} />
+              )}/>
+              <Route  
+              path="/customer-account"
+              component={()=>(
+                  <CustomerAccount
+                    user_id = {user_id}
+                    handleDrop={handleDrop}
+                  />
+              )}/>
+              <Route  
+              path="/customer-orders"
+              component={()=>(
+                <CustomerOrders handleDrop={handleDrop} user_id={user_id} />
+              )}/>
+              <Route  
+              path="/customer-wishlist"
+              component={()=>(
+                <WishList handleDrop={handleDrop} user_id={user_id}/>
+              )}/>
+              <Route  
+              path="/customer-reservations"
+              component={()=>(
+                <Reservations handleDrop={handleDrop} user_id={user_id}/>
+              )}/>
+              <Route  
+              path="/customer-reviewlist"
+              component={()=>(
+                <CustomerReviews handleDrop={handleDrop} user_id={user_id}/>
+              )}/>
+              <Route  
+              path='/customer-chat'
+              component={()=>(
+                <Chat user_name={'cliente'} />
+              )}/>
+              </Fragment>
+            ) : (<Redirect to="/" />)}
             <Route  path='/shop-checkout' render={() =>(<ShopCheckout user_id = {user_id}/>)} />
             <Route  path="/registro"
               render={()=>(
@@ -113,30 +160,6 @@ const App = () => {
             <Route  path="/ofertas" render={() => (
               <Categorias search={search} setIsOferta={setIsOferta} isOferta={true}  />
             )} />
-            <ProtectedRoute  
-            path="/customer-account"
-            isLogged={isLogged} 
-            role={role}
-            component={()=>(
-                <CustomerAccount
-                  user_id = {user_id}
-                  handleDrop={handleDrop}
-                />
-            )}/>
-            <ProtectedRoute  
-            path="/customer-orders"
-            isLogged={isLogged} 
-            role={role}
-            component={()=>(
-              <CustomerOrders handleDrop={handleDrop} user_id={user_id} />
-            )}/>
-            <ProtectedRoute  
-            path="/customer-order/:id"
-            isLogged={isLogged} 
-            role={role}
-            component={(props)=>(
-              <CustomerOrder handleDrop={handleDrop} props = {props} user_id={user_id} />
-            )}/>
             <Route  
             path="/success/:id"
             render={(props)=>(
@@ -151,34 +174,6 @@ const App = () => {
              path="/failure/:id"
             render={(props)=>(
               <PurchResult props = {props} type = {3}/>
-            )}/>
-            <ProtectedRoute  
-             path="/customer-wishlist"
-            isLogged={isLogged} 
-            role={role}
-            component={()=>(
-              <WishList handleDrop={handleDrop} user_id={user_id}/>
-            )}/>
-            <ProtectedRoute  
-             path="/customer-reservations"
-            isLogged={isLogged} 
-            role={role}
-            component={()=>(
-              <Reservations handleDrop={handleDrop} user_id={user_id}/>
-            )}/>
-            <ProtectedRoute  
-             path="/customer-reviewlist"
-            isLogged={isLogged} 
-            role={role}
-            component={()=>(
-              <CustomerReviews handleDrop={handleDrop} user_id={user_id}/>
-            )}/>
-            <ProtectedRoute  
-             path='/customer-chat'
-            isLogged={isLogged} 
-            role={role}
-            component={()=>(
-              <Chat user_name={'cliente'} />
             )}/>
             <Route component={RouteError}/>
           </Switch>
