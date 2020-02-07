@@ -63,6 +63,15 @@ const addCoupon = ({pc, cad_date}) => {
     .catch(err => {throw err})
 }
 
+const getChats = () => {
+    return axios
+    .get("/chat/listall")
+    .then(res => {
+        return res.data.data
+    })
+    .catch(err => {throw err})
+}
+
 export {
     getReservations,
     capitalize,
@@ -70,5 +79,6 @@ export {
     getReviews,
     getCoupons,
     modCoupon,
-    addCoupon
+    addCoupon,
+    getChats
 };
