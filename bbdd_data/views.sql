@@ -68,6 +68,7 @@ CREATE VIEW ChatList
 AS
 SELECT c.id,c.id_user,c.id_admin,
 (SELECT count (*) FROM message m WHERE m.id_chat = c.id AND m.id_user != c.id_admin AND m.read = false) unread_messages,
-(SELECT m.msg FROM message m WHERE m.id_chat = c.id ORDER BY m.id DESC LIMIT 1) last_message
+(SELECT m.msg FROM message m WHERE m.id_chat = c.id ORDER BY m.id DESC LIMIT 1) last_message,
+(SELECT m.date FROM message m WHERE m.id_chat = c.id ORDER BY m.id DESC LIMIT 1) date
 FROM chat c;
 
