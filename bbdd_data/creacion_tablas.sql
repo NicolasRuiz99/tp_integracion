@@ -73,10 +73,10 @@ CREATE TABLE customers (
 
 CREATE TABLE chat (
     id serial,
-    id_customer int unique not null,
+    id_user int unique not null,
     id_admin int not null,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_customer) REFERENCES customers (id),
+    FOREIGN KEY (id_user) REFERENCES users (id),
     FOREIGN KEY (id_admin) REFERENCES users (id)
 );
 
@@ -86,6 +86,7 @@ CREATE TABLE message (
     date date,
 	id_user int,
     id_chat int,
+    read boolean,
 	PRIMARY KEY (id),
 	FOREIGN KEY (id_user) REFERENCES users (id),
     FOREIGN KEY (id_chat) REFERENCES chat (id)

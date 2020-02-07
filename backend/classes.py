@@ -1,4 +1,4 @@
-from ddbb_connect import addToTable,listTable,updateTable,deleteFromTable,searchID,deleteFromTable2,searchID2,query,callFun
+from ddbb_connect import addToTable,listTable,updateTable,deleteFromTable,searchID,deleteFromTable2,searchID2,query,callFun,callFunReturn
 
 class User:
     def __init__ (self,e_mail = None,psw = None,id_role = None,external_id=None,_id = None):
@@ -29,6 +29,26 @@ class User:
         self.e_mail = res[1]
         self.psw = res[2]
         self.id_role = res[3]
+
+    def getCustomer (self):
+        return callFunReturn ('UserCustomerByID',[self.id])
+
+    def getCartInfo (self):
+        return callFunReturn ('CartInfoByID',[self.id])
+
+    def listCartItems (self):
+        return callFunReturn ('CartItemsByID',[self.id])
+
+    #Class functions
+
+    def listall (self):
+        return query ('SELECT * FROM users ORDER BY id')
+
+    def listallEmails (self):
+        return query ('SELECT e_mail FROM users')
+
+    def listCustomers (self):
+        return listTable ('UserCustomer')
 
 class Customer:
     def __init__ (self,dni = None,name = None,surname = None,genre = None,c_size = None,shoe_size = None,phone_no = None,id_user = None,_id = None):
@@ -104,6 +124,11 @@ class Type:
         self.id = res[0]
         self.name = res[1]
 
+    #Class functions
+
+    def listall (self):
+        return listTable ('type')
+
 class Role:
     def __init__ (self,name=None,_id=None):
         self.id = _id
@@ -145,6 +170,9 @@ class Chat:
         self.id = res[0]
         self.id_customer = res[1]
         self.id_admin = res[2]
+
+    def listall (self):
+        return listTable ('ChatList')
 
 class Message:
     def __init__ (self,msg=None,date=None,id_user=None,id_chat=None,_id=None):
@@ -206,6 +234,29 @@ class Product:
         self.discount = res[7]
         self.price = res[8]  
 
+    def getColor_size (self):
+        return callFunReturn ('ColorSizeByID',[self.id])
+
+    def listReviews (self):
+        return callFunReturn ('ReviewByID',[self.id])
+
+    def listRecomended (self):
+        return callFunReturn ('RecomendedProducts',[self.type,self.id])
+
+    def listTopSellers (self):
+        return callFunReturn ('TopSellersProducts',[])
+
+    def listNew (self):
+        return listTable ('NewProducts')
+
+    def listHighRated (self):
+        return callFunReturn ('HighRatedProducts',[])
+
+    #Class functions
+
+    def listall (self):
+        return listTable ('ProductsList')
+
 class Color_size:
     def __init__ (self,color=None,size=None,stock=None,prod_id=None,_id=None):
         self.id = _id
@@ -259,6 +310,11 @@ class Coupon:
         self.pc = res[1]
         self.cad_date = res[2]
         self.used = res[3]
+
+    #Class functions
+
+    def listall (self):
+        return query('SELECT * FROM coupon ORDER BY id')
 
 class Shipping:
     def __init__ (self,address=None,zip=None,name=None,surname=None,dni=None,province=None,_id=None,track_code=None):
@@ -328,6 +384,21 @@ class Purchase:
         self.id_user = res[4]
         self.id_coupon = res[5]
 
+    def listItems (self):
+        return callFunReturn ('PurchaseItemsByID',[self.id])
+
+    #Class functions
+
+    def listall (self):
+        return listTable ('PurchaseList')
+
+    def userList (self,id_user):
+        return callFunReturn ('PurchaseListByID',[id_user])
+
+    def getItem (self,user_id,prod_id):
+        result = callFunReturn ('UserPurchaseItem',[user_id,prod_id,])
+        return result[0]['userpurchaseitem']
+
 class Purchxitem:
     def __init__ (self,id_purchase=None,id_color_size=None,stock=None,purch_price=None):
         self.id_purchase = id_purchase
@@ -379,6 +450,17 @@ class Reservation:
         self.id_color_size = res[4]
         self.state = res[5]
 
+    def getItem (self):
+        return callFunReturn ('ActiveReservationsItem',[self.id_user,self.id_color_size,])
+
+    #Class functions
+
+    def listall (self):
+        return listTable ('ReservationsList')
+
+    def userList (self,user_id):
+        return callFunReturn ('ReservationsListByID',[user_id])
+
 class Wishlist:
     def __init__ (self,id_user=None,id_prod=None,date=None):
         self.id_user = id_user
@@ -403,6 +485,15 @@ class Wishlist:
         self.id_user = res[0]
         self.id_prod = res[1]
         self.date = res[2]
+
+    #Class functions
+
+    def userList (self,user_id):
+        return callFunReturn ('WishlistByID',[user_id])
+
+    def getItem (self,user_id,prod_id):
+        result = callFunReturn ('UserWishlistItem',[user_id,prod_id,])
+        return result[0]['userwishlistitem']
 
 class Review:
     def __init__ (self,stars=None,title=None,commentary='Sin comentarios',id_product=None,id_user=None,_id=None,date=None):
@@ -434,6 +525,14 @@ class Review:
         self.commentary = res[4]
         self.id_product = res[5]
         self.id_user = res[6]
+
+    #Class functions
+
+    def listall (self):
+        return listTable ('ReviewProduct')
+
+    def userList (self,user_id):
+        return callFunReturn ('ReviewProductByID',[user_id])
 
 #cust = Customer ()
 #cust.get (7)

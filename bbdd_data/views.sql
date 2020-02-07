@@ -63,3 +63,11 @@ FROM wishlist w,products p WHERE w.id_prod = p.id ORDER BY w.date;
 CREATE VIEW NewProducts
 AS
 SELECT * FROM products ORDER BY id DESC LIMIT 6;
+
+CREATE VIEW ChatList
+AS
+SELECT c.id,c.id_user,c.id_admin,
+(SELECT count (*) FROM message m WHERE m.id_chat = c.id AND m.id_user != c.id_admin AND m.read = false) unread_messages,
+(SELECT m.msg FROM message m WHERE m.id_chat = c.id ORDER BY m.id DESC LIMIT 1) last_message
+FROM chat c;
+

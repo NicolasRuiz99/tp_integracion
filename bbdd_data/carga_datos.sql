@@ -15,7 +15,7 @@ ALTER SEQUENCE users_id_seq RESTART WITH 1;
 INSERT INTO "roles" (name) VALUES ('admin'), ('customer');
 
 INSERT INTO "users" (e_mail, psw, id_role) VALUES 
-('nicolasruiz@live.com.ar', 'admin123', 1),
+('nicolasruiz@live.com.ar', 'Admin12345', 1),
 ('nicolasrondan@live.com.ar', 'password', 2), 
 ('ramonvaldez@live.com', 'admin', 2),
 ('juliocesar@live.com.ar', 'contraseña', 2),    
@@ -38,19 +38,20 @@ INSERT INTO "customers" (dni, name, surname, genre, c_size, shoe_size, phone_no,
 ('56892301', 'olivia', 'torres', 'F', 'S', '39', '0114565238', 10 ),
 ('25563247', 'raizo', 'okiwa', 'M', 'L', '40', '344368947', 11 );
 
-INSERT INTO "chat" (id_customer, id_admin) VALUES (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1);
+INSERT INTO "chat" (id_user, id_admin) VALUES (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1), (11, 1);
 
-INSERT INTO "message" (msg, date, id_user, id_chat) VALUES 
-('Hola, tenes stock?', '18/12/2019', 2, 1), 
-('Hola?', '11/12/2019', 3, 2), 
-('quiero reembolsar...', '24/12/2019', 4, 3),
-('dssasasd', '03/12/2019', 5, 4), 
-('Hola, tenes stock?', '18/12/2019', 6, 5), 
-('Hola, tenes stock?', '18/12/2019', 7, 6), 
-('Hola, quiero un par de medias', '22/11/2019', 8, 7),
-('puedo ser admin?', '18/03/2017', 9, 8), 
-(':)', '05/10/1982', 10, 9), 
-('Hola, tenes stock?', '17/12/2019', 11, 10);
+INSERT INTO "message" (msg, id_user, id_chat,read) VALUES 
+('Hola, tenes stock?', 2, 1,true), 
+('No', 1, 1,false), 
+('Hola?', 3, 2,false), 
+('quiero reembolsar...', 4, 3,false),
+('dssasasd', 5, 4,true), 
+('Hola, tenes stock?', 6, 5,true), 
+('Hola, tenes stock?', 7, 6,true), 
+('Hola, quiero un par de medias', 8, 7,false),
+('puedo ser admin?', 9, 8,true), 
+(':)', 10, 9,true), 
+('Hola, tenes stock?', 11, 10,false);
 
 INSERT INTO "type" (name) VALUES ('calzado'), ('remeras'), ('pantalon'), ('medias'), ('ropa interior'), ('accesorios'), ('abrigos'),('trajes'),('trajes de baño'),('polleras'),('blusas'),('vestidos'),('calzas');
 

@@ -1,5 +1,4 @@
 from flask import Flask, jsonify, request, json
-from queries import listUsers,listCustomers,listRoles,listUsersE_Mails,getUserCustomer,listProducts,getColor_size,getReview,listRecomendedProducts,getUserWishlist,getWishlistItem,getPurchaseItem,listTypes,listProductosMasVendidos,listPurchases,listPurchaseItems,listCartItems,getCartInfo,listReservations,getReservationItem,listReviews,listNewProducts,listHighRatedProducts,listAllPurchases,listAllReviews,listAllReservations,listCoupons
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser,logInUser2
 from mp_api import pagar
@@ -44,54 +43,133 @@ def mercadopago():
 
 @app.route ('/user/list_emails',methods=['GET'])
 def list_emails():
-    results = listUsersE_Mails ()
-    return jsonify({'results' : results})
+    error = False
+    user = User ()
+    try:
+        results = user.listallEmails()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'results' : results})   
 
 @app.route ('/product/topsellers',methods=['GET'])
 def listtopsellers():
-    results = listProductosMasVendidos()
-    return jsonify({'results' : results})
+    error = False
+    prod = Product ()
+    try:
+        results = prod.listTopSellers ()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'results' : results})   
 
 @app.route ('/user/listall',methods=['GET'])
 def listall():
-    results = listUsers()
-    return jsonify({'results' : results})
+    error = False
+    user = User ()
+    try:
+        results = user.listall()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'results' : results})   
+
+@app.route ('/chat/listall',methods=['GET'])
+def listallchats():
+    error = False
+    chat = Chat ()
+    try:
+        results = chat.listall()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result' : 'success','data': results}) 
 
 @app.route ('/product/listall',methods=['GET'])
 def listproducts():
-    results = listProducts()
-    return jsonify({'results' : results})
+    error = False
+    prod = Product ()
+    try:
+        results = prod.listall()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'results' : results})   
 
 @app.route ('/purchase/listall',methods=['GET'])
 def listallpurchases():
-    results = listAllPurchases()
-    return jsonify({'results' : results})
+    error = False
+    purch = Purchase ()
+    try:
+        results = purch.listall()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'results' : results})   
 
 @app.route ('/review/listall',methods=['GET'])
 def listallreviews():
-    results = listAllReviews()
-    return jsonify({'results' : results})
+    error = False
+    rev = Review ()
+    try:
+        results = rev.listall ()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'results' : results})  
 
 @app.route ('/reservation/listall',methods=['GET'])
 def listallreservations():
-    results = listAllReservations()
-    return jsonify({'results' : results})
+    error = False
+    res = Reservation ()
+    try:
+        results = res.listall ()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'results' : results})  
 
 @app.route ('/coupon/listall',methods=['GET'])
 def listallcoupons():
-    results = listCoupons ()
-    return jsonify({'results' : results})
+    error = False
+    coupon = Coupon ()
+    try:
+        results = coupon.listall ()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'results' : results})
 
 @app.route ('/product/getRecomended',methods=['POST'])
 def listproductsRecomended():
     results = []
     error = False
-    type_id = request.json ['type']
-    id = request.json ['id']
+    prod = Product ()
+    prod.type = request.json ['type']
+    prod.id = request.json ['id']
     try:
-        results = listRecomendedProducts (type_id,id)
+        results = prod.listRecomended ()
     except (Exception) as err:
         error = True
+        print (err)
         return handleError (err)
     finally:
         if not (error):
@@ -99,15 +177,24 @@ def listproductsRecomended():
 
 @app.route ('/customer/listall',methods=['GET'])
 def listcustomerall():
-    results = listCustomers()
-    return jsonify({'results' : results})
+    error = False
+    user = User ()
+    try:
+        results = user.listCustomers ()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'results' : results})   
 
 @app.route ('/user/getCustomer',methods=['POST'])
 def getuserCustomer():
     error = False
-    id = request.json ['id']
+    user = User ()
+    user.id = request.json ['id']
     try:
-        info = getUserCustomer (id)
+        info = user.getCustomer ()
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -263,9 +350,11 @@ def addCustomer():
     phone_no = request.json['phone_no']
     id_user = request.json['id_user']
     new = Customer (dni,name,surname,genre,c_size,shoe_size,phone_no,id_user)
+    user = User ()
+    user.id = id_user
     try:
         new.add()
-        info = getUserCustomer (id_user)
+        info = user.getCustomer ()
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -328,8 +417,9 @@ def addType():
 def listAllTypes():
     result = []
     error = False
+    t = Type ()
     try:
-        result = listTypes()
+        result = t.listall ()
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -551,9 +641,10 @@ def getProduct():
 @app.route ('/product/getColor_size',methods=['POST'])
 def getProductColor_size():
     error = False
-    id = request.json['id']
+    prod = Product ()
+    prod.id = request.json['id']
     try:
-        result = getColor_size (id)
+        result = prod.getColor_size ()
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -566,7 +657,8 @@ def getNewProducts():
     result = []
     error = False
     try:
-        result = listNewProducts ()
+        prod = Product ()
+        result = prod.listNew ()
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -579,7 +671,8 @@ def getHighRatedProducts():
     result = []
     error = False
     try:
-        result = listHighRatedProducts ()
+        prod = Product ()
+        result = prod.listHighRated ()
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -590,9 +683,10 @@ def getHighRatedProducts():
 @app.route ('/product/getReview',methods=['POST'])
 def getProductReview():
     error = False
-    id = request.json['id']
+    prod = Product ()
+    prod.id = request.json['id']
     try:
-        result = getReview (id)
+        result = prod.listReviews ()
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -917,9 +1011,10 @@ def getPurchaseInfo():
 def listUserPurchaseItems():
     result = []
     error = False
-    id = request.json['id']
+    purch = Purchase ()
+    purch.id = request.json['id']
     try:
-        result = listPurchaseItems (id)
+        result = purch.listItems ()
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -933,7 +1028,8 @@ def getPurchItem():
     id_user = request.json['id_user']
     id_prod = request.json['id_prod']
     try:
-        result = getPurchaseItem (id_user,id_prod)
+        purch = Purchase ()
+        result = purch.getItem (id_user,id_prod)
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -947,7 +1043,8 @@ def listUserPurchase():
     error = False
     id_user = request.json['id_user']
     try:
-        result = listPurchases (id_user)
+        purch = Purchase ()
+        result = purch.userList (id_user)
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -990,9 +1087,10 @@ def deleteCartItem():
 def listUserCartItems():
     result = []
     error = False
-    user_id = request.json['user_id']
+    user = User ()
+    user.id = request.json['user_id']
     try:
-        result = listCartItems (user_id)
+        result = user.listCartItems ()
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -1004,14 +1102,15 @@ def listUserCartItems():
 def getUserCartInfo():
     result = []
     error = False
-    user_id = request.json['user_id']
+    user = User ()
+    user.id = request.json['user_id']
     try:
-        result = getCartInfo (user_id)
+        result = user.getCartInfo ()
         if len (result) == 0:
             new = Purchase ()
-            new.id_user = user_id
+            new.id_user = user.id
             new.add ()
-            result = getCartInfo (user_id)
+            result = user.getCartInfo ()
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -1154,10 +1253,11 @@ def getReservation():
 def getUserReservationItem():
     result = []
     error = False
-    id_user = request.json['id_user']
-    id_color_size = request.json['id_color_size']
+    res = Reservation ()
+    res.id_user = request.json['id_user']
+    res.id_color_size = request.json['id_color_size']
     try:
-        result = getReservationItem (id_user,id_color_size)    
+        result = res.getItem ()  
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -1171,7 +1271,8 @@ def listUserReservations():
     error = False
     id_user = request.json['id_user']
     try:
-        result = listReservations (id_user)
+        res = Reservation ()
+        result = res.userList (id_user)
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -1215,7 +1316,8 @@ def getWishlist():
     error = False
     id_user = request.json['id_user']
     try:
-        result = getUserWishlist (id_user)
+        wish = Wishlist ()
+        result = wish.userList (id_user)
     except (Exception) as err:
         error = True
         print (err)
@@ -1230,7 +1332,8 @@ def getWishItem():
     id_user = request.json['id_user']
     id_prod = request.json['id_prod']
     try:
-        result = getWishlistItem (id_user,id_prod)
+        wish = Wishlist ()
+        result = wish.getItem (id_user,id_prod)
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -1297,7 +1400,8 @@ def listUserReview():
     error = False
     id_user = request.json['id_user']
     try:
-        result = listReviews (id_user)
+        rev = Review ()
+        result = rev.userList (id_user)
     except (Exception) as err:
         error = True
         return handleError (err)
