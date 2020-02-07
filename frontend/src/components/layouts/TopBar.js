@@ -46,7 +46,7 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history, se
                                 {(!isLogged) ? (
                                     <Fragment>
                                     <div className="login">
-                                    <Link onClick={toCart} className="signup-btn">
+                                    <Link to={(isLogged)?"/shop-checkout/cart":"/registro"} className="signup-btn">
                                     <i class="fas fa-shopping-cart"></i>
                                     <span className="d-none d-md-inline-block">Carrito</span>
                                     </Link>

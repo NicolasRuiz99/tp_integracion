@@ -99,7 +99,31 @@ const App = () => {
                   user_id = {user_id}
                 />
               )}/>
-          //Lógica para protección de rutas 
+          <Route  path='/shop-checkout' render={() =>(<ShopCheckout user_id = {user_id}/>)} />
+            <Route  path="/registro"
+              render={()=>(
+                <Registro
+                  setUser = {setUser}
+                />
+              )}/>
+            <Route  path="/ofertas" render={() => (
+              <Categorias search={search} setIsOferta={setIsOferta} isOferta={true}  />
+            )} />
+            <Route  
+            path="/success/:id"
+            render={(props)=>(
+              <PurchResult props = {props} type = {1}/>
+            )}/>
+            <Route  
+            path="/pending/:id"
+            render={(props)=>(
+              <PurchResult props = {props} type = {2}/>
+            )}/>
+            <Route  
+             path="/failure/:id"
+            render={(props)=>(
+              <PurchResult props = {props} type = {3}/>
+            )}/>
             {(isLogged && !role) ? (
               <Fragment>
               <Route  
@@ -150,31 +174,6 @@ const App = () => {
               )}/>
               </Fragment>
             ) : (<Redirect to="/" />)}
-            <Route  path='/shop-checkout' render={() =>(<ShopCheckout user_id = {user_id}/>)} />
-            <Route  path="/registro"
-              render={()=>(
-                <Registro
-                  setUser = {setUser}
-                />
-              )}/>
-            <Route  path="/ofertas" render={() => (
-              <Categorias search={search} setIsOferta={setIsOferta} isOferta={true}  />
-            )} />
-            <Route  
-            path="/success/:id"
-            render={(props)=>(
-              <PurchResult props = {props} type = {1}/>
-            )}/>
-            <Route  
-            path="/pending/:id"
-            render={(props)=>(
-              <PurchResult props = {props} type = {2}/>
-            )}/>
-            <Route  
-             path="/failure/:id"
-            render={(props)=>(
-              <PurchResult props = {props} type = {3}/>
-            )}/>
             <Route component={RouteError}/>
           </Switch>
           <Footer isLogged={isLogged} role={role}/>
