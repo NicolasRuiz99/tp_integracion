@@ -28,6 +28,9 @@ import TopSellers from './components/pages/nav-items/TopSellers';
 import ShopCheckout from './components/pages/shop/ShopCheckout';
 import PurchResult from './components/pages/customer/purch_states/PurchResult';
 import Admin from './components/admin/Admin';
+//Notificaciones
+import ReactNotification, {store} from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
 
 
 const App = () => {
@@ -55,7 +58,28 @@ const App = () => {
         }
        
       }
-    },[user_id])
+    },[user_id]);
+
+    //UseEffect para notificar
+    useEffect(() => {
+      if (isLogged) {
+        store.addNotification({
+          title:"hola",
+          message:"que onda",
+          type: "info",
+          container:"bottom-right",
+          insert: 'top',
+          animationIn: ["animated", "fadeIn"],
+          animationOut: ["animated", "fadeOut"],
+          dismiss: {
+              duration: 2000,
+              showIcon: true
+          },
+          width: 600,
+        })
+      }
+    }, [isLogged]);
+    
 
     const handleDrop = () => {
       setIsLogged(!isLogged);
@@ -76,7 +100,10 @@ const App = () => {
     }
   
     return (
-      <div className="fragment" >      
+      <div className="fragment" >  
+          {(isLogged) ? 
+          <ReactNotification /> :
+          null}  
           <Header user_id = {user_id} setUser = {setUser} role={role} handleDrop={handleDrop} setRole={setRole} isLogged={isLogged} setIsLogged={setIsLogged} setSearch={setSearch} search={search} isOferta={isOferta} />
           <Switch>
             <Route exact path="/" render={Inicio} />
@@ -180,7 +207,7 @@ const App = () => {
             <Route component={RouteError}/>
           </Switch>
           <Footer isLogged={isLogged} role={role}/>
-          <TopButton />
+          <TopButton /> 
       </div>
     )
   }
