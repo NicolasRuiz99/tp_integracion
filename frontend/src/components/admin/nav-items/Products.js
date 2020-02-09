@@ -3,6 +3,8 @@ import ProductList from './../list/product/ProductList';
 import {getProducts} from './../../pages/shop/utils/shopFunctions';
 import Error from './../../messages/Error';
 import Spinner from 'react-bootstrap/Spinner';
+import { deleteProduct } from '../utils/adminFunctions';
+import {DeleteProductsModal} from './../utils/modals';
 
 export default function Products() {
     const [list, setList] = useState([]);
@@ -10,6 +12,21 @@ export default function Products() {
     const [copyList, setCopyList] = useState([]);
     const [search, setSearch] = useState('');
     const [loading,setLoading] = useState (false);
+    const [refresh,setRefresh] = useState (false);
+    const [toDelete, setToDelete] = useState([]);
+    const [clean, setClean] = useState(false);
+    const [serverError,setServerError] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+
+    const handleModalOpen = () => {
+      setModalOpen(!modalOpen);
+      setError(false);  
+     };
+
+    const limpiarChecks = () => {
+      setToDelete([]);
+      setClean(true);
+    }
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -26,7 +43,7 @@ export default function Products() {
             return;
         })
         setError(false);
-    }, []);
+    }, [refresh]);
  
     //UseEffect de busqueda
     useEffect( () => {
@@ -40,15 +57,61 @@ export default function Products() {
         //setCurrentPage(1);       
     },[search]);
 
+    const eliminarProducto = () => {
+        for (let index = 0; index < toDelete.length; index++) {
+            let id = toDelete[index];
+            deleteProduct(id)
+            .then(res => {
+                setRefresh(true);
+            })
+            .catch (err => {
+              setServerError(true);
+            }); 
+           }  
+           setServerError(false);
+           setToDelete([]);
+    }
+
+    const changeList = (id, checked) => {
+        if (!checked) {
+            setClean(false); 
+            setToDelete([...toDelete, id]);
+        }
+         else {
+            setClean(false); 
+             let lista = toDelete.filter(item => item !== id)
+             setToDelete(lista);
+        }
+    }
+         
+
     return (
         <Fragment>
         {(loading) ? (
                 <div className="col-md-12 text-center" style={{top:'50%',left:'5%', position: 'fixed'}}> 
                     <Spinner animation="border" variant="dark" size="lg" role="status" />
                 </div> 
-            ) : ((error) ? 
-                <Error texto="ha ocurrido un error" /> : <ProductList copyList={copyList} setSearch={setSearch} />)}
-        
+            ) : ( (serverError) ?
+                (<Error texto="Hubo un error al recuperar los datos"/>
+                )
+                :
+                (error) ? 
+                <Error texto="ha ocurrido un error" /> : 
+                <ProductList 
+                copyList={copyList} 
+                setSearch={setSearch} 
+                list={list}
+                isCheck={limpiarChecks} 
+                changeList={changeList} 
+                toDelete={toDelete} 
+                clean={clean}
+                handleModalOpen={handleModalOpen}
+                />)}
+        <DeleteProductsModal
+        modalOpen={modalOpen}
+        handleModalOpen={handleModalOpen}
+        eliminarProducto={eliminarProducto}
+        />
         </Fragment>
     )
 }

@@ -72,6 +72,15 @@ const getChats = () => {
     .catch(err => {throw err})
 }
 
+const deleteProduct = id => {
+    return axios
+    .post("/product/delete", {
+        id
+    })
+    .then(res => { console.log(res);return res.data})
+    .catch(err => {console.log(err); throw err})
+}
+
 export {
     getReservations,
     capitalize,
@@ -80,5 +89,6 @@ export {
     getCoupons,
     modCoupon,
     addCoupon,
-    getChats
+    getChats,
+    deleteProduct
 };

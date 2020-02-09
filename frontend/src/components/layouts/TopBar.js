@@ -3,7 +3,8 @@ import {Link, withRouter} from 'react-router-dom';
 import './../../css/default.css';
 import LoginModal from './../modals/LoginModal';
 import LogoutModal from './../modals/LogoutModal';
-
+import NotificationBadge from 'react-notification-badge';
+import {Effect} from 'react-notification-badge';
 
 const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history, setRole}) => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -65,15 +66,17 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history, se
                                 <div className="login"> 
                                 
                                 <Link to="/customer-wishlist" className="signup-btn">
-                                    <i class="fas fa-heart"></i>
+                                    <i class="fas fa-heart fa-lg"></i>
                                     <span className="d-none d-md-inline-block">Mis deseos</span>
                                 </Link>
                                 <Link onClick={toCart} className="signup-btn">
-                                    <i class="fas fa-shopping-cart"></i>
+                                    <i class="fas fa-shopping-cart fa-lg"></i>
                                     <span className="d-none d-md-inline-block">Carrito</span>
                                 </Link>
                                 <Link to="/customer-notifications" className="signup-btn" title="No tenés notificaciones">
-                                    <i class="fas fa-bell"></i>
+                                    <i class="fa fa-bell fa-lg">
+                                        <NotificationBadge count={2} effect={Effect.SCALE} style={{margin:'-1rem'}}/>
+                                    </i>
                                 </Link>
                                 <Link className="nav-item dropdown active"><Link onClick={e => {
                                 e.preventDefault() 

@@ -11,10 +11,10 @@ const ProductItem = ({item}) => {
 
     useEffect (()=> {
         setLink (`/shop-detail/${item.id}`);
-        //getImage (item.name)
-        //.then (res=>{
-        //    setImage (res);
-        //})
+        getImage (item.name)
+        .then (res=>{
+           setImage (res);
+        })
     },[]);
 
     return (

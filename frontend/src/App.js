@@ -66,7 +66,7 @@ const App = () => {
         store.addNotification({
           title:"hola",
           message:"que onda",
-          type: "info",
+          type: "default",
           container:"bottom-right",
           insert: 'top',
           animationIn: ["animated", "fadeIn"],
