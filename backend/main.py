@@ -313,7 +313,7 @@ def getUser():
         return handleError (err)
     finally:
         if not (error):
-            result = dict (id = new.id, e_mail = new.e_mail, psw = new.psw, id_role = new.id_role)
+            result = new.json ()
             return jsonify({'result': 'success','data' : result})
 
 @app.route ('/user/getInfo',methods=['POST'])
@@ -325,12 +325,12 @@ def getUserInfo():
     user.id = id
     try:
         user.get ()
-        result['user'] = (dict (id = user.id, e_mail = user.e_mail, psw = user.psw)) 
+        result['user'] = user.json() 
         cust = Customer ()
         cust.id_user = id
         cust.getUser ()
         if (cust.id != None):
-            result['customer'] = (dict (id = cust.id, dni = cust.dni, name = cust.name, surname = cust.surname, genre = cust.genre, c_size = cust.c_size, shoe_size = cust.shoe_size, phone_no = cust.phone_no))
+            result['customer'] = cust.json()
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -396,7 +396,7 @@ def getCustomer():
         return handleError (err)
     finally:
         if not (error):
-            result = dict (id = new.id, dni = new.dni, name = new.name, surname = new.surname, genre = new.genre, c_size = new.c_size, shoe_size = new.shoe_size, phone_no = new.phone_no, id_user = new.id_user)
+            result = new.json ()
             return jsonify({'result': 'success','data' : result})
 
 @app.route ('/type/add',methods=['POST'])
@@ -469,7 +469,7 @@ def getType():
         return handleError (err)
     finally:
         if not (error):
-            result = dict (id = new.id, name =new.name)
+            result = new.json()
             return jsonify({'result': 'success','data' : result})
 
 @app.route ('/chat/add',methods=['POST'])
@@ -530,7 +530,7 @@ def getChat():
         return handleError (err)
     finally:
         if not (error):
-            result = dict (id = new.id, id_customer =new.id_customer,id_admin = new.id_admin)
+            result = new.json()
             return jsonify({'result': 'success','data' : result})
 
 @app.route ('/message/add',methods=['POST'])
@@ -562,7 +562,7 @@ def getMessage():
         return handleError (err)
     finally:
         if not (error):
-            result = dict (id = new.id, msg =new.msg,date = new.date, id_user = new.id_user, id_chat = new.id_chat)
+            result = new.json()
             return jsonify({'result': 'success','data' : result})
 
 @app.route ('/product/add',methods=['POST'])
@@ -635,7 +635,7 @@ def getProduct():
         return handleError (err)
     finally:
         if not (error):
-            result = dict (id = new.id, name = new.name, dsc = new.dsc, material = new.material, genre = new.genre, brand = new.brand,type = new.type, discount = new.discount, price = new.price)
+            result = new.json ()
             return jsonify({'result': 'success','data' : result})
 
 @app.route ('/product/getColor_size',methods=['POST'])
@@ -821,7 +821,7 @@ def getCoupon():
         return handleError (err)
     finally:
         if not (error):       
-            result = dict (id = new.id, pc = new.pc, cad_date = new.cad_date, used = new.used)
+            result = new.json ()
             return jsonify({'result': 'success','data' : result})     
 
 @app.route ('/coupon/use',methods=['POST'])
@@ -906,7 +906,7 @@ def getShipping():
         return handleError (err)
     finally:
         if not (error):
-            result = dict (id = new.id, address = new.address, zip = new.zip, name = new.name, surname = new.surname, dni = new.dni, track_code = new.track_code, province = new.province)
+            result = new.json ()
             return jsonify({'result': 'success','data' : result})
 
 @app.route ('/purchase/add',methods=['POST'])
@@ -989,17 +989,17 @@ def getPurchaseInfo():
     purch.id = id
     try:
         purch.get()
-        result['purchase'] = (dict (id = purch.id,price = purch.price,date = purch.date,state = purch.state,id_user = purch.id_user)) 
+        result['purchase'] = purch.json()
         ship = Shipping ()
         ship.id = id
         ship.get()
         if (ship.id != None):
-            result['shipping'] = (dict (id = ship.id, address = ship.address, zip = ship.zip, name = ship.name, surname = ship.surname, dni = ship.dni, track_code = ship.track_code, province = ship.province))
+            result['shipping'] = ship.json()
         if (purch.id_coupon != None):
             coup = Coupon ()
             coup.id = purch.id_coupon
             coup.get()
-            result['coupon'] = (dict (id = coup.id, pc = coup.pc, cad_date = coup.cad_date, used = coup.used))
+            result['coupon'] = coup.json()
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -1152,7 +1152,7 @@ def deletePurchxitem():
         if not (error):
             return jsonify({'result' : 'success'})
 """
-
+"""
 @app.route ('/purchxitem/get',methods=['POST'])
 def getPurchxitem():
     error = False
@@ -1168,6 +1168,7 @@ def getPurchxitem():
         if not (error):
             result = dict (id_purchase = new.id_purchase,id_color_size = new.id_color_size, stock = new.stock)
             return jsonify({'result': 'success','data' : result})
+"""
 
 @app.route ('/reservation/add',methods=['POST'])
 def addReservation():
@@ -1246,7 +1247,7 @@ def getReservation():
         return handleError (err)
     finally:
         if not (error):
-            result = dict (id = new.id, date = new.date, stock = new.stock, id_user = new.id_user, id_color_size = new.id_color_size, state = new.state)
+            result = new.json()
             return jsonify({'result': 'success','data' : result})
 
 @app.route ('/reservation/item',methods=['POST'])
@@ -1423,7 +1424,7 @@ def getReviewInfo():
         return handleError (err)
     finally:
         if not (error):
-            result = dict (id = new.id, date = new.date, stars = new.stars, title = new.title, commentary = new.commentary, id_product = new.id_product, id_user = new.id_user)
+            result = new.json()
             return jsonify({'result': 'success','data' : result})
 
 

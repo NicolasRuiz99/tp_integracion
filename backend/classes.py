@@ -30,6 +30,9 @@ class User:
         self.psw = res[2]
         self.id_role = res[3]
 
+    def json (self):
+        return dict (id = self.id, e_mail = self.e_mail, psw = self.psw, id_role = self.id_role, external_id = self.external_id)
+
     def getCustomer (self):
         return callFunReturn ('UserCustomerByID',[self.id])
 
@@ -88,6 +91,9 @@ class Customer:
             self.phone_no = res[7]
             self.id_user = res[8] 
 
+    def json (self):
+        return dict (id = self.id, dni = self.dni, name = self.name, surname = self.surname,genre = self.genre,c_size = self.c_size,shoe_size = self.shoe_size, phone_no = self.phone_no, id_user = self.id_user)
+
     def getUser (self):
         res = searchID2 ('customers',self.id_user,'id_user = %s')  
         if (res == None):
@@ -123,6 +129,9 @@ class Type:
         res = searchID ('type',_id)  
         self.id = res[0]
         self.name = res[1]
+
+    def json (self):
+        return dict (id = self.id, name = self.name)
 
     #Class functions
 
@@ -171,6 +180,9 @@ class Chat:
         self.id_customer = res[1]
         self.id_admin = res[2]
 
+    def json (self):
+        return dict (id = self.id, id_customer = self.id_customer, id_admin = self.id_admin)
+
     def listall (self):
         return listTable ('ChatList')
 
@@ -199,6 +211,9 @@ class Message:
         self.date = res[2]
         self.id_user = res[3]
         self.id_chat = res[4]
+
+    def json (self):
+        return dict (id = self.id, msg = self.msg, date = self.date, id_user = self.id_user, id_chat = self.id_chat)
 
 class Product:
     def __init__ (self,name=None,dsc=None,material=None,genre=None,brand=None,type=None,discount=None,price=None,_id=None):
@@ -233,6 +248,9 @@ class Product:
         self.type = res[6]
         self.discount = res[7]
         self.price = res[8]  
+
+    def json (self):
+        return dict (id = self.id, name = self.name, dsc = self.dsc, material = self.material, genre = self.genre, brand = self.brand, type = self.type, discount = self.discount, price = self.price)
 
     def getColor_size (self):
         return callFunReturn ('ColorSizeByID',[self.id])
@@ -311,6 +329,9 @@ class Coupon:
         self.cad_date = res[2]
         self.used = res[3]
 
+    def json (self):
+        return dict (id = self.id, pc = self.pc, cad_date = self.cad_date, used = self.used)
+
     #Class functions
 
     def listall (self):
@@ -353,6 +374,9 @@ class Shipping:
             self.dni = res[5]
             self.track_code = res[6]
             self.province = res[7]
+    
+    def json (self):
+        return dict (id = self.id, address = self.address, zip = self.zip, name = self.name, surname = self.surname, dni = self.dni, track_code = self.track_code, province = self.province)
 
 class Purchase:
     def __init__ (self,price=None,date=None,state='cart',id_user=None,id_coupon=None,_id=None):
@@ -383,6 +407,9 @@ class Purchase:
         self.state = res[3]
         self.id_user = res[4]
         self.id_coupon = res[5]
+
+    def json (self):
+        return dict (id = self.id, price = self.price, date = self.date, state = self.state, id_user = self.id_user, id_coupon = self.id_coupon)
 
     def listItems (self):
         return callFunReturn ('PurchaseItemsByID',[self.id])
@@ -449,6 +476,9 @@ class Reservation:
         self.id_user = res[3]
         self.id_color_size = res[4]
         self.state = res[5]
+
+    def json (self):
+        return dict (id = self.id, date = self.date, stock = self.stock, id_user = self.id_user, id_color_size = self.id_color_size, state = self.state)
 
     def getItem (self):
         return callFunReturn ('ActiveReservationsItem',[self.id_user,self.id_color_size,])
@@ -525,6 +555,9 @@ class Review:
         self.commentary = res[4]
         self.id_product = res[5]
         self.id_user = res[6]
+
+    def json (self):
+        return dict (id = self.id, date = self.date, stars = self.stars, title = self.title, commentary = self.commentary, id_product = self.id_product, id_user = self.id_user)
 
     #Class functions
 
