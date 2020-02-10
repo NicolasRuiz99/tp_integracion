@@ -37,7 +37,7 @@ const TopBarAdmin = ({user_id,setUser, isLogged, setIsLogged, handleDrop, histor
                                     <i class="fas fa-money-check-alt"></i>
                                     <span className="d-none d-md-inline-block">Ventas</span>
                                 </Link>
-                                <Link to="/admin-page/productadd" className="signup-btn">
+                                <Link to="/admin-page/addproduct" className="signup-btn">
                                     <i class="fas fa-plus-circle"></i>
                                     <span className="d-none d-md-inline-block">Cargar producto</span>
                                 </Link>

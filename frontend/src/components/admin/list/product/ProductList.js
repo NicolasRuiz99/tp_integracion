@@ -4,7 +4,7 @@ import ProductItem from './ProductItem';
 import Search from './../Search';
 import Paginacion from './../../../pages/shop/Paginacion';
 import Info from '../../../messages/Info';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 
 //Cada tabla tendrá su propia barra de búsqueda
 export default function ProductList({copyList, setSearch, list, changeList, toDelete, isCheck, clean, handleModalOpen}) {
@@ -42,6 +42,11 @@ export default function ProductList({copyList, setSearch, list, changeList, toDe
                   ) : null}
                 </div>
                 <Search setSearch={setSearch} />
+                <div className="col-sm-6 col-md-2" style={{float: 'left', paddingRight:'4rem', padding:'0.75rem', marginLeft: '3rem'}}>
+                <Link type="button" to="/admin-page/addproduct" className="btn btn-warning">
+                    Nuevo Producto
+                </Link>
+                </div>
                 {currentList.length === 0 ? (
                 <p className="lead" style={{padding:'8rem', textAlign:'center'}}>No se encontraron resultados...</p>
                 ) : (

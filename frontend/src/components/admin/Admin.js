@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react'
+import React, {Fragment, useEffect} from 'react'
 import './../../css/default.css';
 import {Link, Switch, Route, Redirect} from 'react-router-dom';
 import Sidebar from './sidebar/Sidebar';
@@ -15,9 +15,11 @@ import Coupons from './nav-items/Coupons';
 import Chats from './nav-items/Chats';
 import AdminAccount from './AdminAccount';
 import { ProtectedRoute2 } from '../ProtectedRoute';
+import AddProduct from './AddProduct';
 
 export default function Admin({handleDrop,user_id, isLogged, role}) {
     
+  
 
     return (
         <Fragment>
@@ -58,6 +60,10 @@ export default function Admin({handleDrop,user_id, isLogged, role}) {
                     isLogged={isLogged}
                     role={role}
                     component={() => <AdminAccount user_id = {user_id}/>}/>
+                    <ProtectedRoute2  path="/admin-page/addproduct" 
+                    isLogged={isLogged}
+                    role={role}
+                    component={() => <AddProduct />}/>
                     
                     //Logica de protección para rutas con :id
                     {(isLogged && role) ? (
