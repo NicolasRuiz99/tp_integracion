@@ -81,6 +81,15 @@ const deleteProduct = id => {
     .catch(err => {console.log(err); throw err})
 }
 
+const getTypes = async() => {
+    return axios
+    .get("/type/listall")
+    .then(res => {
+        return res.data.data
+    })
+    .catch(err => {throw err})
+}
+
 export {
     getReservations,
     capitalize,
@@ -90,5 +99,6 @@ export {
     modCoupon,
     addCoupon,
     getChats,
-    deleteProduct
+    deleteProduct,
+    getTypes
 };
