@@ -23,7 +23,7 @@ export default function ProductList({copyList, setSearch, list, changeList, toDe
     return (
         <div>
           {(list.length === 0) ? (
-          <Info texto="Actualmente no hay cupones" />
+          <Info texto="Actualmente no hay productos" />
          ) 
           : ( 
               <div className="table-responsive">
@@ -42,8 +42,8 @@ export default function ProductList({copyList, setSearch, list, changeList, toDe
                   ) : null}
                 </div>
                 <Search setSearch={setSearch} />
-                <div className="col-sm-6 col-md-2" style={{float: 'left', paddingRight:'4rem', padding:'0.75rem', marginLeft: '3rem'}}>
-                <Link type="button" to="/admin-page/addproduct" className="btn btn-warning">
+                <div className="col-sm-6 col-md-2" style={{float: 'left', paddingRight:'4rem', padding:'0.75rem', marginLeft: '8rem', color:'#fff'}}>
+                <Link type="button" to="/admin-page/addproduct" className="btn btn-primary">
                     Nuevo Producto
                 </Link>
                 </div>

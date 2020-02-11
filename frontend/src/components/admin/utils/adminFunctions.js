@@ -91,6 +91,35 @@ const getTypes = async() => {
     .catch(err => {throw err})
 }
 
+const addProduct = ({name,dsc,material,genre,brand,type,discount,price}) => {
+    return axios
+    .post("/product/add",{
+        name,
+        dsc,
+        material,
+        genre,
+        brand,
+        type,
+        discount,
+        price
+    })
+    .then(res => {console.log(res);return res.data.id})
+    .catch(err => {throw err})
+}
+
+
+const addColor_Size = ({color,size,stock,prod_id}) => {
+    return axios
+    .post("/color_size/add",{
+        color,
+        size,
+        stock,
+        prod_id
+    })
+    .then(res => {console.log(res);return res.data})
+    .catch(err => {console.log(err);throw err})
+}
+
 export {
     getReservations,
     capitalize,
@@ -101,5 +130,7 @@ export {
     addCoupon,
     getChats,
     getTypes,
-    setActiveProduct
+    setActiveProduct,
+    addProduct,
+    addColor_Size
 };

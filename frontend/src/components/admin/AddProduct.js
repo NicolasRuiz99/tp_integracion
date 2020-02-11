@@ -1,10 +1,11 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import BreadCrumbs from '../BreadCrumbs'
-import { getTypes, capitalize } from './utils/adminFunctions';
+import { getTypes, capitalize, addProduct, addColor_Size } from './utils/adminFunctions';
 import Error from '../messages/Error';
 import Spinner from 'react-bootstrap/Spinner';
+import { withRouter } from 'react-router-dom';
 
-export default function AddProduct() {
+function AddProduct({history}) {
     const [types, setTypes] = useState([]);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -19,11 +20,11 @@ export default function AddProduct() {
         u: false,
         result: ''
     });
-    const [tipo, setTipo] = useState('');
+    const [tipo, setTipo] = useState(null);
     const [talle, setTalle] = useState('');
     const [color, setColor] = useState('');
-    const [cantidad, setCantidad] = useState('');
-    const [descuento, setDescuento] = useState('');
+    const [stock, setStock] = useState('');
+    const [descuento, setDescuento] = useState(0);
 
 
     useEffect(() => {
@@ -31,6 +32,7 @@ export default function AddProduct() {
         setLoading(true);
         getTypes()
         .then(res => {
+            console.log(res)
             setTypes(res);
             setLoading(false);
         })
@@ -39,7 +41,50 @@ export default function AddProduct() {
             return;
         })
         setError(false);
-    }, [])
+    }, []);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!titulo || !descripcion || !stock || !material || !marca || !precio || !tipo || !talle || !color || !genero) {
+            setError(true);
+            return;
+        };
+        const product = {
+            name: titulo,
+            dsc: descripcion,
+            material,
+            genre: genero,
+            brand: marca,
+            type: parseInt(tipo),
+            discount:parseInt(descuento),
+            price: parseFloat(precio)
+        };
+
+        addProduct(product)
+        .then(res => {        
+            const color_size = {
+                color: color.toLowerCase(),
+                size: talle,
+                stock: parseInt(stock),
+                prod_id: res
+            };  
+            addColor_Size(color_size)
+                .then(response => {
+                    console.log(response);
+                })
+                .catch(error => {
+                    setError(true);
+                    return;
+                })
+        })
+        .catch(err => {
+            setError(true);
+            return;
+        })
+        setError(false);
+        history.push('/admin-page/products');
+
+    }
 
     return (
         <Fragment >
@@ -53,7 +98,7 @@ export default function AddProduct() {
                 )
                 :
             (
-            <form style={{marginLeft:'12rem'}} >
+            <form style={{marginLeft:'12rem'}}>
                 <div className="row">
                     <div className="col-md-6">
                         <div className="form-group">
@@ -61,7 +106,8 @@ export default function AddProduct() {
                             <h5 for="titulo">Título:</h5>
                             <input
                                 id="titulo" type="text" className="form-control" 
-                                style={{width:'80%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}}    
+                                style={{width:'80%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}} 
+                                onChange={(e) => setTitulo(e.target.value)}   
                             />
                         </div>
                         <div className="form-group">
@@ -69,7 +115,8 @@ export default function AddProduct() {
                             <textarea 
                                 id="reseña" className="form-control" cols="30" rows="9" 
                                 style={{width: '80%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif'}} 
-                                placeholder='(opcional)' 
+                                placeholder='(opcional)'
+                                onChange={(e) => setDescripcion(e.target.value)} 
                                 >
                             </textarea>
                         </div>
@@ -77,14 +124,16 @@ export default function AddProduct() {
                             <h5 for="material">Material:</h5>
                             <input
                                 id="material" type="text" className="form-control" 
-                                style={{width:'80%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}} 
+                                style={{width:'80%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}}
+                                onChange={(e) => setMaterial(e.target.value)} 
                             />
                         </div>
                         <div className="form-group">
                             <h5 for="marca">Marca:</h5>
                             <input
                                 id="marca" type="text" className="form-control" 
-                                style={{width:'80%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}} 
+                                style={{width:'80%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}}
+                                onChange={(e) => setMarca(e.target.value)} 
                             />
                         </div>
                     </div>
@@ -139,17 +188,24 @@ export default function AddProduct() {
                         <div class="form-group">
                         <h5 for="tipo">Seleccione tipo:</h5>
                         <select className="form-control" id="tipo"
+                        onChange={(e) => setTipo(e.target.value)}
                         style={{width:'50%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "pointer"}} >
+                        >     
+                        ))
                             {
                                 types.map(type => (
-                                <option key={type.id}>{capitalize(type.name)}</option>        
-                                ))
+                                <option
+                                key={type.id}
+                                value={type.id}>
+                                  {capitalize(type.name)}
+                                </option>))
                             }
                         </select>
                         </div>
                         <div class="form-group">
                         <h5 for="talle">Seleccione talle:</h5>
                         <select className="form-control" id="talle"
+                        onChange={(e) => setTalle(e.target.value)}
                         style={{width:'50%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "pointer"}} >
                             <option>35</option>
                             <option>36</option>
@@ -178,6 +234,7 @@ export default function AddProduct() {
                         <div class="form-group">
                             <h5 for="color">Seleccione color:</h5>
                             <select className="form-control" id="color"
+                            onChange={(e) => setColor(e.target.value)}
                             style={{width:'50%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "pointer"}} >
                                 <option>Azul</option>
                                 <option>Verde</option>
@@ -200,6 +257,7 @@ export default function AddProduct() {
                                 id="cantidad" type="number" 
                                 min="0" max="999999" className="form-control" 
                                 defaultValue="1"
+                                onChange={(e) => setStock(e.target.value)}
                                 style={{width:'43%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}} 
                             />
                             </div>
@@ -209,10 +267,10 @@ export default function AddProduct() {
                                 id="descuento" type="number" 
                                 min="0" max="100" className="form-control"
                                 defaultValue="0" 
+                                onChange={(e) => setDescuento(e.target.value)}
                                 style={{width:'30%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}} 
                             />
                             </div>
-                            
                         </div>
                 </div>
                 </div>
@@ -224,6 +282,7 @@ export default function AddProduct() {
                                 id="precio" type="number" 
                                 min="0" max="999999" className="form-control" 
                                 defaultValue="0"
+                                onChange={(e) => setPrecio(e.target.value)}
                                 style={{width:'43%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}} 
                             />
                         </div>
@@ -231,7 +290,7 @@ export default function AddProduct() {
                     <div className="col-md-5">
                         <br/>
                         <div className=" form-group"> 
-                            <button className="btn btn-primary btn-lg" type="submit"> Cargar producto</button> 
+                            <button className="btn btn-primary btn-lg" type="button" onClick={handleSubmit}> Cargar producto</button> 
                         </div>
                     </div>
                 </div>
@@ -240,3 +299,4 @@ export default function AddProduct() {
         </Fragment>
     )
 }
+export default withRouter(AddProduct);
