@@ -45,7 +45,7 @@ function AddProduct({history}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!titulo || !descripcion || !stock || !material || !marca || !precio || !tipo || !talle || !color || !genero) {
+        if (!titulo || !descripcion || !stock || !material || !marca || !precio || !tipo || !talle || !color || !genero.result) {
             setError(true);
             return;
         };
@@ -53,7 +53,7 @@ function AddProduct({history}) {
             name: titulo,
             dsc: descripcion,
             material,
-            genre: genero,
+            genre: genero.result,
             brand: marca,
             type: parseInt(tipo),
             discount:parseInt(descuento),

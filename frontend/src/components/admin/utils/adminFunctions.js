@@ -103,7 +103,7 @@ const addProduct = ({name,dsc,material,genre,brand,type,discount,price}) => {
         discount,
         price
     })
-    .then(res => {console.log(res);return res.data.id})
+    .then(res => {return res.data.id})
     .catch(err => {throw err})
 }
 
@@ -116,8 +116,8 @@ const addColor_Size = ({color,size,stock,prod_id}) => {
         stock,
         prod_id
     })
-    .then(res => {console.log(res);return res.data})
-    .catch(err => {console.log(err);throw err})
+    .then(res => {return res.data})
+    .catch(err => {throw err})
 }
 
 export {
