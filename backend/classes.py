@@ -1,4 +1,4 @@
-from ddbb_connect import addToTable,listTable,updateTable,deleteFromTable,searchID,deleteFromTable2,searchID2,query,callFun,callFunReturn
+from ddbb_connect import addToTable,listTable,updateTable,deleteFromTable,searchID,deleteFromTable2,searchID2,query,callFun,callFunReturn,addToTableReturnID
 
 class User:
     def __init__ (self,e_mail = None,psw = None,id_role = None,external_id=None,_id = None):
@@ -159,17 +159,17 @@ class Role:
         self.name = res[1]
 
 class Chat:
-    def __init__ (self,id_customer=None,id_admin=None,_id=None):
+    def __init__ (self,id_user=None,id_admin=None,_id=None):
         self.id = _id
-        self.id_customer = id_customer
+        self.id_user = id_user
         self.id_admin = id_admin
 
     def add (self):
-        new_record = (self.id_customer,self.id_admin)
-        addToTable ('chat (id_customer,id_admin)',new_record,'(%s,%s)')
+        new_record = (self.id_user,self.id_admin)
+        addToTable ('chat (id_user,id_admin)',new_record,'(%s,%s)')
 
     def mod (self):
-        updateTable ('chat',(self.id_customer,self.id_admin,self.id),'id_customer = %s, id_admin = %s')
+        updateTable ('chat',(self.id_user,self.id_admin,self.id),'id_user = %s, id_admin = %s')
 
     def delete (self):
         deleteFromTable ('chat',self.id)
@@ -177,26 +177,30 @@ class Chat:
     def get (self,_id):
         res = searchID ('chat',_id)  
         self.id = res[0]
-        self.id_customer = res[1]
+        self.id_user = res[1]
         self.id_admin = res[2]
 
+    def readAll (self,id_user):
+        callFun ('readAllMsg',[self.id,id_user,])
+
     def json (self):
-        return dict (id = self.id, id_customer = self.id_customer, id_admin = self.id_admin)
+        return dict (id = self.id, id_user = self.id_user, id_admin = self.id_admin)
 
     def listall (self):
         return listTable ('ChatList')
 
 class Message:
-    def __init__ (self,msg=None,date=None,id_user=None,id_chat=None,_id=None):
+    def __init__ (self,msg=None,date=None,id_user=None,id_chat=None,read=False,_id=None):
         self.id = _id
         self.msg = msg
         self.date = date
         self.id_user = id_user
         self.id_chat = id_chat     
+        self.read = read
 
     def add (self):
-        new_record = (self.msg, self.date,self.id_user, self.id_chat )
-        addToTable ('message (msg, date, id_user, id_chat)',new_record,'(%s,%s,%s,%s)')
+        new_record = (self.msg, self.id_user, self.id_chat, self.read )
+        addToTable ('message (msg, id_user, id_chat, read)',new_record,'(%s,%s,%s,%s)')
 
     def mod (self):
         updateTable ('message',(self.msg,self.date,self.id_user,self.id_chat,self.id),'msg = %s, date = %s, id_user = %s, id_chat = %s')
@@ -211,12 +215,13 @@ class Message:
         self.date = res[2]
         self.id_user = res[3]
         self.id_chat = res[4]
+        self.read = res[6]
 
     def json (self):
         return dict (id = self.id, msg = self.msg, date = self.date, id_user = self.id_user, id_chat = self.id_chat)
 
 class Product:
-    def __init__ (self,name=None,dsc=None,material=None,genre=None,brand=None,type=None,discount=None,price=None,_id=None):
+    def __init__ (self,name=None,dsc=None,material=None,genre=None,brand=None,type=None,discount=None,price=None,active=True,_id=None):
         self.id = _id
         self.name = name
         self.dsc = dsc
@@ -226,13 +231,17 @@ class Product:
         self.type = type 
         self.discount = discount
         self.price = price    
+        self.active = active
 
     def add (self):
-        new_record = (self.name, self.dsc,self.material, self.genre,self.brand,self.type,self.discount,self.price )
-        addToTable ('products (name, dsc, material, genre, brand, type, discount, price)',new_record,'(%s,%s,%s,%s,%s,%s,%s,%s)')
+        new_record = (self.name, self.dsc,self.material, self.genre,self.brand,self.type,self.discount,self.price,self.active )
+        return addToTableReturnID ('products (name, dsc, material, genre, brand, type, discount, price, active)',new_record,'(%s,%s,%s,%s,%s,%s,%s,%s,%s)')
 
     def mod (self):
         updateTable ('products',(self.name, self.dsc,self.material, self.genre,self.brand,self.type,self.discount,self.price,self.id),'name = %s, dsc = %s, material = %s, genre = %s, brand = %s, type = %s, discount = %s, price = %s')
+
+    def setActive (self):
+        updateTable ('products',(self.active,self.id),'active = %s')
 
     def delete (self):
         deleteFromTable ('products',self.id)
@@ -248,9 +257,10 @@ class Product:
         self.type = res[6]
         self.discount = res[7]
         self.price = res[8]  
+        self.active = res[9]  
 
     def json (self):
-        return dict (id = self.id, name = self.name, dsc = self.dsc, material = self.material, genre = self.genre, brand = self.brand, type = self.type, discount = self.discount, price = self.price)
+        return dict (id = self.id, name = self.name, dsc = self.dsc, material = self.material, genre = self.genre, brand = self.brand, type = self.type, discount = self.discount, price = self.price, active = self.active)
 
     def getColor_size (self):
         return callFunReturn ('ColorSizeByID',[self.id])
@@ -274,6 +284,9 @@ class Product:
 
     def listall (self):
         return listTable ('ProductsList')
+
+    def listallAdmin (self):
+        return listTable ('AdminProductsList')
 
 class Color_size:
     def __init__ (self,color=None,size=None,stock=None,prod_id=None,_id=None):

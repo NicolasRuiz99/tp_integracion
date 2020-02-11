@@ -173,6 +173,22 @@ END; $funcemp$ LANGUAGE plpgsql;
 CREATE TRIGGER check_ship BEFORE UPDATE ON shipping
 FOR EACH ROW EXECUTE PROCEDURE check_ship();
 
+--TRIGGERS PRODUCT
+
+--trigger para eliminar todos los items del carrtido del producto que se desactiva
+
+CREATE OR REPLACE FUNCTION check_prod_active() RETURNS TRIGGER AS $funcemp$
+BEGIN
+IF (OLD.active = true AND NEW.active = false) THEN
+	DELETE FROM "purchxitem" WHERE id_purchase in (SELECT p.id FROM "purchase" p WHERE state = 'cart') 
+	AND id_color_size = (SELECT cz.id from "color_size" cz,"products" p WHERE cz.prod_id = p.id and p.id = NEW.id);
+END IF;
+RETURN NEW;
+END; $funcemp$ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_prod_active AFTER UPDATE ON products
+FOR EACH ROW EXECUTE PROCEDURE check_prod_active();
+
 --TRIGGERS PARA VARIAS TABLAS
 
 --setear fecha mensajes,compras,reservas,wishlist,review

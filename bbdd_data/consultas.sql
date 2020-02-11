@@ -308,6 +308,13 @@ END;
 $body$
 LANGUAGE plpgsql;
 
+--funcion para leer todos los msj de un chat
+
+CREATE OR REPLACE FUNCTION readAllMsg (id_chat int, id_user int) RETURNS void AS $funcemp$
+BEGIN
+	UPDATE "message" SET read = true WHERE message.id_chat = $1 AND message.id_user = $2;
+END; $funcemp$ LANGUAGE plpgsql;
+
 --funcion para cambiar estado de una reserva si pasa mas de un dia desde su creacion (vence)
 
 CREATE OR REPLACE FUNCTION check_date() RETURNS TRIGGER AS $funcemp$

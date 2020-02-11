@@ -106,6 +106,19 @@ def listproducts():
         if not (error):
             return jsonify({'results' : results})   
 
+@app.route ('/product/listallAdmin',methods=['GET'])
+def listproductsAdmin():
+    error = False
+    prod = Product ()
+    try:
+        results = prod.listallAdmin ()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'results' : results})   
+
 @app.route ('/purchase/listall',methods=['GET'])
 def listallpurchases():
     error = False
@@ -239,6 +252,9 @@ def registerUser():
     try:
         new.register()
         user_id,role = logInUser (e_mail,psw)
+        #creamos chat con admin 1
+        chat = Chat (user_id,1)
+        chat.add()
     except (Exception) as err:
         error = True
         return handleError (err)
@@ -256,6 +272,9 @@ def registerUserExt():
     try:
         new.register2()
         user_id,role = logInUser2 (id)
+        #creamos chat con admin 1
+        chat = Chat (user_id,1)
+        chat.add()
     except (Exception) as err:
         error = True
         print (err)
@@ -472,10 +491,11 @@ def getType():
             result = new.json()
             return jsonify({'result': 'success','data' : result})
 
+"""
 @app.route ('/chat/add',methods=['POST'])
 def addChat():
     error = False
-    id_customer = request.json['id_customer']
+    id_customer = request.json['id_user']
     id_admin = request.json['id_admin']
     new = Chat (id_customer,id_admin)
     try:
@@ -517,7 +537,7 @@ def deleteChat():
     finally:
         if not (error):
             return jsonify({'result' : 'success'})
-
+"""
 @app.route ('/chat/get',methods=['POST'])
 def getChat():
     error = False
@@ -533,14 +553,29 @@ def getChat():
             result = new.json()
             return jsonify({'result': 'success','data' : result})
 
+@app.route ('/chat/readall',methods=['POST'])
+def readAllChatMessages():
+    error = False
+    id = request.json['id']
+    id_user = request.json['id_user']
+    new = Chat ()
+    try:
+        new.id = id
+        new.readAll (id_user)
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
+            return jsonify({'result': 'success'})            
+
 @app.route ('/message/add',methods=['POST'])
 def addMessage():
     error = False
     msg = request.json['msg']
-    date = request.json['date']
     id_user = request.json['id_user']
     id_chat = request.json['id_chat']
-    new = Message (msg,date,id_user,id_chat)
+    new = Message (msg,None,id_user,id_chat)
     try:
         new.add()
     except (Exception) as err:
@@ -578,13 +613,13 @@ def addProduct():
     price = request.json['price']
     new = Product (name,dsc,material,genre,brand,type,discount,price)
     try:
-        new.add()
+        id = new.add()
     except (Exception) as err:
         error = True
         return handleError (err)
     finally:
         if not (error):
-            return jsonify({'result' : 'success'})
+            return jsonify({'result' : 'success','id': id})
 
 @app.route ('/product/mod',methods=['POST'])
 def modProduct():
@@ -608,14 +643,14 @@ def modProduct():
         if not (error):
             return jsonify({'result' : 'success'})
 
-@app.route ('/product/delete',methods=['POST'])
-def deleteProduct():
+@app.route ('/product/setActive',methods=['POST'])
+def ProductSetActive():
     error = False
-    id = request.json['id']
     new = Product ()
-    new.id = id
+    new.id = request.json['id']
+    new.active = request.json['active']
     try:
-        new.delete()
+        new.setActive()
     except (Exception) as err:
         error = True
         return handleError (err)

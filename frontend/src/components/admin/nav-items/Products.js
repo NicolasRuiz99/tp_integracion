@@ -1,9 +1,9 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import ProductList from './../list/product/ProductList';
-import {getProducts} from './../../pages/shop/utils/shopFunctions';
+import {getProductsAdmin} from './../../pages/shop/utils/shopFunctions';
 import Error from './../../messages/Error';
 import Spinner from 'react-bootstrap/Spinner';
-import { deleteProduct } from '../utils/adminFunctions';
+import { setActiveProduct } from '../utils/adminFunctions';
 import {DeleteProductsModal} from './../utils/modals';
 
 export default function Products() {
@@ -31,7 +31,7 @@ export default function Products() {
     useEffect(() => {
         window.scrollTo(0, 0);
         setLoading(true);
-        getProducts()
+        getProductsAdmin()
         .then(res => {
             console.log(res);
             setList(res);
@@ -57,16 +57,17 @@ export default function Products() {
         //setCurrentPage(1);       
     },[search]);
 
+
     const eliminarProducto = () => {
         for (let index = 0; index < toDelete.length; index++) {
             let id = toDelete[index];
-            deleteProduct(id)
-            .then(res => {
-                setRefresh(true);
-            })
-            .catch (err => {
-              setServerError(true);
-            }); 
+            //deleteProduct(id)
+            //.then(res => {
+            //    setRefresh(true);
+            //})
+            //.catch (err => {
+            //  setServerError(true);
+            //}); 
            }  
            setServerError(false);
            setToDelete([]);

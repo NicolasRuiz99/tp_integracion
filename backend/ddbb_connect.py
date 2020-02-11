@@ -17,6 +17,21 @@ def disconnect_ddbb (con,cur):
     cur.close()
     con.close()
 
+def addToTableReturnID (table,values,qValues):
+    result = None
+    try:
+        con, cur = connect_ddbb ()
+        query = 'insert into ' + table + ' values ' + qValues + ' RETURNING id'
+        cur.execute (query,values)
+        con.commit()
+        result = cur.fetchone()[0]
+    except (Exception,Error) as error:
+        if (con):
+            raise Exception ('OperationFailed', error.args[0])
+    finally:
+        disconnect_ddbb (con,cur)
+        return result
+
 def addToTable (table,values,qValues):
     try:
         con, cur = connect_ddbb ()

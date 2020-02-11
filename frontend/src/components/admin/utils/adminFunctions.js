@@ -72,13 +72,14 @@ const getChats = () => {
     .catch(err => {throw err})
 }
 
-const deleteProduct = id => {
+const setActiveProduct = (id,active) => {
     return axios
-    .post("/product/delete", {
-        id
+    .post("/product/setActive",{
+        id,
+        active
     })
-    .then(res => { console.log(res);return res.data})
-    .catch(err => {console.log(err); throw err})
+    .then(res => {return res.data})
+    .catch(err => {throw err})
 }
 
 const getTypes = async() => {
@@ -99,6 +100,6 @@ export {
     modCoupon,
     addCoupon,
     getChats,
-    deleteProduct,
-    getTypes
+    getTypes,
+    setActiveProduct
 };

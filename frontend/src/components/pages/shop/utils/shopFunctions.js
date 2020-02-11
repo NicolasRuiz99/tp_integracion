@@ -9,6 +9,15 @@ const getProducts = async() => {
     .catch(err => {throw err})
 }
 
+const getProductsAdmin = async() => {
+    return axios
+    .get("/product/listallAdmin")
+    .then(res => {
+        return res.data.results
+    })
+    .catch(err => {throw err})
+}
+
 const getProductInfo = async(id) => {
     return axios
     .post("/product/get",{
@@ -112,5 +121,6 @@ export {
     listRecomendedProducts,
     listNewProducts,
     listHighRatedProducts,
-    getImage
+    getImage,
+    getProductsAdmin
 };

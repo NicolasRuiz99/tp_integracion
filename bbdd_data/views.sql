@@ -8,11 +8,15 @@ AS
 SELECT DISTINCT prod.id prod_id,p.id_user FROM purchase p,purchxitem pitem, color_size cz, products prod 
 WHERE p.state = 'success' AND p.id = pitem.id_purchase AND pitem.id_color_size = cz.id AND cz.prod_id = prod.id ORDER BY p.id_user,prod.id;
 
-CREATE VIEW ProductsList
+CREATE VIEW AdminProductsList
 AS
-SELECT p.id,p.name,p.dsc,p.material,p.genre,p.brand,p.type,p.discount,p.price, 
+SELECT p.id,p.name,p.dsc,p.material,p.genre,p.brand,p.type,p.discount,p.price,p.active,
 (SELECT array(SELECT DISTINCT color FROM color_size WHERE prod_id = p.id)) colors
 FROM products p ORDER BY p.id;
+
+CREATE VIEW ProductsList
+AS
+SELECT * FROM AdminProductsList WHERE active = true;
 
 CREATE VIEW PurchaseList
 AS 
@@ -58,11 +62,11 @@ WHERE u.id_role = r.id;
 CREATE VIEW WishlistProducts
 AS
 SELECT p.id,p.name,p.discount,p.price,w.id_user 
-FROM wishlist w,products p WHERE w.id_prod = p.id ORDER BY w.date;
+FROM wishlist w,products p WHERE w.id_prod = p.id AND p.active = true ORDER BY w.date;
 
 CREATE VIEW NewProducts
 AS
-SELECT * FROM products ORDER BY id DESC LIMIT 6;
+SELECT * FROM products p WHERE p.active = true ORDER BY id DESC LIMIT 6;
 
 CREATE VIEW ChatList
 AS

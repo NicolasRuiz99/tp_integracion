@@ -55,17 +55,17 @@ INSERT INTO "message" (msg, id_user, id_chat,read) VALUES
 
 INSERT INTO "type" (name) VALUES ('calzado'), ('remeras'), ('pantalon'), ('medias'), ('ropa interior'), ('accesorios'), ('abrigos'),('trajes'),('trajes de baño'),('polleras'),('blusas'),('vestidos'),('calzas');
 
-INSERT INTO "products" (name, dsc, material, genre, brand, type, discount, price) VALUES 
-('jean', 'jean azul talle 40', 'denim', 'U', 'levis', 3, 10, 800 ), 
-('zapatillas', 'zapatillas para entrenar', 'hule', 'M', 'nike', 1, 5, 1500 ),
-('remera', 'remera chomba color roja', 'algodon', 'M', 'lacoste', 2, 0, 950 ), 
-('medias', 'par de medias', 'tela', 'U', 'nike', 4, 0, 300 ),
-('boxer', 'boxer taverniti blanco', 'algodon', 'M', 'taverniti', 5, 0, 850 ), 
-('zapatos','', 'cuero', 'M', 'pizzoni', 1, 20, 3400 ),
-('bermuda','', 'gabardina', 'M', 'adidas', 3, 10, 2200 ), 
-('lentes de sol', '','vidrio', 'U', 'smartbuy', 6, 5, 1000 ),
-('campera','', 'algodon', 'M', 'adidas', 7, 30, 3200 ), 
-('bufanda', '', 'lana', 'F', 'vinson', 7, 0, 500);
+INSERT INTO "products" (name, dsc, material, genre, brand, type, discount, price, active) VALUES 
+('jean', 'jean azul talle 40', 'denim', 'U', 'levis', 3, 10, 800, true ), 
+('zapatillas', 'zapatillas para entrenar', 'hule', 'M', 'nike', 1, 5, 1500, true ),
+('remera', 'remera chomba color roja', 'algodon', 'M', 'lacoste', 2, 0, 950, true ), 
+('medias', 'par de medias', 'tela', 'U', 'nike', 4, 0, 300, true ),
+('boxer', 'boxer taverniti blanco', 'algodon', 'M', 'taverniti', 5, 0, 850, true ), 
+('zapatos','', 'cuero', 'M', 'pizzoni', 1, 20, 3400, true ),
+('bermuda','', 'gabardina', 'M', 'adidas', 3, 10, 2200, true ), 
+('lentes de sol', '','vidrio', 'U', 'smartbuy', 6, 5, 1000, true ),
+('campera','', 'algodon', 'M', 'adidas', 7, 30, 3200, true ), 
+('bufanda', '', 'lana', 'F', 'vinson', 7, 0, 500, true );
 
 INSERT INTO "color_size" (color, size, stock, prod_id) VALUES 
 ('azul', '40', 50, 1),
