@@ -1,13 +1,13 @@
 import React, {useEffect, useState, Fragment} from 'react'
 import './../../../css/default.css';
 import { getReview, deleteReview } from '../../pages/customer/utils/CustomerFunctions';
-import Spinner from 'react-bootstrap/Spinner';
 import Rating from '../../pages/shop/Rating';
 import Button from 'react-bootstrap/Button';
 import { withRouter, Link } from 'react-router-dom';
 import DeleteReviewModal from './../../modals/DeleteReviewModal';
 import Error from '../../messages/Error';
 import BreadCrumbs from '../../BreadCrumbs';
+import LoadingDark from '../../messages/LoadingDark';
 
 
 function ReviewDetail({props, history}) {
@@ -56,9 +56,7 @@ function ReviewDetail({props, history}) {
             <BreadCrumbs name={(review.id) ? (`Reseña #${review.id}`) : null} isAdmin={true} />
         <div className="row addresses" >
             {(loading) ? (
-                <div className="col-md-12 text-center" style={{top:'50%',left:'5%', position:'absolute'}}> 
-                    <Spinner animation="border" variant="dark" size="lg" role="status" />
-                </div> 
+                <LoadingDark/>
             ): ( (error) ? (<Error texto="Ha ocurrido un error interno en el servidor" />) : (
                 <div className="card shadow" style={{left:'35%',position:'absolute',bottom:'33%', width:'30%'}}>
                     <div className="card-header">

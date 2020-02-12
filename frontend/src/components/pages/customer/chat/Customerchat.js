@@ -14,7 +14,8 @@ import CustomerSection from '../CustomerSection';
 import queryString from 'query-string';
 import { readAllChatMessages,getChat } from '../utils/CustomerFunctions';
 import Error from '../../../messages/Error';
-import Spinner from 'react-bootstrap/Spinner';
+import LoadingDark from '../../../messages/LoadingDark';
+import Loading from '../../../messages/Loading';
 
 let socket;
 
@@ -97,27 +98,29 @@ const CustomerChat = (props) => {
     return (
         <Fragment>
         {(chatID === 'admin')?<BreadCrumbs name={`Chat con cliente #${room}`} isAdmin={true}/>:<BreadCrumbs name={`Chat con administrador`} isAdmin={false}/>}
-        {(loading)?
-        <div className="col-md-9 text-center"> 
-          <Spinner animation="border" variant="info" size="lg"  />
-        </div>
-        :
         <div id="content">
             {(error)? <Error texto="Hubo un error al cargar el chat"/>
             :
             <div className="container">
             <div className="row bar">
-            <div id="customer-account" className="col-lg-8 clearfix">         
+            <div id="customer-account" className="col-lg-8 clearfix">     
+              {(loading)?
+                <div>
+                {(chatID === 'admin')?<LoadingDark/>:<Loading/>}
+                </div>
+                :    
+                <div>
                 <InfoBar room={room}/>
                 <Messages messages={messages} id={chatID} />
                 <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
                 </div>
-                {(chatID === 'admin')?null:<CustomerSection user_id={props.user_id}/>}
+                }
+            </div>
+            {(chatID === 'admin')?null:<CustomerSection user_id={props.user_id}/>}
             </div>    
             </div>
             }
         </div>
-        }
         </Fragment>
     );
 };

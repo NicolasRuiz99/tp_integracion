@@ -2,12 +2,12 @@ import React, { Fragment,useEffect,useState } from 'react';
 import CustomerSection from './CustomerSection';
 import BreadCrumbs from '../../BreadCrumbs';
 import './../../../css/default.css';
-import {Link} from 'react-router-dom';
 import {getPurchaseInfo,listPurchaseItems,payMP} from'./utils/CustomerFunctions';
 import PurchaseLine from '../../lists/purchase/PurchaseLine';
 import uuid from 'uuid';
 import moment from 'moment';
-import Spinner from 'react-bootstrap/Spinner';
+import Loading from '../../messages/Loading';
+import Error from '../../messages/Error';
 
 const CustomerOrder = ({props,user_id,handleDrop}) => {
 
@@ -88,15 +88,11 @@ const CustomerOrder = ({props,user_id,handleDrop}) => {
         <div className="container">
           <div className="row bar">
             {(loading)?
-              <div className="col-md-9 text-center"> 
-                <Spinner animation="border" variant="info" size="lg"  />
-              </div>   
+              <Loading/> 
             :
             <div>
             {(error)?
-            <div className="alert alert-danger mt-2 mb-5 text-center">
-              Hubo un error al recuperar los datos
-            </div>
+            <Error texto="Hubo un error al recuperar los datos"/>
             :
             <div id="customer-order" className="col-lg-12">
             <hr />

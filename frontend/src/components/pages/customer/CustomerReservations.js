@@ -3,10 +3,12 @@ import BreadCrumbs from '../../BreadCrumbs';
 import CustomerSection from './CustomerSection';
 import {Link, withRouter} from 'react-router-dom';
 import './../../../css/default.css';
-import Spinner from 'react-bootstrap/Spinner';
 import {getUserReservationList, cancelReservation, getReservation} from './utils/CustomerFunctions';
 import CancelReservationModal from '../../modals/CancelReservationModal'
 import ReservationList from '../../lists/reservations/ReservationList';
+import Loading from '../../messages/Loading';
+import Error from '../../messages/Error';
+import Info from '../../messages/Info';
 
 const CustomerReservations = ({ handleDrop,user_id}) => {
 
@@ -62,9 +64,6 @@ const CustomerReservations = ({ handleDrop,user_id}) => {
           setServerError(true);
           return;
       });
-      if (list.length === 0){
-          setError (true);
-      }
       setError (false);
       setServerError(false);
             
@@ -83,21 +82,15 @@ const CustomerReservations = ({ handleDrop,user_id}) => {
           <hr />
           <p className="text-muted">Si tenés alguna duda, por favor <Link to="/contact">contáctanos</Link>, nuestro servicio de atención al cliente trabaja 24/7.</p>
           {(loading) ? 
-              <div className="col-md-9 text-center"> 
-              <Spinner animation="border" variant="info" size="lg"  />
-              </div> 
+              <Loading/>
               :
               <div>
                   { (serverError)?
-                  <div className="alert alert-danger mt-2 mb-5 text-center">
-                    Hubo un error al recuperar los datos
-                  </div>
+                  <Error texto="Hubo un error al recuperar los datos"/>
                   :
                   <div>
-                    { (error) ?
-                    <div className="alert alert-danger mt-2 mb-5 text-center">
-                      No hay compras para mostrar
-                    </div>
+                    { (list.length === 0) ?
+                    <Info texto="No hay reservas para mostrar"/>
                     :
                     <ReservationList list={list} handleModalOpen={handleModalOpen} />
                     }

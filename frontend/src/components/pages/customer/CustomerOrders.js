@@ -5,10 +5,12 @@ import CustomerSection from './CustomerSection';
 import {getPurchaseList,setPurchaseState} from '../customer/utils/CustomerFunctions';
 import PurchaseList from '../../lists/purchase/PurchaseList';
 import {Link} from 'react-router-dom';
-import Spinner from 'react-bootstrap/Spinner';
 import CancelPurchaseModal from '../../modals/CancelPurchaseModal';
+import Loading from '../../messages/Loading';
+import Info from '../../messages/Info';
+import Error from '../../messages/Error';
 
-const CustomerOrders = ({setUser, handleDrop,user_id}) => {
+const CustomerOrders = ({handleDrop,user_id}) => {
 
     const [list,setList] = useState ([]);
     const [error,setError] = useState (false);
@@ -30,9 +32,6 @@ const CustomerOrders = ({setUser, handleDrop,user_id}) => {
           setServerError(true);
           return;
       });
-      if (list.length === 0){
-          setError(true);
-      }
       setServerError (false);
       setError (false);        
   }, [user_id, refresh] );
@@ -75,21 +74,15 @@ const CustomerOrders = ({setUser, handleDrop,user_id}) => {
             <hr />
             <p className="text-muted">Si tenés alguna duda, por favor <Link to="/contact">contáctanos</Link>, nuestro servicio de atención al cliente trabaja 24/7.</p>
             {(loading) ? 
-                <div className="col-md-9 text-center"> 
-                <Spinner animation="border" variant="info" size="lg"  />
-                </div> 
+                <Loading/>
                 :
                 <div>
                     { (serverError)?
-                    <div className="alert alert-danger mt-2 mb-5 text-center">
-                      Hubo un error al recuperar los datos
-                    </div>
+                    <Error texto="Hubo un error al recuperar los datos"/>
                     :
                     <div>
-                      { (error) ?
-                      <div className="alert alert-danger mt-2 mb-5 text-center">
-                        No hay compras para mostrar
-                      </div>
+                      { (list.length === 0) ?
+                      <Info texto="No hay compras para mostrar"/>
                       :
                       <PurchaseList list={list} handleModalOpen={handleModalOpen}/>
                       }

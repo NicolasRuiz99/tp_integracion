@@ -53,10 +53,6 @@ CREATE OR REPLACE FUNCTION RecomendedProducts (type_p int,id_p int)
 RETURNS table (
 		id int,
 		name varchar,
-		dsc t_comment,
-		material varchar,
-		genre gen,
-		brand varchar,
 		type int,
 		discount percent,
 		price t_price
@@ -64,7 +60,7 @@ RETURNS table (
 AS $body$
 BEGIN
 	RETURN QUERY
-	SELECT * FROM products p WHERE p.type = type_p and p.id != id_p LIMIT 3;
+	SELECT p.id,p.name,p.type,p.discount,p.price FROM products p WHERE p.type = type_p and p.id != id_p LIMIT 3;
 END;
 $body$
 LANGUAGE plpgsql;

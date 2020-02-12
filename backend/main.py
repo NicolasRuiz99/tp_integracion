@@ -182,7 +182,6 @@ def listproductsRecomended():
         results = prod.listRecomended ()
     except (Exception) as err:
         error = True
-        print (err)
         return handleError (err)
     finally:
         if not (error):
@@ -277,7 +276,6 @@ def registerUserExt():
         chat.add()
     except (Exception) as err:
         error = True
-        print (err)
         return handleError (err)
     finally:
         if not (error):
@@ -286,7 +284,6 @@ def registerUserExt():
 @app.route ('/user/mod',methods=['POST'])
 def modUser():
     error = False
-    print (request.json)
     id = request.json['id']
     e_mail = request.json['e_mail']
     psw = request.json['psw']
@@ -298,7 +295,6 @@ def modUser():
         new.mod()
     except (Exception) as err:
         error = True
-        print (err)
         return handleError (err)
     finally:
         if not (error):
@@ -526,7 +522,6 @@ def getChat():
 def listallChatMsg():
     error = False
     new = Chat ()
-    print (request.json)
     new.id_user = request.json['id']
     try:
         result = new.listAllMsg()
@@ -882,7 +877,6 @@ def addShipping():
 @app.route ('/shipping/setTrackCode',methods=['POST'])
 def setShippingTrackCode():
     error = False
-    print (request.json)
     id = request.json['id']
     track_code = request.json['track_code']
     new = Shipping ()
@@ -950,7 +944,6 @@ def addPurchase():
 @app.route ('/purchase/mod',methods=['POST'])
 def modPurchase():
     error = False
-    print (request.json)
     id = request.json['id']
     price = request.json['price']
     state = request.json['state']
@@ -961,7 +954,6 @@ def modPurchase():
         new.mod()
     except (Exception) as err:
         error = True
-        print (err)
         return handleError (err)
     finally:
         if not (error):
@@ -1340,7 +1332,6 @@ def getWishlist():
         result = wish.userList (id_user)
     except (Exception) as err:
         error = True
-        print (err)
         return handleError (err)
     finally:
         if not (error):
@@ -1393,7 +1384,6 @@ def modReview():
         new.mod()
     except (Exception) as err:
         error = True
-        print(err)
         return handleError (err)
     finally:
         if not (error):

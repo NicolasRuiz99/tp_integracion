@@ -1,14 +1,14 @@
 import React, {useEffect, useState, Fragment} from 'react'
 import './../../../css/default.css';
 import { getCoupon } from '../../pages/customer/utils/CustomerFunctions';
-import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter} from 'react-router-dom';
 import Error from '../../messages/Error';
 import moment from 'moment';
 import { EditCouponModal } from '../utils/modals';
 import { modCoupon } from '../utils/adminFunctions';
 import BreadCrumbs from '../../BreadCrumbs';
+import LoadingDark from '../../messages/LoadingDark';
 
 function CouponDetail({props}) {
     const [coupon, setCoupon] = useState({});
@@ -70,9 +70,7 @@ function CouponDetail({props}) {
 
         <div className="row addresses" >
             {(loading) ? (
-                <div className="col-md-12 text-center" style={{top:'40%',left:'5%', position:'absolute'}}> 
-                    <Spinner animation="border" variant="dark" size="lg" role="status" />
-                </div> 
+                <LoadingDark/>
             ): ( (error) ? (<Error texto="Ha ocurrido un error interno en el servidor" />) : (
                 (coupon.used) ?
                 (<div className="card shadow" style={{left:'32%',position:'absolute',bottom:'48%', width:'35%'}}>

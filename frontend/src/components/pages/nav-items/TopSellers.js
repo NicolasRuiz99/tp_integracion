@@ -2,9 +2,11 @@ import React, { Fragment, useState,useEffect } from 'react';
 import BreadCrumbs from '../../BreadCrumbs';
 import {withRouter} from 'react-router-dom';
 import './../../../css/default.css';
-import Spinner from 'react-bootstrap/Spinner';
 import ProductList from '../../lists/ProductList';
 import {getTopSellers} from '../shop/utils/shopFunctions';
+import Error from '../../messages/Error';
+import Loading from '../../messages/Loading';
+import Info from '../../messages/Info';
 
 const TopSellers = () => {
 
@@ -36,18 +38,22 @@ const TopSellers = () => {
                 <div className="container">
                     <div className="row bar">
                         {(loading) ? 
-                        <div className="col-md-9 text-center"> 
-                            <Spinner animation="border" variant="info" size="lg"  />
-                        </div> :
+                        <Loading/>
+                         :
                         <div className="col-md-9">
                             <p className="text-muted lead">
                                 Los productos mas vendidos de la tienda.
                             </p>
                             { (!error) ? 
-                            <ProductList list = {list} /> : 
-                            <div className="alert alert-danger mt-2 mb-5 text-center">
-                                Hubo un error al recuperar los datos
+                            <div>
+                            { (list.length === 0)?
+                            <Info texto = "Listado no disponible"/>
+                            :
+                            <ProductList list = {list} /> 
+                            }
                             </div>
+                            : 
+                            <Error texto = "Hubo un error al recuperar los datos"/>
                             }
                         </div>
                         }   

@@ -2,8 +2,8 @@ import React, { Fragment, useState, useEffect } from 'react'
 import BreadCrumbs from '../BreadCrumbs'
 import { getTypes, capitalize, addProduct, addColor_Size } from './utils/adminFunctions';
 import Error from '../messages/Error';
-import Spinner from 'react-bootstrap/Spinner';
 import { withRouter } from 'react-router-dom';
+import LoadingDark from '../messages/LoadingDark';
 
 function AddProduct({history}) {
     const [types, setTypes] = useState([]);
@@ -91,9 +91,7 @@ function AddProduct({history}) {
         <Fragment >
             <BreadCrumbs name="Nuevo producto" isAdmin={true} />
             {(loading) ? (
-                <div className="col-md-12 text-center" style={{top:'50%',left:'5%', position: 'fixed'}}> 
-                    <Spinner animation="border" variant="dark" size="lg" role="status" />
-                </div> 
+                <LoadingDark/>
             ) : ( (error) ?
                 (<Error texto="Hubo un error al recuperar los datos"/>
                 )

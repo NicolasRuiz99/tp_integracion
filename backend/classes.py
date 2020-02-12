@@ -267,7 +267,7 @@ class Product:
         return callFunReturn ('ReviewByID',[self.id])
 
     def listRecomended (self):
-        return callFunReturn ('RecomendedProducts',[self.type,self.id])
+        return callFunReturn ('RecomendedProducts',[self.type,self.id,])
 
     def listTopSellers (self):
         return callFunReturn ('TopSellersProducts',[])

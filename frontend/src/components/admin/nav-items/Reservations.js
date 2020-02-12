@@ -1,10 +1,10 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import ReservationList from './../list/reservation/ReservationList';
 import Error from './../../messages/Error';
-import Spinner from 'react-bootstrap/Spinner';
 import {getReservations} from './../utils/adminFunctions';
 import { getReservation } from '../../pages/customer/utils/CustomerFunctions';
 import { ReservationDetailModal } from '../utils/modals';
+import LoadingDark from '../../messages/LoadingDark';
 
 export default function Products() {
     const [list, setList] = useState([]);
@@ -54,9 +54,7 @@ export default function Products() {
     return (
         <Fragment>
         {(loading) ? (
-                <div className="col-md-12 text-center" style={{top:'50%',left:'5%', position: 'absolute'}}> 
-                    <Spinner animation="border" variant="dark" size="lg" role="status" />
-                </div> 
+                <LoadingDark/>
             ) : ((error) ? 
                 <Error texto="ha ocurrido un error" /> : <ReservationList setSearch={setSearch} copyList={copyList} list={list} handleModalOpen={handleModalOpen} />)}
         <ReservationDetailModal

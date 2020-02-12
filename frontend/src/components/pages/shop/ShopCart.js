@@ -5,7 +5,7 @@ import OrderSummary from './OrderSummary';
 import {Link} from 'react-router-dom';
 import './../../../css/default.css';
 import {listCartItems,getCartInfo,deleteCartItem} from'../customer/utils/CustomerFunctions';
-import Spinner from 'react-bootstrap/Spinner';
+import Loading from '../../messages/Loading';
 
 const ShopCart = ({user_id,route,setPurchInfo,setItems,coupon,setCoupon}) => {
 
@@ -63,9 +63,7 @@ const ShopCart = ({user_id,route,setPurchInfo,setItems,coupon,setCoupon}) => {
             <div id="content">
                 <div className="container">
                 {(loading)?
-                <div className="col-md-13 text-center"> 
-                <Spinner animation="border" variant="info" size="lg"  />
-                </div>
+                <Loading/>
                 :
                 <div className="row bar">
                     <div className="col-lg-12">

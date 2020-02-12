@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react'
 import CustomerList from './../list/customer/CustomerList';
 import {getCustomers} from './../../pages/customer/utils/CustomerFunctions';
 import Error from './../../messages/Error';
-import Spinner from 'react-bootstrap/Spinner';
+import LoadingDark from '../../messages/LoadingDark';
 
 export default function Customers() {
     const [list, setList] = useState([]);
@@ -44,9 +44,7 @@ export default function Customers() {
     return (
         <Fragment>
             {(loading) ? (
-                <div className="col-md-12 text-center" style={{top:'50%',left:'5%', position: 'fixed'}}> 
-                    <Spinner animation="border" variant="dark" size="lg" role="status"  />
-                </div> 
+                <LoadingDark/>
             ) : ((error) ? 
                 <Error texto="ha ocurrido un error" /> : <CustomerList copyList={copyList} setSearch={setSearch} />)}
         </Fragment>

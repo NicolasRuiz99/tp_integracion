@@ -1,8 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import SaleList from './../list/sale/SaleList';
 import Error from '../../messages/Error';
-import Spinner from 'react-bootstrap/Spinner';
 import {getSells} from '../utils/adminFunctions';
+import LoadingDark from '../../messages/LoadingDark';
 
 export default function Sales() {
     const [list, setList] = useState([]);
@@ -41,9 +41,7 @@ export default function Sales() {
     return (
         <Fragment>
         {(loading) ? (
-                <div className="col-md-12 text-center" style={{top:'50%',left:'5%', position: 'fixed'}}> 
-                    <Spinner animation="border" variant="dark" size="lg" role="status" />
-                </div> 
+                <LoadingDark/>
             ) : ((error) ? 
                 <Error texto="ha ocurrido un error" /> : <SaleList copyList={copyList} setSearch={setSearch} list={list} />)}
         </Fragment>

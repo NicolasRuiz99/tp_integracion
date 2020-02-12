@@ -1,6 +1,5 @@
 import React, { Fragment,useEffect,useState } from 'react';
 import Slider from '../../Slider';
-import {Link} from 'react-router-dom';
 import './../../../css/default.css';
 //Imagenes
 import product1 from "./../../../assets/product1.jpg"
@@ -9,9 +8,10 @@ import product3 from "./../../../assets/product3.jpg"
 import product4 from "./../../../assets/product4.jpg"
 import product5 from "./../../../assets/product5.jpg" 
 import { listHighRatedProducts, listNewProducts } from '../shop/utils/shopFunctions';
-import Spinner from 'react-bootstrap/Spinner';
 import ProductList from '../../lists/ProductList';
 import Error from '../../messages/Error';
+import Loading from '../../messages/Loading';
+import Info from '../../messages/Info';
 
 const HomePage = ({user_id}) => {
 
@@ -46,9 +46,7 @@ const HomePage = ({user_id}) => {
         <Fragment>
         <Slider />
         {(loading)?
-            <div className="col-md-12 text-center"> 
-            <Spinner animation="border" variant="info" size="lg"  />
-            </div>
+            <Loading/>
         :
         
         <div className="box row bar">
@@ -59,7 +57,13 @@ const HomePage = ({user_id}) => {
             {(error)?
             <Error texto={'Hubo un error al recuperar los datos'}/>
             :
+            <div>
+            {(list1.length === 0)?
+            <Info texto = "Listado no disponible"/>
+            :
             <ProductList list={list1}/>
+            }
+            </div>
             }
             </div>
        
@@ -72,7 +76,13 @@ const HomePage = ({user_id}) => {
             {(error)?
             <Error texto={'Hubo un error al recuperar los datos'}/>
             :
-            <ProductList list={list2} />
+            <div>
+            {(list2.length === 0)?
+            <Info texto = "Listado no disponible"/>
+            :
+            <ProductList list={list2}/>
+            }
+            </div>
             }
             </div>
         </div>

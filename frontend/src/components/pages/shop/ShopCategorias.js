@@ -5,10 +5,10 @@ import Paginacion from './Paginacion';
 import './../../../css/default.css';
 import Filtros from './Filtros';
 import Select from 'react-select';
-import Spinner from 'react-bootstrap/Spinner';
 import ProductList from '../../lists/ProductList';
 import {getProducts} from './utils/shopFunctions';
 import {changeCategories, unselectCategories, unselectCategories2, createCountxCategoria, countColors, ordenarAlfabeticamente, ordenarxPrecio} from './utils/categoriesFunctions';
+import Loading from '../../messages/Loading';
 
 const ShopCategorias = ({search, setIsOferta, isOferta}) => {
     const [error,setError] = useState (false);
@@ -185,9 +185,8 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
                         colors={colors}
                         />
                         {(loading) ? 
-                        <div className="col-md-9 text-center"> 
-                            <Spinner animation="border" variant="info" size="lg"  />
-                        </div> :
+                        <Loading/>
+                        :
                         <div className="col-md-9">
                             <p className="text lead">
                             <div className="sizes ">

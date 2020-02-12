@@ -1,10 +1,10 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import ReviewList from './../list/review/ReviewList';
 import Error from './../../messages/Error';
-import Spinner from 'react-bootstrap/Spinner';
 import {getReviews} from './../utils/adminFunctions';
 import {DeleteReviewsModal} from './../utils/modals';
 import { deleteReview } from '../../pages/customer/utils/CustomerFunctions';
+import LoadingDark from '../../messages/LoadingDark';
 
 export default function Reviews() {
     const [list, setList] = useState([]);
@@ -87,9 +87,7 @@ export default function Reviews() {
     return (
         <Fragment>
         {(loading) ? (
-                <div className="col-md-12 text-center" style={{top:'50%',left:'5%', position: 'fixed'}}> 
-                    <Spinner animation="border" variant="dark" size="lg" role="status" />
-                </div> 
+                <LoadingDark/>
             ) : ((serverError) ?
                   (<div className="alert alert-danger mt-2 mb-5 text-center">
                     Hubo un error al recuperar los datos

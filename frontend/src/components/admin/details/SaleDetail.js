@@ -1,6 +1,5 @@
 import React, {useEffect, useState, Fragment} from 'react'
 import './../../../css/default.css';
-import Spinner from 'react-bootstrap/Spinner';
 import {withRouter} from 'react-router-dom';
 import Error from '../../messages/Error';
 import SaleLine from './../list/sale/SaleLine';
@@ -8,6 +7,7 @@ import { getPurchaseInfo, listPurchaseItems, setPurchaseState, setShippingTrackC
 import moment from 'moment';
 import uuid from 'uuid';
 import { ModifySale } from '../utils/modals';
+import LoadingDark from '../../messages/LoadingDark';
 
 const SaleDetail = ({props}) => {
     const [purchInfo,setPurchInfo] = useState ('');
@@ -117,9 +117,7 @@ const SaleDetail = ({props}) => {
         <div className="container">
           <div className="row bar">
             {(loading)?
-              <div className="col-md-12 text-center" style={{top:'50%',left:'5%', position: 'fixed'}}> 
-                <Spinner animation="border" variant="dark" size="lg" role="status" />
-              </div>  
+              <LoadingDark/>
             :
             <div>
             {(error)?

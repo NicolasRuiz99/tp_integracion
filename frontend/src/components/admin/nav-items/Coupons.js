@@ -1,10 +1,10 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import CouponList from './../list/coupon/CouponList';
 import Error from './../../messages/Error';
-import Spinner from 'react-bootstrap/Spinner';
 import {getCoupons, deleteCoupon, addCoupon} from './../utils/adminFunctions';
 import {AddCouponModal} from './../utils/modals';
 import moment from 'moment';
+import LoadingDark from '../../messages/LoadingDark';
 
 export default function Coupons() {
     const [list, setList] = useState([]);
@@ -65,9 +65,7 @@ export default function Coupons() {
     return (
         <Fragment>
          {(loading) ? (
-                <div className="col-md-12 text-center" style={{top:'50%',left:'5%', position: 'absolute'}}> 
-                    <Spinner animation="border" variant="dark" size="lg" role="status" />
-                </div> 
+                <LoadingDark/>
             ) : ((serverError) ?
                   (<Error texto="Hubo un error al recuperar los datos" />)
                   : ((error) ? 

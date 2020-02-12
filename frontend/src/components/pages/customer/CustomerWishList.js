@@ -1,14 +1,14 @@
 import React, { Fragment,useState,useEffect } from 'react';
 import BreadCrumbs from '../../BreadCrumbs';
 import CustomerSection from './CustomerSection';
-import {Link, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import './../../../css/default.css';
-import Spinner from 'react-bootstrap/Spinner';
 import {getUserWishlist} from './utils/CustomerFunctions';
 import ProductList from '../../lists/ProductList';
 import DeleteProductModal from '../../modals/DeleteProductModal'
 import Paginacion from './../shop/Paginacion';
 import Info from '../../messages/Info';
+import Loading from '../../messages/Loading';
 
 const CustomerWishList = ({setUser, handleDrop,user_id}) => {
 
@@ -68,9 +68,8 @@ const CustomerWishList = ({setUser, handleDrop,user_id}) => {
               {(tamañoList !== 0) ? (<p className="lead">Esta es tu lista de tus productos deseados.</p>) : 
               (<Info className="lead" texto="Actualmente no tienes deseos en tu lista" />)}
               {(loading) ? 
-                <div className="col-md-9 text-center"> 
-                  <Spinner animation="border" variant="info" size="lg"  />
-                </div> :
+                <Loading/>
+               :
               <div>
               { (!error) ? <ProductList style={{'margin-left': '-40px'}} list = {currentList} isEditable={true} handleModalOpen={handleModalOpen} /> : <div className="alert alert-danger mt-2 mb-5 text-center">Hubo un error al recuperar los datos</div>}
               </div>

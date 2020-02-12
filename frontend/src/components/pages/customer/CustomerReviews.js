@@ -1,13 +1,14 @@
 import React, { Fragment,useState,useEffect } from 'react';
 import BreadCrumbs from '../../BreadCrumbs';
 import CustomerSection from './CustomerSection';
-import {Link, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import './../../../css/default.css';
-import Spinner from 'react-bootstrap/Spinner';
 import {listUserReviews, deleteReview} from './utils/CustomerFunctions';
 import DeleteReviewModal from '../../modals/DeleteReviewModal'
 import ReviewList from '../../lists/reviews/ReviewList';
 import Info from '../../messages/Info';
+import Error from '../../messages/Error';
+import Loading from '../../messages/Loading';
 
 const CustomerReviews = ({ handleDrop,user_id}) => {
 
@@ -57,9 +58,6 @@ const CustomerReviews = ({ handleDrop,user_id}) => {
           setServerError(true);
           return;
       });
-      if (list.length === 0){
-          setError (true);
-      }
       setError (false);
       setServerError(false);
           
@@ -79,19 +77,15 @@ const CustomerReviews = ({ handleDrop,user_id}) => {
           <div>
           
           {(loading) ? 
-              <div className="col-md-9 text-center"> 
-              <Spinner animation="border" variant="info" size="lg"  />
-              </div> 
+              <Loading/>
               :
               <div>
                   { (serverError)?
-                  <div className="alert alert-danger mt-2 mb-5 text-center">
-                    Hubo un error al recuperar los datos
-                  </div>
+                  <Error texto="Hubo un error al recuperar los datos"/>
                   :
                   <div>
-                    { (error) ?
-                    <Info className="lead" texto="Actualmente no tienes reseñas en tu lista" />
+                    { (list.length === 0) ?
+                    <Info texto="No hay reseñas para mostrar" />
                     :
                     <ReviewList list={list} handleModalOpen={handleModalOpen} />
                     }

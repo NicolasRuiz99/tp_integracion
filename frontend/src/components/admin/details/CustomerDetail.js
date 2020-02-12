@@ -1,11 +1,11 @@
 import React, {useEffect, useState, Fragment} from 'react'
 import './../../../css/default.css';
 import {userGetInfo } from '../../pages/customer/utils/CustomerFunctions';
-import Spinner from 'react-bootstrap/Spinner';
 import { withRouter } from 'react-router-dom';
 import Error from '../../messages/Error';
 import Info from '../../messages/Info';
 import BreadCrumbs from '../../BreadCrumbs';
+import LoadingDark from '../../messages/LoadingDark';
 
 function CustomerDetail({props}) {
     const [customer, setCustomer] = useState(null);
@@ -38,9 +38,7 @@ function CustomerDetail({props}) {
             <BreadCrumbs name={`Detalles del cliente #${id}`} isAdmin={true} />
         <div className="row addresses" >
             {(loading) ? (
-                <div className="col-md-12 text-center" style={{top:'50%',left:'5%', position: 'absolute'}}> 
-                    <Spinner animation="border" variant="dark" size="lg" role="status" />
-                </div> 
+                <LoadingDark/>
             ): ( (error) ? (<Error texto="Ha ocurrido un error interno en el servidor" />) : (
                 (!user.e_mail && !user.psw && !customer ) ? (
                     <div style={{left:'25%',position:'absolute',bottom:'40%', width:'50%'}}>

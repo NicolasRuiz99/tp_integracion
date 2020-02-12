@@ -12,8 +12,6 @@ const Rating = ({stars,change,setStars}) => {
     }
 
     useEffect (()=>{
-      console.log('estrellas',stars);
-      
       if (change){
         setRating (stars);
       }

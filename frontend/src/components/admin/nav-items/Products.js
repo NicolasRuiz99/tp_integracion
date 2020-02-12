@@ -2,9 +2,9 @@ import React, { useState, useEffect, Fragment } from 'react'
 import ProductList from './../list/product/ProductList';
 import {getProductsAdmin} from './../../pages/shop/utils/shopFunctions';
 import Error from './../../messages/Error';
-import Spinner from 'react-bootstrap/Spinner';
 import { setActiveProduct } from '../utils/adminFunctions';
 import {DeleteProductsModal} from './../utils/modals';
+import LoadingDark from '../../messages/LoadingDark';
 
 export default function Products() {
     const [list, setList] = useState([]);
@@ -89,9 +89,7 @@ export default function Products() {
     return (
         <Fragment>
         {(loading) ? (
-                <div className="col-md-12 text-center" style={{top:'50%',left:'5%', position: 'fixed'}}> 
-                    <Spinner animation="border" variant="dark" size="lg" role="status" />
-                </div> 
+                <LoadingDark/>
             ) : ( (serverError) ?
                 (<Error texto="Hubo un error al recuperar los datos"/>
                 )

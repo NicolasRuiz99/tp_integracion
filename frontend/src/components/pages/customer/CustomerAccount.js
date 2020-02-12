@@ -7,7 +7,7 @@ import Error from '../../messages/Error';
 import Success from '../../messages/Success';
 import { validarEmail, validarPsw, validarCustomer} from '../../../validacion/validate';
 import DeleteAccountModal from '../../modals/DeleteAccountModal';
-import Spinner from 'react-bootstrap/Spinner';
+import Loading from '../../messages/Loading';
 
 const CustomerAccount = ({user_id, handleDrop}) => {
 
@@ -205,15 +205,14 @@ const CustomerAccount = ({user_id, handleDrop}) => {
       <BreadCrumbs 
         name={"Mi cuenta"}
       />
-        {(loading)?
-        <div className="col-md-9 text-center"> 
-        <Spinner animation="border" variant="info" size="lg"  />
-        </div>
-        :
+        
         <div id="content">
         { (serverError) ? <Error texto="Error interno del servidor"/> : null}
         <div className="container">
           <div className="row bar">
+          {(loading)?
+            <Loading/>
+          :
             <div id="customer-account" className="col-lg-9 clearfix">
               <hr />
               <p className="lead">Cambiá tus datos personales,contraseña o e-mail acá.</p>
@@ -380,11 +379,11 @@ const CustomerAccount = ({user_id, handleDrop}) => {
                   </form>
               </div>
             </div>
+            }
             <CustomerSection user_id={user_id} handleDrop={handleDrop} />
           </div>
         </div>
       </div>
-      }
       <DeleteAccountModal
         modalOpen={modalOpen}
         handleModalOpen={handleModalOpen}

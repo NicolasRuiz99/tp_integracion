@@ -1,11 +1,11 @@
 import React, {useState, useEffect, Fragment} from 'react'
 import { getProductInfo, getProductColor_size } from '../../pages/shop/utils/shopFunctions';
 import BreadCrumbs from '../../BreadCrumbs';
-import Spinner from 'react-bootstrap/Spinner';
 import Error from '../../messages/Error';
 import ColorSizeList from '../list/colorSize/ColorSizeList';
 import { EditColorSizeModal, AddColorSizeModal } from '../utils/modals';
 import { modColor_Size, addColor_Size } from '../utils/adminFunctions';
+import LoadingDark from '../../messages/LoadingDark';
 
 export default function ProductDetail({props}) {
     const [product, setProduct] = useState({});
@@ -167,9 +167,7 @@ export default function ProductDetail({props}) {
         <Fragment>
             <BreadCrumbs  name={`Detalles del producto #${id}`} isAdmin={true}/>
             {(loading) ? (
-                <div className="col-md-12 text-center" style={{top:'40%',left:'5%', position:'absolute'}}> 
-                    <Spinner animation="border" variant="dark" size="lg" role="status" />
-                </div> 
+                <LoadingDark/>
             ): ( (error) ? (<Error texto="Ha ocurrido un error interno en el servidor" />) : 
             (
                 <div>

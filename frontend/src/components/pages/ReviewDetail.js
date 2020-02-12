@@ -4,9 +4,9 @@ import BreadCrumbs from './../BreadCrumbs';
 import Error from './../messages/Error';
 import './../../css/default.css';
 import {Link} from 'react-router-dom';
-import Spinner from 'react-bootstrap/Spinner';
 import ReviewMod from './ReviewMod';
 import { getReview } from './customer/utils/CustomerFunctions';
+import Loading from '../messages/Loading';
 
 const ReviewDetail = ({props,user_id, handleDrop}) => {
     const [id, setId] = useState('');
@@ -45,9 +45,7 @@ const ReviewDetail = ({props,user_id, handleDrop}) => {
         <div className="container">
           <div className="row bar">
             {(loading)?
-              <div className="col-md-9 text-center"> 
-                <Spinner animation="border" variant="info" size="lg"  />
-              </div>   
+              <Loading/>
             :
             <div>
             {(error)?

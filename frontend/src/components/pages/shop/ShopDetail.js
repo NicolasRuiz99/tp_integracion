@@ -15,8 +15,9 @@ import img from "./../../../assets/detailsquareBig.jpg";
 import img2 from "./../../../assets/detailsquare.jpg";
 import ReviewList from '../../lists/ReviewList';
 import Color_sizeList from '../../lists/Color_sizeList';
-import Spinner from 'react-bootstrap/Spinner';
 import Error from '../../messages/Error';
+import Info from '../../messages/Info';
+import Loading from '../../messages/Loading';
 import ProductList from '../../lists/ProductList';
 
 const ShopDetail = ({props,user_id,history}) => {
@@ -42,11 +43,13 @@ const ShopDetail = ({props,user_id,history}) => {
     const [isReviewed,setReviewed] = useState (false);
     const [selectedItem,setSelectedItem] = useState ({});
     const [selectedStock,setSelectedStock] = useState (1);
-    const [loading,setLoading] = useState (false);
     const [isReserved,setIsReserved] = useState (false);
     const [resID,setResID] = useState (null);
     const [stockError,setStockError] = useState (false);
     const [list,setList] = useState ([]);
+
+    const [loadingProd,setLoadingProd] = useState (false);
+    const [loadingRec,setLoadingRec] = useState (false);
 
     const getAverage = (list) => {
       let total = 0;
@@ -150,33 +153,38 @@ const ShopDetail = ({props,user_id,history}) => {
 
     //use effect inicial
     useEffect (()=>{
+      setLoadingProd (true);
+      setLoadingRec (true);
       window.scrollTo(0, 0);
-      setLoading (true);
       const product_id = props.match.params.id;
       
       getProductInfo (product_id)
       .then(res =>{
           setProdInfo (res);
-          listRecomendedProducts (res.type,product_id)
-          .then (res=>{
-            setList (res);
+          getProductColor_size (product_id)
+          .then(res =>{
+            setColor_size (res);
+            setLoadingProd (false);
           })
           .catch (err =>{
             setError (true);
+            setLoadingProd (false);
+            return;
+          })
+          listRecomendedProducts (res.type,product_id)
+          .then (res=>{
+            setList (res);
+            setLoadingRec (false);
+          })
+          .catch (err =>{
+            setError (true);
+            setLoadingRec (false);
             return;
           })
       })
       .catch (err =>{
           setError (true);
           return;
-      })
-      getProductColor_size (product_id)
-      .then(res =>{
-        setColor_size (res);
-      })
-      .catch (err =>{
-        setError (true);
-        return;
       })
 
       getUserPurchaseItem ({user_id,product_id})
@@ -234,6 +242,9 @@ const ShopDetail = ({props,user_id,history}) => {
     return (
         <Fragment>
       <BreadCrumbs name={prodInfo.name} />
+      {(loadingProd) ? 
+      <Loading></Loading>
+      :
       <div id="content">
         <div className="container">
           <div className="row bar">
@@ -275,28 +286,47 @@ const ShopDetail = ({props,user_id,history}) => {
                 </ul>               
               </div>
               {/* Reseñas */}
+              { (reviews.length === 0)?
+              <Info texto="Sin reseñas disponibles" />
+              :
               <ReviewList list = {reviews} />
+              } 
                 <div className="col-lg-10 col-md-6">
                   <div className="box text-uppercase mt-0 mb-small">
                     <h3>Productos que te podrían interesar</h3>
                   </div>
                 </div>
+                {(loadingRec) ? 
+                <Loading />
+                :
+                <div>
                 { (!error) ? 
-                  <ProductList list = {list} /> : 
-                  <div className="alert alert-danger mt-2 mb-5 text-center">
-                      Hubo un error al recuperar los datos
+                  <div>
+                  {(list.length === 0)?
+                  <Info texto = "No hay productos para recomendarte" />
+                  :
+                  <ProductList list = {list} />
+                  } 
                   </div>
+                  : 
+                  <Error texto = "Hubo un error al recuperar los datos" />
+                }
+                </div>
                 }
             </div>
           </div>
         </div>
       </div>
+      }
       </Fragment>
     );
     }else{
     return (
         <Fragment>
       <BreadCrumbs name={prodInfo.name} />
+      {(loadingProd) ? 
+      <Loading/>
+      :
       <div id="content">
         <div className="container">
           <div className="row bar">
@@ -368,23 +398,38 @@ const ShopDetail = ({props,user_id,history}) => {
               :
               <h4 className="heading-light">Compra el producto para opinar!</h4>
               }
+              { (reviews.length === 0)?
+              <Info texto="Sin reseñas disponibles" />
+              :
               <ReviewList list = {reviews} />
-                <div className="col-lg-10 col-md-6">
+              } 
+               <div className="col-lg-10 col-md-6">
                   <div className="heading text-uppercase mt-0 mb-small">
                     <h3>Productos que te podrían interesar</h3>
                   </div>
                 </div>
+                {(loadingRec) ? 
+                <Loading/>
+                :
+                <div>
                 { (!error) ? 
-                  <ProductList list = {list} /> : 
-                  <div className="alert alert-danger mt-2 mb-5 text-center">
-                      Hubo un error al recuperar los datos
+                  <div>
+                  {(list.length === 0)?
+                  <Info texto = "No hay productos para recomendarte" />
+                  :
+                  <ProductList list = {list} />
+                  } 
                   </div>
+                  : 
+                  <Error texto = "Hubo un error al recuperar los datos" />
                 }
-             
+                </div>
+                }
             </div>
           </div>
         </div>
       </div>
+      }
       </Fragment>
     );
     } 

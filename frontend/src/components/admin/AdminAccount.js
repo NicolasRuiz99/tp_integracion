@@ -6,8 +6,11 @@ import Error from '../messages/Error';
 import Success from '../messages/Success';
 import { validarEmail, validarPsw} from '../../validacion/validate';
 import DeleteAccountModal from '../modals/DeleteAccountModal';
+import LoadingDark from '../messages/LoadingDark';
 
 const CustomerAccount = ({user_id, handleDrop}) => {
+
+    const [loading,setLoading] = useState (false);
   
     //confirmacion email y contraseña
     const [psw,setPsw] = useState ('');
@@ -20,7 +23,6 @@ const CustomerAccount = ({user_id, handleDrop}) => {
     const [successMail,setSuccessMail] = useState(false);
     const [errorPSWS, setErrorPSWS] = useState({});
     const [successPSW,setSuccessPSW] = useState(false);
-    const [success,setSuccess] = useState (false);
     const [serverError,setServerError] = useState (false);
 
     //Eliminar cuenta
@@ -31,11 +33,12 @@ const CustomerAccount = ({user_id, handleDrop}) => {
     }
     
     useEffect (()=>{
+      setLoading (true);
       getUserInfo (user_id)
           .then (res=>{
             setEmail (res.e_mail);
             setPsw (res.psw);
-            setServerError(false);
+            setLoading(false);
           })
           .catch (err=>{
             setServerError (true);
@@ -45,6 +48,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
     },[user_id]);
   
     const handleSubmitEmail = async(e) => {
+      setSuccessMail (false);
       e.preventDefault();    
       const err = validarEmail(email, email2);
       if (err.diferente || err.formato || err.obligatorio) {  
@@ -72,6 +76,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
     }
   
     const handleSubmitPSW = async(e) => {
+      setSuccessPSW(false);
       e.preventDefault();    
       const err = validarPsw(psw, psw2);
       if (err.obligatorio || err.diferente || err.incorrect){
@@ -104,6 +109,9 @@ const CustomerAccount = ({user_id, handleDrop}) => {
       <BreadCrumbs 
         name={"Cuenta administrador"} isAdmin={true}
       />
+        {(loading)?
+        <LoadingDark/>
+        :
         <div id="content">
         { (serverError) ? <Error texto="Error interno del servidor"/> : null}
         <div className="container">
@@ -169,6 +177,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
           </div>
         </div>
       </div>
+      }
       <DeleteAccountModal
         modalOpen={modalOpen}
         handleModalOpen={handleModalOpen}
