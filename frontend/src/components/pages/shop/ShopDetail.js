@@ -1,6 +1,6 @@
 import React, { Fragment,useEffect,useState } from 'react';
 import BreadCrumbs from '../../BreadCrumbs';
-import {Link,withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import Review from './../Review';
 import Rating from './Rating';
 import './../../../css/default.css';
@@ -50,6 +50,7 @@ const ShopDetail = ({props,user_id,history}) => {
 
     const [loadingProd,setLoadingProd] = useState (false);
     const [loadingRec,setLoadingRec] = useState (false);
+    const [cartError,setCartError] = useState (false);
 
     const getAverage = (list) => {
       let total = 0;
@@ -128,6 +129,7 @@ const ShopDetail = ({props,user_id,history}) => {
   }
 
     const addToCart = () =>{
+      setCartError (false);
         if (selectedStock <= 0 || selectedStock > selectedItem.stock){
             setSelectedStock (1);
             setStockError (true);
@@ -141,7 +143,11 @@ const ShopDetail = ({props,user_id,history}) => {
               history.push('/shop-checkout/cart');
             })
             .catch (err => {
-                setError (true);
+                if (err.type.includes('duplicate key')){
+                    setCartError (true);
+                }else{
+                  setError (true);
+                }
                 return;
             })
         })
@@ -149,6 +155,7 @@ const ShopDetail = ({props,user_id,history}) => {
             setError (true);
             return;
         }) 
+        setCartError (false);
     }
 
     //use effect inicial
@@ -362,6 +369,8 @@ const ShopDetail = ({props,user_id,history}) => {
                         </p>
                       </div>
                       {stockError && <Error texto="Stock no permitido"/> }
+                      {error && <Error texto="Ocurrió un error"/> }
+                      {cartError && <Info texto="Item ya agregado"/> }
                     </form>
                   </div>
                 </div>

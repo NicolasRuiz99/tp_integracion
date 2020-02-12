@@ -175,13 +175,13 @@ FOR EACH ROW EXECUTE PROCEDURE check_ship();
 
 --TRIGGERS PRODUCT
 
---trigger para eliminar todos los items del carrtido del producto que se desactiva
+--trigger para eliminar todos los items del carrito del producto que se desactiva
 
 CREATE OR REPLACE FUNCTION check_prod_active() RETURNS TRIGGER AS $funcemp$
 BEGIN
 IF (OLD.active = true AND NEW.active = false) THEN
 	DELETE FROM "purchxitem" WHERE id_purchase in (SELECT p.id FROM "purchase" p WHERE state = 'cart') 
-	AND id_color_size = (SELECT cz.id from "color_size" cz,"products" p WHERE cz.prod_id = p.id and p.id = NEW.id);
+	AND id_color_size in (SELECT cz.id from "color_size" cz,"products" p WHERE cz.prod_id = p.id and p.id = NEW.id);
 END IF;
 RETURN NEW;
 END; $funcemp$ LANGUAGE plpgsql;
