@@ -160,7 +160,7 @@ const CustomerOrder = ({props,user_id,handleDrop}) => {
             }
             </div>
             }
-            <CustomerSection handleDrop={handleDrop}/>
+            <CustomerSection handleDrop={handleDrop} user_id={user_id}/>
           </div>
         </div>
       </div>

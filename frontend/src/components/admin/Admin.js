@@ -16,6 +16,7 @@ import Chats from './nav-items/Chats';
 import AdminAccount from './AdminAccount';
 import { ProtectedRoute2 } from '../ProtectedRoute';
 import AddProduct from './AddProduct';
+import Chat from '../pages/customer/chat/Customerchat';
 
 export default function Admin({handleDrop,user_id, isLogged, role}) {
     
@@ -76,6 +77,11 @@ export default function Admin({handleDrop,user_id, isLogged, role}) {
                         component={(props) => <CustomerDetail props={props}/>}/>
                         <Route path="/admin-page/coupon-detail/:id" 
                         component={(props) => <CouponDetail props={props}/>}/>
+                        <Route  
+                            path='/admin-page/customer-chat'
+                            component={()=>(
+                            <Chat user_id={user_id} />
+                        )}/>
                         </Fragment>
                     ) : (<Redirect to="/" />)}  
                 </Switch>

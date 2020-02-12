@@ -76,7 +76,7 @@ const CustomerWishList = ({setUser, handleDrop,user_id}) => {
               </div>
               }
             </div>
-            <CustomerSection user_name={user_id} handleDrop={handleDrop}/>
+            <CustomerSection user_id={user_id} handleDrop={handleDrop}/>
           </div>
         </div>
       </div>

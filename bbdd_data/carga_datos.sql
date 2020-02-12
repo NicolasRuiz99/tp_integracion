@@ -1,5 +1,4 @@
 SET DateStyle TO European;
-ALTER SEQUENCE chat_id_seq RESTART WITH 1;
 ALTER SEQUENCE color_size_id_seq RESTART WITH 1;
 ALTER SEQUENCE coupon_id_seq RESTART WITH 1;
 ALTER SEQUENCE customers_id_seq RESTART WITH 1;
@@ -41,17 +40,17 @@ INSERT INTO "customers" (dni, name, surname, genre, c_size, shoe_size, phone_no,
 INSERT INTO "chat" (id_user, id_admin) VALUES (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1), (11, 1);
 
 INSERT INTO "message" (msg, id_user, id_chat,read) VALUES 
-('Hola, tenes stock?', 2, 1,true), 
-('No', 1, 1,false), 
-('Hola?', 3, 2,false), 
-('quiero reembolsar...', 4, 3,false),
-('dssasasd', 5, 4,true), 
-('Hola, tenes stock?', 6, 5,true), 
-('Hola, tenes stock?', 7, 6,true), 
-('Hola, quiero un par de medias', 8, 7,false),
-('puedo ser admin?', 9, 8,true), 
-(':)', 10, 9,true), 
-('Hola, tenes stock?', 11, 10,false);
+('Hola, tenes stock?', 2, 2,true), 
+('No', 1, 2,false), 
+('Hola?', 3, 3,false), 
+('quiero reembolsar...', 4, 4,false),
+('dssasasd', 5, 5,true), 
+('Hola, tenes stock?', 6, 6,true), 
+('Hola, tenes stock?', 7, 7,true), 
+('Hola, quiero un par de medias', 8, 8,false),
+('puedo ser admin?', 9, 9,true), 
+(':)', 10, 10,true), 
+('Hola, tenes stock?', 11, 11,false);
 
 INSERT INTO "type" (name) VALUES ('calzado'), ('remeras'), ('pantalon'), ('medias'), ('ropa interior'), ('accesorios'), ('abrigos'),('trajes'),('trajes de baño'),('polleras'),('blusas'),('vestidos'),('calzas');
 

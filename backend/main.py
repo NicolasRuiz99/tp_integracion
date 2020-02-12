@@ -541,16 +541,31 @@ def deleteChat():
 @app.route ('/chat/get',methods=['POST'])
 def getChat():
     error = False
-    id = request.json['id']
     new = Chat ()
+    new.id_user = request.json['id']
     try:
-        new.get(id)
+        new.get()
     except (Exception) as err:
         error = True
         return handleError (err)
     finally:
         if not (error):
             result = new.json()
+            return jsonify({'result': 'success','data' : result})
+
+@app.route ('/chat/listallmsg',methods=['POST'])
+def listallChatMsg():
+    error = False
+    new = Chat ()
+    print (request.json)
+    new.id_user = request.json['id']
+    try:
+        result = new.listAllMsg()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
             return jsonify({'result': 'success','data' : result})
 
 @app.route ('/chat/readall',methods=['POST'])
@@ -560,7 +575,7 @@ def readAllChatMessages():
     id_user = request.json['id_user']
     new = Chat ()
     try:
-        new.id = id
+        new.id_user = id
         new.readAll (id_user)
     except (Exception) as err:
         error = True

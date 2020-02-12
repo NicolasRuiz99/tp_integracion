@@ -125,7 +125,7 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
         }                                    
     };
 
-    const putColor = (event) => {
+    const putList = (event) => {
         let option = event.value;
         setSort(option);
     }
@@ -192,7 +192,7 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
                             <p className="text lead">
                             <div className="sizes ">
                                     <Select className="mt-4 col-md-3 col-offset-4 float-right"
-                                    onChange={putColor}
+                                    onChange={putList}
                                     options={options}
                                     placeholder="Ver.."
                                     defaultValue="ascendente"

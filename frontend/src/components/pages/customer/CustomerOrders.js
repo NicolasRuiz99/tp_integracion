@@ -99,7 +99,7 @@ const CustomerOrders = ({setUser, handleDrop,user_id}) => {
             }
             
             </div>
-            <CustomerSection setUser={setUser} handleDrop={handleDrop}/>
+            <CustomerSection user_id={user_id} handleDrop={handleDrop}/>
           </div>
         </div>
       </div>

@@ -72,10 +72,9 @@ CREATE TABLE customers (
 );
 
 CREATE TABLE chat (
-    id serial,
     id_user int unique not null,
     id_admin int not null,
-    PRIMARY KEY (id),
+    PRIMARY KEY (id_user),
     FOREIGN KEY (id_user) REFERENCES users (id),
     FOREIGN KEY (id_admin) REFERENCES users (id)
 );
@@ -89,7 +88,7 @@ CREATE TABLE message (
     read boolean,
 	PRIMARY KEY (id),
 	FOREIGN KEY (id_user) REFERENCES users (id),
-    FOREIGN KEY (id_chat) REFERENCES chat (id)
+    FOREIGN KEY (id_chat) REFERENCES chat (id_user)
 );
 
 CREATE TABLE type (

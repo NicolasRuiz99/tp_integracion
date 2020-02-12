@@ -18,6 +18,22 @@ END;
 $body$
 LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION ListAllMsg (id_c int)
+RETURNS table (
+		id int,
+		msg t_comment,
+		date date,
+		id_user int,
+		read boolean
+		)
+AS $body$
+BEGIN
+	RETURN QUERY
+	SELECT m.id,m.msg,m.date,m.id_user,m.read FROM message m WHERE m.id_chat = id_c ORDER BY m.id;
+END;
+$body$
+LANGUAGE plpgsql;
+
 CREATE OR REPLACE FUNCTION PurchaseListByID (id_u int)
 RETURNS table (
 		id int,
@@ -65,7 +81,7 @@ RETURNS table (
 AS $body$
 BEGIN
 	RETURN QUERY
-	SELECT c.id,c.color,c.size,c.stock FROM color_size c WHERE c.prod_id = id_p ORDER BY c.size;
+	SELECT c.id,c.color,c.size,c.stock FROM color_size c WHERE c.prod_id = id_p ORDER BY c.id;
 END;
 $body$
 LANGUAGE plpgsql;
