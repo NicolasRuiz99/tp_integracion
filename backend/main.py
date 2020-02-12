@@ -603,19 +603,19 @@ def addProduct():
 @app.route ('/product/mod',methods=['POST'])
 def modProduct():
     error = False
-    id = request.json['id']
-    name = request.json['name']
-    dsc = request.json['dsc']
-    material = request.json['material']
-    genre = request.json['genre']
-    brand = request.json['brand']
-    type = request.json['type']
-    discount = request.json['discount']
-    price = request.json['price']
-    new = Product (name,dsc,material,genre,brand,type,discount,price,id)
+    prod = Product ()
+    prod.id = request.json['id']
+    prod.name = request.json['name']
+    prod.dsc = request.json['dsc']
+    prod.material = request.json['material']
+    prod.genre = request.json['genre']
+    prod.brand = request.json['brand']
+    prod.type = request.json['type']
+    prod.discount = request.json['discount']
+    prod.price = request.json['price']
     try:
-        new.mod()
-    except (Exception) as err:
+        prod.mod()
+    except (Exception) as err:          
         error = True
         return handleError (err)
     finally:
