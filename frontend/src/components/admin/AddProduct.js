@@ -208,6 +208,7 @@ function AddProduct({history}) {
                         <select className="form-control" id="talle"
                         onChange={(e) => setTalle(e.target.value)}
                         style={{width:'50%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "pointer"}} >
+                            <option selected disabled="disabled">Elige una opción</option>
                             <option>35</option>
                             <option>36</option>
                             <option>37</option>
@@ -237,6 +238,7 @@ function AddProduct({history}) {
                             <select className="form-control" id="color"
                             onChange={(e) => setColor(e.target.value)}
                             style={{width:'50%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "pointer"}} >
+                                <option selected disabled="disabled">Elige una opción</option>
                                 <option>Azul</option>
                                 <option>Verde</option>
                                 <option>Rojo</option>

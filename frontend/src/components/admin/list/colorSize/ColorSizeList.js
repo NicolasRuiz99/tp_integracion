@@ -1,13 +1,18 @@
-import React from 'react'
+import React, {useState} from 'react'
 import './../../../../css/default.css';
 import ColorSizeItem from './ColorSizeItem';
+import Search from '../Search';
 
-export default function ColorSizeList({list, handleModalOpen}) {
-
+export default function ColorSizeList({copyList, handleModalOpen, setSearch}) {
     return (
         <div>
               <div className="table-responsive">
-                <table className="table table-bordered table table-hover" width="100%" cellspacing="0">
+                <Search setSearch={setSearch} />
+                {copyList.length === 0 ? (
+                <p className="lead" style={{padding:'8rem', textAlign:'center'}}>No se encontraron resultados...</p>
+                ) : (
+                    <div >
+                <table className="table table-bordered table table-hover" width="100%" cellspacing="0" >
                   <thead>
                     <tr>
                       <th style={{textAlign:'center'}}>ID</th>
@@ -27,7 +32,7 @@ export default function ColorSizeList({list, handleModalOpen}) {
                     </tr>
                   </tfoot>
                   <tbody>
-                  {list.map(item => (
+                  {copyList.map(item => (
                         <ColorSizeItem 
                             key = {item.id}
                             item = {item}
@@ -36,6 +41,7 @@ export default function ColorSizeList({list, handleModalOpen}) {
                     ))}
                   </tbody>
                 </table>
+                </div>)}
               </div>
             </div>
     )

@@ -4,10 +4,12 @@ import BreadCrumbs from '../../BreadCrumbs';
 import Spinner from 'react-bootstrap/Spinner';
 import Error from '../../messages/Error';
 import ColorSizeList from '../list/colorSize/ColorSizeList';
-import { EditColorSizeModal } from '../utils/modals';
+import { EditColorSizeModal, AddColorSizeModal } from '../utils/modals';
+import { modColor_Size, addColor_Size } from '../utils/adminFunctions';
 
 export default function ProductDetail({props}) {
     const [product, setProduct] = useState({});
+    const [copyList, setCopyList] = useState([]);
     const [colorSize, setColorSize] = useState([]);
     const [id] = useState(props.match.params.id);
     const [refresh, setRefresh] = useState(false);
@@ -27,25 +29,71 @@ export default function ProductDetail({props}) {
     });
     const [descuento, setDescuento] = useState(0);
     const [itemCS, setItemCS] = useState(null);
-
+    const [search, setSearch] = useState('');
 
     const handleModalOpen = (item) => {
-        if(item !== null) {
+        if(item != null) {
             setItemCS(item);
-            setModalOpen(!modalOpen);
-        }else {
-            setModalOpen(!modalOpen);
+            setModalOpen(!modalOpen); 
+        }else{
             setItemCS(null);
+            setModalOpen(!modalOpen);
         }
-        
+        setError(false);  
+    };
+
+    const handleModalOpen2 = () => {
+        setModalOpen(!modalOpen);
         setError(false);  
     };
 
     const editarCS = (color,talle,stock) => {
+        //console.log(color, talle, stock);
+        //console.log(typeof(color), typeof(talle), typeof(stock));
+        const color_size = {
+            id: itemCS.id,
+            color: color.toLowerCase(),
+            size: talle,
+            stock: parseInt(stock),
+            prod_id: id
+        }
+        modColor_Size(color_size)
+        .then(res => {
+            setRefresh(true);
+            console.log('éxito');
+        })
+        .catch(err => {
+            console.log('error');
+            setError(true);
+            return;
+        })
+        setError(false);
+    }
 
+    const agregarCS = (color,talle,stock) => {
+        console.log(color, talle, stock);
+        console.log(typeof(color), typeof(talle), typeof(stock));
+        const color_size = {
+            color: color.toLowerCase(),
+            size: talle,
+            stock: parseInt(stock),
+            prod_id: id
+        }
+        addColor_Size(color_size)
+        .then(res => {
+            setRefresh(true);
+            console.log('éxito');
+        })
+        .catch(err => {
+            console.log('error');
+            setError(true);
+            return;
+        })
+        setError(false);
     }
 
     useEffect(() => {
+        setRefresh(false);
         setLoading(true);
         getProductInfo(id)
         .then(res => {
@@ -94,6 +142,7 @@ export default function ProductDetail({props}) {
         .then(res => {
             console.log(res);
             setColorSize(res);
+            setCopyList(res);
             setLoading(false);
         })
         .catch(err => {
@@ -101,7 +150,18 @@ export default function ProductDetail({props}) {
             return;
         })
         setError(false);
-    }, []);
+    }, [refresh]);
+
+    //UseEffect de busqueda
+    useEffect( () => {
+        if(search !== '') {
+            setCopyList(colorSize.filter(cs => {
+              return (cs.color.toString().includes(search.toLowerCase()) || cs.size.toLowerCase().includes(search.toLowerCase()));
+            }));
+      }else{
+       setCopyList(colorSize);
+        }     
+   },[search]);
 
     return (
         <Fragment>
@@ -118,7 +178,7 @@ export default function ProductDetail({props}) {
                     <div className="col-md-6">
                         <div className="form-group">
                             <br/>
-                            <h5 for="titulo">Título:</h5>
+                            <h5 for="titulo">Nombre del producto:</h5>
                             <input
                                 id="titulo" type="text" className="form-control" 
                                 style={{width:'80%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}} 
@@ -135,24 +195,6 @@ export default function ProductDetail({props}) {
                                 onChange={(e) => setDescripcion(e.target.value)} 
                                 >
                             </textarea>
-                        </div>
-                        <div className="form-group">
-                            <h5 for="material">Material:</h5>
-                            <input
-                                id="material" type="text" className="form-control" 
-                                style={{width:'80%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}}
-                                onChange={(e) => setMaterial(e.target.value)} 
-                                defaultValue={product.material}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <h5 for="marca">Marca:</h5>
-                            <input
-                                id="marca" type="text" className="form-control" 
-                                style={{width:'80%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}}
-                                onChange={(e) => setMarca(e.target.value)} 
-                                defaultValue={product.brand}
-                            />
                         </div>
                     </div>
                     <div className="col-md-6" >
@@ -173,7 +215,7 @@ export default function ProductDetail({props}) {
                                 <p style={{marginLeft:'3.2rem'}}>Masculino</p>
                             </label>
                         </div>
-                        <div class="form-check" style={{marginLeft:'-3.2rem'}}>
+                        <div class="form-check" style={{marginLeft:'-3.2rem', marginTop:'-0.9rem'}}>
                             <label class="form-check-label">
                                 <input type="radio" class="form-check-input" 
                                 name="F" checked={genero.f} 
@@ -188,7 +230,7 @@ export default function ProductDetail({props}) {
                                 <p style={{marginLeft:'3.2rem'}}>Femenino</p>
                             </label>
                         </div>
-                        <div class="form-check" style={{marginLeft:'-3.2rem'}}>
+                        <div class="form-check" style={{marginLeft:'-3.2rem', marginTop:'-0.9rem'}}>
                             <label class="form-check-label" >
                                 <input type="radio" class="form-check-input" 
                                 name="U" checked={genero.u} 
@@ -202,6 +244,24 @@ export default function ProductDetail({props}) {
                                 /> 
                                 <p style={{marginLeft:'3.2rem'}}>Unisex</p>
                             </label>
+                        </div>
+                        <div className="form-group">
+                            <h5 for="marca">Marca:</h5>
+                            <input
+                                id="marca" type="text" className="form-control" 
+                                style={{width:'80%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}}
+                                onChange={(e) => setMarca(e.target.value)} 
+                                defaultValue={product.brand}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <h5 for="material">Material:</h5>
+                            <input
+                                id="material" type="text" className="form-control" 
+                                style={{width:'80%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}}
+                                onChange={(e) => setMaterial(e.target.value)} 
+                                defaultValue={product.material}
+                            />
                         </div>
                         <div className="form-group row inline-block">
                             <div className="col-md-5">
@@ -227,33 +287,38 @@ export default function ProductDetail({props}) {
                                 style={{width:'30%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}} 
                             />
                             </div>
-                            <div className="col-md-6">
-                                <br/><br/><br/><br/><br/><br/><br/>
-                                <div className=" form-group"> 
-                                    <button className="btn btn-success btn-lg" type="button"> Guardar cambios</button> 
+                            <div className="col-md-12 ">
+                                <br/>
+                                <div className="form-group" style={{marginLeft:'-9.5rem'}}> 
+                                    <div className="btn btn-success" type="button"> Guardar cambios</div> 
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </form>
-            
-            <div className="row box">
-                <div className="col-md-3">
-                    <h1 className="text-muted m-0">Talles y colores</h1>
-                    <div className=" form-group"> 
-                        <hr/>
-                        <button className="btn btn-primary" type="button">Nuevo talle y color</button> 
+            <div className="row ">
+                <div className="col-md-4">
+                    <h1 className="text-muted text-center">Talles y colores</h1>
+                    <div className=" form-group text-center"> 
+                        <hr style={{borderTop: '1px solid #8c8b8b',borderBottom: '1px solid #fff'}}/>
+                        <div className="btn btn-danger" type="button" onClick={() => handleModalOpen2()}>Nuevo talle y color</div> 
                     </div>
                 </div>
-                <div className="col-md-9">
-                    <ColorSizeList list={colorSize} handleModalOpen={handleModalOpen} />
+                <div className="col-md-8">
+                    <ColorSizeList  handleModalOpen={handleModalOpen} copyList={copyList} setSearch={setSearch}/>
                 </div>
             </div>
             <EditColorSizeModal 
             modalOpen={modalOpen}
             handleModalOpen={handleModalOpen}
             editarCS={editarCS}
+            itemCS={itemCS}
+            />
+            <AddColorSizeModal 
+            modalOpen={modalOpen}
+            handleModalOpen={handleModalOpen2}
+            agregarCS={agregarCS}
             />
             </div>
             ))}
