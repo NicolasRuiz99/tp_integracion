@@ -367,10 +367,117 @@ const DeleteProductsModal = ({modalOpen, handleModalOpen, eliminarProducto}) => 
     )
 }
 
+const EditColorSizeModal = ({modalOpen, handleModalOpen, editarCS, itemCS}) => {
+   const [color, setColor] = useState('');
+   const [talle, setTalle] = useState('');
+   const [stock, setStock] = useState('');
+
+   useEffect (()=>{
+      setStock(itemCS.stock);
+      setColor(itemCS.color);
+      setTalle(itemCS.size);
+   },[color,talle,stock])
+
+   const handleClick = () => {
+      editarCS(color,talle,stock);
+      handleModalOpen(null);
+   }
+
+    return (
+        <>
+        <Modal show={modalOpen} onHide={() => handleModalOpen(null)} style={{'vertical-align': 'middle', top: '25%',
+        bottom: '20%',
+        left: '6%',
+        transform: 'translate(-50%, -50%) !important'}}>
+            <Modal.Header className="modal-header" closeButton>
+               <Modal.Title >
+                  <h4 className="modal-title">Editar cupón</h4>
+               </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+               <div class="form-group">
+                  <h5 for="talle">Talle:</h5>
+                  <select className="form-control" id="talle"
+                     onChange={(e) => setTalle(e.target.value)}
+                     value={itemCS.size}
+                     style={{width:'50%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "pointer"}} >
+                        <option>35</option>
+                        <option>36</option>
+                        <option>37</option>
+                        <option>38</option>
+                        <option>39</option>
+                        <option>40</option>
+                        <option>41</option>
+                        <option>42</option>
+                        <option>43</option>
+                        <option>44</option>
+                        <option>45</option>
+                        <option>46</option>
+                        <option>47</option>
+                        <option>48</option>
+                        <option>49</option>
+                        <option>XXS</option>
+                        <option>XS</option>
+                        <option>S</option>
+                        <option>M</option>
+                        <option>L</option>
+                        <option>XL</option>
+                        <option>XXL</option>
+                  </select>
+               </div>
+               <div class="form-group">
+                  <h5 for="color">Color:</h5>
+                  <select className="form-control" id="color"
+                     onChange={(e) => setColor(e.target.value)}
+                     value={itemCS.color}
+                     style={{width:'50%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "pointer"}} >
+                        <option>Azul</option>
+                        <option>Verde</option>
+                        <option>Rojo</option>
+                        <option>Púrpura</option>
+                        <option>Magenta</option>
+                        <option>Amarillo</option>
+                        <option>Marrón</option>
+                        <option>Blanco</option>
+                        <option>Negro</option>
+                        <option>Celeste</option>
+                        <option>Gris</option>
+                        <option>Rosado</option>
+                  </select>
+               </div>
+               <div class="form-group">
+                  <h5 for="cantidad">Stock:</h5>
+                  <input
+                     id="cantidad" type="number" 
+                     min="0" max="999999" className="form-control" 
+                     defaultValue={itemCS.stock}
+                     onChange={(e) => setStock(e.target.value)}
+                     style={{width:'20%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}} 
+                  />
+               </div>
+            </Modal.Body>
+            <Modal.Footer>
+                <div className="col-9" style={{'padding-left': '0'}}>
+               <Button variant="danger" onClick={() => handleModalOpen(null)} className="btn btn-danger">
+                  Cancelar
+               </Button>
+               </div>
+               <div style={{'padding-right': '6px'}}>
+               <Button variant="primary" onClick={handleClick} className="btn btn-success" >
+                  Aceptar
+               </Button>
+               </div>
+            </Modal.Footer>
+        </Modal>
+      </>
+    )
+}
+
 export {DeleteReviewsModal,
        ModifySale,
        EditCouponModal,
        AddCouponModal,
        ReservationDetailModal,
-       DeleteProductsModal
+       DeleteProductsModal,
+       EditColorSizeModal
       };

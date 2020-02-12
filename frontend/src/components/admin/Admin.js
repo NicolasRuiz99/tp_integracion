@@ -11,6 +11,7 @@ import ReviewDetail from './details/ReviewDetail';
 import SaleDetail from './details/SaleDetail';
 import CouponDetail from './details/CouponDetail';
 import CustomerDetail from './details/CustomerDetail';
+import ProductDetail from './details/ProductDetail';
 import Coupons from './nav-items/Coupons';
 import Chats from './nav-items/Chats';
 import AdminAccount from './AdminAccount';

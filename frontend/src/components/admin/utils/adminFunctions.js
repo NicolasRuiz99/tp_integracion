@@ -103,7 +103,7 @@ const addProduct = ({name,dsc,material,genre,brand,type,discount,price}) => {
         discount,
         price
     })
-    .then(res => {return res.data.id})
+    .then(res => {console.log(res.data);return res.data.id})
     .catch(err => {throw err})
 }
 
@@ -111,6 +111,20 @@ const addProduct = ({name,dsc,material,genre,brand,type,discount,price}) => {
 const addColor_Size = ({color,size,stock,prod_id}) => {
     return axios
     .post("/color_size/add",{
+        color,
+        size,
+        stock,
+        prod_id
+    })
+    .then(res => {console.log(res.data);return res.data})
+    .catch(err => {throw err})
+}
+
+
+const modColor_Size = ({id,color,size,stock,prod_id}) => {
+    return axios
+    .post("/color_size/mod",{
+        id,
         color,
         size,
         stock,
@@ -132,5 +146,6 @@ export {
     getTypes,
     setActiveProduct,
     addProduct,
-    addColor_Size
+    addColor_Size,
+    modColor_Size
 };

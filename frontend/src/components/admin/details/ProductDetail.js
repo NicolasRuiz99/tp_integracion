@@ -1,14 +1,19 @@
-import React, { Fragment, useState, useEffect } from 'react'
-import BreadCrumbs from '../BreadCrumbs'
-import { getTypes, capitalize, addProduct, addColor_Size } from './utils/adminFunctions';
-import Error from '../messages/Error';
+import React, {useState, useEffect, Fragment} from 'react'
+import { getProductInfo, getProductColor_size } from '../../pages/shop/utils/shopFunctions';
+import BreadCrumbs from '../../BreadCrumbs';
 import Spinner from 'react-bootstrap/Spinner';
-import { withRouter } from 'react-router-dom';
+import Error from '../../messages/Error';
+import ColorSizeList from '../list/colorSize/ColorSizeList';
+import { EditColorSizeModal } from '../utils/modals';
 
-function AddProduct({history}) {
-    const [types, setTypes] = useState([]);
+export default function ProductDetail({props}) {
+    const [product, setProduct] = useState({});
+    const [colorSize, setColorSize] = useState([]);
+    const [id] = useState(props.match.params.id);
+    const [refresh, setRefresh] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
     const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [loading,setLoading] = useState (false);
     const [titulo, setTitulo] = useState('');
     const [descripcion, setDescripcion] = useState('');
     const [material, setMaterial] = useState('');
@@ -20,20 +25,71 @@ function AddProduct({history}) {
         u: false,
         result: ''
     });
-    const [tipo, setTipo] = useState(null);
-    const [talle, setTalle] = useState('');
-    const [color, setColor] = useState('');
-    const [stock, setStock] = useState('');
     const [descuento, setDescuento] = useState(0);
+    const [itemCS, setItemCS] = useState({});
 
+
+    const handleModalOpen = (item) => {
+        if(item !== null) {
+            setItemCS(item)
+        }
+        setModalOpen(!modalOpen);
+        setError(false);  
+    };
+
+    const editarCS = (color,talle,stock) => {
+
+    }
 
     useEffect(() => {
-        window.scrollTo(0, 0);
         setLoading(true);
-        getTypes()
+        getProductInfo(id)
         .then(res => {
-            console.log(res)
-            setTypes(res);
+            console.log(res);
+            setProduct(res);
+            setTitulo(res.name);
+            setDescripcion(res.dsc);
+            setPrecio(res.price);
+            setDescuento(res.discount);
+            setMarca(res.brand);
+            setMaterial(res.material);
+            switch (res.genre) {
+                case 'M':
+                    setGenero({
+                        m: true,
+                        f: false,
+                        u: false,
+                        result: 'M'
+                })
+                break;
+                case 'F':
+                    setGenero({
+                        m: false,
+                        f: true,
+                        u: false,
+                        result: 'F'
+                })
+                break;
+                case 'U':
+                    setGenero({
+                        m: false,
+                        f: false,
+                        u: true,
+                        result: 'U'
+                })
+                break;
+            }
+            setLoading(false);
+        })
+        .catch(err => {
+            setError(true);
+            return;
+        })
+        setLoading(true);
+        getProductColor_size(id)
+        .then(res => {
+            console.log(res);
+            setColorSize(res);
             setLoading(false);
         })
         .catch(err => {
@@ -43,63 +99,17 @@ function AddProduct({history}) {
         setError(false);
     }, []);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (!titulo || !descripcion || !stock || !material || !marca || !precio || !tipo || !talle || !color || genero.result === '') {
-            setError(true);
-            return;
-        };
-        const product = {
-            name: titulo,
-            dsc: descripcion,
-            material,
-            genre: genero.result,
-            brand: marca,
-            type: parseInt(tipo),
-            discount:parseInt(descuento),
-            price: parseFloat(precio)
-        };
-
-        addProduct(product)
-        .then(res => {        
-            const color_size = {
-                color: color.toLowerCase(),
-                size: talle,
-                stock: parseInt(stock),
-                prod_id: res
-            };  
-            addColor_Size(color_size)
-                .then(response => {
-                    console.log(response);
-                })
-                .catch(error => {
-                    setError(true);
-                    return;
-                })
-        })
-        .catch(err => {
-            setError(true);
-            return;
-        })
-        setError(false);
-        
-        history.push('/admin-page/products');
-
-    }
-
     return (
-        <Fragment >
-            <BreadCrumbs name="Nuevo producto" isAdmin={true} />
+        <Fragment>
+            <BreadCrumbs  name={`Detalles del producto #${id}`} isAdmin={true}/>
             {(loading) ? (
-                <div className="col-md-12 text-center" style={{top:'50%',left:'5%', position: 'fixed'}}> 
+                <div className="col-md-12 text-center" style={{top:'40%',left:'5%', position:'absolute'}}> 
                     <Spinner animation="border" variant="dark" size="lg" role="status" />
                 </div> 
-            ) : ( (error) ?
-                (<Error texto="Hubo un error al recuperar los datos"/>
-                )
-                :
+            ): ( (error) ? (<Error texto="Ha ocurrido un error interno en el servidor" />) : 
             (
-            <form style={{marginLeft:'12rem'}}>
+                <div>
+                <form style={{marginLeft:'12rem'}}>
                 <div className="row">
                     <div className="col-md-6">
                         <div className="form-group">
@@ -109,6 +119,7 @@ function AddProduct({history}) {
                                 id="titulo" type="text" className="form-control" 
                                 style={{width:'80%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}} 
                                 onChange={(e) => setTitulo(e.target.value)}   
+                                defaultValue={product.name}
                             />
                         </div>
                         <div className="form-group">
@@ -116,7 +127,7 @@ function AddProduct({history}) {
                             <textarea 
                                 id="reseña" className="form-control" cols="30" rows="9" 
                                 style={{width: '80%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif'}} 
-                                placeholder='(opcional)'
+                                defaultValue={product.dsc}
                                 onChange={(e) => setDescripcion(e.target.value)} 
                                 >
                             </textarea>
@@ -127,6 +138,7 @@ function AddProduct({history}) {
                                 id="material" type="text" className="form-control" 
                                 style={{width:'80%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}}
                                 onChange={(e) => setMaterial(e.target.value)} 
+                                defaultValue={product.material}
                             />
                         </div>
                         <div className="form-group">
@@ -135,6 +147,7 @@ function AddProduct({history}) {
                                 id="marca" type="text" className="form-control" 
                                 style={{width:'80%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}}
                                 onChange={(e) => setMarca(e.target.value)} 
+                                defaultValue={product.brand}
                             />
                         </div>
                     </div>
@@ -186,71 +199,6 @@ function AddProduct({history}) {
                                 <p style={{marginLeft:'3.2rem'}}>Unisex</p>
                             </label>
                         </div>
-                        <div class="form-group">
-                        <h5 for="tipo">Seleccione tipo:</h5>
-                        <select className="form-control" id="tipo"
-                        onChange={(e) => setTipo(e.target.value)}
-                        style={{width:'50%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "pointer"}} >
-                        >     
-                        ))
-                            {
-                                types.map(type => (
-                                <option
-                                key={type.id}
-                                value={type.id}>
-                                  {capitalize(type.name)}
-                                </option>))
-                            }
-                        </select>
-                        </div>
-                        <div class="form-group">
-                        <h5 for="talle">Seleccione talle:</h5>
-                        <select className="form-control" id="talle"
-                        onChange={(e) => setTalle(e.target.value)}
-                        style={{width:'50%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "pointer"}} >
-                            <option>35</option>
-                            <option>36</option>
-                            <option>37</option>
-                            <option>38</option>
-                            <option>39</option>
-                            <option>40</option>
-                            <option>41</option>
-                            <option>42</option>
-                            <option>43</option>
-                            <option>44</option>
-                            <option>45</option>
-                            <option>46</option>
-                            <option>47</option>
-                            <option>48</option>
-                            <option>49</option>
-                            <option>XXS</option>
-                            <option>XS</option>
-                            <option>S</option>
-                            <option>M</option>
-                            <option>L</option>
-                            <option>XL</option>
-                            <option>XXL</option>
-                        </select>
-                        </div>
-                        <div class="form-group">
-                            <h5 for="color">Seleccione color:</h5>
-                            <select className="form-control" id="color"
-                            onChange={(e) => setColor(e.target.value)}
-                            style={{width:'50%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "pointer"}} >
-                                <option>Azul</option>
-                                <option>Verde</option>
-                                <option>Rojo</option>
-                                <option>Púrpura</option>
-                                <option>Magenta</option>
-                                <option>Amarillo</option>
-                                <option>Marrón</option>
-                                <option>Blanco</option>
-                                <option>Negro</option>
-                                <option>Celeste</option>
-                                <option>Gris</option>
-                                <option>Rosado</option>
-                            </select>
-                        </div>
                         <div className="form-group row inline-block">
                             <div className="col-md-5">
                             <div className="form-group">
@@ -258,7 +206,7 @@ function AddProduct({history}) {
                                 <input
                                     id="precio" type="number" 
                                     min="0" max="999999" className="form-control" 
-                                    defaultValue="0"
+                                    defaultValue={product.price}
                                     onChange={(e) => setPrecio(e.target.value)}
                                     style={{width:'50%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}} 
                                 />
@@ -270,35 +218,43 @@ function AddProduct({history}) {
                             <input
                                 id="descuento" type="number" 
                                 min="0" max="100" className="form-control"
-                                defaultValue="0" 
+                                defaultValue={product.discount} 
                                 onChange={(e) => setDescuento(e.target.value)}
                                 style={{width:'30%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}} 
                             />
                             </div>
-                        </div>
-                </div>
-                </div>
-                <div className="row">
-                    <div className="col-md-6">
-                    <h5 for="cantidad">Cantidad:</h5>
-                            <input
-                                id="cantidad" type="number" 
-                                min="0" max="999999" className="form-control" 
-                                defaultValue="1"
-                                onChange={(e) => setStock(e.target.value)}
-                                style={{width:'20%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}} 
-                            />
-                    </div>
-                    <div className="col-md-5">
-                        <br/>
-                        <div className=" form-group"> 
-                            <button className="btn btn-primary btn-lg" type="button" onClick={handleSubmit}> Cargar producto</button> 
+                            <div className="col-md-6">
+                                <br/><br/><br/><br/><br/><br/><br/>
+                                <div className=" form-group"> 
+                                    <button className="btn btn-success btn-lg" type="button"> Guardar cambios</button> 
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </form>
+            
+            <div className="row box">
+                <div className="col-md-3">
+                    <h1 className="text-muted m-0">Talles y colores</h1>
+                    <div className=" form-group"> 
+                        <hr/>
+                        <button className="btn btn-primary" type="button">Nuevo talle y color</button> 
+                    </div>
+                </div>
+                <div className="col-md-9">
+                    <ColorSizeList list={colorSize} handleModalOpen={handleModalOpen} />
+                </div>
+            </div>
+            <EditColorSizeModal 
+            modalOpen={modalOpen}
+            handleModalOpen={handleModalOpen}
+            itemCS={itemCS}
+            editarCS={editarCS}
+            />
+            </div>
             ))}
+            
         </Fragment>
     )
 }
-export default withRouter(AddProduct);

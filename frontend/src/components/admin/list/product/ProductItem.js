@@ -1,22 +1,13 @@
-import React, {Fragment, useEffect, useState} from 'react'
+import React, {Fragment, useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
 import {capitalize} from './../../utils/adminFunctions';
 
 export default function ProductItem({item, changeList, clean}) {
-    const [clase, setClase] = useState('');
     const [checked, setChecked] = useState(false);
+    const [link,setLink] = useState ('');
 
     useEffect(() => {
-        switch (item.genre) {
-            case 'M':
-                setClase('#250EF4');          
-                break;
-            case 'F':
-                setClase('#F40EA0');
-                break;
-            case 'U':
-                setClase('#12C364');
-                break;
-        }
+        setLink (`/admin-page/product-detail/${item.id}`);
     }, []);
 
     //UseEffect de limpieza de los checkboxes
@@ -47,9 +38,9 @@ export default function ProductItem({item, changeList, clean}) {
             </td> 
             <td style={{textAlign:'center'}}>{item.id}</td>
             <td style={{textAlign:'center'}}>{capitalize(item.name)}</td>
-            <td style={{textAlign:'center'}}><p style={{color:`${clase}`, fontWeight: 'bolder'}}>{item.genre}</p></td>
             <td style={{textAlign:'center'}}>{capitalize(item.material)}</td>
             <td style={{textAlign:'center'}}>$ {item.price}</td>
+            <td style={{textAlign:'center'}}> <Link to={link} className="btn btn-outlined btn-sm">Ver</Link> </td>
             </tr>
         </Fragment>
     )
