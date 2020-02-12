@@ -60,27 +60,31 @@ export default function Products() {
 
     const eliminarProducto = () => {
         for (let index = 0; index < toDelete.length; index++) {
-            let id = toDelete[index];
-            //deleteProduct(id)
-            //.then(res => {
-            //    setRefresh(true);
-            //})
-            //.catch (err => {
-            //  setServerError(true);
-            //}); 
+            let producto = toDelete[index];
+            //Cambiamos el estado
+            let {id, active} = producto
+            active = !active;
+            console.log(id, active)
+            setActiveProduct(id, active)
+            .then(res => {
+               setRefresh(true);
+            })
+            .catch (err => {
+              setServerError(true);
+            }); 
            }  
            setServerError(false);
            setToDelete([]);
     }
 
-    const changeList = (id, checked) => {
+    const changeList = (product, checked) => {
         if (!checked) {
             setClean(false); 
-            setToDelete([...toDelete, id]);
+            setToDelete([...toDelete, product]);
         }
          else {
             setClean(false); 
-             let lista = toDelete.filter(item => item !== id)
+             let lista = toDelete.filter(item => item.id !== product.id)
              setToDelete(lista);
         }
     }

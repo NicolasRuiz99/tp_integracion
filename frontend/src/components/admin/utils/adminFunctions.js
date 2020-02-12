@@ -78,7 +78,7 @@ const setActiveProduct = (id,active) => {
         id,
         active
     })
-    .then(res => {return res.data})
+    .then(res => {console.log(res.data);return res.data})
     .catch(err => {throw err.response.data})
 }
 

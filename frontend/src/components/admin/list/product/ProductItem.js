@@ -18,9 +18,12 @@ export default function ProductItem({item, changeList, clean}) {
     } ,[clean]);
 
     const handleChange = () => {
-        const id = item.id;
+        const product = {
+            id: item.id,
+            active: item.active
+        };
         setChecked(!checked);
-        changeList(id, checked);
+        changeList(product, checked);
     }
 
     return (
@@ -38,8 +41,13 @@ export default function ProductItem({item, changeList, clean}) {
             </td> 
             <td style={{textAlign:'center'}}>{item.id}</td>
             <td style={{textAlign:'center'}}>{capitalize(item.name)}</td>
-            <td style={{textAlign:'center'}}>{capitalize(item.material)}</td>
             <td style={{textAlign:'center'}}>$ {item.price}</td>
+            <td style={{textAlign:'center'}}>
+                { (item.active) ? 
+                  (<span className='badge badge-success' style={{color:"white"}}>Activado</span>) : 
+                  (<span className='badge badge-danger' style={{color:"white"}}>Desactivado</span>)
+                }
+            </td>
             <td style={{textAlign:'center'}}> <Link to={link} className="btn btn-outlined btn-sm">Ver</Link> </td>
             </tr>
         </Fragment>

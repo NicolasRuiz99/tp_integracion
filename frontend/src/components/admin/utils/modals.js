@@ -347,11 +347,11 @@ const DeleteProductsModal = ({modalOpen, handleModalOpen, eliminarProducto}) => 
         transform: 'translate(-50%, -50%) !important'}}>
             <Modal.Header className="modal-header" closeButton>
                <Modal.Title >
-                  <h4 className="modal-title">Eliminar productos</h4>
+                  <h4 className="modal-title">Desactivar/Activar productos</h4>
                </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <p>Se eliminarán los elementos seleccionados</p>
+            <p>Se cambiará el estado de los elementos seleccionados</p>
             </Modal.Body>
             <Modal.Footer>
                 <div className="col-9" style={{'padding-left': '0'}}>
