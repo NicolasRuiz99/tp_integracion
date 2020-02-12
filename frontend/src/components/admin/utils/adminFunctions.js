@@ -134,6 +134,23 @@ const modColor_Size = ({id,color,size,stock,prod_id}) => {
     .catch(err => {throw err.response.data})
 }
 
+const modProduct = ({id,name,dsc,material,genre,brand,type,discount,price}) => {
+    return axios
+    .post("/product/mod",{
+        id,
+        name,
+        dsc,
+        material,
+        genre,
+        brand,
+        type,
+        discount,
+        price
+    })
+    .then(res => {return res.data})
+    .catch(err => {throw err.response.data})
+}
+
 export {
     getReservations,
     capitalize,
@@ -147,5 +164,6 @@ export {
     setActiveProduct,
     addProduct,
     addColor_Size,
-    modColor_Size
+    modColor_Size,
+    modProduct
 };

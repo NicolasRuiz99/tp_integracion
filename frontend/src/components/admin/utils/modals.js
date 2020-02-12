@@ -6,6 +6,8 @@ import './../../../css/default.css';
 import './../../../css/modal.css';
 import moment from 'moment';
 import { capitalize } from './adminFunctions';
+import { validarEditCS } from '../../../validacion/validate';
+import Error from '../../messages/Error';
 
 const DeleteReviewsModal = ({modalOpen, handleModalOpen, eliminarReview}) => {
    const handleClick = () => {
@@ -372,6 +374,7 @@ const EditColorSizeModal = ({modalOpen, handleModalOpen, editarCS, itemCS}) => {
    const [color, setColor] = useState('');
    const [talle, setTalle] = useState('');
    const [stock, setStock] = useState('');
+   const [error, setError] = useState({});
 
     useEffect(() => {
       if(itemCS !== null){
@@ -382,8 +385,16 @@ const EditColorSizeModal = ({modalOpen, handleModalOpen, editarCS, itemCS}) => {
     }, [itemCS])
 
    const handleClick = () => {
+      const err = validarEditCS(color, talle, stock);
+      console.log(err);
+      if (err.obligatorio || err.stock) {
+         setError(err);
+         return;
+      }else{
       editarCS(color,talle,stock);
       handleModalOpen(null);
+      setError({});
+      }
    }
 
     return (
@@ -398,6 +409,8 @@ const EditColorSizeModal = ({modalOpen, handleModalOpen, editarCS, itemCS}) => {
                </Modal.Title>
             </Modal.Header>
             <Modal.Body>
+               {error.obligatorio && <Error texto={error.obligatorio} />}
+               {error.stock && <Error texto={error.stock} />}
                <div class="form-group">
                   <h5 for="talle">Talle:</h5>
                   <select className="form-control" id="talle"
@@ -480,10 +493,18 @@ const AddColorSizeModal = ({modalOpen, handleModalOpen, agregarCS}) => {
    const [color, setColor] = useState('');
    const [talle, setTalle] = useState('');
    const [stock, setStock] = useState('');
-
+   const [error, setError] = useState({});
+   
    const handleClick = () => {
+      const err = validarEditCS(color, talle, stock);
+      console.log(err);
+      if (err.obligatorio || err.stock) {
+         setError(err);
+         return;
+      }else{
       agregarCS(color,talle,stock);
       handleModalOpen();
+      }
    }
 
     return (
@@ -498,6 +519,8 @@ const AddColorSizeModal = ({modalOpen, handleModalOpen, agregarCS}) => {
                </Modal.Title>
             </Modal.Header>
             <Modal.Body>
+               {error.obligatorio && <Error texto={error.obligatorio} />}
+               {error.stock && <Error texto={error.stock} />}
                <div class="form-group">
                   <h5 for="talle">Talle:</h5>
                   <select className="form-control" id="talle"

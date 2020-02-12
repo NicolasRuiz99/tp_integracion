@@ -4,8 +4,9 @@ import BreadCrumbs from '../../BreadCrumbs';
 import Error from '../../messages/Error';
 import ColorSizeList from '../list/colorSize/ColorSizeList';
 import { EditColorSizeModal, AddColorSizeModal } from '../utils/modals';
-import { modColor_Size, addColor_Size } from '../utils/adminFunctions';
+import { modColor_Size, addColor_Size, modProduct, capitalize } from '../utils/adminFunctions';
 import LoadingDark from '../../messages/LoadingDark';
+import { validarProducto } from '../../../validacion/validate';
 
 export default function ProductDetail({props}) {
     const [product, setProduct] = useState({});
@@ -14,6 +15,7 @@ export default function ProductDetail({props}) {
     const [id] = useState(props.match.params.id);
     const [refresh, setRefresh] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
+    const [modalOpen2, setModalOpen2] = useState(false);
     const [error, setError] = useState(false);
     const [loading,setLoading] = useState (false);
     const [titulo, setTitulo] = useState('');
@@ -30,6 +32,7 @@ export default function ProductDetail({props}) {
     const [descuento, setDescuento] = useState(0);
     const [itemCS, setItemCS] = useState(null);
     const [search, setSearch] = useState('');
+    const [errorProduct, setErrorProduct] = useState({});
 
     const handleModalOpen = (item) => {
         if(item != null) {
@@ -43,7 +46,7 @@ export default function ProductDetail({props}) {
     };
 
     const handleModalOpen2 = () => {
-        setModalOpen(!modalOpen);
+        setModalOpen2(!modalOpen2);
         setError(false);  
     };
 
@@ -71,8 +74,8 @@ export default function ProductDetail({props}) {
     }
 
     const agregarCS = (color,talle,stock) => {
-        console.log(color, talle, stock);
-        console.log(typeof(color), typeof(talle), typeof(stock));
+        //console.log(color, talle, stock);
+        //console.log(typeof(color), typeof(talle), typeof(stock));
         const color_size = {
             color: color.toLowerCase(),
             size: talle,
@@ -90,10 +93,44 @@ export default function ProductDetail({props}) {
             return;
         })
         setError(false);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const err = validarProducto(titulo, marca, material, precio, descuento);
+        console.log(err); 
+        if (err.obligatorio || err.natural || err.porc) {
+            setErrorProduct(err);
+            return;
+        } else {
+            const producto = {
+                id: parseInt(id),
+                name: capitalize(titulo),
+                dsc: capitalize(descripcion),
+                material: capitalize(material),
+                genre: genero.result,
+                brand: capitalize(marca),
+                type: parseInt(product.type),
+                discount:parseInt(descuento),
+                price: parseFloat(precio)
+            };
+            modProduct(producto)
+            .then(res => {
+                console.log(res);
+                setRefresh(true);
+            })
+            .catch(err => {
+                console.log(err);
+                setError(true);
+                return;
+            })
+        }
+        setError(false);
+        setErrorProduct({});
     }
 
     useEffect(() => {
-        setRefresh(false);
+        //setRefresh(false);
         setLoading(true);
         getProductInfo(id)
         .then(res => {
@@ -140,7 +177,7 @@ export default function ProductDetail({props}) {
         setLoading(true);
         getProductColor_size(id)
         .then(res => {
-            console.log(res);
+            //console.log(res);
             setColorSize(res);
             setCopyList(res);
             setLoading(false);
@@ -172,6 +209,9 @@ export default function ProductDetail({props}) {
             (
                 <div>
                 <form style={{marginLeft:'12rem'}}>
+                {errorProduct.obligatorio && <Error texto={errorProduct.obligatorio} />}
+                {errorProduct.natural && <Error texto={errorProduct.natural} />}
+                {errorProduct.porc && <Error texto={errorProduct.porc} />}
                 <div className="row">
                     <div className="col-md-6">
                         <div className="form-group">
@@ -180,7 +220,7 @@ export default function ProductDetail({props}) {
                             <input
                                 id="titulo" type="text" className="form-control" 
                                 style={{width:'80%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}} 
-                                onChange={(e) => setTitulo(e.target.value)}   
+                                onChange={(e) =>  setTitulo(e.target.value)}   
                                 defaultValue={product.name}
                             />
                         </div>
@@ -286,9 +326,9 @@ export default function ProductDetail({props}) {
                             />
                             </div>
                             <div className="col-md-12 ">
-                                <br/>
+                                <br/><br/>
                                 <div className="form-group" style={{marginLeft:'-9.5rem'}}> 
-                                    <div className="btn btn-success" type="button"> Guardar cambios</div> 
+                                    <div className="btn btn-success" type="button" onClick={handleSubmit}>Validar cambios</div> 
                                 </div>
                             </div>
                         </div>
@@ -314,7 +354,7 @@ export default function ProductDetail({props}) {
             itemCS={itemCS}
             />
             <AddColorSizeModal 
-            modalOpen={modalOpen}
+            modalOpen={modalOpen2}
             handleModalOpen={handleModalOpen2}
             agregarCS={agregarCS}
             />

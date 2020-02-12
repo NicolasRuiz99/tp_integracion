@@ -165,7 +165,33 @@ const validarReview = (title, stars) => {
     return errors;
 }
 
-export {validarEmail, validarPsw, validarCustomer, validarLogin, validarCarrito, validarReview};
+const validarEditCS = (color,talle,stock) => {
+    const errors = {};
+    if (obligatorio(color) || obligatorio(talle) || obligatorio(stock)) {
+        errors.obligatorio = "Todos los datos son obligatorios";
+    }
+    else if (stock < 0) {
+        errors.stock = "El stock debe ser un número natural"
+    }
+    return errors;
+};
+
+const validarProducto = (titulo, marca, material, precio, descuento) => {
+    const errors = {};
+    if (obligatorio(titulo) || obligatorio(marca) || obligatorio(material) || obligatorio(precio) || obligatorio(descuento)) {
+        errors.obligatorio = "Todos los datos (excepto la descripción) son obligatorios";
+    }
+    else if (precio < 0 || descuento < 0) {
+        errors.natural = "No se admiten números enteros en el precio y descuento"
+    }
+    else if (descuento > 100) {
+        errors.porc = "Descuento inválido";
+    }
+    return errors;
+};
+
+
+export {validarEmail, validarPsw, validarCustomer, validarLogin, validarCarrito, validarReview, validarEditCS, validarProducto};
 
 
 
