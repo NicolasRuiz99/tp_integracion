@@ -7,8 +7,11 @@ import Error from '../../messages/Error';
 import Success from '../../messages/Success';
 import { validarEmail, validarPsw, validarCustomer} from '../../../validacion/validate';
 import DeleteAccountModal from '../../modals/DeleteAccountModal';
+import Spinner from 'react-bootstrap/Spinner';
 
 const CustomerAccount = ({user_id, handleDrop}) => {
+
+    const [loading,setLoading] = useState (false);
   
     //confirmacion email y contraseña
     const [psw,setPsw] = useState ('');
@@ -47,6 +50,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
     }
     
     useEffect (()=>{
+      setLoading (true);
       getUserInfo (user_id)
           .then (res=>{
             setEmail (res.e_mail);
@@ -71,6 +75,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
               setCustomer_id (res.id);
               setServerError(false);
             }
+            setLoading (false);
           })
           .catch (err => {
               setServerError (true);
@@ -200,6 +205,11 @@ const CustomerAccount = ({user_id, handleDrop}) => {
       <BreadCrumbs 
         name={"Mi cuenta"}
       />
+        {(loading)?
+        <div className="col-md-9 text-center"> 
+        <Spinner animation="border" variant="info" size="lg"  />
+        </div>
+        :
         <div id="content">
         { (serverError) ? <Error texto="Error interno del servidor"/> : null}
         <div className="container">
@@ -207,6 +217,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
             <div id="customer-account" className="col-lg-9 clearfix">
               <hr />
               <p className="lead">Cambiá tus datos personales,contraseña o e-mail acá.</p>
+              {((email==='')||(email===null))?<p className="lead">IMPORTANTE: sin e-mail cargado no podrás recibir notificaciones</p>:null}
               <div className="box mt-5">
                 <div className="heading">
                   <h4 className="text-uppercase">Cambiar e-mail</h4>
@@ -373,6 +384,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
           </div>
         </div>
       </div>
+      }
       <DeleteAccountModal
         modalOpen={modalOpen}
         handleModalOpen={handleModalOpen}

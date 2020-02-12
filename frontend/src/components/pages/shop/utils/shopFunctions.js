@@ -6,7 +6,7 @@ const getProducts = async() => {
     .then(res => {
         return res.data.results
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getProductsAdmin = async() => {
@@ -15,7 +15,7 @@ const getProductsAdmin = async() => {
     .then(res => {
         return res.data.results
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getProductInfo = async(id) => {
@@ -26,7 +26,7 @@ const getProductInfo = async(id) => {
     .then(res => {
         return res.data.data
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getProductColor_size = async(id) => {
@@ -37,7 +37,7 @@ const getProductColor_size = async(id) => {
     .then(res => {
         return res.data.data
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getProductReview = async(id) => {
@@ -48,7 +48,7 @@ const getProductReview = async(id) => {
     .then(res => {
         return res.data.data
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getTopSellers = async() => {
@@ -57,7 +57,7 @@ const getTopSellers = async() => {
     .then(res => {
         return res.data.results
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const listProvinces = async() => {
@@ -66,7 +66,7 @@ const listProvinces = async() => {
     .then(res => {
         return res.data.provincias
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const listRecomendedProducts = (type,id) => {
@@ -78,7 +78,7 @@ const listRecomendedProducts = (type,id) => {
     .then(res => {
         return res.data.data;
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const listNewProducts = () => {
@@ -87,7 +87,7 @@ const listNewProducts = () => {
     .then(res => {
         return res.data.data;
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const listHighRatedProducts = () => {
@@ -96,7 +96,7 @@ const listHighRatedProducts = () => {
     .then(res => {
         return res.data.data;
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getImage = (name) => {
@@ -108,7 +108,7 @@ const getImage = (name) => {
         res = JSON.parse (res.request.response)
         return res.hits[0].webformatURL;
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 export {

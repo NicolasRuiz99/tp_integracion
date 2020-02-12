@@ -28,8 +28,10 @@ const CustomerRegister = ({history,setUser}) => {
 
   const [mailList, setMailList] = useState([]);
   const [error2, setError2] = useState(false);
+  const [userError,setUserError] = useState (false);
 
   const handleGoogleLogin = () => {
+    setError2 (false);
     googleLogin ()
     .then (res=> {
       login2 (res)
@@ -38,15 +40,16 @@ const CustomerRegister = ({history,setUser}) => {
         history.push('/');
       })
       .catch (err => {
-        setErrorLogin (true);
+        setError2 (true);
         return;
       })
     })
     .catch (err => console.log(err))
-    setErrorLogin (false);
+    setError2 (false);
   }
 
   const handleGoogleRegister = () => {
+    setUserError (false);
     googleLogin ()
     .then (res=> {
       register2 (res)
@@ -55,15 +58,21 @@ const CustomerRegister = ({history,setUser}) => {
         history.push('/');
       })
       .catch (err => {
-        setErrorServer (true);
+        if (err.type.includes('duplicate key')){
+          setUserError (true);
+        }else{
+          setErrorServer (true);
+        }
         return;
       })
     })
     .catch (err => console.log(err))
     setErrorServer (false);
+    setUserError (false);
   }
 
   const handleFacebookLogin = () => {
+    setError2 (false);
     facebookLogin ()
     .then (res=> {
       login2 (res)
@@ -72,15 +81,17 @@ const CustomerRegister = ({history,setUser}) => {
         history.push('/');
       })
       .catch (err => {
-        setErrorLogin (true);
+        setError2 (true);
         return;
       })
     })
     .catch (err => console.log(err))
-    setErrorLogin (false);
+    setError2 (false);
   }
 
   const handleFacebookRegister = () => {
+    setErrorServer (false);
+    setUserError (false);
     facebookLogin ()
     .then (res=> {
       register2 (res)
@@ -89,12 +100,17 @@ const CustomerRegister = ({history,setUser}) => {
         history.push('/');
       })
       .catch (err => {
-        setErrorServer (true);
+        if (err.type.includes('duplicate key')){
+          setUserError (true);
+        }else{
+          setErrorServer (true);
+        }
         return;
       })
     })
     .catch (err => console.log(err))
     setErrorServer (false);
+    setUserError (false);
   }
 
   const handleSubmitRegister = (e) => {
@@ -197,6 +213,7 @@ const CustomerRegister = ({history,setUser}) => {
                 {errorMails.diferente && <Error texto={errorMails.diferente}/>}
                 {errorMails.formato && <Error texto={errorMails.formato}/>}
                 { errorMail && <Error texto="El email ya está en uso" />}
+                { userError && <Error texto="Usuario ya registrado" />}
                 { errorPSWS.obligatorio && <Error texto={errorPSWS.obligatorio} />}
                 { errorPSWS.diferente && <Error texto={errorPSWS.diferente} />}
                 { errorPSWS.incorrect && <Error texto={errorPSWS.incorrect} />}
