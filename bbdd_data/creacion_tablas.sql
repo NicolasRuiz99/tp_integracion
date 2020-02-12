@@ -49,7 +49,7 @@ CREATE TABLE roles (
 
 CREATE TABLE users (
     id serial,
-    e_mail varchar (45) unique,
+    e_mail varchar (70) unique,
     psw varchar (40),
     external_id varchar (60) unique,
     id_role int,
