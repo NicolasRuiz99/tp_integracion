@@ -65,9 +65,9 @@ export default function ProductList({copyList, setSearch, list, changeList, toDe
                       </th>
                       <th style={{textAlign:'center'}}>ID</th>
                       <th style={{textAlign:'center'}}>Nombre</th>
-                      <th style={{textAlign:'center'}}>Género</th>
                       <th style={{textAlign:'center'}}>Material</th>
                       <th style={{textAlign:'center'}}>Precio</th>
+                      <th style={{textAlign:'center'}}>Acciones</th>
                     </tr>
                   </thead>
                   <tfoot>
@@ -83,9 +83,9 @@ export default function ProductList({copyList, setSearch, list, changeList, toDe
                       </th>
                       <th style={{textAlign:'center'}}>ID</th>
                       <th style={{textAlign:'center'}}>Nombre</th>
-                      <th style={{textAlign:'center'}}>Género</th>
                       <th style={{textAlign:'center'}}>Material</th>
                       <th style={{textAlign:'center'}}>Precio</th>
+                      <th style={{textAlign:'center'}}>Acciones</th>
                     </tr>
                   </tfoot>
                   <tbody>

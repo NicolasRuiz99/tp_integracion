@@ -31,9 +31,6 @@ function CouponDetail({props}) {
         getCoupon(id)
         .then(res => {
             console.log(res);
-            //if (res === 'used') {
-            //    setCoupon(null);
-            //}
             setCoupon(res);
             setPorc(res.pc);
             setDate(moment(res.cad_date).utc().format('YYYY-MM-DD'));

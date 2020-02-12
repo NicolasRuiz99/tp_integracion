@@ -11,6 +11,7 @@ import ReviewDetail from './details/ReviewDetail';
 import SaleDetail from './details/SaleDetail';
 import CouponDetail from './details/CouponDetail';
 import CustomerDetail from './details/CustomerDetail';
+import ProductDetail from './details/ProductDetail';
 import Coupons from './nav-items/Coupons';
 import Chats from './nav-items/Chats';
 import AdminAccount from './AdminAccount';
@@ -76,6 +77,8 @@ export default function Admin({handleDrop,user_id, isLogged, role}) {
                         component={(props) => <CustomerDetail props={props}/>}/>
                         <Route path="/admin-page/coupon-detail/:id" 
                         component={(props) => <CouponDetail props={props}/>}/>
+                        <Route path="/admin-page/product-detail/:id" 
+                        component={(props) => <ProductDetail props={props}/>}/>
                         </Fragment>
                     ) : (<Redirect to="/" />)}  
                 </Switch>
