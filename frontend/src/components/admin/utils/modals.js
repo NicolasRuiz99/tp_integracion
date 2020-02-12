@@ -367,16 +367,12 @@ const DeleteProductsModal = ({modalOpen, handleModalOpen, eliminarProducto}) => 
     )
 }
 
-const EditColorSizeModal = ({modalOpen, handleModalOpen, editarCS, itemCS}) => {
+const EditColorSizeModal = ({modalOpen, handleModalOpen, editarCS}) => {
    const [color, setColor] = useState('');
    const [talle, setTalle] = useState('');
    const [stock, setStock] = useState('');
 
-   useEffect (()=>{
-      setStock(itemCS.stock);
-      setColor(itemCS.color);
-      setTalle(itemCS.size);
-   },[color,talle,stock])
+   
 
    const handleClick = () => {
       editarCS(color,talle,stock);
@@ -399,7 +395,7 @@ const EditColorSizeModal = ({modalOpen, handleModalOpen, editarCS, itemCS}) => {
                   <h5 for="talle">Talle:</h5>
                   <select className="form-control" id="talle"
                      onChange={(e) => setTalle(e.target.value)}
-                     value={itemCS.size}
+                    
                      style={{width:'50%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "pointer"}} >
                         <option>35</option>
                         <option>36</option>
@@ -429,7 +425,7 @@ const EditColorSizeModal = ({modalOpen, handleModalOpen, editarCS, itemCS}) => {
                   <h5 for="color">Color:</h5>
                   <select className="form-control" id="color"
                      onChange={(e) => setColor(e.target.value)}
-                     value={itemCS.color}
+                    
                      style={{width:'50%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "pointer"}} >
                         <option>Azul</option>
                         <option>Verde</option>
@@ -450,7 +446,7 @@ const EditColorSizeModal = ({modalOpen, handleModalOpen, editarCS, itemCS}) => {
                   <input
                      id="cantidad" type="number" 
                      min="0" max="999999" className="form-control" 
-                     defaultValue={itemCS.stock}
+                     
                      onChange={(e) => setStock(e.target.value)}
                      style={{width:'20%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "default"}} 
                   />

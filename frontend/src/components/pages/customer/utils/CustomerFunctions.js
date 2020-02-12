@@ -469,6 +469,16 @@ const payMP = (list,id,coupon,cart) => {
     .catch(err => {throw err})
 }
 
+const readAllChatMessages = (id,id_user) => {
+    return axios
+    .post("/chat/readall",{
+        id,
+        id_user
+    })
+    .then(res => {return res.data})
+    .catch(err => {throw err})
+}
+
 const getCustomers = async() => {
     return axios
     .get("/user/listall")
@@ -521,5 +531,6 @@ export {
     modReview,
     getCustomers,
     setShippingTrackCode,
-    userGetInfo
+    userGetInfo,
+    readAllChatMessages
 };

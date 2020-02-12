@@ -3,10 +3,9 @@ import './../../../css/default.css';
 import {Link} from 'react-router-dom';
 import LogoutModal from '../../modals/LogoutModal';
 
-
-const CustomerSection = ({user_name, handleDrop}) => {
+const CustomerSection = ({user_id, handleDrop}) => {
   const [modalOpen, setModalOpen] = useState(false);
-  
+
   const handleModalOpen = () => {
     setModalOpen(!modalOpen);
   }
@@ -28,7 +27,7 @@ const CustomerSection = ({user_name, handleDrop}) => {
                     <li className="nav-item "><Link to="/customer-reviewlist" ClassName="nav-link" ><i class="fas fa-star"></i> Mis reseñas</Link></li>
                     <li className="nav-item "><Link to="/customer-reservations" ClassName="nav-link" ><i class="fas fa-calendar-alt"></i> Mis reservas</Link></li>
                     <li className="nav-item"><Link to="/customer-account" ClassName="nav-link"><i className="fa fa-user"></i> Mi cuenta</Link></li>
-                    <li className="nav-item"><Link to={`/customer-chat?chatID=${user_name}&room=${1}`} ClassName="nav-link"><i class="fas fa-comments"></i> Chat</Link></li>
+                    <li className="nav-item"><Link to={`/customer-chat?chatID=usuario&room=${user_id}`} ClassName="nav-link"><i class="fas fa-comments"></i> Chat</Link></li>
                     <li className="nav-item"><Link onClick={handleModalOpen} ClassName="nav-link" ><i className="fa fa-sign-out"></i> Salir</Link></li>
                   </ul>
                 </div>

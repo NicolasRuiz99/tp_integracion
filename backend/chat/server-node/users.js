@@ -4,8 +4,8 @@ const addUser = ({ id, chatID, room }) => {
   
   const existingUser = users.find((user) => user.room === room && user.chatID === chatID);
 
-  if(!chatID || !room) return { error: 'ID y sala son requeridos.' };
-  if(existingUser) return { error: 'ID ya existente.' };
+  //if(!chatID || !room) return { error: 'ID y sala son requeridos.' };
+  //if(existingUser) return { error: 'ID ya existente.' };
 
   const user = { id, chatID, room };
 

@@ -159,8 +159,7 @@ class Role:
         self.name = res[1]
 
 class Chat:
-    def __init__ (self,id_user=None,id_admin=None,_id=None):
-        self.id = _id
+    def __init__ (self,id_user=None,id_admin=None):
         self.id_user = id_user
         self.id_admin = id_admin
 
@@ -168,23 +167,22 @@ class Chat:
         new_record = (self.id_user,self.id_admin)
         addToTable ('chat (id_user,id_admin)',new_record,'(%s,%s)')
 
-    def mod (self):
-        updateTable ('chat',(self.id_user,self.id_admin,self.id),'id_user = %s, id_admin = %s')
-
     def delete (self):
-        deleteFromTable ('chat',self.id)
+        deleteFromTable ('chat',self.id_user)
     
-    def get (self,_id):
-        res = searchID ('chat',_id)  
-        self.id = res[0]
-        self.id_user = res[1]
+    def get (self):
+        res = searchID ('chat',self.id_user)  
+        self.id_user = res[0]
         self.id_admin = res[2]
 
+    def listAllMsg (self):
+        return callFunReturn ('ListAllMsg',[self.id_user])
+
     def readAll (self,id_user):
-        callFun ('readAllMsg',[self.id,id_user,])
+        callFun ('readAllMsg',[self.id_user,id_user,])
 
     def json (self):
-        return dict (id = self.id, id_user = self.id_user, id_admin = self.id_admin)
+        return dict (id_user = self.id_user, id_admin = self.id_admin)
 
     def listall (self):
         return listTable ('ChatList')

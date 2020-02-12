@@ -369,7 +369,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
                   </form>
               </div>
             </div>
-            <CustomerSection user_name={"usuario"} handleDrop={handleDrop} />
+            <CustomerSection user_id={user_id} handleDrop={handleDrop} />
           </div>
         </div>
       </div>

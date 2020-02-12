@@ -198,9 +198,8 @@ const App = () => {
               <Route  
               path='/customer-chat'
               component={()=>(
-                <Chat user_name={'cliente'} />
+                <Chat user_id={user_id} />
               )}/>
-              
               </Fragment>
             ) : (<Redirect to="/" />)}
 

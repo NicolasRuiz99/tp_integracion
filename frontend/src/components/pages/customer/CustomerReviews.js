@@ -100,7 +100,7 @@ const CustomerReviews = ({ handleDrop,user_id}) => {
               </div>}
             </div>
           </div>
-          <CustomerSection handleDrop={handleDrop}/>
+          <CustomerSection handleDrop={handleDrop} user_id={user_id}/>
         </div>
       </div>
     </div>
