@@ -7,7 +7,7 @@ const login = user => {
         psw: user.pass
     })
     .then(res => {return res.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const login2 = id => {
@@ -16,7 +16,7 @@ const login2 = id => {
         id
     })
     .then(res => {return res.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const register = user => {
@@ -27,7 +27,7 @@ const register = user => {
         id_role: 2
     })
     .then(res => {return res.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const register2 = id => {
@@ -36,14 +36,14 @@ const register2 = id => {
         id
     })
     .then(res => {return res.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getEMails = () => {
     return axios
     .get("/user/list_emails")
     .then(res => {return res.data.results})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getCustomerInfo = id => {
@@ -52,7 +52,7 @@ const getCustomerInfo = id => {
         id
     })
     .then(res => {return res.data.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getUserInfo = id => {
@@ -61,7 +61,7 @@ const getUserInfo = id => {
         id
     })
     .then(res => {return res.data.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const userGetInfo = id => {
@@ -70,7 +70,7 @@ const userGetInfo = id => {
         id
     })
     .then(res => {return res.data.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 
@@ -80,7 +80,7 @@ const deleteCustomer = id => {
         id
     })
     .then(res => {console.log(res.data); return res.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const addCustomerInfo = ({dni,name,surname,genre,c_size,shoe_size,phone_no,id_user}) => {
@@ -96,7 +96,7 @@ const addCustomerInfo = ({dni,name,surname,genre,c_size,shoe_size,phone_no,id_us
         id_user
     })
     .then(res => {return res.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const modCustomerInfo = ({id,dni,name,surname,genre,c_size,shoe_size,phone_no}) => {
@@ -112,7 +112,7 @@ const modCustomerInfo = ({id,dni,name,surname,genre,c_size,shoe_size,phone_no}) 
         phone_no
     })
     .then(res => {return res.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 // const getUser = user_id => {
@@ -132,7 +132,7 @@ const modUserInfo = ({id,e_mail,psw}) => {
         psw
     })
     .then(res => {return res.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getUserWishlist = user_id => {
@@ -142,7 +142,7 @@ const getUserWishlist = user_id => {
     })
     .then(res => {return res.data.data
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getWishlistItem = ({user_id,product_id}) => {
@@ -154,7 +154,7 @@ const getWishlistItem = ({user_id,product_id}) => {
     .then(res => {return res.data.data
     
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const addWishlistItem = ({user_id,product_id}) => {
@@ -167,7 +167,7 @@ const addWishlistItem = ({user_id,product_id}) => {
     
     
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const deleteWishlistItem = ({user_id,product_id}) => {
@@ -179,7 +179,7 @@ const deleteWishlistItem = ({user_id,product_id}) => {
     .then(res => {return res.data
     
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getUserPurchaseItem = ({user_id,product_id}) => {
@@ -191,7 +191,7 @@ const getUserPurchaseItem = ({user_id,product_id}) => {
     .then(res => {return res.data.data
     
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const addReviewItem = ({user_id,prod_id,stars,title,commentary}) => {
@@ -205,7 +205,7 @@ const addReviewItem = ({user_id,prod_id,stars,title,commentary}) => {
     })
     .then(res => {return res.data
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getReview = id => {
@@ -214,7 +214,7 @@ const getReview = id => {
         id
     })
     .then(res => {return res.data.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 
@@ -229,7 +229,7 @@ const modReview = ({stars,title,commentary,id_product,id_user,id}) => {
         id
     })
     .then(res => {return res.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const deleteReview = id => {
@@ -238,7 +238,7 @@ const deleteReview = id => {
         id
     })
     .then(res => { return res.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const listUserReviews = (id) => {
@@ -248,7 +248,7 @@ const listUserReviews = (id) => {
     })
     .then(res => {return res.data.data
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getPurchaseList = ({user_id}) => {
@@ -258,7 +258,7 @@ const getPurchaseList = ({user_id}) => {
     })
     .then(res => {return res.data.data
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const modPurchase = ({id,price,state,id_user,id_coupon}) => {
@@ -272,7 +272,7 @@ const modPurchase = ({id,price,state,id_user,id_coupon}) => {
     })
     .then(res => {return res.data
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 
@@ -283,7 +283,7 @@ const getPurchaseInfo = (id) => {
     })
     .then(res => {return res.data.data
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const listPurchaseItems = (id) => {
@@ -293,7 +293,7 @@ const listPurchaseItems = (id) => {
     })
     .then(res => {return res.data.data
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const setPurchaseState = (id,state) => {
@@ -304,7 +304,7 @@ const setPurchaseState = (id,state) => {
     })
     .then(res => {return res.data
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const listCartItems = (user_id) => {
@@ -314,7 +314,7 @@ const listCartItems = (user_id) => {
     })
     .then(res => {return res.data.data
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getCartInfo = (user_id) => {
@@ -324,7 +324,7 @@ const getCartInfo = (user_id) => {
     })
     .then(res => {return res.data.data
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const deleteCartItem = (id_color_size,purch_id) => {
@@ -335,7 +335,7 @@ const deleteCartItem = (id_color_size,purch_id) => {
     })
     .then(res => {return res.data
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const addCartItem = (id_color_size,purch_id,stock) => {
@@ -347,7 +347,7 @@ const addCartItem = (id_color_size,purch_id,stock) => {
     })
     .then(res => {return res.data
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getCoupon = id => {
@@ -356,7 +356,7 @@ const getCoupon = id => {
         id
     })
     .then(res => {return res.data.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const useCoupon = id => {
@@ -365,7 +365,7 @@ const useCoupon = id => {
         id
     })
     .then(res => {return res.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const addShipping = ({id,address,zip,name,surname,dni,province}) => {
@@ -380,7 +380,7 @@ const addShipping = ({id,address,zip,name,surname,dni,province}) => {
         province
     })
     .then(res => {return res.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const setShippingTrackCode = (id,track_code) => {
@@ -390,7 +390,7 @@ const setShippingTrackCode = (id,track_code) => {
         track_code
     })
     .then(res => {return res.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getUserReservationList = user_id => {
@@ -400,7 +400,7 @@ const getUserReservationList = user_id => {
     })
     .then(res => {return res.data.data
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const modReservation = ({id,date,stock,id_user,id_color_size,state}) => {
@@ -414,7 +414,7 @@ const modReservation = ({id,date,stock,id_user,id_color_size,state}) => {
         state,
     })
     .then(res => {return res.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const cancelReservation = id => {
@@ -423,7 +423,7 @@ const cancelReservation = id => {
         id
     })
     .then(res => {return res.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getReservation = id => {
@@ -432,7 +432,7 @@ const getReservation = id => {
         id
     })
     .then(res => {return res.data.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 
@@ -444,7 +444,7 @@ const addReservation = ({stock,id_user,id_color_size}) => {
         id_color_size
     })
     .then(res => {return res.data.result})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getReservationItem = (id_user,id_color_size) => {
@@ -454,7 +454,7 @@ const getReservationItem = (id_user,id_color_size) => {
         id_color_size
     })
     .then(res => {return res.data.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const payMP = (list,id,coupon,cart) => {
@@ -466,7 +466,7 @@ const payMP = (list,id,coupon,cart) => {
         cart
     })
     .then(res => {return res.data.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const readAllChatMessages = (id,id_user) => {
@@ -476,7 +476,16 @@ const readAllChatMessages = (id,id_user) => {
         id_user
     })
     .then(res => {return res.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
+}
+
+const getChat = (id) => {
+    return axios
+    .post("/chat/get",{
+        id
+    })
+    .then(res => {return res.data.data})
+    .catch(err => {throw err.response.data})
 }
 
 const getCustomers = async() => {
@@ -485,7 +494,7 @@ const getCustomers = async() => {
     .then(res => {
         return res.data.results
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 export {
@@ -532,5 +541,6 @@ export {
     getCustomers,
     setShippingTrackCode,
     userGetInfo,
-    readAllChatMessages
+    readAllChatMessages,
+    getChat
 };

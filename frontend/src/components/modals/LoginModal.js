@@ -19,6 +19,7 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history, setRole}) => {
   const [errorCustomer, setErrorCustomer] = useState({});
 
   const handleGoogleLogin = () => {
+    setError (false);
     googleLogin ()
     .then (res=> {
       login2 (res)
@@ -28,15 +29,16 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history, setRole}) => {
         history.push('/');
       })
       .catch (err => {
-        setErrorCustomer (true);
+        setError (true);
         return;
       })
     })
-    .catch (err => console.log(err))
-    setErrorCustomer (false);
+    .catch (err => console.log(err));
+    setError (false);
   }
 
   const handleFacebookLogin = () => {
+    setError (false);
     facebookLogin ()
     .then (res=> {
       login2 (res)
@@ -46,12 +48,12 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history, setRole}) => {
         history.push('/');
       })
       .catch (err => {
-        setErrorCustomer (true);
+        setError (true);
         return;
       })
     })
-    .catch (err => console.log(err))
-    setErrorCustomer (false);
+    .catch (err => console.log(err));
+    setError (false);
   }
 
   const handleAction = async (e) => {

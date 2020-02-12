@@ -6,7 +6,7 @@ const getReservations = async() => {
     .then(res => {
         return res.data.results
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getSells = async() => {
@@ -15,7 +15,7 @@ const getSells = async() => {
     .then(res => {
         return res.data.results
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getReviews = async() => {
@@ -24,7 +24,7 @@ const getReviews = async() => {
     .then(res => {
         return res.data.results
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getCoupons = async() => {
@@ -33,7 +33,7 @@ const getCoupons = async() => {
     .then(res => {
         return res.data.results
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const capitalize = (cadena) => {
@@ -50,7 +50,7 @@ const modCoupon = ({id,pc,cad_date,used}) => {
         used
     })
     .then(res => {return res.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const addCoupon = ({pc, cad_date}) => {
@@ -60,7 +60,7 @@ const addCoupon = ({pc, cad_date}) => {
         cad_date
     })
     .then(res => {return res.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getChats = () => {
@@ -69,7 +69,7 @@ const getChats = () => {
     .then(res => {
         return res.data.data
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const setActiveProduct = (id,active) => {
@@ -79,7 +79,7 @@ const setActiveProduct = (id,active) => {
         active
     })
     .then(res => {return res.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const getTypes = async() => {
@@ -88,7 +88,7 @@ const getTypes = async() => {
     .then(res => {
         return res.data.data
     })
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 const addProduct = ({name,dsc,material,genre,brand,type,discount,price}) => {
@@ -104,7 +104,7 @@ const addProduct = ({name,dsc,material,genre,brand,type,discount,price}) => {
         price
     })
     .then(res => {console.log(res.data);return res.data.id})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 
@@ -117,7 +117,7 @@ const addColor_Size = ({color,size,stock,prod_id}) => {
         prod_id
     })
     .then(res => {console.log(res.data);return res.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 
@@ -131,7 +131,7 @@ const modColor_Size = ({id,color,size,stock,prod_id}) => {
         prod_id
     })
     .then(res => {return res.data})
-    .catch(err => {throw err})
+    .catch(err => {throw err.response.data})
 }
 
 export {

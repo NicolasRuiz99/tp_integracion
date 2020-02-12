@@ -171,9 +171,9 @@ class Chat:
         deleteFromTable ('chat',self.id_user)
     
     def get (self):
-        res = searchID ('chat',self.id_user)  
+        res = searchID2 ('chat',self.id_user,'id_user = %s')  
         self.id_user = res[0]
-        self.id_admin = res[2]
+        self.id_admin = res[1]
 
     def listAllMsg (self):
         return callFunReturn ('ListAllMsg',[self.id_user])
@@ -304,13 +304,16 @@ class Color_size:
     def delete (self):
         deleteFromTable ('color_size',self.id)
 
-    def get (self,_id):
-        res = searchID ('color_size',_id)  
+    def get (self):
+        res = searchID ('color_size',self.id)  
         self.id = res[0]
         self.color = res[1]
         self.size = res[2]
         self.stock = res[3]
         self.prod_id = res[4]
+
+    def json (self):
+        return dict (id = self.id, color = self.color, size = self.size, stock = self.stock, prod_id = self.prod_id)
 
 class Coupon:
     def __init__ (self,pc=None,cad_date=None,used=False,_id=None):

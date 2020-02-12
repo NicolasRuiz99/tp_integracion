@@ -12,7 +12,9 @@ import BreadCrumbs from '../../../BreadCrumbs';
 import CustomerSection from '../CustomerSection';
 
 import queryString from 'query-string';
-import { readAllChatMessages } from '../utils/CustomerFunctions';
+import { readAllChatMessages,getChat } from '../utils/CustomerFunctions';
+import Error from '../../../messages/Error';
+import Spinner from 'react-bootstrap/Spinner';
 
 let socket;
 
@@ -24,25 +26,37 @@ const CustomerChat = (props) => {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     
+    const [loading,setLoading] = useState (false);
+    const [error,setError] = useState (false); 
+    
     useEffect(() => {
+        setLoading (true);
         const {chatID, room} = queryString.parse(props.location.search);
-        console.log(`ID: ${chatID}, Sala: ${room}`);
+        getChat (room)
+        .then (res => {
+            //leemos todos los mensajes del chat
+
+            if (room != props.user_id){
+              readAllChatMessages (room,room)
+              .then (res => console.log(res))
+              .catch (err => console.log(err))
+            }else{
+              readAllChatMessages (room,res.id_admin)
+              .then (res => console.log(res))
+              .catch (err => console.log(err))
+            }
+            setLoading (false);
+        })
+        .catch (err => {
+            setError (true);
+            return;
+        })
+        setError (false);
+
         socket = io(ENDPOINT);
         
         setRoom(room);
         setChatID(chatID)
-
-        //leemos todos los mensajes del chat
-
-        if (room != props.user_id){
-          readAllChatMessages (room,room)
-          .then (res => console.log(res))
-          .catch (err => console.log(err))
-        }else{
-          readAllChatMessages (room,props.user_id)
-          .then (res => console.log(res))
-          .catch (err => console.log(err))
-        }
         
         //En caso de que algo salga mal
         socket.emit('join', { chatID, room }, (error) => {
@@ -82,8 +96,15 @@ const CustomerChat = (props) => {
 
     return (
         <Fragment>
-        <BreadCrumbs name={"Chat general"} />
+        {(chatID === 'admin')?<BreadCrumbs name={`Chat con cliente #${room}`} isAdmin={true}/>:<BreadCrumbs name={`Chat con administrador`} isAdmin={false}/>}
+        {(loading)?
+        <div className="col-md-9 text-center"> 
+          <Spinner animation="border" variant="info" size="lg"  />
+        </div>
+        :
         <div id="content">
+            {(error)? <Error texto="Hubo un error al cargar el chat"/>
+            :
             <div className="container">
             <div className="row bar">
             <div id="customer-account" className="col-lg-8 clearfix">         
@@ -94,7 +115,9 @@ const CustomerChat = (props) => {
                 {(chatID === 'admin')?null:<CustomerSection user_id={props.user_id}/>}
             </div>    
             </div>
+            }
         </div>
+        }
         </Fragment>
     );
 };

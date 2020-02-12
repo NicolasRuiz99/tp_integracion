@@ -492,37 +492,6 @@ def getType():
             return jsonify({'result': 'success','data' : result})
 
 """
-@app.route ('/chat/add',methods=['POST'])
-def addChat():
-    error = False
-    id_customer = request.json['id_user']
-    id_admin = request.json['id_admin']
-    new = Chat (id_customer,id_admin)
-    try:
-        new.add()
-    except (Exception) as err:
-        error = True
-        return handleError (err)
-    finally:
-        if not (error):
-            return jsonify({'result' : 'success'})
-
-@app.route ('/chat/mod',methods=['POST'])
-def modChat():
-    error = False
-    id = request.json['id']
-    id_customer = request.json['id_customer']
-    id_admin = request.json['id_admin']
-    new = Chat (id_customer,id_admin,id)
-    try:
-        new.mod()
-    except (Exception) as err:
-        error = True
-        return handleError (err)
-    finally:
-        if not (error):
-            return jsonify({'result' : 'success'})
-
 @app.route ('/chat/delete',methods=['POST'])
 def deleteChat():
     error = False
@@ -794,22 +763,22 @@ def deleteColor_size():
         if not (error):
             return jsonify({'result' : 'success'})
 
-"""
+
 @app.route ('/color_size/get',methods=['POST'])
 def getColor_size():
-    error = False
-    id = request.json['id']
+    error = False 
     new = Color_size ()
+    new.id = request.json['id']
     try:
-        new.get(id)
+        new.get()
     except (Exception) as err:
         error = True
         return handleError (err)
     finally:
         if not (error):
-            result = dict (id = new.id, color = new.color, size = new.size,stock = new.stock,prod_id = new.prod_id)
+            result = new.json()
             return jsonify({'result': 'success','data' : result})
-"""
+
 
 @app.route ('/coupon/add',methods=['POST'])
 def addCoupon():
