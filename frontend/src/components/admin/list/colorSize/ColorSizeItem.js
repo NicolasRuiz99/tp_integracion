@@ -11,7 +11,7 @@ export default function ColorSizeItem({item, handleModalOpen}) {
             <td style={{textAlign:'center'}}>{item.size}</td>
             <td style={{textAlign:'center'}}>{item.stock}</td>
             <td style={{textAlign:'center'}}>
-                <Link className="btn btn-outlined btn-sm" onClick={handleModalOpen(item)}  style={{marginBottom:'2rem'}}>Editar</Link>
+                <Link className="btn btn-outlined btn-sm" onClick={() => handleModalOpen(item)}  style={{marginBottom:'2rem'}}>Editar</Link>
             </td>
             </tr>
         </Fragment>
