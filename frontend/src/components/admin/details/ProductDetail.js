@@ -26,14 +26,18 @@ export default function ProductDetail({props}) {
         result: ''
     });
     const [descuento, setDescuento] = useState(0);
-    const [itemCS, setItemCS] = useState({});
+    const [itemCS, setItemCS] = useState(null);
 
 
     const handleModalOpen = (item) => {
         if(item !== null) {
-            setItemCS(item)
+            setItemCS(item);
+            setModalOpen(!modalOpen);
+        }else {
+            setModalOpen(!modalOpen);
+            setItemCS(null);
         }
-        setModalOpen(!modalOpen);
+        
         setError(false);  
     };
 
@@ -249,7 +253,6 @@ export default function ProductDetail({props}) {
             <EditColorSizeModal 
             modalOpen={modalOpen}
             handleModalOpen={handleModalOpen}
-            itemCS={itemCS}
             editarCS={editarCS}
             />
             </div>

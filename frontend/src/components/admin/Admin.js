@@ -20,9 +20,6 @@ import AddProduct from './AddProduct';
 import Chat from '../pages/customer/chat/Customerchat';
 
 export default function Admin({handleDrop,user_id, isLogged, role}) {
-    
-  
-
     return (
         <Fragment>
             <div className="row">
@@ -78,6 +75,8 @@ export default function Admin({handleDrop,user_id, isLogged, role}) {
                         component={(props) => <CustomerDetail props={props}/>}/>
                         <Route path="/admin-page/coupon-detail/:id" 
                         component={(props) => <CouponDetail props={props}/>}/>
+                        <Route path="/admin-page/product-detail/:id" 
+                        component={(props) => <ProductDetail props={props}/>}/>
                         <Route  
                             path='/admin-page/customer-chat'
                             component={()=>(
