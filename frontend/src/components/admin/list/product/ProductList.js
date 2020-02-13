@@ -5,9 +5,11 @@ import Search from './../Search';
 import Paginacion from './../../../pages/shop/Paginacion';
 import Info from '../../../messages/Info';
 import {Link, Redirect} from 'react-router-dom';
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import PdfDocument from './PdfDocument';
+import moment from 'moment';
 
-//Cada tabla tendrá su propia barra de búsqueda
-export default function ProductList({copyList, setSearch, list, changeList, toDelete, isCheck, clean, handleModalOpen}) {
+export default function ProductList({copyList, setSearch, list, changeList, toDelete, isCheck, clean, handleModalOpen, lista, show}) {
   const [currentPage, setCurrentPage] = useState(1);
   const [listPerPage] = useState(8);
   //Obtener lista de productos actual
@@ -27,6 +29,7 @@ export default function ProductList({copyList, setSearch, list, changeList, toDe
          ) 
           : ( 
               <div className="table-responsive">
+                
                 <div className="col-sm-8 col-md-4" style={{float: 'left', paddingBottom:'0rem', paddingTop: '0rem', padding: '0.4rem'}}>
                   {(toDelete.length > 0) ? (
                     (toDelete.length === 1 ? ( 
@@ -41,6 +44,22 @@ export default function ProductList({copyList, setSearch, list, changeList, toDe
                     ))
                   ) : null}
                 </div>
+                {show && <PDFDownloadLink
+                  document={<PdfDocument data={lista} />}
+                  fileName={`productos-${moment(new Date()).utc().format('DD-MM-YYYY')}.pdf`}
+                  style={{
+                    textDecoration: "none",
+                    padding: "11px",
+                    color: "red",
+                    marginTop:'0.3rem',
+                    backgroundColor: "#f2f2f2",
+                    border: "1px solid #4a4a4a"
+                  }}
+                >
+                  {({ blob, url, loading, error }) =>
+                    loading ? "Cargando" : (<i className="far fa-file-pdf" title="Productos con bajo stock"></i>)
+                  }
+                </PDFDownloadLink>}
                 <Search setSearch={setSearch} />
                 <div className="col-sm-6 col-md-2" style={{float: 'left', paddingRight:'4rem', padding:'0.75rem', marginLeft: '6rem', color:'#fff'}}>
                 <Link type="button" to="/admin-page/addproduct" className="btn btn-primary">
@@ -65,7 +84,7 @@ export default function ProductList({copyList, setSearch, list, changeList, toDe
                       </th>
                       <th style={{textAlign:'center'}}>ID</th>
                       <th style={{textAlign:'center'}}>Nombre</th>
-                      <th style={{textAlign:'center'}}>Precio</th>
+                      <th style={{textAlign:'center'}}>Stock</th>
                       <th style={{textAlign:'center'}}>Estado</th>
                       <th style={{textAlign:'center'}}>Acciones</th>
                     </tr>
@@ -83,7 +102,7 @@ export default function ProductList({copyList, setSearch, list, changeList, toDe
                       </th>
                       <th style={{textAlign:'center'}}>ID</th>
                       <th style={{textAlign:'center'}}>Nombre</th>
-                      <th style={{textAlign:'center'}}>Precio</th>
+                      <th style={{textAlign:'center'}}>Stock</th>
                       <th style={{textAlign:'center'}}>Estado</th>
                       <th style={{textAlign:'center'}}>Acciones</th>
                     </tr>

@@ -41,7 +41,7 @@ export default function ProductItem({item, changeList, clean}) {
             </td> 
             <td style={{textAlign:'center'}}>{item.id}</td>
             <td style={{textAlign:'center'}}>{capitalize(item.name)}</td>
-            <td style={{textAlign:'center'}}>$ {item.price}</td>
+            <td style={{textAlign:'center'}}>{item.stock} uds.</td>
             <td style={{textAlign:'center'}}>
                 { (item.active) ? 
                   (<span className='badge badge-success' style={{color:"white"}}>Activado</span>) : 

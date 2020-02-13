@@ -31,13 +31,12 @@ const ReservationItem = ({item, handleModalOpen}) => {
     return (
         <Fragment>
             <tr>
-                {/* <td><Link to={link}><img src={product1} title={capitalize(item.name)} className="img-fluid" /></Link></td> */}
                 <td style={{textAlign:'center'}}>{item.id}</td>
                 <td style={{textAlign:'center'}}>{date}</td>
                 <td style={{textAlign:'center'}}>{capitalize(item.name)}</td>
                 <td style={{textAlign:'center'}}><div className="reserve"><label title={capitalize(item.color)}><span className={`color ${item.color}`} ></span></label></div></td>
                 <td style={{textAlign:'center'}}>{item.size}</td>
-                <td style={{textAlign:'center'}}>{item.stock}</td>
+                <td style={{textAlign:'center'}}>{item.stock} uds.</td>
                 <td style={{textAlign:'center'}}>$ {item.price}</td>
                 <td style={{textAlign:'center'}}><span className={clase}>{estado}</span></td>
                 <td style={{textAlign:'center'}}>

@@ -4,9 +4,12 @@ import ReservationItem from './ReservationItem';
 import Search from './../Search';
 import Paginacion from './../../../pages/shop/Paginacion';
 import Info from './../../../messages/Info';
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import PdfDocument from './PdfDocument';
+import moment from 'moment';
 
 //Cada tabla tendrá su propia barra de búsqueda
-export default function ReservationList({copyList, setSearch, list, handleModalOpen}) {
+export default function ReservationList({copyList, setSearch, list, handleModalOpen, lista, show}) {
   const [currentPage, setCurrentPage] = useState(1);
   const [listPerPage] = useState(8);
   //Obtener lista de productos actual
@@ -25,6 +28,22 @@ export default function ReservationList({copyList, setSearch, list, handleModalO
           <Info texto="Actualmente no hay reservas" />) 
           : ( 
               <div className="table-responsive">
+              {show && <PDFDownloadLink
+                  document={<PdfDocument data={lista} />}
+                  fileName={`reservas-${moment(new Date()).utc().format('DD-MM-YYYY')}.pdf`}
+                  style={{
+                    textDecoration: "none",
+                    padding: "11px",
+                    color: "red",
+                    marginTop:'0.3rem',
+                    backgroundColor: "#f2f2f2",
+                    border: "1px solid #4a4a4a"
+                  }}
+                >
+                  {({ blob, url, loading, error }) =>
+                    loading ? "Cargando" : (<i className="far fa-file-pdf" title="Reservas del día"></i>)
+                  }
+                </PDFDownloadLink>}
                 <Search setSearch={setSearch} />
                 {currentList.length === 0 ? (
                 <p className="lead" style={{padding:'8rem', textAlign:'center'}}>No se encontraron resultados...</p>) : (

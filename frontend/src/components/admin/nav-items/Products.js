@@ -17,6 +17,8 @@ export default function Products() {
     const [clean, setClean] = useState(false);
     const [serverError,setServerError] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
+    const [lista, setLista] = useState([]);
+    const [show, setHide] = useState(false);
 
     const handleModalOpen = () => {
       setModalOpen(!modalOpen);
@@ -31,11 +33,18 @@ export default function Products() {
     useEffect(() => {
         window.scrollTo(0, 0);
         setLoading(true);
+        setRefresh(false);
         getProductsAdmin()
         .then(res => {
             console.log(res);
             setList(res);
             setCopyList(res);
+             //Listado del reporte de los productos con poco stock
+             res = res.filter( item => item.stock < 50 );
+              if (res.lenght !== 0) {
+                  setLista(res);
+                  setHide(true);
+              }
             setLoading(false);
         })
         .catch(err => {
@@ -109,6 +118,8 @@ export default function Products() {
                 toDelete={toDelete} 
                 clean={clean}
                 handleModalOpen={handleModalOpen}
+                lista={lista}
+                show={show}
                 />)}
         <DeleteProductsModal
         modalOpen={modalOpen}
