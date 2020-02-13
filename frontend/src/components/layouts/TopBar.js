@@ -74,7 +74,7 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history, se
                                     <span className="d-none d-md-inline-block">Carrito</span>
                                 </Link>
                                 <Link to="/customer-notifications" className="signup-btn" title="No tenés notificaciones">
-                                    <i class="fa fa-bell fa-lg">
+                                    <i class="fas fa-envelope fa-lg">
                                         <NotificationBadge count={2} effect={Effect.SCALE} style={{margin:'-1rem'}}/>
                                     </i>
                                 </Link>

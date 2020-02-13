@@ -11,12 +11,13 @@ WHERE p.state = 'success' AND p.id = pitem.id_purchase AND pitem.id_color_size =
 CREATE VIEW AdminProductsList
 AS
 SELECT p.id,p.name,p.dsc,p.material,p.genre,p.brand,p.type,p.discount,p.price,p.active,
-(SELECT array(SELECT DISTINCT color FROM color_size WHERE prod_id = p.id)) colors
+(SELECT array(SELECT DISTINCT color FROM color_size WHERE prod_id = p.id)) colors,
+(SELECT sum(cz.stock) FROM color_size cz WHERE cz.prod_id = p.id) stock
 FROM products p ORDER BY p.id;
 
 CREATE VIEW ProductsList
 AS
-SELECT * FROM AdminProductsList WHERE active = true;
+SELECT id,name,dsc,material,genre,brand,type,discount,price,colors FROM AdminProductsList WHERE active = true;
 
 CREATE VIEW PurchaseList
 AS 
