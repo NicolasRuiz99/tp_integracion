@@ -1,0 +1,113 @@
+/* 
+Estilos del producto */
+.product {
+    text-align: center;
+    position: relative;
+    margin-bottom: 40px;
+  }
+  
+  .product .image {
+    overflow: hidden;
+    max-height: 190px;
+  }
+  
+  .product .image a {
+    margin: 0;
+  }
+  
+  .product .text {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .product .text h3 {
+    min-height: 63px;
+  }
+  
+  
+  .product .price {
+    font-size: 1.1rem;
+  }
+  
+  .product .price del {
+    color: #999;
+    display: inline-block;
+    margin-right: 5px;
+  }
+  
+  .product img {
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+  } 
+  
+  .product:hover img {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+  
+  
+  
+  
+  
+  .product:hover .text {
+    border-color: #555;
+  }
+  
+  .product a {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #333;
+    text-decoration: none !important;
+    margin-top: 15px;
+  }
+  
+  .products-big .image {
+    min-height: 250px;
+    max-height: 250px;
+  }
+  
+  #productMain #thumbs {
+    margin-top: 30px;
+  }
+  
+  
+  
+  #productMain .sizes {
+    text-align: center;
+  }
+  
+  #productMain .sizes select, input {
+    width: 120px;
+    text-decoration: none !important;
+    border-radius: 0px;
+    border: 0px solid #000000;
+    cursor: pointer;
+  }
+  
+  #productMain input {
+    background: rgb(221, 221, 221);
+    color: black;
+    border-color: #38a7bb;
+  }
+  
+  #productMain input[type=number]::-webkit-inner-spin-button {
+    opacity: 1;
+  }
+  
+  #productMain .sizes select:hover, input:hover {
+    color: black;
+    border-color: #38a7bb;
+    -webkit-box-shadow: 0 0 0 0.2rem rgba(56, 167, 187, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba(56, 167, 187, 0.25);
+  }
+  
+  #productMain .sizes select.decorated option:hover {
+    box-shadow: 0 0 10px 100px #1882A8 inset;
+  }
+  
+  #productMain .price {
+    text-align: center;
+    font-size: 2.5rem;
+    margin: 30px 0;
+    color: #555;
+  }

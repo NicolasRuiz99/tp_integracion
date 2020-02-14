@@ -8,6 +8,7 @@ import moment from 'moment';
 import uuid from 'uuid';
 import { ModifySale } from '../utils/modals';
 import LoadingDark from '../../messages/LoadingDark';
+import { Link } from 'react-router-dom';
 
 const SaleDetail = ({props}) => {
     const [purchInfo,setPurchInfo] = useState ('');
@@ -33,6 +34,7 @@ const SaleDetail = ({props}) => {
         const purch_id = props.match.params.id;
         getPurchaseInfo (purch_id)
         .then (res =>{
+            //console.log(res.purchase);
             setPurchInfo (res.purchase);
             switch (res.purchase.state){
               case 'success':
@@ -123,7 +125,7 @@ const SaleDetail = ({props}) => {
             {(error)?
             <Error texto="Hubo un error al recuperar los datos" />
             :
-            <div id="customer-order" className="col-lg-12" style={{left:'38%'}}>
+            <div id="customer-order" className="col-lg-12" style={{left:'30%'}}>
                 {(state === 'Está pendiente de pago' || state === 'Está en proceso') ? (
                     <div className="col-sm-8 col-md-4" style={{float: 'left', paddingBottom:'0rem', paddingTop: '0rem', padding: '0.4rem'}}>
                     <button className="btn btn-warning" onClick={handleModalOpen} type="button" >
@@ -131,7 +133,7 @@ const SaleDetail = ({props}) => {
                      </button>
                     </div>
                 ): null}    
-            <p className="lead">La venta #{purchInfo.id} fue hecha el <strong>{moment(purchInfo.date).utc().format('DD/MM/YYYY')}</strong> y en este momento <strong>{state}</strong>.</p>
+            <p className="lead">La venta #{purchInfo.id} fue hecha el <strong>{moment(purchInfo.date).utc().format('DD/MM/YYYY')}</strong> por el <Link to={`/admin-page/customer-detail/${purchInfo.id_user}`}>cliente #{purchInfo.id_user}</Link> y en este momento <strong>{state}</strong>.</p>
                 <div className="table-responsive">
                 <table className="table table-bordered table table-hover" width="100%" cellspacing="0">
                     <thead>

@@ -207,6 +207,7 @@ function AddProduct({history}) {
                         onChange={(e) => setTalle(e.target.value)}
                         style={{width:'50%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "pointer"}} >
                             <option selected disabled="disabled">Elige una opción</option>
+                            <option>--</option>
                             <option>35</option>
                             <option>36</option>
                             <option>37</option>

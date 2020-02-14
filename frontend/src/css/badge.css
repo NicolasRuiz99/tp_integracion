@@ -1,0 +1,96 @@
+/* 
+Estilos para el badge */
+.badge {
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 3px 5px;
+  }
+  
+  .badge-primary {
+    color: #fff;
+    background-color: #38a7bb;
+  }
+  
+  .badge-primary[href]:focus, .badge-primary[href]:hover {
+    color: #fff;
+    text-decoration: none;
+    background-color: #2c8494;
+  }
+  
+  .badge-secondary {
+    color: #fff;
+    background-color: #868e96;
+  }
+  
+  .badge-secondary[href]:focus, .badge-secondary[href]:hover {
+    color: #fff;
+    text-decoration: none;
+    background-color: #6c757d;
+  }
+  
+  .badge-success {
+    color: #fff;
+    background-color: #28a745;
+  }
+  
+  .badge-success[href]:focus, .badge-success[href]:hover {
+    color: #fff;
+    text-decoration: none;
+    background-color: #1e7e34;
+  }
+  
+  .badge-info {
+    color: #fff;
+    background-color: #17a2b8;
+  }
+  
+  .badge-info[href]:focus, .badge-info[href]:hover {
+    color: #fff;
+    text-decoration: none;
+    background-color: #117a8b;
+  }
+  
+  .badge-warning {
+    color: #111;
+    background-color: #ffc107;
+  }
+  
+  .badge-warning[href]:focus, .badge-warning[href]:hover {
+    color: #111;
+    text-decoration: none;
+    background-color: #d39e00;
+  }
+  
+  .badge-danger {
+    color: #fff;
+    background-color: #dc3545;
+  }
+  
+  .badge-danger[href]:focus, .badge-danger[href]:hover {
+    color: #fff;
+    text-decoration: none;
+    background-color: #bd2130;
+  }
+  
+  .badge-light {
+    color: #111;
+    background-color: #f8f9fa;
+  }
+  
+  .badge-light[href]:focus, .badge-light[href]:hover {
+    color: #111;
+    text-decoration: none;
+    background-color: #dae0e5;
+  }
+  
+  .badge-dark {
+    color: #fff;
+    background-color: #343a40;
+  }
+  
+  .badge-dark[href]:focus, .badge-dark[href]:hover {
+    color: #fff;
+    text-decoration: none;
+    background-color: #1d2124;
+  }

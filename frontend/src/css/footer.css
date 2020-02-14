@@ -1,0 +1,71 @@
+/* Estilos para el footer */
+footer.main-footer {
+    padding: 60px 0;
+    padding-bottom: 0;
+    background: rgb(255, 255, 255);
+    color:#24292e;
+  }
+  
+  footer.main-footer a {
+    color: inherit;
+    color: #eee;
+  }
+  
+  footer.main-footer h4 {
+    color: #747575;
+    margin: 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  
+  footer.main-footer p {
+    font-size: 0.9rem;
+    color: rgb(141, 141, 141);
+    margin-bottom: 0.1rem;
+  }
+  
+  footer.main-footer hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    background: none;
+  }
+  
+  footer.main-footer .footer-blog-list li {
+    margin-bottom: 20px;
+  }
+  
+  footer.main-footer .image {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+  }
+  
+  footer.main-footer .text {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  
+  footer.main-footer .text a {
+    font-size: 0.8rem;
+  }
+  
+
+  
+  footer.main-footer .copyrights {
+    padding: 50px 0;
+    background:rgb(255, 255, 255);
+    color: rgb(129, 129, 129);
+    margin-top: 50px;
+  }
+  
+  footer.main-footer .copyrights a {
+    color: #38a7bb;
+  }
+  
+  footer.main-footer .copyrights p {
+    color: inherit;
+    font-size: 0.8rem;
+    margin-bottom: 0;
+  }

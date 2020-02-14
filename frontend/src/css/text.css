@@ -1,0 +1,116 @@
+small,
+.small {
+  font-size: 80%;
+  font-weight: 400;
+}
+
+mark,
+.mark {
+  padding: 0.2em;
+  background-color: #fcf8e3;
+}
+
+.text-primary {
+  color: #38a7bb !important;
+}
+
+a.text-primary:focus, a.text-primary:hover {
+  color: #2c8494 !important;
+}
+
+/* Estilos para formularios */
+.form-control {
+  border-radius: 0;
+}
+
+.form-control:focus {
+  border-color: #38a7bb;
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(56, 167, 187, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(56, 167, 187, 0.25);
+}
+
+.form-group label {
+  color: #555;
+}
+
+  
+  /* Estilos para text-center responsive */
+  @media (max-width: 767px) {
+    .text-sm-center {
+      text-align: center !important;
+    }
+  }
+  
+  @media (max-width: 991px) {
+    .text-md-center {
+      text-align: center !important;
+    }
+  }
+  
+  @media (max-width: 1199px) {
+    .text-lg-center {
+      text-align: center !important;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .text-center-sm {
+      text-align: center !important;
+    }
+  }
+  
+  @media (max-width: 991px) {
+    .text-center-md {
+      text-align: center !important;
+    }
+  }
+  
+  @media (max-width: 1199px) {
+    .text-center-sm, .text-center-xs {
+      text-align: center !important;
+    }
+  }
+
+  .text-small {
+    font-size: 0.9rem;
+  }
+  
+  .text-uppercase {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* Estilos para lead */
+  .lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+  }
+
+  p.lead {
+    margin-bottom: 38px;
+  }
+
+  /* Para textos en mayusculas */
+  .text-uppercase {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .m_text {
+    color: #999;
+    font-size: 0.8125em;
+    line-height:1.8em;
+  }
+
+  .m_3 {
+    color: #555;
+    font-size: 1.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .span-detail {
+  
+    color: #555;
+  }
+  

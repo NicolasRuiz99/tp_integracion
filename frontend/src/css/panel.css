@@ -1,0 +1,107 @@
+.panel-heading {
+    margin-bottom: 10px;
+  }
+  
+  .panel-heading h3 {
+    margin-top: 5px;
+  }
+  
+  .panel-heading .btn {
+    color: #fff;
+    text-decoration: none !important;
+  }
+  
+  .panel-heading .btn i {
+    margin-right: 7px;
+  }
+  
+  .panel-body p {
+    font-size: .9rem;
+    color: #555;
+  }
+  
+  .panel-body label {
+    font-size: 0.8rem;
+    font-weight: 400 !important;
+    color: #777;
+    opacity: 0.9;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  .panel-body label input {
+    margin-right: 5px;
+  }
+  
+  .panel-body label:hover {
+    opacity: 1;
+  }
+  
+  .panel-body span.colour {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-top: 10px;
+    margin-left: 5px;
+    border: 1px solid #555;
+  }
+
+  .panel-body span.colour.white {
+    background: #fff;
+  }
+  
+  .panel-body span.colour.blue {
+    background: #007bff;
+  }
+  
+  .panel-body span.colour.green {
+    background: #28a745;
+  }
+  
+  .panel-body span.colour.red {
+    background: #dc3545;
+  }
+  
+  .panel-body span.colour.yellow {
+    background: #ffc107;
+  }
+  
+  .panel-body span.colour.purple {
+    background: #7d2181;
+  }
+  
+  .panel-body span.colour.magenta {
+    background: #FF00FF;
+  }
+  .panel-body span.colour.orange {
+    background: #ff8000;
+  }
+  
+  .panel-body span.colour.brown {
+    background: brown;
+  }
+  
+  .panel-body span.colour.black {
+    background: black;
+  }
+  
+  .panel-body span.colour.gray {
+    background: gray;
+  }
+  
+  .panel-body span.colour.lightBlue {
+    background: lightblue;
+  }
+  .panel-body span.colour.pink {
+    background: pink;
+  }
+  
+  .heading, .panel-heading {
+    margin-bottom: 1rem;
+  }
+  
+  
+  
+  .panel {
+    margin-bottom: 20px;
+  }
