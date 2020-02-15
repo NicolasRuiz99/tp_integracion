@@ -4,6 +4,7 @@ import { getTypes, capitalize, addProduct, addColor_Size } from './utils/adminFu
 import Error from '../messages/Error';
 import { withRouter } from 'react-router-dom';
 import LoadingDark from '../messages/LoadingDark';
+import { validarCargaProducto } from '../../validacion/validate';
 
 function AddProduct({history}) {
     const [types, setTypes] = useState([]);
@@ -23,8 +24,10 @@ function AddProduct({history}) {
     const [tipo, setTipo] = useState(null);
     const [talle, setTalle] = useState('');
     const [color, setColor] = useState('');
-    const [stock, setStock] = useState('');
+    const [stock, setStock] = useState('1');
     const [descuento, setDescuento] = useState(0);
+    //Manejo de error
+    const [errorProduct, setErrorProduct] = useState({});
 
 
     useEffect(() => {
@@ -45,8 +48,9 @@ function AddProduct({history}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!titulo || !descripcion || !stock || !material || !marca || !precio || !tipo || !talle || !color || genero.result === '') {
-            setError(true);
+        const err = validarCargaProducto(titulo, marca, material, precio, descuento, stock, genero.result, tipo, color, talle);
+        if (err.obligatorio || err.natural || err.porc) {
+            setErrorProduct(err);
             return;
         };
         const product = {
@@ -98,6 +102,9 @@ function AddProduct({history}) {
                 :
             (
             <form style={{marginLeft:'12rem'}}>
+                {errorProduct.obligatorio && <Error texto={errorProduct.obligatorio} />}
+                {errorProduct.natural && <Error texto={errorProduct.natural} />}
+                {errorProduct.porc && <Error texto={errorProduct.porc} />}
                 <div className="row">
                     <div className="col-md-6">
                         <div className="form-group">
@@ -191,6 +198,7 @@ function AddProduct({history}) {
                         style={{width:'50%', border: '3px solid #cccccc', fontFamily: 'Tahoma, sans-serif', cursor: "pointer"}} >
                         >     
                         ))
+                            <option selected disabled="disabled">Elige una opción</option>
                             {
                                 types.map(type => (
                                 <option
@@ -293,7 +301,7 @@ function AddProduct({history}) {
                     <div className="col-md-5">
                         <br/>
                         <div className=" form-group"> 
-                            <button className="btn btn-primary btn-lg" type="button" onClick={handleSubmit}> Cargar producto</button> 
+                            <div className="btn btn-primary btn-lg" type="button" onClick={handleSubmit}> Cargar producto</div> 
                         </div>
                     </div>
                 </div>

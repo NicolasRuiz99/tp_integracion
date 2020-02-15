@@ -26,8 +26,8 @@ export default function CouponList({copyList, list, handleModalOpen, setSearch})
           : ( 
             <div className="table-responsive">
                 <Search setSearch={setSearch} />
-                <div className="col-sm-6 col-md-2" style={{float: 'left', paddingRight:'4rem', padding:'0.75rem'}}>
-                <div type="button" onClick={handleModalOpen} className="btn btn-warning">
+                <div className="col-sm-6 col-md-2" style={{float: 'left', padding:'0.76rem', marginLeft: '-0.62rem'}}>
+                <div type="button" onClick={handleModalOpen} className="btn btn-primary">
                     Nuevo cupón
                 </div>
                 </div>

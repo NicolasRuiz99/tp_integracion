@@ -4,12 +4,12 @@ import ProductItem from './ProductItem';
 import Search from './../Search';
 import Paginacion from './../../../pages/shop/Paginacion';
 import Info from '../../../messages/Info';
-import {Link, Redirect} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import PdfDocument from './PdfDocument';
 import moment from 'moment';
 
-export default function ProductList({copyList, setSearch, list, changeList, toDelete, isCheck, clean, handleModalOpen, lista, show}) {
+function ProductList({copyList, setSearch, list, changeList, toDelete, isCheck, clean, handleModalOpen, lista, show, history}) {
   const [currentPage, setCurrentPage] = useState(1);
   const [listPerPage] = useState(8);
   //Obtener lista de productos actual
@@ -29,7 +29,6 @@ export default function ProductList({copyList, setSearch, list, changeList, toDe
          ) 
           : ( 
               <div className="table-responsive">
-                
                 <div className="col-sm-8 col-md-4" style={{float: 'left', paddingBottom:'0rem', paddingTop: '0rem', padding: '0.4rem'}}>
                   {(toDelete.length > 0) ? (
                     (toDelete.length === 1 ? ( 
@@ -62,9 +61,9 @@ export default function ProductList({copyList, setSearch, list, changeList, toDe
                 </PDFDownloadLink>}
                 <Search setSearch={setSearch} />
                 <div className="col-sm-6 col-md-2" style={{float: 'left', paddingRight:'4rem', padding:'0.75rem', marginLeft: '6rem', color:'#fff'}}>
-                <Link type="button" to="/admin-page/addproduct" className="btn btn-primary">
+                <div type="button" onClick={() => history.push("/admin-page/addproduct")} className="btn btn-primary">
                     Nuevo Producto
-                </Link>
+                </div>
                 </div>
                 {currentList.length === 0 ? (
                 <p className="lead" style={{padding:'8rem', textAlign:'center'}}>No se encontraron resultados...</p>
@@ -132,3 +131,5 @@ export default function ProductList({copyList, setSearch, list, changeList, toDe
       </div>
     )
 }
+
+export default withRouter(ProductList); 

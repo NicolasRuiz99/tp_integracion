@@ -190,8 +190,26 @@ const validarProducto = (titulo, marca, material, precio, descuento) => {
     return errors;
 };
 
+const validarCargaProducto = (titulo, marca, material, precio, descuento, stock, genero, tipo, color, talle) => {
+    const errors = {};
+    if (obligatorio(titulo) || obligatorio(marca) || obligatorio(material) || obligatorio(precio) || obligatorio(descuento) 
+    || obligatorio(stock) || obligatorio(genero) || obligatorio(tipo) || obligatorio(color) || obligatorio(talle)) {
+        errors.obligatorio = "Todos los datos (excepto la descripción) son obligatorios";
+    }
+    else if (precio < 0 || descuento < 0 || stock < 0) {
+        errors.natural = "No se admiten números enteros en el precio, descuento y stock"
+    }
+    else if (descuento > 100) {
+        errors.porc = "Descuento inválido";
+    }
+    return errors;
+};
 
-export {validarEmail, validarPsw, validarCustomer, validarLogin, validarCarrito, validarReview, validarEditCS, validarProducto};
+
+
+export {validarEmail, validarPsw, validarCustomer, 
+        validarLogin, validarCarrito, validarReview,
+        validarEditCS, validarProducto, validarCargaProducto};
 
 
 
