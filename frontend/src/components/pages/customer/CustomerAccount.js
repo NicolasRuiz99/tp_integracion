@@ -50,6 +50,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
     }
     
     useEffect (()=>{
+      window.scrollTo(0,0);
       setLoading (true);
       getUserInfo (user_id)
           .then (res=>{
@@ -374,7 +375,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
                 </div>
                 <form>
                     <div className="text-center">
-                      <button type="button" className="btn btn-danger" onClick={handleModalOpen}><i class="fas fa-minus-circle"></i> Eliminar cuenta :(</button>
+                      <div type="button" className="btn btn-danger" onClick={handleModalOpen}><i class="fas fa-minus-circle"></i> Eliminar cuenta :(</div>
                     </div>
                   </form>
               </div>

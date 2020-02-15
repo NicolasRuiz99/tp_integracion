@@ -47,6 +47,7 @@ const CustomerReviews = ({ handleDrop,user_id}) => {
     }
 
     useEffect( () => {
+      window.scrollTo(0,0);
       setLoading(true);
       let id = user_id;
       listUserReviews(id)

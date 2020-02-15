@@ -9,6 +9,7 @@ Estilos del producto */
   .product .image {
     overflow: hidden;
     max-height: 190px;
+    height: 190px;
   }
   
   .product .image a {

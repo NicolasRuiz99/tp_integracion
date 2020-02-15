@@ -54,6 +54,7 @@ const CustomerReservations = ({ handleDrop,user_id}) => {
     }
 
     useEffect( () => {
+      window.scrollTo(0,0);
       setLoading(true);
       getUserReservationList(user_id)
       .then (res => {

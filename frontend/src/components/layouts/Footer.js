@@ -1,27 +1,27 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import './../../css/default.css';
 
 
-const Footer = ({isLogged, role}) => {
+const Footer = ({isLogged, role, history}) => {
     return (
       <footer className="main-footer">
         <div className="container ">
-          <div className="row ">
-            <div className="col-lg-3">
+          <div className="row">
+            <div className="col-lg-3" style={{marginRight:'8rem'}}>
               <h4 className="h6">Sobre nosotros</h4>
               <p>Somos una empresa que se dedica a la venta de todo tipo de indumentaria con los mejores precios en el mercado.</p>
               <hr className="d-block d-lg-none" />
             </div>
-            <div className="col-lg-3">
+            <div className="col-lg-3" style={{marginRight:'9.5rem'}}>
               <h4 className="h6">Contacto</h4>
               <p className="text-uppercase"><strong>Indumentaria Online</strong><br/>En frente de la Plaza Ramirez <br/>San Martín  <br/>455 <br/>Argentina <br/><strong>Concepción del Uruguay, Entre Ríos</strong>
-              </p><Link to="/contact" className="btn btn-main">Ir a la página de contacto</Link>
+              </p><div onClick={() => history.push('/contact')} className="btn btn-main" style={{marginTop:'0.7rem'}}>Ir a la página de contacto</div>
               <hr className="d-block d-lg-none" />
             </div>
             {(isLogged) ? (
               (role) ? null :
-              (<div className="col-lg-3">
+              (<div className="col-lg-3" >
               <h4 className="h6">Mi Cuenta</h4>
                 <ul className="list-inline">
                   <li className="list-inline-item"><Link to="/customer-orders"><p>Mis compras</p></Link></li>
@@ -51,4 +51,4 @@ const Footer = ({isLogged, role}) => {
     );
 }
 
-export default Footer;
+export default withRouter(Footer);

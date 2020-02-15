@@ -14,16 +14,14 @@ const NavBar = ({setSearch, history, isOferta}) => {
       }
     }
 
-
-
     return (
       <header className="nav-holder make-sticky">
         <div id="navbar" role="navigation" className="navbar navbar-expand-lg navbar-light">
-        <Link to="/" class="navbar-brand home"><img src={logo} alt="Indumentaria Online logo" class="d-none d-md-inline-block" /><span class="sr-only">Indumentaria Online- Ir al Home</span></Link>
+        <Link to="/" className="navbar-brand home"><img src={logo} alt="Indumentaria Online logo" className="d-none d-md-inline-block" /><span className="sr-only">Indumentaria Online- Ir al Home</span></Link>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
-            <div id="navbarSupportedContent" class="collapse navbar-collapse">
+            <div id="navbarSupportedContent" className="collapse navbar-collapse">
               <ul className="nav navbar-nav m-auto">
                 <li className="nav-item">
                   <Link to="/shop-category" className="nav-link ">Tienda</Link>
@@ -42,7 +40,7 @@ const NavBar = ({setSearch, history, isOferta}) => {
                 <div className="input-group">
                   <input 
                   type="search" placeholder="Buscar" 
-                  className="form-control" style={{'border-color':'#F4F6F6'}}
+                  className="form-control" style={{'borderColor':'#F4F6F6'}}
                   onChange={({ target: { value } }) => setSearch(value)}
                   onKeyPress={event => event.key === 'Enter' ? sendSearch(event) : null}
                   /><span className="input-group-btn"></span>
@@ -51,9 +49,7 @@ const NavBar = ({setSearch, history, isOferta}) => {
               </form> 
           </div>
         </div>
-      </header>
-            
+      </header>         
     );
   }
-
 export default withRouter(NavBar);
