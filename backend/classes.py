@@ -175,6 +175,9 @@ class Chat:
         self.id_user = res[0]
         self.id_admin = res[1]
 
+    def getUnreadMsg (self):
+        return query ('SELECT unread_messages FROM ChatList WHERE id_user = ' + str (self.id_user))
+
     def listAllMsg (self):
         return callFunReturn ('ListAllMsg',[self.id_user])
 

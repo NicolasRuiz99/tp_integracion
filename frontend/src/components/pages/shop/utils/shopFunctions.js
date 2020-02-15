@@ -108,7 +108,7 @@ const getImage = (name) => {
         res = JSON.parse (res.request.response)
         return res.hits[0].webformatURL;
     })
-    .catch(err => {throw err.response.data})
+    .catch(err => {throw err.response})
 }
 
 export {
