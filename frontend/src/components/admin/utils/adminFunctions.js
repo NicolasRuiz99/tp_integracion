@@ -1,4 +1,5 @@
 import axios from 'axios';
+import emailjs from 'emailjs-com';
 
 const getReservations = async() => {
     return axios
@@ -151,6 +152,40 @@ const modProduct = ({id,name,dsc,material,genre,brand,type,discount,price}) => {
     .catch(err => {throw err.response.data})
 }
 
+const sendTrackCodeEMail = async (user_email,purch_id,track_code) => {
+    emailjs.init('user_pFJ31TIc6yCAoC7qDXriN');
+    const templateParams = {
+        user_email,
+        purch_id,
+        track_code
+    };
+     
+    emailjs.send('gmail', 'pruebamsj', templateParams)
+        .then((response) => {
+           return ('SUCCESS!', response.status, response.text);
+        })
+        .catch ((error) => {
+           return ('FAILED...', error);
+        });
+}
+
+const sendPurchaseEMail = async (user_email,purch_id,state) => {
+    emailjs.init('user_pFJ31TIc6yCAoC7qDXriN');
+    const templateParams = {
+        user_email,
+        purch_id,
+        state
+    };
+     
+    emailjs.send('gmail', 'purchasemsj', templateParams)
+        .then((response) => {
+            return ('SUCCESS!', response.status, response.text);
+        })
+        .catch ((error) => {
+            return ('FAILED...', error);
+        });
+}
+
 export {
     getReservations,
     capitalize,
@@ -165,5 +200,7 @@ export {
     addProduct,
     addColor_Size,
     modColor_Size,
-    modProduct
+    modProduct,
+    sendTrackCodeEMail,
+    sendPurchaseEMail
 };

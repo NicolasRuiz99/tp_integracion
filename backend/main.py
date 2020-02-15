@@ -318,6 +318,7 @@ def deleteUser():
 @app.route ('/user/get',methods=['POST'])
 def getUser():
     error = False
+    print (request.json)
     id = request.json['id']
     new = User ()
     new.id = id
@@ -325,6 +326,7 @@ def getUser():
         new.get()
     except (Exception) as err:
         error = True
+        print (err)
         return handleError (err)
     finally:
         if not (error):
@@ -516,6 +518,20 @@ def getChat():
     finally:
         if not (error):
             result = new.json()
+            return jsonify({'result': 'success','data' : result})
+
+@app.route ('/chat/getUnreadMsg',methods=['POST'])
+def getUnreadChatMsg():
+    error = False
+    new = Chat ()
+    new.id_user = request.json['id']
+    try:
+        result = new.getUnreadMsg()
+    except (Exception) as err:
+        error = True
+        return handleError (err)
+    finally:
+        if not (error):
             return jsonify({'result': 'success','data' : result})
 
 @app.route ('/chat/listallmsg',methods=['POST'])
