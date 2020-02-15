@@ -3,12 +3,13 @@ import './../../../css/default.css';
 import {withRouter} from 'react-router-dom';
 import Error from '../../messages/Error';
 import SaleLine from './../list/sale/SaleLine';
-import { getPurchaseInfo, listPurchaseItems, setPurchaseState, setShippingTrackCode } from '../../pages/customer/utils/CustomerFunctions';
+import { getPurchaseInfo, listPurchaseItems, setPurchaseState, setShippingTrackCode, getUserInfo } from '../../pages/customer/utils/CustomerFunctions';
 import moment from 'moment';
 import uuid from 'uuid';
 import { ModifySale } from '../utils/modals';
 import LoadingDark from '../../messages/LoadingDark';
 import { Link } from 'react-router-dom';
+import { sendTrackCodeEMail } from '../utils/adminFunctions';
 
 const SaleDetail = ({props}) => {
     const [purchInfo,setPurchInfo] = useState ('');
@@ -23,6 +24,7 @@ const SaleDetail = ({props}) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [refresh, setRefresh] = useState(false);
     const [trackCode,setTrackCode] = useState ("");
+    const [mailError,setMailError] = useState (false);
 
     const handleModalOpen = () => {
         setModalOpen(!modalOpen);
@@ -96,6 +98,7 @@ const SaleDetail = ({props}) => {
     }
 
     const handleTC = () => {
+      setMailError (false);
       setCodeError (false);
       if (trackCode === ""){
         setCodeError (true);
@@ -104,13 +107,28 @@ const SaleDetail = ({props}) => {
       const {id} = shipInfo;
       setShippingTrackCode (id,trackCode)
       .then (res=>{
-        setRefresh (true);
+          getUserInfo (purchInfo.id_user)
+          .then (res=>{
+              sendTrackCodeEMail (res.e_mail,purchInfo.id,trackCode)
+              .then (res=>{
+                setRefresh (true);
+              })
+              .catch (err=>{
+                setMailError (true);
+                return;
+              })
+          })
+          .catch (err=>{
+            setMailError (true);
+            return;
+          })
       })
       .catch (err=>{
         setError(true);
         return;
       })
       setCodeError (false);
+      setMailError (false);
     }
 
     return (
@@ -191,6 +209,8 @@ const SaleDetail = ({props}) => {
                                   {(shipInfo.track_code == null)?"Añadir":"Cambiar"}
                             </button>
                             {(codeError)?<Error texto="Valor no permitido" />:null}
+                            {(error)?<Error texto="Error del servidor" />:null}
+                            {(mailError)?<Error texto="Hubo un error al notificar al cliente" />:null}
                         </div>
                       <br /> </p>
                    </div>

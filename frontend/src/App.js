@@ -101,17 +101,17 @@ const App = () => {
             <Route  
             path="/success/:id"
             render={(props)=>(
-              <PurchResult props = {props} type = {1}/>
+              <PurchResult props = {props} type = {1} user_id = {parseInt(localStorage.getItem ('user_id'))}/>
             )}/>
             <Route  
             path="/pending/:id"
             render={(props)=>(
-              <PurchResult props = {props} type = {2}/>
+              <PurchResult props = {props} type = {2} user_id = {parseInt(localStorage.getItem ('user_id'))}/>
             )}/>
             <Route  
              path="/failure/:id"
             render={(props)=>(
-              <PurchResult props = {props} type = {3}/>
+              <PurchResult props = {props} type = {3} user_id = {parseInt(localStorage.getItem ('user_id'))}/>
             )}/>
             <Route path="/top-sellers" component={TopSellers}/>
             <Route  path="/shop-detail/:id" 

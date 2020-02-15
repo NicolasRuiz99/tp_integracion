@@ -1,9 +1,14 @@
 import React,{useEffect,useState} from 'react';
-import {setPurchaseState} from '../utils/CustomerFunctions';
+import {setPurchaseState, getUserInfo} from '../utils/CustomerFunctions';
+import { sendPurchaseEMail } from '../../../admin/utils/adminFunctions';
+import Error from '../../../messages/Error';
+import Info from '../../../messages/Info';
+import Success from '../../../messages/Success';
 
-const PurchResult = ({props,type}) => {
+const PurchResult = ({props,type,user_id}) => {
 
     const [error,setError] = useState (false);
+    const [mailError,setMailError] = useState (false);
 
     useEffect (()=>{
         const id = props.match.params.id;
@@ -26,20 +31,62 @@ const PurchResult = ({props,type}) => {
             return;
         })
         setError (false);
-    },[])
+    },[props])
+
+    useEffect (()=>{
+        setMailError (false);
+        const id = props.match.params.id;
+        let state;
+        switch (type){
+            case 1:
+                state = 'completada';
+                break;
+            case 2:
+                state = 'en proceso';
+                break;
+            case 3:
+                state = 'cancelada';
+                break;
+        }
+        getUserInfo (user_id)
+        .then (res=>{
+            sendPurchaseEMail (res.e_mail,id,state)
+            .then (res=>{
+                console.log(res);
+            })
+            .catch (err=>{  
+                setMailError (true);
+                return;
+            })
+        })
+        .catch (err=>{
+            setMailError (true);
+            return;
+        })
+        setMailError (false);
+    },[user_id])
 
     switch (type){
         case 1:
             return (
-                <div className="alert alert-success mt-2 mb-5 text-center">{(error)?'Ocurrio un error':'Compra realizada con éxito'}</div>
+                <div>
+                {(error)?<Error texto="Ocurrió un error, contacta con el administrador"/>:<Success texto="Compra realizada con éxito"/>}
+                {(mailError)?<Error texto="Ocurrió un error al enviar las notificaciones"/>:null}
+                </div>
             );
         case 2:
             return (
-                <div className="alert alert-success mt-2 mb-5 text-center">{(error)?'Ocurrio un error':'Compra pendiente'}</div>
+                <div>
+                {(error)?<Error texto="Ocurrió un error, contacta con el administrador"/>:<Info texto="Compra pendiente"/>}
+                {(mailError)?<Error texto="Ocurrió un error al enviar las notificaciones"/>:null}
+                </div>    
             );
         case 3:
             return (
-                <div className="alert alert-success mt-2 mb-5 text-center">{(error)?'Ocurrio un error':'Compra cancelada'}</div>
+                <div>
+                {(error)?<Error texto="Ocurrió un error, contacta con el administrador"/>:<Error texto="Compra cancelada"/>}
+                {(mailError)?<Error texto="Ocurrió un error al enviar las notificaciones"/>:null}
+                </div> 
             );
     }
 }

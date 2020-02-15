@@ -318,6 +318,7 @@ def deleteUser():
 @app.route ('/user/get',methods=['POST'])
 def getUser():
     error = False
+    print (request.json)
     id = request.json['id']
     new = User ()
     new.id = id
@@ -325,6 +326,7 @@ def getUser():
         new.get()
     except (Exception) as err:
         error = True
+        print (err)
         return handleError (err)
     finally:
         if not (error):
