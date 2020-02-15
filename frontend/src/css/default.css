@@ -295,36 +295,7 @@ Blockquotes */
 .blockquote-footer::before {
   content: "\2014 \00A0";
 }
-/* 
-Social */
-ul.social {
-  margin: 15px 0;
-}
 
-ul.social a {
-  width: 28px;
-  height: 28px;
-  line-height: 28px;
-  background: #555;
-  color: #fff;
-  text-align: center;
-  border-radius: 50%;
-  margin: 0 2px;
-  font-size: 0.8rem;
-}
-
-ul.social a:hover {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
-}
-
-ul.social a.facebook {
-  background: #4561ae;
-}
-
-ul.social a.gplus {
-  background: #c22026;
-}
 /* 
 Select */
 .bs-select .dropdown-menu .dropdown-menu {
@@ -440,3 +411,5 @@ carousel general */
 #checkout .payment-method:hover, #checkout .shipping-method:hover {
   cursor: pointer;
 }
+
+

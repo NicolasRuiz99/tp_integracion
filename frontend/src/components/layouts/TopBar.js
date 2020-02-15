@@ -5,10 +5,13 @@ import LoginModal from './../modals/LoginModal';
 import LogoutModal from './../modals/LogoutModal';
 import NotificationBadge from 'react-notification-badge';
 import {Effect} from 'react-notification-badge';
+import { getUnreadMessages } from './utils/topbarFunctions';
 
 const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history, setRole}) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalOpen2, setModalOpen2] = useState(false);
+    const [id] = useState(parseInt(user_id))
+    const [msjs, setMsjs] = useState({});
 
     useEffect (()=>{
         if (user_id !== null){
@@ -17,6 +20,20 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history, se
             setIsLogged (false)
         }
     },[user_id])
+
+    //UseEffect de mensajes no leídos
+    useEffect(() => {
+        if (id !== null) {
+        getUnreadMessages({id})
+        .then(res => {
+            console.log(res);
+            setMsjs(res);
+        })
+        .catch(err => {
+            return;
+        })
+        }
+    }, []);
 
     const handleModalOpen = () => {
         setModalOpen(!modalOpen);
@@ -87,6 +104,7 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history, se
                                         <li className="dropdown-item"><Link to="/customer-wishlist" class="nav-link" style={{color: "#fff"}}>Mis deseos</Link></li>
                                         <li className="dropdown-item"><Link to="/customer-reservations" class="nav-link" style={{color: "#fff"}}>Mis reservas</Link></li>
                                         <li className="dropdown-item"><Link to="/customer-reviewlist" class="nav-link" style={{color: "#fff"}}>Mis reseñas</Link></li>
+                                        <li className="dropdown-item"><Link to={`/customer-chat?chatID=usuario&room=${user_id}`} class="nav-link" style={{color: "#fff"}}>Chat</Link></li>
                                         <li className="dropdown-item"><Link class="nav-link" onClick={handleModalOpen2} style={{color: "#fff"}}>Salir</Link></li>
                                     </ul>
                                 </Link>

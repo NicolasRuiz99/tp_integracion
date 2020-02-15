@@ -114,8 +114,10 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history, setRole}) => {
                 </div>
                 <ul className="text-center list-group list-group-flush">
                     <li className="list-group-item"><button type="submit" className="btn btn-outlined"><i className="fa fa-sign-in"></i> Ingresar</button></li>
-                    <li className="list-group-item"><button type='button' className="btn btn-outlined btn-social btn-google"  onClick={handleGoogleLogin} ><i className="fab fa-google-plus-g"></i>Ingresar con Google</button></li>
-                    <li className="list-group-item" ><button type='button' className="btn btn-outlined btn-social btn-facebook"  onClick={handleFacebookLogin }><i className="fab fa-facebook-square"></i>Ingresar con Facebook</button></li>
+                    <li className="list-group-item"><button type='button' className="btn-social btn-google"  onClick={handleGoogleLogin} >
+                      <i className="fab fa-google-plus-g" style={{fontSize:'21px', marginTop:'-0.23rem'}}></i>Ingresar con Google</button></li>
+                    <li className="list-group-item" ><button type='button' className="btn-social btn-facebook" onClick={handleFacebookLogin } >
+                      <i className="fab fa-facebook-square" style={{fontSize:'21px', marginTop:'-0.23rem'}}></i>Ingresar con Facebook</button></li>
                   </ul>
               </form>
               <p className="text-center text-muted">Aún no estás registrado?</p>

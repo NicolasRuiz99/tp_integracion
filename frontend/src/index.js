@@ -4,7 +4,6 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router} from 'react-router-dom';
 import './css/buttons.css';
-import './css/default.css';
 import './css/heading.css';
 import './css/badge.css';
 import './css/footer.css';
@@ -19,6 +18,7 @@ import './css/card.css';
 import './css/text.css';
 import './css/panel.css';
 import './css/div.css';
+import './css/social.css';
 
 ReactDOM.render(
   

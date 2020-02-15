@@ -80,7 +80,7 @@ export default function Admin({handleDrop,user_id, isLogged, role}) {
                         <Route  
                             path='/admin-page/customer-chat'
                             component={()=>(
-                            <Chat user_id={user_id} />
+                            <Chat user_id={user_id} isAdmin={true}/>
                         )}/>
                         </Fragment>
                     ) : (<Redirect to="/" />)}  

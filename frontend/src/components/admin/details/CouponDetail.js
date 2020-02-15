@@ -110,9 +110,9 @@ function CouponDetail({props}) {
                                 </label>
                             </div>
                             <div className="card-text" style={{float: 'right'}}>
-                                <Button variant="warning" onClick={handleModalOpen} className="btn btn-warning">
+                                <div type='button' onClick={handleModalOpen} className="btn btn-warning">
                                     Editar
-                                </Button> 
+                                </div> 
                             </div>  
                         </div>
                     </div>

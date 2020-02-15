@@ -103,7 +103,7 @@ const CustomerChat = (props) => {
             :
             <div className="container">
             <div className="row bar">
-            <div id="customer-account" className="col-lg-8 clearfix">     
+            <div id="customer-account" className="col-lg-8 clearfix" style={{left:`${chatID === 'admin' ? '18%' : '0'}`}}>     
               {(loading)?
                 <div>
                 {(chatID === 'admin')?<LoadingDark/>:<Loading/>}

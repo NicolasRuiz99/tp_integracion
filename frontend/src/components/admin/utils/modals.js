@@ -49,15 +49,20 @@ const EditCouponModal = ({modalOpen, handleModalOpen, editarCupon, porc, fecha})
    const [pc, setPc] = useState('');
    const [date, setDate] = useState('');
    const [used, setUsed] = useState(false);
-
+   const [error, setError] = useState(false);
    useEffect (()=>{
       setPc (porc);
       setDate (fecha);
    },[porc,fecha])
 
    const handleClick = () => {
+      if (pc < 0 || pc > 100) {
+         setError(true);
+         return;
+      }
       editarCupon(date,pc, used);
       handleModalOpen(null);
+      setError(false);
    }
 
     return (
@@ -72,6 +77,7 @@ const EditCouponModal = ({modalOpen, handleModalOpen, editarCupon, porc, fecha})
                </Modal.Title>
             </Modal.Header>
             <Modal.Body>
+            {error && <Error texto="Descuento inválido" />}
             <div className="form-group row">
                <label  className="col-sm-4 col-lg-2 col-form-label">
                     Porcentaje:
@@ -136,10 +142,16 @@ const EditCouponModal = ({modalOpen, handleModalOpen, editarCupon, porc, fecha})
 const AddCouponModal = ({modalOpen, handleModalOpen, agregarCupon}) => {
    const [pc, setPc] = useState('');
    const [cad_date, setCad_date] = useState('');
+   const [error, setError] = useState(false);
 
    const handleClick = () => {
+      if (pc < 0 || pc > 100) {
+         setError(true);
+         return;
+      }
       agregarCupon(pc,cad_date);
       handleModalOpen(null);
+      setError(false);
    }
 
    useEffect (()=>{
@@ -159,6 +171,7 @@ const AddCouponModal = ({modalOpen, handleModalOpen, agregarCupon}) => {
                </Modal.Title>
             </Modal.Header>
             <Modal.Body>
+               {error && <Error texto="Descuento inválido" />}
             <div className="form-group row">
                <label  className="col-sm-4 col-lg-2 col-form-label">
                   Porcentaje:
