@@ -318,7 +318,6 @@ def deleteUser():
 @app.route ('/user/get',methods=['POST'])
 def getUser():
     error = False
-    print (request.json)
     id = request.json['id']
     new = User ()
     new.id = id
@@ -326,7 +325,6 @@ def getUser():
         new.get()
     except (Exception) as err:
         error = True
-        print (err)
         return handleError (err)
     finally:
         if not (error):
@@ -532,7 +530,7 @@ def getUnreadChatMsg():
         return handleError (err)
     finally:
         if not (error):
-            return jsonify({'result': 'success','data' : result})
+            return jsonify({'result': 'success','unread_messages' : result})
 
 @app.route ('/chat/listallmsg',methods=['POST'])
 def listallChatMsg():
@@ -648,7 +646,6 @@ def ProductSetActive():
         new.setActive()
     except (Exception) as err:
         error = True
-        print (err)
         return handleError (err)
     finally:
         if not (error):

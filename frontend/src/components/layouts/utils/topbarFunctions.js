@@ -1,12 +1,11 @@
 import axios from 'axios';
 
-const getUnreadMessages = ({id}) => {
+const getUnreadMessages = (id) => {
     return axios
     .post("/chat/getUnreadMsg",{
         id
     })
-    .then(res => {console.log(res);return res.data.data
-    })
+    .then(res => {return res.data})
     .catch(err => {throw err.response.data})
 }
 

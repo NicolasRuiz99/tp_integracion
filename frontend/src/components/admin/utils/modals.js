@@ -139,7 +139,7 @@ const EditCouponModal = ({modalOpen, handleModalOpen, editarCupon, porc, fecha})
     )
 }
 
-const AddCouponModal = ({modalOpen, handleModalOpen, agregarCupon}) => {
+const AddCouponModal = ({modalOpen, handleModalOpen, agregarCupon, dateError}) => {
    const [pc, setPc] = useState('');
    const [cad_date, setCad_date] = useState('');
    const [error, setError] = useState(false);
@@ -150,7 +150,6 @@ const AddCouponModal = ({modalOpen, handleModalOpen, agregarCupon}) => {
          return;
       }
       agregarCupon(pc,cad_date);
-      handleModalOpen(null);
       setError(false);
    }
 
@@ -172,6 +171,7 @@ const AddCouponModal = ({modalOpen, handleModalOpen, agregarCupon}) => {
             </Modal.Header>
             <Modal.Body>
                {error && <Error texto="Descuento inválido" />}
+               {dateError && <Error texto="Fecha inválida" />}
             <div className="form-group row">
                <label  className="col-sm-4 col-lg-2 col-form-label">
                   Porcentaje:

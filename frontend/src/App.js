@@ -1,5 +1,5 @@
 import React, {Fragment,useState,useEffect} from 'react';
-import { Route, Switch, Redirect} from 'react-router-dom';
+import { Route, Switch, Redirect, withRouter} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
 import TopButton from './components/top-button/GoTopButton'
@@ -27,14 +27,16 @@ import TopSellers from './components/pages/nav-items/TopSellers';
 import ShopCheckout from './components/pages/shop/ShopCheckout';
 import PurchResult from './components/pages/customer/purch_states/PurchResult';
 import Admin from './components/admin/Admin';
+import { getUnreadMessages } from './components/layouts/utils/topbarFunctions';
 
-const App = () => {
+const App = ({location}) => {
 
   const [user_id,setUser] = useState(null);
   const [isLogged, setIsLogged] = useState(false);
   const [search, setSearch] = useState('');
   const [isOferta, setIsOferta] = useState(false);
   const [role, setRole] = useState(false);
+  const [msjs, setMsjs] = useState(0);
 
     useEffect (()=>{
       if (user_id !== null){
@@ -62,6 +64,29 @@ const App = () => {
       localStorage.setItem ('user_id', null);
       localStorage.setItem ('role', role);
     }
+
+    const unreadMSG = () => {
+      if (user_id !== null) {
+          getUnreadMessages(user_id)
+          .then(res => {
+              setMsjs(res.unread_messages);
+          })
+          .catch(err => {
+              return;
+          })
+      }
+    }
+
+    //vemos mensajes no leidos cada vez que cambiamos ruta
+    useEffect (()=>{
+        if (!role){
+          if (location.pathname.includes('/customer-chat')){
+            setMsjs (0);
+          }else{
+            unreadMSG();
+          } 
+        }      
+    },[location])
     
     //Componente auxiliar para que el admin no pueda ir a "/"
     const Inicio = () => {
@@ -75,10 +100,10 @@ const App = () => {
   
     return (
       <div className="fragment" >   
-          <Header user_id = {user_id} setUser = {setUser} role={role} handleDrop={handleDrop} setRole={setRole} isLogged={isLogged} setIsLogged={setIsLogged} setSearch={setSearch} search={search} isOferta={isOferta} />
+          <Header msjs = {msjs} unreadMSG = {unreadMSG}  user_id = {user_id} setUser = {setUser} role={role} handleDrop={handleDrop} setRole={setRole} isLogged={isLogged} setIsLogged={setIsLogged} setSearch={setSearch} search={search} isOferta={isOferta} />
           <Switch>
             <Route exact path="/" render={Inicio} />
-            <Route  path="/contact" component={Contact} />
+            <Route  path="/contact" render={Contact} />
             <Route
               path="/admin-page" 
               component={()=>(
@@ -88,7 +113,7 @@ const App = () => {
             <Route  path="/shop-category" render={() => (
               <Categorias search={search} setIsOferta={setIsOferta} isOferta={false}/>
             )} />
-            <Route  path='/shop-checkout' component={() =>(<ShopCheckout user_id = {user_id} />)} />
+            <Route  path='/shop-checkout' render={() =>(<ShopCheckout user_id = {user_id} />)} />
             <Route  path="/ofertas" render={() => (
               <Categorias search={search} setIsOferta={setIsOferta} isOferta={true}  />
             )} />
@@ -101,17 +126,17 @@ const App = () => {
             <Route  
             path="/success/:id"
             render={(props)=>(
-              <PurchResult props = {props} type = {1} user_id = {parseInt(localStorage.getItem ('user_id'))}/>
+              <PurchResult id = {props.match.params.id} type = {1} user_id = {parseInt(localStorage.getItem ('user_id'))}/>
             )}/>
             <Route  
             path="/pending/:id"
             render={(props)=>(
-              <PurchResult props = {props} type = {2} user_id = {parseInt(localStorage.getItem ('user_id'))}/>
+              <PurchResult id = {props.match.params.id} type = {2} user_id = {parseInt(localStorage.getItem ('user_id'))}/>
             )}/>
             <Route  
              path="/failure/:id"
             render={(props)=>(
-              <PurchResult props = {props} type = {3} user_id = {parseInt(localStorage.getItem ('user_id'))}/>
+              <PurchResult id = {props.match.params.id} type = {3} user_id = {parseInt(localStorage.getItem ('user_id'))}/>
             )}/>
             <Route path="/top-sellers" component={TopSellers}/>
             <Route  path="/shop-detail/:id" 
@@ -181,4 +206,4 @@ const App = () => {
     )
   }
 
-export default App;
+export default withRouter (App);

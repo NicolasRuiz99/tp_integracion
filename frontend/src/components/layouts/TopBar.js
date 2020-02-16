@@ -5,13 +5,10 @@ import LoginModal from './../modals/LoginModal';
 import LogoutModal from './../modals/LogoutModal';
 import NotificationBadge from 'react-notification-badge';
 import {Effect} from 'react-notification-badge';
-import { getUnreadMessages } from './utils/topbarFunctions';
 
-const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history, setRole}) => {
+const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history, setRole,unreadMSG,msjs}) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalOpen2, setModalOpen2] = useState(false);
-    const [id] = useState(parseInt(user_id))
-    const [msjs, setMsjs] = useState({});
 
     useEffect (()=>{
         if (user_id !== null){
@@ -23,17 +20,8 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history, se
 
     //UseEffect de mensajes no leídos
     useEffect(() => {
-        if (id !== null) {
-        getUnreadMessages({id})
-        .then(res => {
-            console.log(res);
-            setMsjs(res);
-        })
-        .catch(err => {
-            return;
-        })
-        }
-    }, []);
+        unreadMSG ()
+    }, [user_id]);
 
     const handleModalOpen = () => {
         setModalOpen(!modalOpen);
@@ -51,7 +39,6 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history, se
             history.push('/registro');
         }
     }
-    
 
     return (
         <Fragment>
@@ -90,9 +77,9 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history, se
                                     <i class="fas fa-shopping-cart fa-lg"></i>
                                     <span className="d-none d-md-inline-block">Carrito</span>
                                 </Link>
-                                <Link to="/customer-notifications" className="signup-btn" title="No tenés notificaciones">
+                                <Link to={`/customer-chat?chatID=usuario&room=${user_id}`}  className="signup-btn" title="Chat con administrador">
                                     <i class="fas fa-envelope fa-lg">
-                                        <NotificationBadge count={2} effect={Effect.SCALE} style={{margin:'-1rem'}}/>
+                                        <NotificationBadge count={msjs} effect={Effect.SCALE} style={{margin:'-1rem'}}/>
                                     </i>
                                 </Link>
                                 <Link className="nav-item dropdown active"><Link onClick={e => {

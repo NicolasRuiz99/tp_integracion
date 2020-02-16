@@ -34,6 +34,15 @@ END;
 $body$
 LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION UserUnreadMsg (id_c int)
+RETURNS int
+AS $body$
+BEGIN
+	RETURN (SELECT unread_messages FROM UserUnreadMessages WHERE id_user = id_c);
+END;
+$body$
+LANGUAGE plpgsql;
+
 CREATE OR REPLACE FUNCTION PurchaseListByID (id_u int)
 RETURNS table (
 		id int,

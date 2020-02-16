@@ -15,6 +15,7 @@ export default function Coupons() {
     const [serverError,setServerError] = useState(false);
     const [refresh,setRefresh] = useState (false);
     const [search, setSearch] = useState('');
+    const [dateError,setDateError] = useState (false);
 
     const handleModalOpen = () => {
       setModalOpen(!modalOpen);
@@ -50,16 +51,23 @@ export default function Coupons() {
    },[search]);
 
    const agregarCupon = (pc, date) => {
-       let cad_date = moment(date).format('DD/MM/YYYY');
+       setDateError (false);
+       let cad_date = moment(date).format('MM/DD/YYYY');
        addCoupon({pc, cad_date})
        .then(res => {
+            handleModalOpen(null);
            setRefresh(true);
        })
        .catch(err => {
-        setError(true);   
-        return;
+           if (err.type.includes('fecha de vencimiento inválida')){
+                setDateError (true);
+           }else{
+            setError(true);
+           }       
+           return;
        });
        setError(false);
+       setDateError (false);
    }
 
     return (
@@ -79,7 +87,8 @@ export default function Coupons() {
             <AddCouponModal 
             modalOpen={modalOpen}
             handleModalOpen={handleModalOpen}
-            agregarCupon={agregarCupon} />
+            agregarCupon={agregarCupon}
+            dateError = {dateError} />
         </Fragment>
     )
 }

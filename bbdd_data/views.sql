@@ -77,3 +77,8 @@ SELECT c.id_user,c.id_admin,
 (SELECT m.date FROM message m WHERE m.id_chat = c.id_user ORDER BY m.id DESC LIMIT 1) date
 FROM chat c;
 
+CREATE VIEW UserUnreadMessages
+AS
+SELECT c.id_user,(SELECT count (*) FROM message m WHERE m.id_chat = c.id_user AND m.id_user != c.id_user AND m.read = false) unread_messages 
+FROM chat c;
+

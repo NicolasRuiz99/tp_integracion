@@ -5,13 +5,12 @@ import Error from '../../../messages/Error';
 import Info from '../../../messages/Info';
 import Success from '../../../messages/Success';
 
-const PurchResult = ({props,type,user_id}) => {
+const PurchResult = ({id,type,user_id}) => {
 
     const [error,setError] = useState (false);
     const [mailError,setMailError] = useState (false);
 
     useEffect (()=>{
-        const id = props.match.params.id;
         let state;
         switch (type){
             case 1:
@@ -31,11 +30,10 @@ const PurchResult = ({props,type,user_id}) => {
             return;
         })
         setError (false);
-    },[props])
+    },[id])
 
     useEffect (()=>{
         setMailError (false);
-        const id = props.match.params.id;
         let state;
         switch (type){
             case 1:
