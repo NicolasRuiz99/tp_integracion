@@ -338,9 +338,16 @@ END; $funcemp$ LANGUAGE plpgsql;
 
 --funcion para cambiar estado de una reserva si pasa mas de un dia desde su creacion (vence)
 
-CREATE OR REPLACE FUNCTION check_date() RETURNS TRIGGER AS $funcemp$
+CREATE OR REPLACE FUNCTION check_reservation_date() RETURNS TRIGGER AS $funcemp$
 BEGIN
 	UPDATE "reservations" SET state = 'cancelled' WHERE CURRENT_TIMESTAMP(2) > (date + 1);
+END; $funcemp$ LANGUAGE plpgsql;
+
+--funcion para cambiar estado de un cupón si pasa su fecha de vencimiento
+
+CREATE OR REPLACE FUNCTION check_coupon_date() RETURNS TRIGGER AS $funcemp$
+BEGIN
+	UPDATE "coupon" SET used = true WHERE CURRENT_TIMESTAMP(2) > (cad_date);
 END; $funcemp$ LANGUAGE plpgsql;
 
 --funcion para crear una reserva
