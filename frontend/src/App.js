@@ -103,7 +103,7 @@ const App = ({location}) => {
           <Header msjs = {msjs} unreadMSG = {unreadMSG}  user_id = {user_id} setUser = {setUser} role={role} handleDrop={handleDrop} setRole={setRole} isLogged={isLogged} setIsLogged={setIsLogged} setSearch={setSearch} search={search} isOferta={isOferta} />
           <Switch>
             <Route exact path="/" render={Inicio} />
-            <Route  path="/contact" render={Contact} />
+            <Route  path="/contact" component={Contact} />
             <Route
               path="/admin-page" 
               component={()=>(
