@@ -48,10 +48,9 @@ const HomePage = ({user_id}) => {
         {(loading)?
             <Loading/>
         :
-        
         <div className="box row bar">
             <div className="col-sm-6">
-            <div class="heading text-center">
+            <div className="heading text-center">
             <h2>Novedades</h2>
             </div>
             {(error)?
@@ -66,11 +65,8 @@ const HomePage = ({user_id}) => {
             </div>
             }
             </div>
-       
-      
- 
         <div className="col-sm-6" style={{borderLeft: '1px solid #cccccc'}}>
-        <div class="heading text-center">
+        <div className="heading text-center">
             <h2>Mejor valorados</h2>
         </div>
             {(error)?
@@ -86,12 +82,8 @@ const HomePage = ({user_id}) => {
             }
             </div>
         </div>
-      
         }
-        </Fragment>
-        
-    );
-    
+        </Fragment>    
+    );   
 }
-
 export default HomePage;

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const getUnreadMessages = (id) => {
+const getUnreadMessages = id => {
     return axios
     .post("/chat/getUnreadMsg",{
         id

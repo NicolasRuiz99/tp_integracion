@@ -1,9 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './../../../css/default.css';
 import BreadCrumbs from './../../BreadCrumbs';
 
 
 const Contact = () => {
+  useEffect(() => {
+    window.scrollTo(0,0);
+  }, []);
+  
   return (
     <div id="content">
       <BreadCrumbs 

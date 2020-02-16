@@ -21,7 +21,7 @@ const CustomerOrders = ({handleDrop,user_id}) => {
     const [modalOpen, setModalOpen] = useState(false);
 
     useEffect( () => {
-      
+      window.scrollTo(0,0);
       setLoading(true);
       getPurchaseList ({user_id})
       .then (res => {

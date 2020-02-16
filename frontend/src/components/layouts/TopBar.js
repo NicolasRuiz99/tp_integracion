@@ -47,12 +47,11 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history, se
                 <div className="row d-flex align-items-center">
                     <div className="col-md-12" style={{paddingRight:'2.5rem'}}>
                         <div >
-                            
                                 {(!isLogged) ? (
                                     <Fragment>
                                     <div className="login">
                                     <Link to={(isLogged)?"/shop-checkout/cart":"/registro"} className="signup-btn">
-                                    <i class="fas fa-shopping-cart"></i>
+                                    <i className="fas fa-shopping-cart"></i>
                                     <span className="d-none d-md-inline-block">Carrito</span>
                                     </Link>
                                     <Link to="/registro" className="signup-btn">
@@ -61,20 +60,19 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history, se
                                 </Link>
                                 <Link onClick={handleModalOpen} className="login-btn">
                                     <i className="fa fa-sign-in"></i>
-                                    <span class="d-none d-md-inline-block">Acceder</span>
+                                    <span className="d-none d-md-inline-block">Acceder</span>
                                 </Link>
                                 </div>
                                 </Fragment>
                                 ) : 
                                 (<Fragment> 
                                 <div className="login"> 
-                                
                                 <Link to="/customer-wishlist" className="signup-btn">
-                                    <i class="fas fa-heart fa-lg"></i>
+                                    <i className="fas fa-heart fa-lg"></i>
                                     <span className="d-none d-md-inline-block">Mis deseos</span>
                                 </Link>
                                 <Link onClick={toCart} className="signup-btn">
-                                    <i class="fas fa-shopping-cart fa-lg"></i>
+                                    <i className="fas fa-shopping-cart fa-lg"></i>
                                     <span className="d-none d-md-inline-block">Carrito</span>
                                 </Link>
                                 <Link to={`/customer-chat?chatID=usuario&room=${user_id}`}  className="signup-btn" title="Chat con administrador">
@@ -85,14 +83,14 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history, se
                                 <Link className="nav-item dropdown active"><Link onClick={e => {
                                 e.preventDefault() 
                                 }} data-toggle="dropdown" className="dropdown-toggle signup-btn" style={{color: "#fff"}}><span className="d-none d-md-inline-block">{`Mi Cuenta`}</span></Link>
-                                    <ul class="dropdown-menu">
-                                        <li className="dropdown-item"><Link to="/customer-account" class="nav-link" style={{color: "#fff"}}>Mi cuenta</Link></li>
-                                        <li className="dropdown-item"><Link to="/customer-orders" class="nav-link" style={{color: "#fff"}}>Mis compras</Link></li>
-                                        <li className="dropdown-item"><Link to="/customer-wishlist" class="nav-link" style={{color: "#fff"}}>Mis deseos</Link></li>
-                                        <li className="dropdown-item"><Link to="/customer-reservations" class="nav-link" style={{color: "#fff"}}>Mis reservas</Link></li>
-                                        <li className="dropdown-item"><Link to="/customer-reviewlist" class="nav-link" style={{color: "#fff"}}>Mis reseñas</Link></li>
-                                        <li className="dropdown-item"><Link to={`/customer-chat?chatID=usuario&room=${user_id}`} class="nav-link" style={{color: "#fff"}}>Chat</Link></li>
-                                        <li className="dropdown-item"><Link class="nav-link" onClick={handleModalOpen2} style={{color: "#fff"}}>Salir</Link></li>
+                                    <ul className="dropdown-menu">
+                                        <li className="dropdown-item"><Link to="/customer-account" className="nav-link" style={{color: "#fff"}}>Mi cuenta</Link></li>
+                                        <li className="dropdown-item"><Link to="/customer-orders" className="nav-link" style={{color: "#fff"}}>Mis compras</Link></li>
+                                        <li className="dropdown-item"><Link to="/customer-wishlist" className="nav-link" style={{color: "#fff"}}>Mis deseos</Link></li>
+                                        <li className="dropdown-item"><Link to="/customer-reservations" className="nav-link" style={{color: "#fff"}}>Mis reservas</Link></li>
+                                        <li className="dropdown-item"><Link to="/customer-reviewlist" className="nav-link" style={{color: "#fff"}}>Mis reseñas</Link></li>
+                                        <li className="dropdown-item"><Link to={`/customer-chat?chatID=usuario&room=${user_id}`} className="nav-link" style={{color: "#fff"}}>Chat</Link></li>
+                                        <li className="dropdown-item"><Link className="nav-link" onClick={handleModalOpen2} style={{color: "#fff"}}>Salir</Link></li>
                                     </ul>
                                 </Link>
                                 </div>
@@ -103,14 +101,12 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history, se
                 </div>
             </div>
         </div>
-
         <LoginModal
            modalOpen={modalOpen}
            handleModalOpen={handleModalOpen}
            setUser = {setUser}
            setRole={setRole}
         />
-
         <LogoutModal
            modalOpen={modalOpen2}
            handleModalOpen={handleModalOpen2}
@@ -119,5 +115,4 @@ const TopBar = ({user_id,setUser, isLogged, setIsLogged, handleDrop, history, se
         </Fragment>
     );
 }
-
 export default withRouter(TopBar);

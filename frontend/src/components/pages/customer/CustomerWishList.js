@@ -34,6 +34,7 @@ const CustomerWishList = ({setUser, handleDrop,user_id}) => {
     };
 
     useEffect( () => {
+      window.scrollTo(0,0);
       setLoading(true);
       getUserWishlist (user_id)
       .then (res => {
