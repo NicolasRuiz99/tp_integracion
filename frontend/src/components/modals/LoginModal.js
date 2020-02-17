@@ -92,6 +92,11 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history, setRole}) => {
     handleModalOpen ();
   }
 
+  const toRegistro = () => {
+    handleModalOpen ();
+    history.push('/registro')
+  }
+
     return (
         <>
           <Modal show={modalOpen} onHide={handleModalOpen} style={{top: '1.5%', left:'-1%'}}>
@@ -121,7 +126,7 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history, setRole}) => {
                   </ul>
               </form>
               <p className="text-center text-muted">Aún no estás registrado?</p>
-              <p className="text-center text-muted"><Link to="/registro"><strong>Registráte ahora</strong></Link>! Es fácil y en menos de un minuto tendrás acceso a descuentos fantásticos y mucho más!</p>
+              <p className="text-center text-muted"><Link onClick={toRegistro}><strong>Registráte ahora</strong></Link>! Es fácil y en menos de un minuto tendrás acceso a descuentos fantásticos y mucho más!</p>
               </Modal.Body>
               <Modal.Footer>
                  <Button variant="danger" onClick={handleModalOpen} className="btn btn-danger">

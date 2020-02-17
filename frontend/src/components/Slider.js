@@ -1,10 +1,8 @@
 import React from 'react';
 import './../css/slider.css';
-import image1 from './../assets/cg4.jpg';
-import image2 from './../assets/cg5.jpg';
-import image3 from './../assets/cg6.jpg';
-
-
+import image1 from './../assets/slider1.jpg';
+import image2 from './../assets/slider2.jpg';
+import image3 from './../assets/slider3.jpg';
 
 const Slider = () => {
     return (
@@ -13,16 +11,16 @@ const Slider = () => {
         <div className="dark-mask mask-primary"></div>
         <div className="carousel-item active item">
           <div className="row">
-              <img className="d-block w-100" src={image1} alt="pantalon"/>
+              <img className="d-block w-1920" src={image1} alt="pantalon"/>
             </div>
           </div>
         <div className="carousel-item item">
         <div className="row">
-          <img className="d-block w-100" src={image2} alt="ropa"/></div>
+          <img className="d-block w-1920" src={image2} alt="ropa"/></div>
         </div>
         <div className="carousel-item item">
         <div className="row">
-          <img className="d-block w-100" src={image3} alt="calzado"/></div>
+          <img className="d-block w-1920" src={image3} alt="calzado"/></div>
       </div>
       </div>
       <a className="carousel-control-prev" href="#carouselControls" role="button" data-slide="prev">
