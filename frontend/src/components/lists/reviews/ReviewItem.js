@@ -29,10 +29,10 @@ const ReviewItem = ({item, handleModalOpen}) => {
                 <td>{date}</td>
                 <td><div className="reserve"><label><span><Rating change={false} stars={stars}  /></span></label></div></td>
                 <td>
-                    <Link to={link2} className="btn btn-outlined btn-sm">Ver/Editar</Link>
+                    <Link to={link2}  className="btn btn-outlined btn-sm">Ver/Editar</Link>
                     {
                     <Link 
-                    className="cancelar" 
+                    className="cancelar"
                     style={{float: 'right', marginRight:'25px', display:'inline-block'}} 
                     title="Eliminar"
                     onClick={() => handleModalOpen(item)}

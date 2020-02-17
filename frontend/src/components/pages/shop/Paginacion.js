@@ -15,13 +15,13 @@ const Paginacion = ({listPerPage, totalList, paginate, currentPage}) => {
         <div className="pages" > 
             <nav aria-label="Page navigation example" className="d-flex justify-content-center">
                 <ul className="pagination">
-                    <li className="page-item"><Link onClick={() => paginate(currentPage - 1)} className="page-link"> <i className="fa fa-angle-double-left"></i></Link></li>
+                    <li className="page-item"><div onClick={() => paginate(currentPage - 1)} className="page-link" style={{cursor:'pointer'}}> <i className="fa fa-angle-double-left"></i></div></li>
                     {
                     pageNumbers.map(number => (
                         <li key={number} className={`page-item ${(currentPage === number) ? 
-                            'active' : null}`}><Link onClick={() => paginate(number)} className="page-link">{number}</Link></li>
+                            'active' : null}`}><div onClick={() => paginate(number)} className="page-link" style={{cursor:'pointer'}}>{number}</div></li>
                     ))}
-                    <li className="page-item"><Link onClick={() => paginate(currentPage + 1)} className="page-link"><i className="fa fa-angle-double-right"></i></Link></li>
+                    <li className="page-item"><div onClick={() => paginate(currentPage + 1)} className="page-link" style={{cursor:'pointer'}}><i className="fa fa-angle-double-right"></i></div></li>
                 </ul>
             </nav>
         </div>

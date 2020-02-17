@@ -26,8 +26,6 @@ const ReservationItem = ({item, handleModalOpen}) => {
         }
     } ,[]);
 
- 
-
     return (
         <Fragment>
             <tr>
@@ -40,7 +38,7 @@ const ReservationItem = ({item, handleModalOpen}) => {
                 <td style={{textAlign:'center'}}>$ {item.price}</td>
                 <td style={{textAlign:'center'}}><span className={clase}>{estado}</span></td>
                 <td style={{textAlign:'center'}}>
-                    <Link onClick={() => handleModalOpen(item)} className="btn btn-outlined btn-sm" style={{width: '40%'}} >Ver</Link>
+                    <div onClick={() => handleModalOpen(item)} className="btn btn-outlined btn-sm" style={{width: '40%'}} >Ver</div>
                 </td>
             </tr>
         </Fragment>    
