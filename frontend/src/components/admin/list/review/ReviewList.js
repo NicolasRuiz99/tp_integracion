@@ -31,12 +31,12 @@ export default function ReviewList({copyList, setSearch, changeList, toDelete, i
                   (toDelete.length === 1 ? ( 
                       <p className="text-muted">1 item seleccionado
                       &nbsp; 
-                      <Link onClick={isCheck}> Borrar la selección</Link></p>
+                      <span onClick={isCheck} style={{cursor:'pointer', color:'blue'}}> Borrar la selección</span></p>
                       
                     ) : (    
                     <p className="text-muted">{toDelete.length} items seleccionados
                     &nbsp;
-                    <Link onClick={isCheck}> Borrar la selección</Link></p>
+                    <span onClick={isCheck} style={{cursor:'pointer', color:'blue'}}> Borrar la selección</span></p>
                     
                   ))
                 ) : null}
@@ -54,7 +54,7 @@ export default function ReviewList({copyList, setSearch, changeList, toDelete, i
                         borderRight: '0px',
                         borderLeft: '0px'}}>
                           {(toDelete.length > 0) ? (
-                            <button type="button" onClick={handleModalOpen}><i className="fa fa-trash-o" title="Eliminar elementos"></i></button>
+                            <div onClick={handleModalOpen}><i className="fa fa-trash-o" title="Eliminar elementos" style={{cursor:'pointer'}}></i></div>
                           ): null}
                       </th>
                       <th style={{textAlign:'center'}}>ID</th>
@@ -73,7 +73,7 @@ export default function ReviewList({copyList, setSearch, changeList, toDelete, i
                         borderBottom: '0px',
                         borderLeft: '0px'}}>
                           {(toDelete.length > 0) ? (
-                            <Link onClick={handleModalOpen}><i className="fa fa-trash-o" title="Eliminar elementos"></i></Link>
+                            <div onClick={handleModalOpen}><i className="fa fa-trash-o" title="Eliminar elementos" style={{cursor:'pointer'}}></i></div>
                           ): null}
                       </th>
                       <th style={{textAlign:'center'}}>ID</th>
