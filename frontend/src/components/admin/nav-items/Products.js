@@ -6,13 +6,13 @@ import { setActiveProduct } from '../utils/adminFunctions';
 import {DeleteProductsModal} from './../utils/modals';
 import LoadingDark from '../../messages/LoadingDark';
 
-export default function Products() {
+const Products = () => {
+    const [refresh,setRefresh] = useState (false);
     const [list, setList] = useState([]);
     const [error, setError] = useState(false);
     const [copyList, setCopyList] = useState([]);
     const [search, setSearch] = useState('');
     const [loading,setLoading] = useState (false);
-    const [refresh,setRefresh] = useState (false);
     const [toDelete, setToDelete] = useState([]);
     const [clean, setClean] = useState(false);
     const [serverError,setServerError] = useState(false);
@@ -129,3 +129,5 @@ export default function Products() {
         </Fragment>
     )
 }
+
+export default Products;

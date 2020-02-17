@@ -69,7 +69,7 @@ RETURNS table (
 AS $body$
 BEGIN
 	RETURN QUERY
-	SELECT p.id,p.name,p.type,p.discount,p.price FROM products p WHERE p.type = type_p and p.id != id_p LIMIT 3;
+	SELECT p.id,p.name,p.type,p.discount,p.price FROM products p WHERE p.type = type_p AND p.id != id_p AND p.active = true LIMIT 3;
 END;
 $body$
 LANGUAGE plpgsql;

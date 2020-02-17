@@ -168,6 +168,9 @@ const ShopDetail = ({props,user_id,history}) => {
       getProductInfo (product_id)
       .then(res =>{
           setProdInfo (res);
+          if (res.active === false){
+            history.push ('/error')
+          }
           getProductColor_size (product_id)
           .then(res =>{
             setColor_size (res);

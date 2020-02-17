@@ -54,7 +54,7 @@ export default function ReviewList({copyList, setSearch, changeList, toDelete, i
                         borderRight: '0px',
                         borderLeft: '0px'}}>
                           {(toDelete.length > 0) ? (
-                            <Link onClick={handleModalOpen}><i className="fa fa-trash-o" title="Eliminar elementos"></i></Link>
+                            <button type="button" onClick={handleModalOpen}><i className="fa fa-trash-o" title="Eliminar elementos"></i></button>
                           ): null}
                       </th>
                       <th style={{textAlign:'center'}}>ID</th>
