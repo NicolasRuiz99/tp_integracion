@@ -2,6 +2,8 @@ from flask import Flask, jsonify, request, json
 from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coupon,Shipping,Purchase,Purchxitem,Reservation,Wishlist,Review
 from ddbb_connect import logInUser,logInUser2
 from mp_api import pagar
+from flask_cors import CORS
+import time, threading
 
 def handleError (error):
     detail = ''
@@ -9,7 +11,20 @@ def handleError (error):
         detail = detail + item
     return jsonify ({'result': 'error', 'type': detail}), 500
 
+coupon = Coupon ()
+reservation = Reservation ()
+
+def updateDates ():
+    try:
+        coupon.check_dates()
+        reservation.check_dates()
+        print ('dates checked')
+    except (Exception) as err:
+        print (err)
+    threading.Timer(3600, updateDates).start()
+
 app = Flask(__name__)
+CORS (app)
 
 @app.route ('/mercadopago',methods=['POST'])
 def mercadopago():
@@ -1454,3 +1469,4 @@ def getReviewInfo():
 if __name__ == '__main__':
     app.run(debug=True)
 
+updateDates()

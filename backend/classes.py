@@ -355,6 +355,9 @@ class Coupon:
     def listall (self):
         return query('SELECT * FROM coupon ORDER BY id')
 
+    def check_dates (self):
+        callFun ('update_coupon_date',[])
+
 class Shipping:
     def __init__ (self,address=None,zip=None,name=None,surname=None,dni=None,province=None,_id=None,track_code=None):
         self.id = _id
@@ -508,6 +511,9 @@ class Reservation:
 
     def userList (self,user_id):
         return callFunReturn ('ReservationsListByID',[user_id])
+
+    def check_dates (self):
+        callFun ('update_reservation_date',[])
 
 class Wishlist:
     def __init__ (self,id_user=None,id_prod=None,date=None):

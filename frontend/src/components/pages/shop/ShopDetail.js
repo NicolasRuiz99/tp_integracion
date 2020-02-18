@@ -19,6 +19,7 @@ import Error from '../../messages/Error';
 import Info from '../../messages/Info';
 import Loading from '../../messages/Loading';
 import ProductList from '../../lists/ProductList';
+import {FacebookShareButton,FacebookIcon} from 'react-share';
 
 const ShopDetail = ({props,user_id,history}) => {
     const images = [
@@ -270,6 +271,9 @@ const ShopDetail = ({props,user_id,history}) => {
                       <div className="col-sm-11">
                       <div className="product">
                         <p className="price"> {(prodInfo.discount !== 0)?<del> ${prodInfo.price} </del> : null} ${prodInfo.price-((prodInfo.discount*prodInfo.price)/100)}</p> 
+                        <FacebookShareButton url={"https://www.google.com/"} quote={"Mirá este artículo!"} className="share">
+                            <FacebookIcon size={32} round={true}/>
+                        </FacebookShareButton>
                       </div>
                       </div>
                     </form>
@@ -369,6 +373,9 @@ const ShopDetail = ({props,user_id,history}) => {
                         onClick={(isReserved)?deleteReservation:ManageReservation}>
                           <i class="far fa-calendar-alt"></i>
                         </button>
+                        <FacebookShareButton url={"https://www.google.com/"} quote={"Mirá este artículo!"} className="share">
+                            <FacebookIcon size={32} round={true}/>
+                        </FacebookShareButton>
                         </p>
                       </div>
                       {stockError && <Error texto="Stock no permitido"/> }
