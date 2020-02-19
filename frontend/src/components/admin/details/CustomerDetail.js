@@ -13,13 +13,17 @@ function CustomerDetail({props}) {
     const [error, setError] = useState(false);
     const [loading,setLoading] = useState (false);
     const [id] = useState(props.match.params.id);
-
+    const [error2,setError2] = useState (false);
 
     useEffect(() => {    
         setLoading(true);
         userGetInfo(id)
         .then(res => {
-            console.log(res);
+            if (res.user.active === false){
+                setError2 (true);
+                setLoading (false);
+                return;
+            }
             setUser(res.user);
             if (res.customer) {
                 setCustomer(res.customer)
@@ -31,6 +35,7 @@ function CustomerDetail({props}) {
             return;
         })
         setError(false)
+        setError2(false);
     }, []);
 
     return (
@@ -39,10 +44,11 @@ function CustomerDetail({props}) {
         <div className="row addresses" >
             {(loading) ? (
                 <LoadingDark/>
-            ): ( (error) ? (<Error texto="Ha ocurrido un error interno en el servidor" />) : (
-                (!user.e_mail && !user.psw && !customer ) ? (
+            ): ( (error) ? (<Error texto="Ha ocurrido un error interno en el servidor" />) : 
+                (
+                ((!user.e_mail && !user.psw && !customer)|| (error2)) ? (
                     <div style={{left:'25%',position:'absolute',bottom:'40%', width:'50%'}}>
-                        <Info texto="El usuario aún no ha cargado los datos" />     
+                        <Info texto={(error2)?"El usuario ha sido eliminado":"El usuario aún no ha cargado los datos"} />     
                     </div>
                 ) :
                 (

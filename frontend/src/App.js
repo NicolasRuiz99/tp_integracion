@@ -39,6 +39,7 @@ const App = ({location}) => {
   const [msjs, setMsjs] = useState(0);
 
     useEffect (()=>{
+      window.scrollTo(0, 0);
       if (user_id !== null){
         localStorage.setItem ('user_id', user_id);
         localStorage.setItem('role', role);
@@ -79,6 +80,7 @@ const App = ({location}) => {
 
     //vemos mensajes no leidos cada vez que cambiamos ruta
     useEffect (()=>{
+        window.scrollTo(0, 0);
         if (!role){
           if (location.pathname.includes('/customer-chat')){
             setMsjs (0);

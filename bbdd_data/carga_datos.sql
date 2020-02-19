@@ -13,17 +13,17 @@ ALTER SEQUENCE users_id_seq RESTART WITH 1;
 
 INSERT INTO "roles" (name) VALUES ('admin'), ('customer');
 
-INSERT INTO "users" (e_mail, psw, id_role) VALUES 
-('nicolasruiz@live.com.ar', 'Admin12345', 1),
-('nicolasrondan@live.com.ar', 'password', 2), 
-('ramonvaldez@live.com', 'admin', 2),
-('juliocesar@live.com.ar', 'contraseña', 2),    
-('leoDavinci@gmail.com', '123456789', 2), 
-('arturito12@hotmail.com', 'soytupadre123', 2),
-('juanortiga@gmail.com', 'elmasri', 2), ('estebanquito@gmail.com', '456789123', 2), 
-('horacioquiroga@live.com.ar', 'almohada45', 2),
-('oliviatorres@gmail.com', 'bananasplit5', 2), 
-('japonesirz@yahoo.com', '5555s', 2);
+INSERT INTO "users" (e_mail, psw, id_role,active) VALUES 
+('nicolasruiz@live.com.ar', 'Admin12345', 1,true),
+('nicolasrondan@live.com.ar', 'password', 2,true), 
+('ramonvaldez@live.com', 'admin', 2,true),
+('juliocesar@live.com.ar', 'contraseña', 2,true),    
+('leoDavinci@gmail.com', '123456789', 2,true), 
+('arturito12@hotmail.com', 'soytupadre123', 2,true),
+('juanortiga@gmail.com', 'elmasri', 2,true), ('estebanquito@gmail.com', '456789123', 2,true), 
+('horacioquiroga@live.com.ar', 'almohada45', 2,true),
+('oliviatorres@gmail.com', 'bananasplit5', 2,true), 
+('japonesirz@yahoo.com', '5555s', 2,true);
 
 INSERT INTO "customers" (dni, name, surname, genre, c_size, shoe_size, phone_no, id_user) VALUES 
 ('39031040', 'nicolas', 'rondan', 'M', 'L', '42', '3442471711', 2 ),

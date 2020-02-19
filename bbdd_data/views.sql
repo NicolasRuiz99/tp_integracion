@@ -1,3 +1,7 @@
+CREATE VIEW ActiveUsers 
+AS
+SELECT * FROM users WHERE active = true ORDER BY id;
+
 CREATE VIEW UserCustomer 
 AS
 SELECT c.id,u.e_mail,c.dni,c.name,c.surname,c.genre,c.c_size,c.shoe_size,c.phone_no,c.id_user FROM users u,customers c
@@ -57,7 +61,7 @@ WHERE r.id_product = p.id ORDER BY r.id;
 
 CREATE VIEW UserRole
 AS
-SELECT u.id,u.e_mail,u.psw,u.external_id,r.name rol FROM users u,roles r 
+SELECT u.id,u.e_mail,u.psw,u.external_id,r.name rol FROM ActiveUsers u,roles r 
 WHERE u.id_role = r.id;
 
 CREATE VIEW WishlistProducts

@@ -1,37 +1,40 @@
 from ddbb_connect import addToTable,listTable,updateTable,deleteFromTable,searchID,deleteFromTable2,searchID2,query,callFun,callFunReturn,addToTableReturnID
 
 class User:
-    def __init__ (self,e_mail = None,psw = None,id_role = None,external_id=None,_id = None):
+    def __init__ (self,e_mail = None,psw = None,id_role = None,external_id=None,active=True,_id = None):
         self.id = _id
         self.e_mail = e_mail
         self.psw = psw
         self.external_id = external_id
         self.id_role = id_role 
+        self.active = active
 
     def register (self):
-        new_record = (self.e_mail,self.psw,self.id_role)
-        addToTable ('users (e_mail,psw,id_role)',new_record,'(%s,%s,%s)')
+        new_record = (self.e_mail,self.psw,self.id_role,self.active)
+        addToTable ('users (e_mail,psw,id_role,active)',new_record,'(%s,%s,%s,%s)')
 
     def register2 (self):
-        new_record = (self.external_id,self.id_role)
-        addToTable ('users (external_id,id_role)',new_record,'(%s,%s)')
+        new_record = (self.external_id,self.id_role,self.active)
+        addToTable ('users (external_id,id_role,active)',new_record,'(%s,%s,%s)')
 
     def mod (self):
         new_record = (self.e_mail,self.psw,self.id)
         updateTable ('users',new_record,'e_mail = %s, psw = %s')
 
     def delete (self):
-        deleteFromTable ('users',self.id)
+        callFun ('DeleteUser',[self.id])
 
     def get (self):
         res = searchID ('users',self.id)  
         self.id = res[0]
         self.e_mail = res[1]
         self.psw = res[2]
-        self.id_role = res[3]
+        self.external_id = res[3]
+        self.id_role = res[4]
+        self.active = res[5]
 
     def json (self):
-        return dict (id = self.id, e_mail = self.e_mail, psw = self.psw, id_role = self.id_role, external_id = self.external_id)
+        return dict (id = self.id, e_mail = self.e_mail, psw = self.psw, id_role = self.id_role, external_id = self.external_id,active = self.active)
 
     def getCustomer (self):
         return callFunReturn ('UserCustomerByID',[self.id])
@@ -45,10 +48,10 @@ class User:
     #Class functions
 
     def listall (self):
-        return query ('SELECT * FROM users ORDER BY id')
+        return listTable ('ActiveUsers')
 
     def listallEmails (self):
-        return query ('SELECT e_mail FROM users')
+        return query ('SELECT e_mail FROM ActiveUsers WHERE e_mail != null')
 
     def listCustomers (self):
         return listTable ('UserCustomer')

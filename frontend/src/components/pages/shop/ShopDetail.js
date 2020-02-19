@@ -163,7 +163,6 @@ const ShopDetail = ({props,user_id,history}) => {
     useEffect (()=>{
       setLoadingProd (true);
       setLoadingRec (true);
-      window.scrollTo(0, 0);
       const product_id = props.match.params.id;
       
       getProductInfo (product_id)

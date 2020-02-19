@@ -1,3 +1,14 @@
+CREATE OR REPLACE FUNCTION DeleteUser(id_u int) RETURNS void AS $funcemp$
+BEGIN
+	UPDATE "users" SET active = false,e_mail = null,external_id = null WHERE id = $1;
+	DELETE FROM "customers" WHERE id_user = $1;
+	DELETE FROM "message" WHERE id_chat = $1;
+	DELETE FROM "chat" WHERE id_user = $1;
+	DELETE FROM "purchase" WHERE id_user = $1 AND state = 'cart';
+	UPDATE "reservations" SET state = 'cancelled' WHERE id_user = $1;
+	DELETE FROM "wishlist" WHERE id_user = $1;
+END; $funcemp$ LANGUAGE plpgsql;
+
 CREATE OR REPLACE FUNCTION UserCustomerByID (id_u int)
 RETURNS table (
 		id int,

@@ -79,7 +79,7 @@ const deleteCustomer = id => {
     .post("/user/delete", {
         id
     })
-    .then(res => {console.log(res.data); return res.data})
+    .then(res => {return res.data})
     .catch(err => {throw err.response.data})
 }
 
@@ -114,15 +114,6 @@ const modCustomerInfo = ({id,dni,name,surname,genre,c_size,shoe_size,phone_no}) 
     .then(res => {return res.data})
     .catch(err => {throw err.response.data})
 }
-
-// const getUser = user_id => {
-//     return axios
-//     .post("/user/get",{
-//         id: user_id
-//     })
-//     .then(res => {return res.data.data})
-//     .catch(err => {throw err})
-// }
 
 const modUserInfo = ({id,e_mail,psw}) => {
     return axios
@@ -496,6 +487,8 @@ const getCustomers = async() => {
     })
     .catch(err => {throw err.response.data})
 }
+
+
 
 export {
     login, 

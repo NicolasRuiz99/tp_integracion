@@ -53,6 +53,7 @@ CREATE TABLE users (
     psw varchar (40),
     external_id varchar (60) unique,
     id_role int,
+    active boolean,
     PRIMARY KEY (id),
     FOREIGN KEY (id_role) REFERENCES roles (id)
 );

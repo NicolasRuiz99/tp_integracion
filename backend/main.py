@@ -318,11 +318,10 @@ def modUser():
 @app.route ('/user/delete',methods=['POST'])
 def deleteUser():
     error = False
-    id = request.json['id']
-    new = User ()
-    new.id = id
+    user = User ()
+    user.id = request.json['id']
     try:
-        new.delete()
+        user.delete()
     except (Exception) as err:
         error = True
         return handleError (err)

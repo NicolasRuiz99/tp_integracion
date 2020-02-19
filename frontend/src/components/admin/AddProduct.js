@@ -31,7 +31,6 @@ function AddProduct({history}) {
 
 
     useEffect(() => {
-        window.scrollTo(0, 0);
         setLoading(true);
         getTypes()
         .then(res => {
