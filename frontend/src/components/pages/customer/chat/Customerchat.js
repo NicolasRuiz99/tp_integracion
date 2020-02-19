@@ -65,7 +65,12 @@ const CustomerChat = (props) => {
             alert(error);
           }
         });
-      }, [ENDPOINT, props.location.search]);
+        return () => {
+          socket.emit('disconnect');
+    
+          socket.close();
+        }
+      },[]);
 
       useEffect(() => {
         //Escuchando mensajes
@@ -76,7 +81,6 @@ const CustomerChat = (props) => {
         socket.on('roomData', ({ users }) => {
           setUsers(users);
         })
-    
         return () => {
           socket.emit('disconnect');
     
@@ -92,8 +96,6 @@ const CustomerChat = (props) => {
           socket.emit('sendMessage', data, () => setMessage(''));
         }
       }
-    
-    console.log(message, messages);
 
     return (
         <Fragment>

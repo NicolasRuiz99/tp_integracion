@@ -582,7 +582,8 @@ def addMessage():
     msg = request.json['msg']
     id_user = request.json['id_user']
     id_chat = request.json['id_chat']
-    new = Message (msg,None,id_user,id_chat)
+    read = request.json['read']
+    new = Message (msg,None,id_user,id_chat,read)
     try:
         new.add()
     except (Exception) as err:

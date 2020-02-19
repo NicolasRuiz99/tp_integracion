@@ -19,8 +19,10 @@ app.use(router);
 
 io.on('connect', (socket) => {
   socket.on('join', ({ chatID, room }, callback) => {
+
     const { error, user } = addUser({ id: socket.id, chatID, room });
-    users = getUsersInRoom(user.room);
+    users = getUsersInRoom(user.room).length;
+    
     chatFunctions.listAllMsg(room)
     .then (messages=>{    
         let user;
@@ -50,9 +52,14 @@ io.on('connect', (socket) => {
 
   socket.on('sendMessage', (data, callback) => {
     const user = getUser(socket.id);  
-    console.log(users);
-    
-    chatFunctions.addMsg (data.message,data.user_id,user.room)
+    let read;
+    if (users > 1){
+        read = true;
+    }else{
+      read = false;
+    }
+
+    chatFunctions.addMsg (data.message,data.user_id,user.room,read)
     .then (res => {
       //console.log(res);
     })
@@ -66,11 +73,12 @@ io.on('connect', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    const user = removeUser(socket.id);
-    if(user) {
-      io.to(user.room).emit('message', { user: 'Admin', text: `${user.chatID} se ha desconectado.` });
-      io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room)});
-    }
+      const user = removeUser(socket.id);
+      if (user){
+        users = getUsersInRoom(user.room).length;
+        io.to(user.room).emit('message', { user: 'Admin', text: `${user.chatID} se ha desconectado.` });
+        io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room)});
+      }
   })
 });
 

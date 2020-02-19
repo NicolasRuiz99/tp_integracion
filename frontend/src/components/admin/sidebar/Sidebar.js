@@ -24,7 +24,7 @@ const Sidebar = ({handleDrop}) => {
         <Link to="/admin-page/reviews" className="list-group-item list-group-item-action bg-light"> <i class="fas fa-star"></i> Reseñas</Link>
         <Link to="/admin-page/coupons" className="list-group-item list-group-item-action bg-light"> <i class="fas fa-ticket-alt"></i> Cupones</Link>
         <Link to="/admin-page/chats" className="list-group-item list-group-item-action bg-light"><i class="fas fa-comments"></i> Chats</Link>
-        <Link onClick={handleModalOpen} className="list-group-item list-group-item-action bg-light"><i className="fa fa-sign-out"></i> Salir</Link>
+        <button type="button" onClick={handleModalOpen} className="list-group-item list-group-item-action bg-light"><i className="fa fa-sign-out"></i> Salir</button>
       </div>
     </div>
     <LogoutModal

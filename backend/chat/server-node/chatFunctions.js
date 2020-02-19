@@ -7,11 +7,12 @@ const listAllMsg = async(id) => {
     return res.data.data;
 }
 
-const addMsg = async(msg,id_user,id_chat) => {
+const addMsg = async(msg,id_user,id_chat,read) => {
     let res = await axios.post("http://localhost:5000/message/add",{
         msg,
         id_user,
-        id_chat
+        id_chat,
+        read
     });
     return res.data.data;
 }
