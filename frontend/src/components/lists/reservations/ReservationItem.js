@@ -4,16 +4,25 @@ import {Link} from 'react-router-dom';
 import './../../../css/default.css';
 import './../../../css/reservation.css';
 import moment from 'moment';
+import { getImage } from "../../pages/shop/utils/shopFunctions";
 
 const ReservationItem = ({item, handleModalOpen}) => {
 
     const [link,setLink] = useState ('');
     const [estado,setEstado] = useState ('');
     const [clase,setClase] = useState ('');
+    const [img,setImage] = useState(product1);
     const date = moment(item.date).utc().format('DD/MM/YYYY');
 
     useEffect (()=> {
         setLink (`/shop-detail/${item.prod_id}`);
+        getImage (item.name)
+        .then (res=>{
+            setImage (res);
+        })
+        .catch (err=>{
+            console.log(err);
+        })
         switch (item.state) {
             case 'reserved':
                 setEstado ('reservada');
@@ -33,7 +42,7 @@ const ReservationItem = ({item, handleModalOpen}) => {
     return (
         <Fragment>
             <tr>
-                <td><Link to={link}><img src={product1} title={capitalize(item.name)} className="img-fluid" /></Link></td>
+                <td><Link to={link}><img src={img} title={capitalize(item.name)} className="img-fluid" /></Link></td>
                 <td>{date}</td>
                 <td>{item.stock}</td>
                 <td>{item.size}</td>
@@ -43,14 +52,14 @@ const ReservationItem = ({item, handleModalOpen}) => {
                 <td>
                     <Link to={link} className="btn btn-outlined btn-sm">Ver</Link>
                     {(estado === 'reservada') ? 
-                    (<Link 
+                    (<button type="button"
                     className="cancelar" 
                     style={{float: 'right', marginRight:'25px', display:'inline-block'}} 
                     title="Cancelar"
                     onClick={() => handleModalOpen(item)}
                     >
                     <i class="fas fa-times-circle"></i>
-                    </Link>)
+                    </button>)
                     : null}
                 </td>
             </tr>

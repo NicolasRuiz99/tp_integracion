@@ -51,6 +51,7 @@ const ShopCategorias = ({search, setIsOferta, isOferta}) => {
 
     //UseEffect inicial
     useEffect( () => {
+        window.scrollTo(0, 0);
         setLoading(true);
         getProducts ()
         .then (res => {

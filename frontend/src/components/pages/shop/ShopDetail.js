@@ -161,6 +161,7 @@ const ShopDetail = ({props,user_id,history}) => {
 
     //use effect inicial
     useEffect (()=>{
+      window.scrollTo(0, 0);
       setLoadingProd (true);
       setLoadingRec (true);
       const product_id = props.match.params.id;

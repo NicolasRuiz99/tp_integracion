@@ -15,6 +15,7 @@ const HomePage = ({user_id}) => {
     const [loading,setLoading] = useState (false);
 
     useEffect (()=>{
+        window.scrollTo(0, 0);
         setLoading (true);
         listNewProducts ()
         .then (res=>{

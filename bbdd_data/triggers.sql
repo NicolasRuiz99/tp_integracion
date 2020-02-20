@@ -49,7 +49,7 @@ FOR EACH ROW EXECUTE PROCEDURE check_state_purch();
 
 CREATE OR REPLACE FUNCTION update_stock_purch() RETURNS TRIGGER AS $funcemp$
 BEGIN
-IF (NEW.state = 'pending') OR (NEW.state = 'success' AND OLD.state != 'pending') OR (NEW.state = 'pending-pay') THEN
+IF (NEW.state = 'pending-pay') THEN
 	UPDATE "color_size" 
 	SET stock = stock - (SELECT pitem.stock FROM purchxitem pitem WHERE id_purchase = NEW.id AND pitem.id_color_size = id) 
 	WHERE id IN (SELECT id_color_size FROM purchxitem WHERE id_purchase = NEW.id);

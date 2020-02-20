@@ -3,7 +3,8 @@ from classes import User,Customer,Type,Role,Chat,Message,Product,Color_size,Coup
 from ddbb_connect import logInUser,logInUser2
 from mp_api import pagar
 from flask_cors import CORS
-import time, threading
+from timeloop import Timeloop
+from datetime import timedelta
 
 def handleError (error):
     detail = ''
@@ -14,6 +15,12 @@ def handleError (error):
 coupon = Coupon ()
 reservation = Reservation ()
 
+app = Flask(__name__)
+CORS (app)
+
+tl = Timeloop()
+
+@tl.job(interval=timedelta(seconds=3600))
 def updateDates ():
     try:
         coupon.check_dates()
@@ -21,10 +28,6 @@ def updateDates ():
         print ('dates checked')
     except (Exception) as err:
         print (err)
-    threading.Timer(3600, updateDates).start()
-
-app = Flask(__name__)
-CORS (app)
 
 @app.route ('/mercadopago',methods=['POST'])
 def mercadopago():
@@ -280,9 +283,11 @@ def registerUser():
 def registerUserExt():
     error = False
     id = request.json['id']
+    e_mail = request.json['e_mail']
     new = User ()
     new.external_id = id
     new.id_role = 2
+    new.e_mail = e_mail
     try:
         new.register2()
         user_id,role = logInUser2 (id)
@@ -999,7 +1004,7 @@ def setStatePurchase():
     try:
         new.setState()
     except (Exception) as err:
-        error = True
+        error = True    
         return handleError (err)
     finally:
         if not (error):
@@ -1468,5 +1473,4 @@ def getReviewInfo():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-updateDates()
+    tl.start(block=True)

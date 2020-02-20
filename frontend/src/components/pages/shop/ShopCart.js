@@ -28,6 +28,7 @@ const ShopCart = ({user_id,route,setPurchInfo,setItems,coupon,setCoupon}) => {
     }
 
     useEffect (()=>{
+        window.scrollTo(0, 0);
         setRefresh (false);
         setLoading (true);
         getCartInfo (user_id)

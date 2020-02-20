@@ -15,6 +15,9 @@ const ProductItem = ({item}) => {
         .then (res=>{
            setImage (res);
         })
+        .catch (err=>{
+            console.log(err);
+        })
     },[]);
 
     return (

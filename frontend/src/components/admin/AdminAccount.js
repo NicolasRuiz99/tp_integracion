@@ -33,6 +33,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
     }
     
     useEffect (()=>{
+      window.scrollTo(0, 0);
       setLoading (true);
       getUserInfo (user_id)
           .then (res=>{

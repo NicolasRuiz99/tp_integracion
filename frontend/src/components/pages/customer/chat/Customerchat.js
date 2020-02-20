@@ -31,6 +31,7 @@ const CustomerChat = (props) => {
     const [error,setError] = useState (false); 
     
     useEffect(() => {
+        window.scrollTo(0, 0);
         setLoading (true);
         const {chatID, room} = queryString.parse(props.location.search);
         getChat (room)

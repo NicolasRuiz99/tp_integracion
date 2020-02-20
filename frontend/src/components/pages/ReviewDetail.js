@@ -19,6 +19,7 @@ const ReviewDetail = ({props,user_id, handleDrop}) => {
     const [refresh, setRefresh] = useState(false);
 
     useEffect (()=>{
+        window.scrollTo(0, 0);
         setLoading (true);
         const id = props.match.params.id;
         getReview(id)

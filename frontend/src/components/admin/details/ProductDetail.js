@@ -130,6 +130,7 @@ export default function ProductDetail({props}) {
     }
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         //setRefresh(false);
         setLoading(true);
         getProductInfo(id)

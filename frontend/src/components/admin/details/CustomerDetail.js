@@ -16,6 +16,7 @@ function CustomerDetail({props}) {
     const [error2,setError2] = useState (false);
 
     useEffect(() => {    
+        window.scrollTo(0, 0);
         setLoading(true);
         userGetInfo(id)
         .then(res => {

@@ -50,7 +50,7 @@ const CustomerAccount = ({user_id, handleDrop}) => {
     }
     
     useEffect (()=>{
-      window.scrollTo(0,0);
+      window.scrollTo(0, 0);
       setLoading (true);
       getUserInfo (user_id)
           .then (res=>{
@@ -217,7 +217,6 @@ const CustomerAccount = ({user_id, handleDrop}) => {
             <div id="customer-account" className="col-lg-9 clearfix">
               <hr />
               <p className="lead">Cambiá tus datos personales,contraseña o e-mail acá.</p>
-              {((email==='')||(email===null))?<p className="lead">IMPORTANTE: sin e-mail cargado no podrás recibir notificaciones</p>:null}
               <div className="box mt-5">
                 <div className="heading">
                   <h4 className="text-uppercase">Cambiar e-mail</h4>

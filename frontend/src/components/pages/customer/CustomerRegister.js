@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState,useEffect} from 'react';
 import {Link,withRouter} from 'react-router-dom';
 import './../../../css/default.css';
 import BreadCrumbs from './../../BreadCrumbs';
@@ -30,11 +30,15 @@ const CustomerRegister = ({history,setUser}) => {
   const [error2, setError2] = useState(false);
   const [userError,setUserError] = useState (false);
 
+  useEffect (()=>{
+    window.scrollTo(0, 0);
+  },[])
+
   const handleGoogleLogin = () => {
     setError2 (false);
     googleLogin ()
     .then (res=> {
-      login2 (res)
+      login2 (res.id)
       .then (res =>{
         setUser (res.user_id);
         history.push('/');
@@ -52,7 +56,7 @@ const CustomerRegister = ({history,setUser}) => {
     setUserError (false);
     googleLogin ()
     .then (res=> {
-      register2 (res)
+      register2 (res.id,res.e_mail)
       .then (res =>{
         setUser (res.user_id);
         history.push('/');
@@ -75,7 +79,7 @@ const CustomerRegister = ({history,setUser}) => {
     setError2 (false);
     facebookLogin ()
     .then (res=> {
-      login2 (res)
+      login2 (res.id)
       .then (res =>{
         setUser (res.user_id);
         history.push('/');
@@ -94,7 +98,7 @@ const CustomerRegister = ({history,setUser}) => {
     setUserError (false);
     facebookLogin ()
     .then (res=> {
-      register2 (res)
+      register2 (res.id,res.e_mail)
       .then (res =>{
         setUser (res.user_id);
         history.push('/');

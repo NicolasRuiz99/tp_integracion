@@ -27,6 +27,7 @@ export default function Products() {
     };
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         setLoading(true);
         getReservations()
         .then(res => {

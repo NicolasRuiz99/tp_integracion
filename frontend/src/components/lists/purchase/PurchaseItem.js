@@ -44,14 +44,14 @@ const PurchaseItem = ({item, handleModalOpen}) => {
                 <td>
                 <Link to={link} className="btn btn-outlined btn-sm">Ver</Link>
                     { (estado === 'pendiente de pago') ? 
-                    (<Link 
+                    (<button type="button" 
                     className="cancelar" 
                     style={{float: 'right', marginRight:'25px', display:'inline-block'}} 
                     title="Cancelar"
                     onClick={() => handleModalOpen(item)}
                     >
                     <i class="fas fa-times-circle"></i>
-                    </Link>)
+                    </button>)
                     : null}
                 </td>
             </tr>

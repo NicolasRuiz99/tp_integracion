@@ -9,8 +9,7 @@ const PurchaseLine = ({item}) => {
     const [link,setLink] = useState ('');
 
     useEffect (()=> {
-        setLink (`/shop-detail/${item.prod_id}`);
-        
+        setLink (`/admin-page/product-detail/${item.prod_id}`);
     } ,[]);
 
     return (

@@ -12,10 +12,13 @@ const ProductItemCostumer = ({item, handleModalOpen}) => {
 
     useEffect (()=> {
         setLink (`/shop-detail/${id}`);
-        //getImage (item.name)
-        //.then (res=>{
-        //    setImage (res);
-        //})
+        getImage (item.name)
+        .then (res=>{
+            setImage (res);
+        })
+        .catch (err=>{
+            console.log(err);
+        })
     },[]);
 
     return (

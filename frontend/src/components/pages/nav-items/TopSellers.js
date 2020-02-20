@@ -15,6 +15,7 @@ const TopSellers = () => {
     const [loading,setLoading] = useState (false);
 
     useEffect( () => {
+        window.scrollTo(0, 0);
         setLoading(true);
         getTopSellers ()
         .then (res => {

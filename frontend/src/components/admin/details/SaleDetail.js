@@ -32,6 +32,7 @@ const SaleDetail = ({props}) => {
     };
 
     useEffect (()=>{
+        window.scrollTo(0, 0);
         setLoading (true);
         const purch_id = props.match.params.id;
         getPurchaseInfo (purch_id)

@@ -47,12 +47,13 @@ const CustomerReviews = ({ handleDrop,user_id}) => {
     }
 
     useEffect( () => {
+      setRefresh (false);
       window.scrollTo(0,0);
       setLoading(true);
       let id = user_id;
       listUserReviews(id)
       .then (res => {
-          if (res.length !== 0)setList(res)
+          setList(res)
           setLoading(false);
       })
       .catch (err=>{

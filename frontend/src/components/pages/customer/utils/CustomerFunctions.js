@@ -30,10 +30,11 @@ const register = user => {
     .catch(err => {throw err.response.data})
 }
 
-const register2 = id => {
+const register2 = (id,e_mail) => {
     return axios
     .post("/user/registerExt", {
-        id
+        id,
+        e_mail
     })
     .then(res => {return res.data})
     .catch(err => {throw err.response.data})

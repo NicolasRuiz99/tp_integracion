@@ -31,6 +31,7 @@ const Products = () => {
     }
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         setLoading(true);
         setRefresh(false);
         getProductsAdmin()

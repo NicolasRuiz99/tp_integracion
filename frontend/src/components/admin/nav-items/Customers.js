@@ -12,6 +12,7 @@ export default function Customers() {
     const [loading,setLoading] = useState (false);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         setLoading(true);
         getCustomers()
         .then(res => {

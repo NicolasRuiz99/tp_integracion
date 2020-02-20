@@ -22,7 +22,7 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history, setRole}) => {
     setError (false);
     googleLogin ()
     .then (res=> {
-      login2 (res)
+      login2 (res.id)
       .then (res =>{
         setUser (res.user_id);
         handleModalOpen();
@@ -41,7 +41,7 @@ const LoginModal = ({modalOpen,handleModalOpen,setUser,history, setRole}) => {
     setError (false);
     facebookLogin ()
     .then (res=> {
-      login2 (res)
+      login2 (res.id)
       .then (res =>{
         setUser (res.user_id);
         handleModalOpen();

@@ -24,6 +24,7 @@ function ReviewDetail({props, history}) {
        };
 
     useEffect(() => {    
+        window.scrollTo(0, 0);
         setLoading(true);
         getReview(id)
         .then(res => {

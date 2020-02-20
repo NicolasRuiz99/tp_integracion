@@ -14,8 +14,8 @@ class User:
         addToTable ('users (e_mail,psw,id_role,active)',new_record,'(%s,%s,%s,%s)')
 
     def register2 (self):
-        new_record = (self.external_id,self.id_role,self.active)
-        addToTable ('users (external_id,id_role,active)',new_record,'(%s,%s,%s)')
+        new_record = (self.e_mail,self.external_id,self.id_role,self.active)
+        addToTable ('users (e_mail,external_id,id_role,active)',new_record,'(%s,%s,%s,%s)')
 
     def mod (self):
         new_record = (self.e_mail,self.psw,self.id)

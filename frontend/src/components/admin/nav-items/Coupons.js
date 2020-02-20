@@ -23,6 +23,7 @@ export default function Coupons() {
      };
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         setRefresh (false);
         setLoading(true);
         getCoupons()

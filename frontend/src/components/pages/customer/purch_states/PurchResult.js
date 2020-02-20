@@ -11,6 +11,7 @@ const PurchResult = ({id,type,user_id}) => {
     const [mailError,setMailError] = useState (false);
 
     useEffect (()=>{
+        window.scrollTo(0, 0);
         let state;
         switch (type){
             case 1:

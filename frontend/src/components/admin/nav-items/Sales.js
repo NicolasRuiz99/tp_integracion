@@ -12,6 +12,7 @@ export default function Sales() {
     const [loading,setLoading] = useState (false);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         setLoading(true);
         getSells()
         .then(res => {

@@ -18,7 +18,10 @@ const googleLogin = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     return firebase.auth().signInWithPopup(provider)
     .then (res=>{
-        return res.additionalUserInfo.profile.id;
+        return {
+            id : res.additionalUserInfo.profile.id,
+            e_mail : res.user.email
+        };
     })
     .catch (err =>{
         throw err;
@@ -30,7 +33,10 @@ const facebookLogin = () => {
     const provider = new firebase.auth.FacebookAuthProvider();
     return firebase.auth().signInWithPopup(provider)
     .then (res=>{
-        return res.additionalUserInfo.profile.id;
+        return {
+            id : res.additionalUserInfo.profile.id,
+            e_mail : res.additionalUserInfo.profile.email
+        };
     })
     .catch (err =>{
         throw err;

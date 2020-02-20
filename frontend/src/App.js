@@ -48,13 +48,12 @@ const App = ({location}) => {
         let role = localStorage.getItem('role');
         if (id !== "null"){
           setUser (parseInt(id));
-          if (role !== 'false') {
-            setRole(true);
-          }else{
-            setRole(false);
-          }
         }
-       
+        if (role == 'false') {
+          setRole(false);
+        }else{
+          setRole(true);
+        }
       }
     },[user_id]);
 
@@ -63,7 +62,7 @@ const App = ({location}) => {
       setUser (null);
       setRole(false);
       localStorage.setItem ('user_id', null);
-      localStorage.setItem ('role', role);
+      localStorage.setItem ('role', false);
     }
 
     const unreadMSG = () => {
@@ -80,7 +79,6 @@ const App = ({location}) => {
 
     //vemos mensajes no leidos cada vez que cambiamos ruta
     useEffect (()=>{
-        window.scrollTo(0, 0);
         if (!role){
           if (location.pathname.includes('/customer-chat')){
             setMsjs (0);

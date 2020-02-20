@@ -21,8 +21,7 @@ const CustomerSection = ({user_id, handleDrop}) => {
                 </div>
                 <div className="panel-body">
                   <ul className="nav nav-pills flex-column text-sm">
-                    <li className="nav-item"><Link to="/customer-orders"  ClassName="nav-link 
-                    "    ><i className="fa fa-list"></i> Mis compras</Link></li>
+                    <li className="nav-item"><Link to="/customer-orders"  ClassName="nav-link "><i className="fa fa-list"></i> Mis compras</Link></li>
                     <li className="nav-item "><Link to="/customer-wishlist" ClassName="nav-link" ><i className="fa fa-heart"></i> Mis deseos</Link></li>
                     <li className="nav-item "><Link to="/customer-reviewlist" ClassName="nav-link" ><i class="fas fa-star"></i> Mis reseñas</Link></li>
                     <li className="nav-item "><Link to="/customer-reservations" ClassName="nav-link" ><i class="fas fa-calendar-alt"></i> Mis reservas</Link></li>

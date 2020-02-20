@@ -57,6 +57,7 @@ export default function Reviews() {
     }
 
     useEffect(() => {
+      window.scrollTo(0, 0);
         setLoading(true);
         getReviews()
         .then(res => {
