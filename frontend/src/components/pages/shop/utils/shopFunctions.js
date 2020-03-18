@@ -111,6 +111,18 @@ const getImage = (name) => {
     .catch(err => {throw err.response})
 }
 
+const getImages = (name) => {
+    name = encodeURI (name);
+    let link = `https://pixabay.com/api/?key=15066963-0c8a54b7403825fa339127ab5&q=${name}&lang=es&per_page=3&category=fashion`;
+    return axios
+    .get(link)
+    .then(res => {
+        res = JSON.parse (res.request.response)
+        return [res.hits[0].webformatURL,res.hits[1].webformatURL,res.hits[2].webformatURL];
+    })
+    .catch(err => {throw err.response})
+}
+
 export {
     getProducts,
     getProductInfo,
@@ -122,5 +134,6 @@ export {
     listNewProducts,
     listHighRatedProducts,
     getImage,
-    getProductsAdmin
+    getProductsAdmin,
+    getImages
 };

@@ -9,7 +9,8 @@ DEC2FLOAT = dbapi.extensions.new_type(
 dbapi.extensions.register_type(DEC2FLOAT)
 
 def connect_ddbb ():
-    con = dbapi.connect("dbname='rfhdbqhh' user='rfhdbqhh' host='motty.db.elephantsql.com' password='0AtujGm4UIIGA1wzJHk3TXYrZnalpr0t'")
+    #con = dbapi.connect("dbname='rfhdbqhh' user='rfhdbqhh' host='motty.db.elephantsql.com' password='0AtujGm4UIIGA1wzJHk3TXYrZnalpr0t'")
+    con = dbapi.connect("dbname='prueba2' user='admin' host='127.0.0.1' password='admin123'")
     cur = con.cursor()
     return con,cur
 

@@ -17,7 +17,7 @@ const ChatItems = ({ item, avatar,history}) => {
         avatar= {avatar}
         title={`Cliente #${item.id_user}`}
         subtitle= {item.last_message}
-        dateString={moment(item.date).utc().startOf('day').fromNow()}
+        dateString={moment(item.date).utc().format('dddd')}
         unread={item.unread_messages} 
         onClick={handleClick}
         />

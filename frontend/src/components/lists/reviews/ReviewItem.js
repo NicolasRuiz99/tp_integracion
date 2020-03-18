@@ -31,14 +31,14 @@ const ReviewItem = ({item, handleModalOpen}) => {
                 <td>
                     <Link to={link2}  className="btn btn-outlined btn-sm">Ver/Editar</Link>
                     {
-                    <button type="button"
+                    <div
                     className="cancelar"
-                    style={{float: 'right', marginRight:'25px', display:'inline-block'}} 
+                    style={{float: 'right', marginRight:'25px', display:'inline-block',cursor:'pointer'}} 
                     title="Eliminar"
                     onClick={() => handleModalOpen(item)}
                     >
                     <i class="fas fa-times-circle"></i>
-                    </button>
+                    </div>
                     }
                 </td>
             </tr>

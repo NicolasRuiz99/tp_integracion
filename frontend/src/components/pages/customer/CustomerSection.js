@@ -27,7 +27,7 @@ const CustomerSection = ({user_id, handleDrop}) => {
                     <li className="nav-item "><Link to="/customer-reservations" ClassName="nav-link" ><i class="fas fa-calendar-alt"></i> Mis reservas</Link></li>
                     <li className="nav-item"><Link to="/customer-account" ClassName="nav-link"><i className="fa fa-user"></i> Mi cuenta</Link></li>
                     <li className="nav-item"><Link to={`/customer-chat?chatID=usuario&room=${user_id}`} ClassName="nav-link"><i class="fas fa-comments"></i> Chat</Link></li>
-                    <li className="nav-item"><Link onClick={handleModalOpen} ClassName="nav-link" ><i className="fa fa-sign-out"></i> Salir</Link></li>
+                    <li className="nav-item"><div onClick={handleModalOpen} ClassName="nav-link" style={{cursor:'pointer',color: '#4975fa'}} ><i className="fa fa-sign-out"></i> Salir</div></li>
                   </ul>
                 </div>
               </div>

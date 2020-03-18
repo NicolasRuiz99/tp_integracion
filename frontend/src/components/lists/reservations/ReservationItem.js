@@ -52,14 +52,14 @@ const ReservationItem = ({item, handleModalOpen}) => {
                 <td>
                     <Link to={link} className="btn btn-outlined btn-sm">Ver</Link>
                     {(estado === 'reservada') ? 
-                    (<button type="button"
+                    (<div
                     className="cancelar" 
-                    style={{float: 'right', marginRight:'25px', display:'inline-block'}} 
+                    style={{float: 'right', marginRight:'25px', display:'inline-block', cursor: 'pointer'}} 
                     title="Cancelar"
                     onClick={() => handleModalOpen(item)}
                     >
                     <i class="fas fa-times-circle"></i>
-                    </button>)
+                    </div>)
                     : null}
                 </td>
             </tr>

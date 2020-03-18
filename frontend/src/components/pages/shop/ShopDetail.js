@@ -4,7 +4,7 @@ import {withRouter} from 'react-router-dom';
 import Review from './../Review';
 import Rating from './Rating';
 import './../../../css/default.css';
-import {getProductInfo,getProductColor_size,getProductReview,listRecomendedProducts} from './utils/shopFunctions';
+import {getProductInfo,getProductColor_size,getProductReview,listRecomendedProducts, getImages} from './utils/shopFunctions';
 import {getWishlistItem,addWishlistItem,deleteWishlistItem,getUserPurchaseItem,addCartItem,getCartInfo,
         addReservation,getReservationItem, cancelReservation} from '../customer/utils/CustomerFunctions';
 //React image gallery
@@ -22,17 +22,16 @@ import ProductList from '../../lists/ProductList';
 import {FacebookShareButton,FacebookIcon} from 'react-share';
 
 const ShopDetail = ({props,user_id,history}) => {
-    const images = [
-    {
-      original: img,
-      thumbnail: img2,
-    },{
-      original: img,
-      thumbnail: img2,
-    },{
-      original: img,
-      thumbnail: img2,
-    }]
+    const [images,setImages] = useState ([{
+                                original: img,
+                                thumbnail: img2,
+                              },{
+                                original: img,
+                                thumbnail: img2,
+                              },{
+                                original: img,
+                                thumbnail: img2,
+                              }]);
 
     const [prodInfo,setProdInfo] = useState ({});
     const [color_size,setColor_size] = useState ([]);
@@ -172,6 +171,20 @@ const ShopDetail = ({props,user_id,history}) => {
           if (res.active === false){
             history.push ('/error')
           }
+          getImages (res.name)
+          .then ((res)=>{
+              let img = [];
+              img = res.map ((item)=>{
+                return { 
+                  original: item,
+                  thumbnail: item
+                }
+              })
+              setImages (img)
+          })
+          .catch (err=>{
+            console.log(err);
+          })
           getProductColor_size (product_id)
           .then(res =>{
             setColor_size (res);
